@@ -1,2 +1,2 @@
-# Archieve-Platform
-This is a project about graduate archieve.
+# Archive-Platform
+This is a project about graduate archive.
