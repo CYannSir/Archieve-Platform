@@ -21,7 +21,7 @@ import javax.persistence.Table;
 public class UserModel extends BaseEntity {
     @Column(nullable = false , length = 9)
     private String userNumber;
-    @Column(nullable = false , unique = true , length = 32)
+    @Column(nullable = false , length = 32)
     private String logEmail;
     @Column(nullable = false , length = 32)
     private String pwd;
