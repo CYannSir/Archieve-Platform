@@ -30,7 +30,7 @@ public class AdminController {
 
     //删除用户
     @PostMapping(value = "/deleteuser")
-    public Result deletUser(UserModel userModel){
+    public Result deleteUser(UserModel userModel){
         userService.delete(userModel);
         return Result.success();
     }
