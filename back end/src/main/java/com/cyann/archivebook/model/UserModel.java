@@ -14,7 +14,7 @@ import javax.persistence.Table;
  * -用户姓名 userName(Stirng varchar)
  * -用户班级 userClass(String varchar)
  * -联系方式 userPhone(String varchar)
- * -用户权限 userPower(int int) 1:在校生 2:实习生 3:毕业生 4:管理员
+ * -用户权限 userPower(int int) 1:在校生 不是共产党员 2:在校生 共产党员 3:实习生 不是共产党员 4:实习生 共产党员 5:毕业生 6:管理员
  */
 @Entity
 @Table(name = "tb_user")

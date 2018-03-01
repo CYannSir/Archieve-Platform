@@ -24,7 +24,7 @@ public class BaseEntity {
     private String objectId;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date creatTime;
+    private Date createTime;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updateTime;
@@ -41,11 +41,11 @@ public class BaseEntity {
     }
 
     public Date getCreatTime() {
-        return creatTime;
+        return createTime;
     }
 
     public void setCreatTime(Date creatTime) {
-        this.creatTime = creatTime;
+        this.createTime = creatTime;
     }
 
     public Date getUpdateTime() {

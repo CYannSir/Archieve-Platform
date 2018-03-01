@@ -1,7 +1,6 @@
 package com.cyann.archivebook.controller;
 
 import com.cyann.archivebook.model.UserModel;
-import com.cyann.archivebook.respository.UserRespository;
 import com.cyann.archivebook.service.UserService;
 import com.cyann.archivebook.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;

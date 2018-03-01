@@ -10,10 +10,10 @@ import javax.persistence.Table;
  *  档案
  * -所属用户编号 userNum(String varchar) 外键
  * -档案上个单位 archiveUnit(String varchar)
- * -档案上个单位地址 archiveUnitAddress(Stirng varchar)
+ * -档案上个单位地址 archiveUnitAddress(String varchar)
  * -档案流向下级时间 archiveFlowDate(String varchar)
  * -档案下个单位 archiveNextUnit(String varchar)
- * -档案所在单位地址 archiveNextUnitAddress(Stirng varchar)
+ * -档案所在单位地址 archiveNextUnitAddress(String varchar)
  * -档案层级 archiveLevel(int int)
  */
 @Entity

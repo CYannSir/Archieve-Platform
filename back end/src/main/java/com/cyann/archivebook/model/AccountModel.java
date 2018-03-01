@@ -10,6 +10,7 @@ import javax.persistence.Table;
  *  户口
  * -所属用户编号 userNum(String varchar) 外键
  * -户口所在地 accountAddress(String varchar)
+ * -户口更换所在地 accountAddress(String varchar)
  */
 @Entity
 @Table(name ="tb_account")
@@ -18,6 +19,8 @@ public class AccountModel extends BaseEntity{
     private String userNum;
     @Column(nullable = false , length = 64)
     private String accountAddress;
+    @Column(nullable = false , length = 64)
+    private String accountNewAddress;
 
     public String getAccountAddress() {
         return accountAddress;
@@ -33,5 +36,13 @@ public class AccountModel extends BaseEntity{
 
     public void setUserNum(String userNum) {
         this.userNum = userNum;
+    }
+
+    public String getAccountNewAddress() {
+        return accountNewAddress;
+    }
+
+    public void setAccountNewAddress(String accountNewAddress) {
+        this.accountNewAddress = accountNewAddress;
     }
 }

@@ -12,7 +12,7 @@ import java.util.List;
  * @date 2018-02-26 20:43
  */
 
-public interface UserRespository extends JpaRepository<UserModel,String>{
+public interface UserRepository extends JpaRepository<UserModel,String>{
 
     //查找所有用户
     @Query(value = "select userModel from UserModel userModel where userModel.delTime is null")
