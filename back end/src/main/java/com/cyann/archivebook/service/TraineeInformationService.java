@@ -47,7 +47,7 @@ public class TraineeInformationService extends BaseService {
     }
 
     //查询所有校友信息
-    public List<TraineeInformationModel> findAllUser(){
+    public List<TraineeInformationModel> findAllTraineeInformation(){
         List<TraineeInformationModel> list = traineeInformationRepository.findALLTraineeInformation();
         return list;
     }

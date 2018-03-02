@@ -47,7 +47,7 @@ public class AlumniInformationService extends BaseService {
     }
 
     //查询所有校友信息
-    public List<AlumniInformationModel> findAllUser(){
+    public List<AlumniInformationModel> findAllAlumniInformation(){
         List<AlumniInformationModel> list = alumniInformationRepository.findALLAlumniInformation();
         return list;
     }

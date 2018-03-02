@@ -48,7 +48,7 @@ public class ArchiveService extends BaseService {
     }
 
     //查询所有档案
-    public List<ArchiveModel> findAllUser(){
+    public List<ArchiveModel> findAllArchive(){
         List<ArchiveModel> list = archiveRepository.findALLArchive();
         return list;
     }

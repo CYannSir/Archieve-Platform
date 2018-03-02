@@ -47,7 +47,7 @@ public class RedArchiveService extends BaseService {
     }
 
     //查询所有档案
-    public List<RedArchiveModel> findAllUser(){
+    public List<RedArchiveModel> findALLRedArchive(){
         List<RedArchiveModel> list = redArchiveRepository.findALLRedArchive();
         return list;
     }

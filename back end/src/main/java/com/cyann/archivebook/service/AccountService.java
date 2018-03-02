@@ -50,7 +50,7 @@ public class AccountService {
     }
 
     //查询所有户口
-    public List<AccountModel> findAllUser(){
+    public List<AccountModel> findAllAccount(){
         List<AccountModel> list = accountRepository.findALLAccount();
         return list;
     }
