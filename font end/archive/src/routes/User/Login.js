@@ -5,7 +5,7 @@ import { Alert } from 'antd';
 import Login from 'components/Login';
 import styles from './Login.less';
 
-const { Tab, UserName, Password, Mobile, Captcha, Submit } = Login;
+const { UserName, Password, Submit } = Login;
 
 @connect(({ login, loading }) => ({
   login,
@@ -14,12 +14,6 @@ const { Tab, UserName, Password, Mobile, Captcha, Submit } = Login;
 export default class LoginPage extends Component {
   state = {
     type: 'account',
-  }
-  /**
-   * Tab切换
-   */
-  onTabChange = (type) => {
-    this.setState({ type });
   }
 
   handleSubmit = (err, values) => {
@@ -52,31 +46,22 @@ export default class LoginPage extends Component {
           onTabChange={this.onTabChange}
           onSubmit={this.handleSubmit}
         >
-          <Tab key="account" tab="账户密码登录">
+          <div>
             {
               login.status === 'error' &&
               login.type === 'account' &&
               !login.submitting &&
-              this.renderMessage('账户或密码错误（admin/888888）')
+              this.renderMessage('Please correct your account or passwords !')
             }
             <UserName name="userName" placeholder="Please enter your E-mail" />
             <Password name="password" placeholder="Please enter your passwords" />
-          </Tab>
-          <Tab key="mobile" tab="手机号登录">
-            {
-              login.status === 'error' &&
-              login.type === 'mobile' &&
-              !login.submitting &&
-              this.renderMessage('验证码错误')
-            }
-            <Mobile name="mobile" />
-            <Captcha name="captcha" />
-          </Tab>
+          </div>
+
           <div>
             <a style={{ float: 'right' }} href="">Forgot Password?</a>
             <Link className={styles.register} to="/user/register">Create Account</Link>
           </div>
-          <Submit loading={submitting}>登录</Submit>
+          <Submit loading={submitting}>Sign in</Submit>
         </Login>
       </div>
     );

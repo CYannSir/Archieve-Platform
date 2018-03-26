@@ -9,15 +9,15 @@ import { getRoutes } from '../utils/utils';
 
 const links = [{
   key: 'help',
-  title: '帮助',
+  title: 'Help',
   href: '',
 }, {
   key: 'privacy',
-  title: '隐私',
+  title: 'Privacy',
   href: '',
 }, {
   key: 'terms',
-  title: '条款',
+  title: 'Terms',
   href: '',
 }];
 
