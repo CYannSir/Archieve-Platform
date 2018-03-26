@@ -4,7 +4,7 @@ import DocumentTitle from 'react-document-title';
 import { Icon } from 'antd';
 import GlobalFooter from '../components/GlobalFooter';
 import styles from './UserLayout.less';
-import logo from '../assets/logo.svg';
+import logo from '../assets/Archive Book.svg';
 import { getRoutes } from '../utils/utils';
 
 const links = [{
@@ -21,15 +21,18 @@ const links = [{
   href: '',
 }];
 
-const copyright = <Fragment>Copyright <Icon type="copyright" /> 2018 蚂蚁金服体验技术部出品</Fragment>;
+const copyright = <Fragment>Copyright <Icon type="copyright" /> 2018 浙江大学城市学院-计算机与计算科学学院</Fragment>;
 
 class UserLayout extends React.PureComponent {
+  /**
+   * 获取网页标签名称
+   */
   getPageTitle() {
     const { routerData, location } = this.props;
     const { pathname } = location;
-    let title = 'Ant Design Pro';
+    let title = 'ArchiveBook';
     if (routerData[pathname] && routerData[pathname].name) {
-      title = `${routerData[pathname].name} - Ant Design Pro`;
+      title = `${routerData[pathname].name} - ArchiveBook`;
     }
     return title;
   }
@@ -43,10 +46,10 @@ class UserLayout extends React.PureComponent {
               <div className={styles.header}>
                 <Link to="/">
                   <img alt="logo" className={styles.logo} src={logo} />
-                  <span className={styles.title}>Ant Design</span>
+                  <span className={styles.title}>ArchiveBook</span>
                 </Link>
               </div>
-              <div className={styles.desc}>Ant Design 是西湖区最具影响力的 Web 设计规范</div>
+              <div className={styles.desc}>To find your archive and your friends</div>
             </div>
             <Switch>
               {getRoutes(match.path, routerData).map(item =>

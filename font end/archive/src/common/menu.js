@@ -1,5 +1,9 @@
 import { isUrl } from '../utils/utils';
 
+/**
+ * 更改admin页面的内容需要更新menu.js的Data数据和router.js的路径
+ *
+ */
 const menuData = [{
   name: 'dashboard',
   icon: 'dashboard',
