@@ -70,7 +70,7 @@ function getFlatMenuData(menus) {
 
 export const getRouterData = (app) => {
   const routerConfig = {
-    '/': {
+    '/admin': {
       component: dynamicWrapper(app, ['user', 'login'], () => import('../layouts/BasicLayout')),
     },
     '/dashboard/analysis': {
@@ -162,6 +162,12 @@ export const getRouterData = (app) => {
     },
     '/user/register-result': {
       component: dynamicWrapper(app, [], () => import('../routes/User/RegisterResult')),
+    },
+    '/home': {
+      component: dynamicWrapper(app, [], () => import('../layouts/HomePageLayout')),
+    },
+    '/home/homepage': {
+      component: dynamicWrapper(app, [], () => import('../routes/Test/Test')),
     },
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),

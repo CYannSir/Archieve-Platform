@@ -21,7 +21,7 @@ const links = [{
   href: '',
 }];
 
-const copyright = <Fragment>Copyright <Icon type="copyright" /> 2018 浙江大学城市学院-计算机与计算科学学院</Fragment>;
+const copyright = <Fragment>Copyright <Icon type="copyright" /> 2018 浙江大学城市学院-计算机与计算科学学院出品</Fragment>;
 
 class UserLayout extends React.PureComponent {
   /**

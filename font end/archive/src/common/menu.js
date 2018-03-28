@@ -118,6 +118,20 @@ const menuData = [{
     name: '注册结果',
     path: 'register-result',
   }],
+}, {
+  name: '主页',
+  icon: 'home',
+  path: 'home',
+  children: [{
+    name: '主页',
+    path: 'homepage',
+  }, {
+    name: '主页是',
+    path: 'homepage-s',
+  }, {
+    name: '主页试试',
+    path: 'homepage-ss',
+  }],
 }];
 
 function formatter(data, parentPath = '/', parentAuthority) {
