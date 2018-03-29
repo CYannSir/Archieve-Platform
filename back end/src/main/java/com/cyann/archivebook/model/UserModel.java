@@ -9,7 +9,7 @@ import javax.persistence.Table;
  * @date 2018-02-25 22:50
  *  用户
  * -用户学号 userNumber(String varchar)
- * -用户登录邮箱 logEmail(String varchar)
+ * -邮箱 logEmail(String varchar)
  * -用户登录密码 pwd(String varchar)
  * -用户姓名 userName(Stirng varchar)
  * -用户班级 userClass(String varchar)
@@ -22,9 +22,7 @@ public class UserModel extends BaseEntity {
     @Column(nullable = false , length = 9)
     private String userNumber;
     @Column(nullable = false , length = 32)
-    private String logEmail;
-    @Column(nullable = false , length = 32)
-    private String pwd;
+    private String Email;
     @Column(nullable = false , length = 16)
     private String userName;
     @Column(nullable = false , length = 16)
@@ -42,22 +40,6 @@ public class UserModel extends BaseEntity {
         this.userNumber = userNumber;
     }
 
-    public String getLogEmail() {
-        return logEmail;
-    }
-
-    public void setLogEmail(String logEmail) {
-        this.logEmail = logEmail;
-    }
-
-    public String getPwd() {
-        return pwd;
-    }
-
-    public void setPwd(String pwd) {
-        this.pwd = pwd;
-    }
-
     public String getUserName() {
         return userName;
     }
@@ -72,6 +54,14 @@ public class UserModel extends BaseEntity {
 
     public void setUserClass(String userClass) {
         this.userClass = userClass;
+    }
+
+    public String getEmail() {
+        return Email;
+    }
+
+    public void setEmail(String email) {
+        Email = email;
     }
 
     public String getUserPhone() {

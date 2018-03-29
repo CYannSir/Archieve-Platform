@@ -30,7 +30,5 @@ public interface UserRepository extends JpaRepository<UserModel,String>{
     @Query("select userModel from UserModel userModel where userModel.userName = ?1 and userModel.delTime is null")
     List<UserModel> findByUserName(@Param("userName") String userName);
 
-    UserModel findByLogEmailAndPwdAndDelTimeIsNull(String logEmail, String pwd);
-
 
 }

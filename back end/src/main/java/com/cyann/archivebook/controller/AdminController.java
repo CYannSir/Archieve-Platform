@@ -41,14 +41,14 @@ public class AdminController {
         userService.updatePower(userModel);
         return Result.success();
     }
-
+    /*
     //帮助用户重置密码
     @PostMapping(value = "/edituserpwd")
     public Result editUserPwd(UserModel userModel){
         userService.updatePwd(userModel);
         return Result.success();
     }
-
+    */
     /*
      *所有用户操作 - End 待添加
      */

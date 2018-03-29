@@ -71,32 +71,7 @@ public class UserService {
         }
     }
 
-    //重置密码
-    public void updatePwd(UserModel userModel){
-        UserModel userItem = userRepository.findById(userModel.getObjectId());
-        if(userItem == null){
-            throw new MyException(ResultEnum.ERROR_101);
-        }else {
-            userItem.setPwd("12345678");
-            userRepository.save(userItem);
-        }
-    }
 
-    //用户更改密码
-    public void updateMyPwd(UserModel userModel,String newPwd){
-        UserModel userItem = userRepository.findById(userModel.getObjectId());
-        if(userItem == null){
-            throw new MyException(ResultEnum.ERROR_101);
-        }else {
-            if (userItem.getPwd().equals(userModel.getPwd()) == true){
-                userItem.setPwd(newPwd);
-                userRepository.save(userItem);
-            }else {
-                throw new MyException(ResultEnum.ERROR_105);
-            }
-
-        }
-    }
 
     //查询所有用户
     public List<UserModel> findAllUser(){
@@ -109,10 +84,7 @@ public class UserService {
         return userRepository.findById(id);
     }
 
-    //用户登录
-    public UserModel findByLogIdAndPwd(String logId , String pwd){
-        return userRepository.findByLogEmailAndPwdAndDelTimeIsNull(logId,pwd);
-    }
+
 
     //姓名查询
     public List<UserModel> findByUserName(String userName){

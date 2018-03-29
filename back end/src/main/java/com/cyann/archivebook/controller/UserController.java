@@ -25,12 +25,12 @@ public class UserController {
         userService.updateInfor(userModel);
         return Result.success();
     }
-
+    /*
     //用户修改自己的密码
     @PostMapping(value = "/changemypwd")
     public Result changeMyPwd(UserModel userModel, @RequestParam("newPwd") String newPwd){
         userService.updateMyPwd(userModel ,newPwd);
         return Result.success();
     }
-
+    */
 }
