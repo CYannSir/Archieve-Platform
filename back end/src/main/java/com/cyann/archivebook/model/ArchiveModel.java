@@ -15,6 +15,10 @@ import javax.persistence.Table;
  * -档案下个单位 archiveNextUnit(String varchar)
  * -档案所在单位地址 archiveNextUnitAddress(String varchar)
  * -档案层级 archiveLevel(int int)
+ * -
+ * -档案单位1
+ * -档案单位2
+ * -档案单位3
  */
 @Entity
 @Table(name = "tb_archive")
