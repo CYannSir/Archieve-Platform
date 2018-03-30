@@ -88,18 +88,18 @@ export const getRouterData = (app) => {
     '/form/basic-form': {
       component: dynamicWrapper(app, ['form'], () => import('../routes/Forms/BasicForm')),
     },
-    '/form/step-form': {
+    '/profile/form/step-form': {
       component: dynamicWrapper(app, ['form'], () => import('../routes/Forms/StepForm')),
     },
-    '/form/step-form/info': {
+    '/profile/form/step-form/info': {
       name: '分步表单（填写转账信息）',
       component: dynamicWrapper(app, ['form'], () => import('../routes/Forms/StepForm/Step1')),
     },
-    '/form/step-form/confirm': {
+    '/profile/form/step-form/confirm': {
       name: '分步表单（确认转账信息）',
       component: dynamicWrapper(app, ['form'], () => import('../routes/Forms/StepForm/Step2')),
     },
-    '/form/step-form/result': {
+    '/profile/form/step-form/result': {
       name: '分步表单（完成）',
       component: dynamicWrapper(app, ['form'], () => import('../routes/Forms/StepForm/Step3')),
     },
@@ -132,6 +132,9 @@ export const getRouterData = (app) => {
     },
     '/profile/advanced': {
       component: dynamicWrapper(app, ['profile'], () => import('../routes/Profile/AdvancedProfile')),
+    },
+    '/profile/account': {
+      component: dynamicWrapper(app, ['profile'], () => import('../routes/Profile/Account')),
     },
     '/result/success': {
       component: dynamicWrapper(app, [], () => import('../routes/Result/Success')),

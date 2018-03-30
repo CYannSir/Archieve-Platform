@@ -36,17 +36,13 @@ const menuData = [{
     name: '校友信息管理',
     path: 'basic-form',
   }, {
-    name: '分步表单',
+    name: '实习信息管理',
     path: 'step-form',
-  }, {
-    name: '高级表单',
-    authority: 'admin',
-    path: 'advanced-form',
   }],
 }, {
   name: 'Find He or She',
   icon: 'home',
-  path: 'list/search/applications',
+  path: 'list/search/articles',
   authority: 'user',
 }, {
   name: 'Archive',
@@ -55,10 +51,10 @@ const menuData = [{
   authority: 'user',
   children: [{
     name: 'Archive',
-    path: 'basic',
+    path: 'advanced',
   }, {
     name: 'Account',
-    path: 'advanced',
+    path: 'account',
   }, {
     name: 'Red Archive',
     path: '403',
@@ -73,7 +69,13 @@ const menuData = [{
     path: 'success',
   }, {
     name: 'Edit information',
+    path: 'exception/404',
+  }, {
+    name: 'Practice Unit',
     path: 'fail',
+  }, {
+    name: 'Edit practice Unit',
+    path: 'exception/403',
   }],
 }, {
   name: '异常页',

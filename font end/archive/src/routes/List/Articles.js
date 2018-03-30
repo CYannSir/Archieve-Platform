@@ -22,13 +22,6 @@ export default class SearchList extends Component {
     this.fetchMore();
   }
 
-  setOwner = () => {
-    const { form } = this.props;
-    form.setFieldsValue({
-      owner: ['wzj'],
-    });
-  }
-
   fetchMore = () => {
     this.props.dispatch({
       type: 'list/appendFetch',
@@ -53,7 +46,8 @@ export default class SearchList extends Component {
       <div className={styles.listContent}>
         <div className={styles.description}>{content}</div>
         <div className={styles.extra}>
-          <Avatar src={avatar} size="small" /><a href={href}>{owner}</a> 发布在 <a href={href}>{href}</a>
+          <Avatar src={avatar} size="small" />
+          <a href={href}>{owner}</a> Update
           <em>{moment(updatedAt).format('YYYY-MM-DD HH:mm')}</em>
         </div>
       </div>
@@ -76,7 +70,7 @@ export default class SearchList extends Component {
     ) : null;
 
     return (
-      <Fragment>
+      <Fragment >
         <Card bordered={false}>
           <Form layout="inline">
             <StandardFormRow
@@ -88,7 +82,7 @@ export default class SearchList extends Component {
                 <Col xl={8} lg={10} md={12} sm={24} xs={24}>
                   <FormItem
                     {...formItemLayout}
-                    label="活跃用户"
+                    label="Year"
                   >
                     {getFieldDecorator('user', {})(
                       <Select
@@ -96,7 +90,9 @@ export default class SearchList extends Component {
                         placeholder="不限"
                         style={{ maxWidth: 200, width: '100%' }}
                       >
-                        <Option value="lisa">李三</Option>
+                        <Option value="lisa">2018届</Option>
+                        <Option value="lisa">2017届</Option>
+                        <Option value="lisa">2016届</Option>
                       </Select>
                     )}
                   </FormItem>
@@ -104,7 +100,7 @@ export default class SearchList extends Component {
                 <Col xl={8} lg={10} md={12} sm={24} xs={24}>
                   <FormItem
                     {...formItemLayout}
-                    label="好评度"
+                    label="Major"
                   >
                     {getFieldDecorator('rate', {})(
                       <Select
@@ -112,7 +108,10 @@ export default class SearchList extends Component {
                         placeholder="不限"
                         style={{ maxWidth: 200, width: '100%' }}
                       >
-                        <Option value="good">优秀</Option>
+                        <Option value="good">软件工程</Option>
+                        <Option value="good">统计</Option>
+                        <Option value="good">计算机</Option>
+                        <Option value="good">信息管理</Option>
                       </Select>
                     )}
                   </FormItem>
@@ -149,9 +148,9 @@ export default class SearchList extends Component {
                   )}
                   description={
                     <span>
-                      <Tag>Ant Design</Tag>
-                      <Tag>设计语言</Tag>
-                      <Tag>蚂蚁金服</Tag>
+                      <Tag>2014</Tag>
+                      <Tag>2018</Tag>
+                      <Tag>软件工程</Tag>
                     </span>
                   }
                 />

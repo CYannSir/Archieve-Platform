@@ -3,15 +3,15 @@ import Debounce from 'lodash-decorators/debounce';
 import Bind from 'lodash-decorators/bind';
 import { connect } from 'dva';
 import { Icon, Steps, Card } from 'antd';
-import classNames from 'classnames';
 import DescriptionList from 'components/DescriptionList';
+import classNames from 'classnames';
+import styles from './Account.less';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
-import styles from './AdvancedProfile.less';
-
 
 const { Step } = Steps;
 const { Description } = DescriptionList;
 const getWindowWidth = () => (window.innerWidth || document.documentElement.clientWidth);
+
 const description = (
   <DescriptionList className={styles.headerList} size="small" col="2">
     <Description term="Name">吴成洋</Description>
@@ -25,7 +25,7 @@ const description = (
 const desc1 = (
   <div className={classNames(styles.textSecondary, styles.stepDescription)}>
     <Fragment>
-      浙江大学城市学院
+      温州市瑞安市
       <Icon href="https://map.baidu.com/" type="environment-o" style={{ marginLeft: 8 }} />
     </Fragment>
     <div>2016-12-12</div>
@@ -35,35 +35,18 @@ const desc1 = (
 const desc2 = (
   <div className={styles.stepDescription}>
     <Fragment>
-      杭州市拱墅区人力资源管理局
+      杭州市拱墅区
       <Icon href="https://map.baidu.com/" type="environment-o" style={{ color: '#00A0E9', marginLeft: 8 }} />
     </Fragment>
     <div>2016-12-12</div>
   </div>
 );
-
-/*
-const popoverContent = (
-  <div style={{ width: 160 }}>
-    吴加号
-    <span className={styles.textSecondary} style={{ float: 'right' }}>
-      <Badge status="default" text={<span style={{ color: 'rgba(0, 0, 0, 0.45)' }}>未响应</span>} />
-    </span>
-    <div className={styles.textSecondary} style={{ marginTop: 4 }}>耗时：2小时25分钟</div>
-  </div>
-);
-
-const customDot = (dot, { status }) => (status === 'process' ? (
-  <Popover placement="topLeft" arrowPointAtCenter content={popoverContent}>
-    {dot}
-  </Popover>
-) : dot);
-*/
 @connect(({ profile, loading }) => ({
   profile,
-  loading: loading.effects['profile/fetchAdvanced'],
+  loading: loading.effects['profile/fetchAccount'],
 }))
-export default class AdvancedProfile extends Component {
+
+export default class Account extends Component {
   state = {
     stepDirection: 'horizontal',
   }
@@ -71,7 +54,7 @@ export default class AdvancedProfile extends Component {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'profile/fetchAdvanced',
+      type: 'profile/fetchAccount',
     });
 
     this.setStepDirection();
@@ -103,24 +86,14 @@ export default class AdvancedProfile extends Component {
 
     return (
       <PageHeaderLayout
-        title="Personal Archive"
+        title="Account"
         logo={<img alt="Archive" src="https://gw.alipayobjects.com/zos/rmsportal/nxkuOJlFJuAUhzlMTCEe.png" />}
         content={description}
       >
-        <Card title="Archive Flow" style={{ marginBottom: 24 }} bordered={false}>
-          <DescriptionList style={{ marginBottom: 24 }}>
-            <Description term="Preservation Unit">浙江大学城市学院</Description>
-            <Description term="Address">浙江省杭州市拱墅区湖州街51号理工科楼4号-浙江大学城市学院</Description>
-            <Description term="Flow Date">2017-05-02</Description>
-          </DescriptionList>
-        </Card>
-        <Card title="Archive Flow Level" style={{ marginBottom: 24 }} bordered={false}>
-          <Steps direction={stepDirection} progressDot current={2}>
+        <Card title="Account" style={{ marginBottom: 24 }} bordered={false}>
+          <Steps direction={stepDirection} progressDot current={1}>
             <Step title="Level 1" description={desc1} />
             <Step title="Level 2" description={desc2} />
-            <Step title="Level 3" description={desc2} />
-            <Step title="Level 4" />
-            <Step title="Level 5" />
           </Steps>
         </Card>
       </PageHeaderLayout>
