@@ -10,7 +10,6 @@ import javax.persistence.Table;
  *  用户
  * -用户学号 userNumber(String varchar)
  * -邮箱 logEmail(String varchar)
- * -用户登录密码 pwd(String varchar)
  * -用户姓名 userName(Stirng varchar)
  * -用户班级 userClass(String varchar)
  * -联系方式 userPhone(String varchar)

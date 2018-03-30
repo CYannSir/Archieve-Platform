@@ -46,35 +46,13 @@ const menuData = [{
 }, {
   name: 'Find He or She',
   icon: 'home',
-  path: 'list',
+  path: 'list/search/applications',
   authority: 'user',
-  children: [{
-    name: '查询表格',
-    path: 'table-list',
-  }, {
-    name: '标准列表',
-    path: 'basic-list',
-  }, {
-    name: '卡片列表',
-    path: 'card-list',
-  }, {
-    name: '搜索列表',
-    path: 'search',
-    children: [{
-      name: '搜索列表（文章）',
-      path: 'articles',
-    }, {
-      name: '搜索列表（项目）',
-      path: 'projects',
-    }, {
-      name: '搜索列表（应用）',
-      path: 'applications',
-    }],
-  }],
 }, {
   name: 'Archive',
   icon: 'book',
   path: 'profile',
+  authority: 'user',
   children: [{
     name: 'Archive',
     path: 'basic',
@@ -86,14 +64,15 @@ const menuData = [{
     path: '403',
   }],
 }, {
+  authority: 'user',
   name: 'Alumni information',
   icon: 'cloud',
   path: 'result',
   children: [{
-    name: '成功',
+    name: 'Your information',
     path: 'success',
   }, {
-    name: '失败',
+    name: 'Edit information',
     path: 'fail',
   }],
 }, {
@@ -128,20 +107,6 @@ const menuData = [{
   }, {
     name: '注册结果',
     path: 'register-result',
-  }],
-}, {
-  name: '主页',
-  icon: 'home',
-  path: 'home',
-  children: [{
-    name: '主页',
-    path: 'homepage',
-  }, {
-    name: '主页是',
-    path: 'homepage-s',
-  }, {
-    name: '主页试试',
-    path: 'homepage-ss',
   }],
 }];
 

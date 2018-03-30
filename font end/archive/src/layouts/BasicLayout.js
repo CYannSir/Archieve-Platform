@@ -111,9 +111,9 @@ class BasicLayout extends React.PureComponent {
   getPageTitle() {
     const { routerData, location } = this.props;
     const { pathname } = location;
-    let title = 'Ant Design Pro';
+    let title = 'Archive Book';
     if (routerData[pathname] && routerData[pathname].name) {
-      title = `${routerData[pathname].name} - Ant Design Pro`;
+      title = `${routerData[pathname].name} - Archive Book`;
     }
     return title;
   }
@@ -235,7 +235,7 @@ class BasicLayout extends React.PureComponent {
                 blankTarget: true,
               }, {
                 key: 'privacy',
-                title: <Icon type="github" />,
+                title: <Icon type="home" />,
                 href: '',
                 blankTarget: true,
               }, {
