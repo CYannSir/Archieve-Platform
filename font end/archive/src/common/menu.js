@@ -5,27 +5,35 @@ import { isUrl } from '../utils/utils';
  *
  */
 const menuData = [{
-  name: 'dashboard',
+  name: '基础信息管理',
   icon: 'dashboard',
   path: 'dashboard',
+  authority: 'admin',
   children: [{
-    name: '分析页',
+    name: '学生用户管理',
     path: 'analysis',
   }, {
-    name: '监控页',
+    name: '用户管理',
     path: 'monitor',
   }, {
-    name: '工作台',
+    name: '个人档案管理',
+    path: 'monitor',
+  }, {
+    name: '红色档案管理',
+    path: 'workplace',
+  }, {
+    name: '户口档案管理',
     path: 'workplace',
     // hideInBreadcrumb: true,
     // hideInMenu: true,
   }],
 }, {
-  name: '表单页',
-  icon: 'form',
+  name: '校友信息管理',
+  icon: 'dashboard',
   path: 'form',
+  authority: 'admin',
   children: [{
-    name: '基础表单',
+    name: '校友信息管理',
     path: 'basic-form',
   }, {
     name: '分步表单',
@@ -36,9 +44,10 @@ const menuData = [{
     path: 'advanced-form',
   }],
 }, {
-  name: '列表页',
-  icon: 'table',
+  name: 'Find He or She',
+  icon: 'home',
   path: 'list',
+  authority: 'user',
   children: [{
     name: '查询表格',
     path: 'table-list',
@@ -63,20 +72,22 @@ const menuData = [{
     }],
   }],
 }, {
-  name: '详情页',
-  icon: 'profile',
+  name: 'Archive',
+  icon: 'book',
   path: 'profile',
   children: [{
-    name: '基础详情页',
+    name: 'Archive',
     path: 'basic',
   }, {
-    name: '高级详情页',
+    name: 'Account',
     path: 'advanced',
-    authority: 'admin',
+  }, {
+    name: 'Red Archive',
+    path: '403',
   }],
 }, {
-  name: '结果页',
-  icon: 'check-circle-o',
+  name: 'Alumni information',
+  icon: 'cloud',
   path: 'result',
   children: [{
     name: '成功',

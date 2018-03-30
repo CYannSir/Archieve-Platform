@@ -161,7 +161,7 @@ export default class Register extends Component {
     const { count } = this.state;
     return (
       <div className={styles.main}>
-        <h3>Sign up</h3>
+        <h3>Create your personal account</h3>
         <Form onSubmit={this.handleSubmit}>
           <FormItem>
             {getFieldDecorator('mail', {
@@ -176,6 +176,30 @@ export default class Register extends Component {
                 },
               ],
             })(<Input size="large" placeholder="Please enter your E-mail" />)}
+          </FormItem>
+          <FormItem>
+            <Row gutter={8}>
+              <Col span={16}>
+                {getFieldDecorator('captcha', {
+                  rules: [
+                    {
+                      required: true,
+                      message: 'Please enter the verification code',
+                    },
+                  ],
+                })(<Input size="large" placeholder="Verification code" />)}
+              </Col>
+              <Col span={8}>
+                <Button
+                  size="large"
+                  disabled={count}
+                  className={styles.getCaptcha}
+                  onClick={this.onGetCaptcha}
+                >
+                  {count ? `${count} s` : 'Get Code'}
+                </Button>
+              </Col>
+            </Row>
           </FormItem>
           <FormItem help={this.state.help}>
             <Popover
@@ -220,30 +244,7 @@ export default class Register extends Component {
               ],
             })(<Input size="large" type="password" placeholder="Confirm" />)}
           </FormItem>
-          <FormItem>
-            <Row gutter={8}>
-              <Col span={16}>
-                {getFieldDecorator('captcha', {
-                  rules: [
-                    {
-                      required: true,
-                      message: 'Please enter the verification code',
-                    },
-                  ],
-                })(<Input size="large" placeholder="Verification code" />)}
-              </Col>
-              <Col span={8}>
-                <Button
-                  size="large"
-                  disabled={count}
-                  className={styles.getCaptcha}
-                  onClick={this.onGetCaptcha}
-                >
-                  {count ? `${count} s` : 'Get Code'}
-                </Button>
-              </Col>
-            </Row>
-          </FormItem>
+          <h3>Verification questions</h3>
           <FormItem>
             <Button
               size="large"
