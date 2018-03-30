@@ -136,6 +136,9 @@ export const getRouterData = (app) => {
     '/profile/account': {
       component: dynamicWrapper(app, ['profile'], () => import('../routes/Profile/Account')),
     },
+    '/profile/redarchive': {
+      component: dynamicWrapper(app, ['profile'], () => import('../routes/Profile/RedArchive')),
+    },
     '/result/success': {
       component: dynamicWrapper(app, [], () => import('../routes/Result/Success')),
     },

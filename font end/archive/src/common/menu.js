@@ -57,7 +57,7 @@ const menuData = [{
     path: 'account',
   }, {
     name: 'Red Archive',
-    path: '403',
+    path: 'redarchive',
   }],
 }, {
   authority: 'user',
