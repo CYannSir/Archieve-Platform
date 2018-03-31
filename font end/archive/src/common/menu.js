@@ -11,16 +11,16 @@ const menuData = [{
   authority: 'admin',
   children: [{
     name: '学生用户管理',
-    path: 'analysis',
+    path: 'studentbasicinfor',
   }, {
     name: '用户管理',
-    path: 'monitor',
+    path: 'userinfor',
   }, {
     name: '个人档案管理',
     path: 'monitor',
   }, {
     name: '红色档案管理',
-    path: 'workplace',
+    path: '403',
   }, {
     name: '户口档案管理',
     path: 'workplace',
@@ -29,7 +29,7 @@ const menuData = [{
   }],
 }, {
   name: '校友信息管理',
-  icon: 'dashboard',
+  icon: 'rocket',
   path: 'form',
   authority: 'admin',
   children: [{
