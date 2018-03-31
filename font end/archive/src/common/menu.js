@@ -17,13 +17,13 @@ const menuData = [{
     path: 'userinfor',
   }, {
     name: '个人档案管理',
-    path: 'monitor',
+    path: 'archive',
   }, {
     name: '红色档案管理',
-    path: '403',
+    path: 'redarchive',
   }, {
     name: '户口档案管理',
-    path: 'workplace',
+    path: 'account',
     // hideInBreadcrumb: true,
     // hideInMenu: true,
   }],

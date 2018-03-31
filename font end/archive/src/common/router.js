@@ -91,6 +91,15 @@ export const getRouterData = (app) => {
     '/dashboard/userinfor': {
       component: dynamicWrapper(app, ['form'], () => import('../routes/AdminBasicInfor/UserInfor')),
     },
+    '/dashboard/archive': {
+      component: dynamicWrapper(app, ['form'], () => import('../routes/AdminBasicInfor/Archive')),
+    },
+    '/dashboard/account': {
+      component: dynamicWrapper(app, ['form'], () => import('../routes/AdminBasicInfor/Account')),
+    },
+    '/dashboard/redarchive': {
+      component: dynamicWrapper(app, ['form'], () => import('../routes/AdminBasicInfor/RedArchive')),
+    },
     '/form/basic-form': {
       component: dynamicWrapper(app, ['form'], () => import('../routes/Forms/BasicForm')),
     },
