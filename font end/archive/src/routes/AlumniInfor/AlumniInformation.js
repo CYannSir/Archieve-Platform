@@ -3,7 +3,7 @@ import { connect } from 'dva';
 import { Card } from 'antd';
 import DescriptionList from 'components/DescriptionList';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
-import styles from './RedArchive.less';
+import styles from './AlumniInformation.less';
 
 
 const { Description } = DescriptionList;
@@ -22,27 +22,29 @@ const description = (
 
 @connect(({ profile, loading }) => ({
   profile,
-  loading: loading.effects['profile/fetchRedArchive'],
+  loading: loading.effects['profile/fetchAlumniInformation'],
 }))
-export default class RedArchive extends Component {
+export default class AlumniInformation extends Component {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'profile/fetchRedArchive',
+      type: 'profile/fetchAlumniInformation',
     });
   }
   render() {
     return (
       <PageHeaderLayout
-        title="Personal Red Archive"
-        logo={<img alt="Archive" src="https://gw.alipayobjects.com/zos/rmsportal/nxkuOJlFJuAUhzlMTCEe.png" />}
+        title="Alumni Information"
+        logo={<img alt="Alumni Information" src="https://gw.alipayobjects.com/zos/rmsportal/nxkuOJlFJuAUhzlMTCEe.png" />}
         content={description}
       >
-        <Card title="Red Archive Infomation" style={{ marginBottom: 24 }} bordered={false}>
+        <Card title="Alumni Information" style={{ marginBottom: 24 }} bordered={false}>
           <DescriptionList style={{ marginBottom: 24 }}>
-            <Description term="Join Date">2017-05-02</Description>
-            <Description term="Became Activists">2017-05-02</Description>
-            <Description term="Introducter">张如仟</Description>
+            <Description term="Your Company">浙江大学城市学院 学工办</Description>
+            <Description term="Company Address">浙江省 杭州市 拱墅区 湖州街51号 浙江大学城市学院</Description>
+            <Description term="Industry">IT互联网</Description>
+            <Description term="Occupation">项目经理</Description>
+            <Description term="Salary">1W/month</Description>
           </DescriptionList>
         </Card>
       </PageHeaderLayout>

@@ -38,6 +38,11 @@ const menuData = [{
   }, {
     name: '实习信息管理',
     path: 'step-form',
+  }, {
+    name: '交流群管理',
+    path: '404',
+    // hideInBreadcrumb: true,
+    // hideInMenu: true,
   }],
 }, {
   name: 'Find He or She',
@@ -60,22 +65,22 @@ const menuData = [{
     path: 'redarchive',
   }],
 }, {
-  authority: 'user',
   name: 'Alumni information',
   icon: 'cloud',
-  path: 'result',
+  path: 'alumniinformation',
+  authority: 'user',
   children: [{
     name: 'Your information',
-    path: 'success',
+    path: 'alumniinfor',
   }, {
-    name: 'Edit information',
-    path: 'exception/404',
+    name: 'Edit alumni information',
+    path: 'editalumniinfor',
   }, {
     name: 'Practice Unit',
-    path: 'fail',
+    path: 'practice',
   }, {
     name: 'Edit practice Unit',
-    path: 'exception/403',
+    path: 'editpractice',
   }],
 }, {
   name: '异常页',

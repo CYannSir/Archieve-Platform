@@ -139,6 +139,18 @@ export const getRouterData = (app) => {
     '/profile/redarchive': {
       component: dynamicWrapper(app, ['profile'], () => import('../routes/Profile/RedArchive')),
     },
+    '/alumniinformation/alumniinfor': {
+      component: dynamicWrapper(app, ['profile'], () => import('../routes/AlumniInfor/AlumniInformation')),
+    },
+    '/alumniinformation/editalumniinfor': {
+      component: dynamicWrapper(app, ['form'], () => import('../routes/AlumniInfor/EditAlumniInfor')),
+    },
+    '/alumniinformation/practice': {
+      component: dynamicWrapper(app, ['profile'], () => import('../routes/AlumniInfor/PracticeInfor')),
+    },
+    '/alumniinformation/editpractice': {
+      component: dynamicWrapper(app, ['form'], () => import('../routes/AlumniInfor/EditPractice')),
+    },
     '/result/success': {
       component: dynamicWrapper(app, [], () => import('../routes/Result/Success')),
     },

@@ -17,6 +17,7 @@ const description = (
     <Description term="Name">吴成洋</Description>
     <Description term="Numeber ID">31401417</Description>
     <Description term="Phone Number">13588299239</Description>
+    <Description term="E-mail">wcy623209668@vip.qq.com</Description>
     <Description term="Class Belong">软件工程1404</Description>
     <Description term="Graduated Year">2018</Description>
   </DescriptionList>
