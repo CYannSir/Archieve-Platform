@@ -32,7 +32,7 @@ public class CurrentUserService {
 
 
     //用户登录
-    public CurrentUserModel findByLogIdAndPwd(String loginEmail , String loginPwd){
+    public CurrentUserModel findByLoginEmailAndLoginPwd(String loginEmail , String loginPwd){
         return currentUserRepository.findByLoginEmailAndLoginPwdAndDelTimeIsNull(loginEmail, loginPwd);
     }
 

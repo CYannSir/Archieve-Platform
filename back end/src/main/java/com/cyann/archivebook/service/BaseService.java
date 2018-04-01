@@ -14,9 +14,26 @@ import java.sql.Timestamp;
 
 @Service
 public class BaseService {
+    //删
     public void delete (JpaRepository repository , BaseEntity baseEntity){
         Timestamp time =new Timestamp(new Date().getTime());
         baseEntity.setDelTime(time);
         repository.save(baseEntity);
     }
+    //增
+    public void add (JpaRepository repository , BaseEntity baseEntity){
+        Timestamp time =new Timestamp(new Date().getTime());
+        baseEntity.setCreatTime(time);
+        repository.save(baseEntity);
+    }
+    //修改
+    public void modify (JpaRepository repository , BaseEntity baseEntity){
+        Timestamp time =new Timestamp(new Date().getTime());
+        baseEntity.setUpdateTime(time);
+        repository.save(baseEntity);
+    }
+
+
+
+
 }

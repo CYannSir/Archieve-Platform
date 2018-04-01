@@ -24,11 +24,14 @@ public interface UserRepository extends JpaRepository<UserModel,String>{
 
     //通过查找学号查找用户
     @Query("select userModel from UserModel userModel where userModel.userNumber = ?1 and userModel.delTime is null")
-    UserModel findByUserNumber(@Param("userNumber") String userNumber);
+    UserModel findByStuNumber(@Param("stuNumber") String stuNumber);
 
     //通过查找姓名查找用户
     @Query("select userModel from UserModel userModel where userModel.userName = ?1 and userModel.delTime is null")
-    List<UserModel> findByUserName(@Param("userName") String userName);
+    List<UserModel> findByStuName(@Param("stuName") String stuName);
 
+    //通过查找班级查找用户
+    @Query("select userModel from UserModel userModel where userModel.userName = ?1 and userModel.delTime is null")
+    List<UserModel> findByStuClass(@Param("stuClass") String stuClass);
 
 }

@@ -25,28 +25,28 @@ public class AdminController {
     */
 
     //增加用户
-    @PostMapping(value = "/adduser")
+    @PostMapping(value = "/addstu")
     public Result addUser(UserModel userModel){
         userService.add(userModel);
         return Result.success();
     }
 
     //删除用户
-    @PostMapping(value = "/deleteuser")
+    @PostMapping(value = "/deletestu")
     public Result deleteUser(UserModel userModel){
         userService.delete(userModel);
         return Result.success();
     }
 
     //修改用户权限
-    @PostMapping(value = "/edituserpower")
+    @PostMapping(value = "/editstupower")
     public Result editUserPower(UserModel userModel){
         userService.updatePower(userModel);
         return Result.success();
     }
     /*
     //帮助用户重置密码
-    @PostMapping(value = "/edituserpwd")
+    @PostMapping(value = "/editstupwd")
     public Result editUserPwd(UserModel userModel){
         userService.updatePwd(userModel);
         return Result.success();
@@ -60,7 +60,7 @@ public class AdminController {
      *通过EXCEL 的.xlsx文件添加信息
      */
     /*
-    @PostMapping(value = "/adduserbyfile")
+    @PostMapping(value = "/addstubyfile")
     public Result addUserByfile(@RequestParam("file")MultipartFile file){
         if (file != null){
             System.out.println("File Not NULL");

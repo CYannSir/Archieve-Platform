@@ -53,8 +53,8 @@ public class UserService {
         if(userItem == null){
             throw new MyException(ResultEnum.ERROR_101);
         }else {
-            if (userItem.getUserPhone() == null || userItem.getUserPhone().equals(userModel.getUserPhone()) == false) {
-                userItem.setUserPhone(userModel.getUserPhone());
+            if (userItem.getCurrentPhone() == null || userItem.getCurrentPhone().equals(userModel.getCurrentPhone()) == false) {
+                userItem.setCurrentPhone(userModel.getCurrentPhone());
             }
             userRepository.save(userItem);
         }
@@ -66,7 +66,7 @@ public class UserService {
         if(userItem == null){
             throw new MyException(ResultEnum.ERROR_101);
         }else {
-            userItem.setUserPower(userModel.getUserPower());
+            userItem.setStuPower(userModel.getStuPower());
             userRepository.save(userItem);
         }
     }
@@ -87,14 +87,20 @@ public class UserService {
 
 
     //姓名查询
-    public List<UserModel> findByUserName(String userName){
-        List<UserModel> list = userRepository.findByUserName(userName);
+    public List<UserModel> findByStuName(String stuName){
+        List<UserModel> list = userRepository.findByStuName(stuName);
         return list;
     }
 
     //学号查询
-    public UserModel findByUserNumber(String userNumber){
-        return userRepository.findByUserNumber(userNumber);
+    public UserModel findByStuNumber(String stuNumber){
+        return userRepository.findByStuNumber(stuNumber);
+    }
+
+    //班级查询
+    public List<UserModel> findByStuClass(String stuClass){
+        List<UserModel> list = userRepository.findByStuClass(stuClass);
+        return list;
     }
 
 }

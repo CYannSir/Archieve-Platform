@@ -22,7 +22,7 @@ public interface CurrentUserRepository extends JpaRepository<CurrentUserModel,St
 
     //通过查找学号查找用户
     @Query("select currentUserModel from CurrentUserModel currentUserModel where currentUserModel.studentId = ?1 and currentUserModel.delTime is null")
-    CurrentUserModel findByUserNumber(@Param("studentId") String studentId);
+    CurrentUserModel findByStuNumber(@Param("stuNumber") String stuNumber);
 
     CurrentUserModel findByLoginEmailAndLoginPwdAndDelTimeIsNull(String loginEmail, String loginPsw);
 
