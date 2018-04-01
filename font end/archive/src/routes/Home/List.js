@@ -1,29 +1,13 @@
 import React, { Component } from 'react';
-import { routerRedux, Route, Switch } from 'dva/router';
+import { Route, Switch } from 'dva/router';
 import { connect } from 'dva';
 import { Input, Icon } from 'antd';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
+import NotFound from '../../routes/Exception/404';
 import { getRoutes } from '../../utils/utils';
 
 @connect()
 export default class SearchList extends Component {
-  handleTabChange = (key) => {
-    const { dispatch, match } = this.props;
-    switch (key) {
-      case 'articles':
-        dispatch(routerRedux.push(`${match.url}/articles`));
-        break;
-      case 'applications':
-        dispatch(routerRedux.push(`${match.url}/applications`));
-        break;
-      case 'projects':
-        dispatch(routerRedux.push(`${match.url}/projects`));
-        break;
-      default:
-        break;
-    }
-  }
-
   render() {
     const mainSearch = (
       <div style={{ textAlign: 'center' }}>
@@ -38,7 +22,6 @@ export default class SearchList extends Component {
     );
 
     const { match, routerData, location } = this.props;
-    const routes = getRoutes(match.path, routerData);
 
     return (
       <PageHeaderLayout
@@ -48,18 +31,20 @@ export default class SearchList extends Component {
         tabActiveKey={location.pathname.replace(`${match.path}/`, '')}
       >
         <Switch>
+          {/* 默认生成的路由列表，不包含 /list/search/projects */}
           {
-            routes.map(item =>
-              (
-                <Route
-                  key={item.key}
-                  path={item.path}
-                  component={item.component}
-                  exact={item.exact}
-                />
-              )
-            )
-          }
+        getRoutes(match.path, routerData).map(item => (
+          <Route
+            key={item.key}
+            path={item.path}
+            component={item.component}
+            exact={item.exact}
+          />
+        ))
+      }
+          {/* 补充 /list/search/projects 的路由 */}
+          <Route exact path="/home" component={routerData['/home/homepage'].component} />
+          <Route render={NotFound} />
         </Switch>
       </PageHeaderLayout>
     );

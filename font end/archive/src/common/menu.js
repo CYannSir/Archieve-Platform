@@ -5,6 +5,10 @@ import { isUrl } from '../utils/utils';
  *
  */
 const menuData = [{
+  name: 'Find He or She',
+  icon: 'home',
+  path: '/home/homepage',
+}, {
   name: '基础信息管理',
   icon: 'dashboard',
   path: 'dashboard',
@@ -34,10 +38,10 @@ const menuData = [{
   authority: 'admin',
   children: [{
     name: '校友信息管理',
-    path: 'basic-form',
+    path: 'adminalumniinfor',
   }, {
     name: '实习信息管理',
-    path: 'step-form',
+    path: 'adminpracticeinfor',
   }, {
     name: '交流群管理',
     path: 'chatgroup',
@@ -45,18 +49,13 @@ const menuData = [{
     // hideInMenu: true,
   }],
 }, {
-  name: 'Find He or She',
-  icon: 'home',
-  path: 'list/search/articles',
-  authority: 'user',
-}, {
   name: 'Archive',
   icon: 'book',
-  path: 'profile',
+  path: 'archive',
   authority: 'user',
   children: [{
     name: 'Archive',
-    path: 'advanced',
+    path: 'archive',
   }, {
     name: 'Account',
     path: 'account',

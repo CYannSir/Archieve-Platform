@@ -73,20 +73,11 @@ export const getRouterData = (app) => {
     '/': {
       component: dynamicWrapper(app, ['user', 'login'], () => import('../layouts/BasicLayout')),
     },
-    '/dashboard/analysis': {
-      component: dynamicWrapper(app, ['chart'], () => import('../routes/Dashboard/Analysis')),
-    },
-    '/dashboard/monitor': {
-      component: dynamicWrapper(app, ['monitor'], () => import('../routes/Dashboard/Monitor')),
-    },
-    '/dashboard/workplace': {
-      component: dynamicWrapper(app, ['project', 'activities', 'chart'], () => import('../routes/Dashboard/Workplace')),
+    '/dashboard/studentbasicinfor': {
+      component: dynamicWrapper(app, ['form'], () => import('../routes/AdminBasicInfor/StudentBasicInfor')),
       // hideInBreadcrumb: true,
       // name: '工作台',
       // authority: 'admin',
-    },
-    '/dashboard/studentbasicinfor': {
-      component: dynamicWrapper(app, ['form'], () => import('../routes/AdminBasicInfor/StudentBasicInfor')),
     },
     '/dashboard/userinfor': {
       component: dynamicWrapper(app, ['form'], () => import('../routes/AdminBasicInfor/UserInfor')),
@@ -103,23 +94,11 @@ export const getRouterData = (app) => {
     '/form/chatgroup': {
       component: dynamicWrapper(app, ['form'], () => import('../routes/AdminChatGroup/ChatGroup')),
     },
-    '/form/basic-form': {
-      component: dynamicWrapper(app, ['form'], () => import('../routes/Forms/BasicForm')),
+    '/form/adminalumniinfor': {
+      component: dynamicWrapper(app, ['form'], () => import('../routes/AdminAlumniInfor/AlumniInfor')),
     },
-    '/profile/form/step-form': {
-      component: dynamicWrapper(app, ['form'], () => import('../routes/Forms/StepForm')),
-    },
-    '/profile/form/step-form/info': {
-      name: '分步表单（填写转账信息）',
-      component: dynamicWrapper(app, ['form'], () => import('../routes/Forms/StepForm/Step1')),
-    },
-    '/profile/form/step-form/confirm': {
-      name: '分步表单（确认转账信息）',
-      component: dynamicWrapper(app, ['form'], () => import('../routes/Forms/StepForm/Step2')),
-    },
-    '/profile/form/step-form/result': {
-      name: '分步表单（完成）',
-      component: dynamicWrapper(app, ['form'], () => import('../routes/Forms/StepForm/Step3')),
+    '/form/adminpracticeinfor': {
+      component: dynamicWrapper(app, ['form'], () => import('../routes/AdminAlumniInfor/PracticeInfor')),
     },
     '/form/advanced-form': {
       component: dynamicWrapper(app, ['form'], () => import('../routes/Forms/AdvancedForm')),
@@ -127,35 +106,20 @@ export const getRouterData = (app) => {
     '/list/table-list': {
       component: dynamicWrapper(app, ['rule'], () => import('../routes/List/TableList')),
     },
-    '/list/basic-list': {
-      component: dynamicWrapper(app, ['list'], () => import('../routes/List/BasicList')),
+    '/home': {
+      component: dynamicWrapper(app, ['list'], () => import('../routes/Home/List')),
     },
-    '/list/card-list': {
-      component: dynamicWrapper(app, ['list'], () => import('../routes/List/CardList')),
+    '/home/homepage': {
+      component: dynamicWrapper(app, ['list'], () => import('../routes/Home/Home')),
     },
-    '/list/search': {
-      component: dynamicWrapper(app, ['list'], () => import('../routes/List/List')),
+    '/archive/archive': {
+      component: dynamicWrapper(app, ['profile'], () => import('../routes/Archive/Archive')),
     },
-    '/list/search/projects': {
-      component: dynamicWrapper(app, ['list'], () => import('../routes/List/Projects')),
+    '/archive/account': {
+      component: dynamicWrapper(app, ['profile'], () => import('../routes/Archive/Account')),
     },
-    '/list/search/applications': {
-      component: dynamicWrapper(app, ['list'], () => import('../routes/List/Applications')),
-    },
-    '/list/search/articles': {
-      component: dynamicWrapper(app, ['list'], () => import('../routes/List/Articles')),
-    },
-    '/profile/basic': {
-      component: dynamicWrapper(app, ['profile'], () => import('../routes/Profile/BasicProfile')),
-    },
-    '/profile/advanced': {
-      component: dynamicWrapper(app, ['profile'], () => import('../routes/Profile/AdvancedProfile')),
-    },
-    '/profile/account': {
-      component: dynamicWrapper(app, ['profile'], () => import('../routes/Profile/Account')),
-    },
-    '/profile/redarchive': {
-      component: dynamicWrapper(app, ['profile'], () => import('../routes/Profile/RedArchive')),
+    '/archive/redarchive': {
+      component: dynamicWrapper(app, ['profile'], () => import('../routes/Archive/RedArchive')),
     },
     '/alumniinformation/alumniinfor': {
       component: dynamicWrapper(app, ['profile'], () => import('../routes/AlumniInfor/AlumniInformation')),
