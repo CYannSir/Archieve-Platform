@@ -1,17 +1,15 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import moment from 'moment';
-import { Row, Col, Card, Form, Input, Select, Icon, Button, Modal, message, Badge, Upload } from 'antd';
+import { Row, Col, Card, Form, Input, Icon, Button, Modal, message, DatePicker, Upload } from 'antd';
 import StandardTable from 'components/StandardTable';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 
 import styles from './Archive.less';
 
 const FormItem = Form.Item;
-const { Option } = Select;
 const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
-const statusMap = ['default', 'processing', 'success', 'error'];
-const status = ['党员', '普通'];
+
 const fileprops = {
   name: 'file',
   action: '//jsonplaceholder.typicode.com/posts/',
@@ -31,59 +29,62 @@ const fileprops = {
 };
 const columns = [
   {
-    title: '名字',
-    dataIndex: 'studentname',
-  },
-  {
     title: '学号',
     dataIndex: 'studentno',
   },
   {
-    title: '专业',
-    dataIndex: 'studentmajor',
+    title: '档案目前单位',
+    dataIndex: 'currentarchive',
   },
   {
-    title: '班级',
-    dataIndex: 'studentclass',
-  },
-  {
-    title: '入学年份',
-    dataIndex: 'studentstartyear',
+    title: '流向时间',
+    dataIndex: 'flowdate',
     sorter: true,
     align: 'right',
-    needTotal: true,
+    render: val => <span>{moment(val).format('YYYY-MM-DD')}</span>,
   },
   {
-    title: '毕业年份',
-    dataIndex: 'studentendyear',
+    title: '上一个单位',
+    dataIndex: 'prearchive',
+  },
+  {
+    title: '流向时间',
+    dataIndex: 'second_flowdate',
     sorter: true,
     align: 'right',
-    needTotal: true,
+    render: val => <span>{moment(val).format('YYYY-MM-DD')}</span>,
   },
   {
-    title: '是否党员',
-    dataIndex: 'studentifred',
-    filters: [
-      {
-        text: status[0],
-        value: 0,
-      },
-      {
-        text: status[1],
-        value: 1,
-      },
-    ],
-    render(val) {
-      return <Badge status={statusMap[val]} text={status[val]} />;
-    },
+    title: '第2个单位',
+    dataIndex: 'second_prearchive',
   },
   {
-    title: '现在邮箱',
-    dataIndex: 'currentemail',
+    title: '流向时间',
+    dataIndex: 'third_flowdate',
+    sorter: true,
+    align: 'right',
+    render: val => <span>{moment(val).format('YYYY-MM-DD')}</span>,
   },
   {
-    title: '现在联系方式',
-    dataIndex: 'currentnumber',
+    title: '第3个单位',
+    dataIndex: 'third_prearchive',
+  },
+  {
+    title: '流向时间',
+    dataIndex: 'forth_flowdate',
+    sorter: true,
+    align: 'right',
+    render: val => <span>{moment(val).format('YYYY-MM-DD')}</span>,
+  },
+  {
+    title: '第4个单位',
+    dataIndex: 'forth_prearchive',
+  },
+  {
+    title: '档案层级',
+    dataIndex: 'level',
+    sorter: true,
+    align: 'right',
   },
   {
     title: '上传时间',
@@ -121,22 +122,11 @@ const CreateForm = Form.create()((props) => {
   };
   return (
     <Modal
-      title="新建学生用户"
+      title="新建个人档案"
       visible={modalVisible}
       onOk={okHandle}
       onCancel={() => handleModalVisible()}
     >
-      <FormItem
-        labelCol={{ span: 5 }}
-        wrapperCol={{ span: 15 }}
-        label="学生名字"
-      >
-        {form.getFieldDecorator('name', {
-          rules: [{ required: true, message: '请输入学生名字' }],
-        })(
-          <Input placeholder="请输入学生名字" />
-        )}
-      </FormItem>
       <FormItem
         labelCol={{ span: 5 }}
         wrapperCol={{ span: 15 }}
@@ -151,60 +141,35 @@ const CreateForm = Form.create()((props) => {
       <FormItem
         labelCol={{ span: 5 }}
         wrapperCol={{ span: 15 }}
-        label="学生专业"
+        label="档案目前单位"
       >
-        {form.getFieldDecorator('major', {
-          rules: [{ required: true, message: '请输入学生专业' }],
+        {form.getFieldDecorator('unit', {
+          rules: [{ required: true, message: '请输入档案目前单位' }],
         })(
-          <Input placeholder="请输入学生专业" />
+          <Input placeholder="请输入目前单位" />
         )}
       </FormItem>
       <FormItem
         labelCol={{ span: 5 }}
         wrapperCol={{ span: 15 }}
-        label="学生班级"
+        label="档案单位地址"
       >
-        {form.getFieldDecorator('class', {
-          rules: [{ required: true, message: '请输入学生班级' }],
+        {form.getFieldDecorator('unitaddress', {
+          rules: [{ required: true, message: '请输入档案单位地址' }],
         })(
-          <Input placeholder="请输入学生班级" />
+          <Input placeholder="请输入档案单位地址" />
         )}
       </FormItem>
       <FormItem
         labelCol={{ span: 5 }}
         wrapperCol={{ span: 15 }}
-        label="入学年份"
+        label="流向时间"
       >
-        {form.getFieldDecorator('startyear', {
-          rules: [{ required: true, message: '请输入学生入学年份' }],
+        {form.getFieldDecorator('date', {
+          rules: [{ required: true, message: '请输入流向时间' }],
         })(
-          <Input placeholder="请输入学生入学年份" />
+          <DatePicker placeholder="请输入流向时间" />
         )}
-      </FormItem>
-      <FormItem
-        labelCol={{ span: 5 }}
-        wrapperCol={{ span: 15 }}
-        label="毕业年份"
-      >
-        {form.getFieldDecorator('endyear', {
-          rules: [{ required: true, message: '请输入学生毕业年份' }],
-        })(
-          <Input placeholder="请输入学生毕业年份" />
-        )}
-      </FormItem>
-      <FormItem
-        labelCol={{ span: 5 }}
-        wrapperCol={{ span: 15 }}
-        label="是否为党员"
-      >
-        {form.getFieldDecorator('ifred', {
-            rules: [{ required: true, message: '请选择学生是否为党员' }],
-        })(
-          <Select placeholder="请选择" style={{ width: '100%' }}>
-            <Option value="0">普通</Option>
-            <Option value="1">党员</Option>
-          </Select>
-              )}
       </FormItem>
     </Modal>
   );
@@ -359,16 +324,6 @@ export default class Archive extends PureComponent {
             </FormItem>
           </Col>
           <Col md={8} sm={24}>
-            <FormItem label="是否为党员">
-              {getFieldDecorator('studentifred')(
-                <Select placeholder="请选择" style={{ width: '100%' }}>
-                  <Option value="0">党员</Option>
-                  <Option value="1">普通</Option>
-                </Select>
-              )}
-            </FormItem>
-          </Col>
-          <Col md={8} sm={24}>
             <span className={styles.submitButtons}>
               <Button type="primary" htmlType="submit" onClick={this.handleSearch}>查询</Button>
               <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>重置</Button>
@@ -388,13 +343,6 @@ export default class Archive extends PureComponent {
       <Form onSubmit={this.handleSearch} layout="inline">
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={8} sm={24}>
-            <FormItem label="名字">
-              {getFieldDecorator('studentname')(
-                <Input placeholder="请输入学生名字" />
-              )}
-            </FormItem>
-          </Col>
-          <Col md={8} sm={24}>
             <FormItem label="学号">
               {getFieldDecorator('studentno')(
                 <Input placeholder="请输入学生学号" />
@@ -402,33 +350,16 @@ export default class Archive extends PureComponent {
             </FormItem>
           </Col>
           <Col md={8} sm={24}>
-            <FormItem label="学生专业">
-              {getFieldDecorator('studentmajor')(
-                <Input placeholder="请输入学生专业" />
+            <FormItem label="目前单位">
+              {getFieldDecorator('studentunit')(
+                <Input placeholder="请输入目前单位" />
               )}
             </FormItem>
           </Col>
           <Col md={8} sm={24}>
-            <FormItem label="入学年份">
-              {getFieldDecorator('studentstartyear')(
-                <Input placeholder="请输入入学年份" />
-              )}
-            </FormItem>
-          </Col>
-          <Col md={8} sm={24}>
-            <FormItem label="毕业年份">
-              {getFieldDecorator('studentendyear')(
-                <Input placeholder="请输入学生毕业年份" />
-              )}
-            </FormItem>
-          </Col>
-          <Col md={8} sm={24}>
-            <FormItem label="是否为党员">
-              {getFieldDecorator('studentifred')(
-                <Select placeholder="请选择" style={{ width: '100%' }}>
-                  <Option value="0">党员</Option>
-                  <Option value="1">普通</Option>
-                </Select>
+            <FormItem label="上一个单位">
+              {getFieldDecorator('studentpreunit')(
+                <Input placeholder="请输入上一个单位" />
               )}
             </FormItem>
           </Col>

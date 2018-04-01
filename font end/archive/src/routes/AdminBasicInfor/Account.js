@@ -1,17 +1,16 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import moment from 'moment';
-import { Row, Col, Card, Form, Input, Select, Icon, Button, Modal, message, Badge, Upload } from 'antd';
+import { Row, Col, Card, Form, Input, Button, Modal, message, DatePicker, Upload } from 'antd';
 import StandardTable from 'components/StandardTable';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 
 import styles from './Account.less';
 
 const FormItem = Form.Item;
-const { Option } = Select;
 const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
-const statusMap = ['default', 'processing', 'success', 'error'];
-const status = ['党员', '普通'];
+
+
 const fileprops = {
   name: 'file',
   action: '//jsonplaceholder.typicode.com/posts/',
@@ -31,59 +30,21 @@ const fileprops = {
 };
 const columns = [
   {
-    title: '名字',
-    dataIndex: 'studentname',
-  },
-  {
     title: '学号',
     dataIndex: 'studentno',
   },
   {
-    title: '专业',
-    dataIndex: 'studentmajor',
+    title: '户口所在地',
+    dataIndex: 'accountaddress',
   },
   {
-    title: '班级',
-    dataIndex: 'studentclass',
+    title: '户口前所在地',
+    dataIndex: 'preaccountaddress',
   },
   {
-    title: '入学年份',
-    dataIndex: 'studentstartyear',
-    sorter: true,
-    align: 'right',
-    needTotal: true,
-  },
-  {
-    title: '毕业年份',
-    dataIndex: 'studentendyear',
-    sorter: true,
-    align: 'right',
-    needTotal: true,
-  },
-  {
-    title: '是否党员',
-    dataIndex: 'studentifred',
-    filters: [
-      {
-        text: status[0],
-        value: 0,
-      },
-      {
-        text: status[1],
-        value: 1,
-      },
-    ],
-    render(val) {
-      return <Badge status={statusMap[val]} text={status[val]} />;
-    },
-  },
-  {
-    title: '现在邮箱',
-    dataIndex: 'currentemail',
-  },
-  {
-    title: '现在联系方式',
-    dataIndex: 'currentnumber',
+    title: '时间',
+    dataIndex: 'changedate',
+    render: val => <span>{moment(val).format('YYYY-MM-DD')}</span>,
   },
   {
     title: '上传时间',
@@ -121,22 +82,11 @@ const CreateForm = Form.create()((props) => {
   };
   return (
     <Modal
-      title="新建学生用户"
+      title="新建户口信息"
       visible={modalVisible}
       onOk={okHandle}
       onCancel={() => handleModalVisible()}
     >
-      <FormItem
-        labelCol={{ span: 5 }}
-        wrapperCol={{ span: 15 }}
-        label="学生名字"
-      >
-        {form.getFieldDecorator('name', {
-          rules: [{ required: true, message: '请输入学生名字' }],
-        })(
-          <Input placeholder="请输入学生名字" />
-        )}
-      </FormItem>
       <FormItem
         labelCol={{ span: 5 }}
         wrapperCol={{ span: 15 }}
@@ -151,60 +101,24 @@ const CreateForm = Form.create()((props) => {
       <FormItem
         labelCol={{ span: 5 }}
         wrapperCol={{ span: 15 }}
-        label="学生专业"
+        label="户口所在地"
       >
-        {form.getFieldDecorator('major', {
-          rules: [{ required: true, message: '请输入学生专业' }],
+        {form.getFieldDecorator('accountaddress', {
+          rules: [{ required: true, message: '请输入新的户口所在地' }],
         })(
-          <Input placeholder="请输入学生专业" />
+          <Input placeholder="请输入新的户口所在地，浙江杭州拱墅 示例" />
         )}
       </FormItem>
       <FormItem
         labelCol={{ span: 5 }}
         wrapperCol={{ span: 15 }}
-        label="学生班级"
-      >
-        {form.getFieldDecorator('class', {
-          rules: [{ required: true, message: '请输入学生班级' }],
-        })(
-          <Input placeholder="请输入学生班级" />
-        )}
-      </FormItem>
-      <FormItem
-        labelCol={{ span: 5 }}
-        wrapperCol={{ span: 15 }}
-        label="入学年份"
+        label="更改时间"
       >
         {form.getFieldDecorator('startyear', {
-          rules: [{ required: true, message: '请输入学生入学年份' }],
+          rules: [{ required: true, message: '请输入户口更改时间' }],
         })(
-          <Input placeholder="请输入学生入学年份" />
+          <DatePicker placeholder="请输入户口更改时间" />
         )}
-      </FormItem>
-      <FormItem
-        labelCol={{ span: 5 }}
-        wrapperCol={{ span: 15 }}
-        label="毕业年份"
-      >
-        {form.getFieldDecorator('endyear', {
-          rules: [{ required: true, message: '请输入学生毕业年份' }],
-        })(
-          <Input placeholder="请输入学生毕业年份" />
-        )}
-      </FormItem>
-      <FormItem
-        labelCol={{ span: 5 }}
-        wrapperCol={{ span: 15 }}
-        label="是否为党员"
-      >
-        {form.getFieldDecorator('ifred', {
-            rules: [{ required: true, message: '请选择学生是否为党员' }],
-        })(
-          <Select placeholder="请选择" style={{ width: '100%' }}>
-            <Option value="0">普通</Option>
-            <Option value="1">党员</Option>
-          </Select>
-              )}
       </FormItem>
     </Modal>
   );
@@ -354,17 +268,7 @@ export default class Account extends PureComponent {
           <Col md={8} sm={24}>
             <FormItem label="学生学号">
               {getFieldDecorator('studentno')(
-                <Input placeholder="请输入" />
-              )}
-            </FormItem>
-          </Col>
-          <Col md={8} sm={24}>
-            <FormItem label="是否为党员">
-              {getFieldDecorator('studentifred')(
-                <Select placeholder="请选择" style={{ width: '100%' }}>
-                  <Option value="0">党员</Option>
-                  <Option value="1">普通</Option>
-                </Select>
+                <Input placeholder="请输入学生学号" />
               )}
             </FormItem>
           </Col>
@@ -372,9 +276,6 @@ export default class Account extends PureComponent {
             <span className={styles.submitButtons}>
               <Button type="primary" htmlType="submit" onClick={this.handleSearch}>查询</Button>
               <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>重置</Button>
-              <a style={{ marginLeft: 8 }} onClick={this.toggleForm}>
-                展开 <Icon type="down" />
-              </a>
             </span>
           </Col>
         </Row>
@@ -382,72 +283,8 @@ export default class Account extends PureComponent {
     );
   }
 
-  renderAdvancedForm() {
-    const { getFieldDecorator } = this.props.form;
-    return (
-      <Form onSubmit={this.handleSearch} layout="inline">
-        <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-          <Col md={8} sm={24}>
-            <FormItem label="名字">
-              {getFieldDecorator('studentname')(
-                <Input placeholder="请输入学生名字" />
-              )}
-            </FormItem>
-          </Col>
-          <Col md={8} sm={24}>
-            <FormItem label="学号">
-              {getFieldDecorator('studentno')(
-                <Input placeholder="请输入学生学号" />
-              )}
-            </FormItem>
-          </Col>
-          <Col md={8} sm={24}>
-            <FormItem label="学生专业">
-              {getFieldDecorator('studentmajor')(
-                <Input placeholder="请输入学生专业" />
-              )}
-            </FormItem>
-          </Col>
-          <Col md={8} sm={24}>
-            <FormItem label="入学年份">
-              {getFieldDecorator('studentstartyear')(
-                <Input placeholder="请输入入学年份" />
-              )}
-            </FormItem>
-          </Col>
-          <Col md={8} sm={24}>
-            <FormItem label="毕业年份">
-              {getFieldDecorator('studentendyear')(
-                <Input placeholder="请输入学生毕业年份" />
-              )}
-            </FormItem>
-          </Col>
-          <Col md={8} sm={24}>
-            <FormItem label="是否为党员">
-              {getFieldDecorator('studentifred')(
-                <Select placeholder="请选择" style={{ width: '100%' }}>
-                  <Option value="0">党员</Option>
-                  <Option value="1">普通</Option>
-                </Select>
-              )}
-            </FormItem>
-          </Col>
-        </Row>
-        <div style={{ overflow: 'hidden' }}>
-          <span style={{ float: 'right', marginBottom: 24 }}>
-            <Button type="primary" htmlType="submit" onClick={this.handleSearch}>查询</Button>
-            <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>重置</Button>
-            <a style={{ marginLeft: 8 }} onClick={this.toggleForm}>
-              收起 <Icon type="up" />
-            </a>
-          </span>
-        </div>
-      </Form>
-    );
-  }
-
   renderForm() {
-    return this.state.expandForm ? this.renderAdvancedForm() : this.renderSimpleForm();
+    return this.renderSimpleForm();
   }
 
   render() {

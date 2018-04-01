@@ -100,6 +100,9 @@ export const getRouterData = (app) => {
     '/dashboard/redarchive': {
       component: dynamicWrapper(app, ['form'], () => import('../routes/AdminBasicInfor/RedArchive')),
     },
+    '/form/chatgroup': {
+      component: dynamicWrapper(app, ['form'], () => import('../routes/AdminChatGroup/ChatGroup')),
+    },
     '/form/basic-form': {
       component: dynamicWrapper(app, ['form'], () => import('../routes/Forms/BasicForm')),
     },
