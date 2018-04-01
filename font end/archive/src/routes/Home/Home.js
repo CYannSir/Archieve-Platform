@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react';
-import moment from 'moment';
 import { connect } from 'dva';
-import { Form, Card, Select, List, Tag, Icon, Avatar, Row, Col, Button } from 'antd';
+import { Form, Card, Select, List, Tag, Icon, Row, Col, Button, Avatar } from 'antd';
 
 
 import StandardFormRow from 'components/StandardFormRow';
@@ -35,21 +34,14 @@ export default class Home extends Component {
     const { form, list: { list }, loading } = this.props;
     const { getFieldDecorator } = form;
 
-    const IconText = ({ type, text }) => (
-      <span>
-        <Icon type={type} style={{ marginRight: 8 }} />
-        {text}
-      </span>
-    );
-
-    const ListContent = ({ data: { content, updatedAt, avatar, owner, href } }) => (
+    const ListContent = ({ data: { email, phonenumber, industry, company, occupation } }) => (
       <div className={styles.listContent}>
-        <div className={styles.description}>{content}</div>
-        <div className={styles.extra}>
-          <Avatar src={avatar} size="small" />
-          <a href={href}>{owner}</a> Update
-          <em>{moment(updatedAt).format('YYYY-MM-DD HH:mm')}</em>
-        </div>
+        <div className={styles.description}>邮箱地址：{email}</div>
+        <div className={styles.description}>联系方式：{phonenumber}</div>
+        <div className={styles.extra}>行业：{industry}</div>
+        <div className={styles.extra}>工作公司：{company}</div>
+        <div className={styles.extra}>公司职位：{occupation}</div>
+        {/* 目前的联系方式邮箱 公司职位 和 公司 */}
       </div>
     );
 
@@ -82,17 +74,17 @@ export default class Home extends Component {
                 <Col xl={8} lg={10} md={12} sm={24} xs={24}>
                   <FormItem
                     {...formItemLayout}
-                    label="Year"
+                    label="Graduate Year"
                   >
-                    {getFieldDecorator('user', {})(
+                    {getFieldDecorator('endyear', {})(
                       <Select
                         onChange={this.handleFormSubmit}
-                        placeholder="不限"
+                        placeholder="Any"
                         style={{ maxWidth: 200, width: '100%' }}
                       >
-                        <Option value="lisa">2018届</Option>
-                        <Option value="lisa">2017届</Option>
-                        <Option value="lisa">2016届</Option>
+                        <Option value="lisa">2018</Option>
+                        <Option value="lisa">2017</Option>
+                        <Option value="lisa">2016</Option>
                       </Select>
                     )}
                   </FormItem>
@@ -102,16 +94,16 @@ export default class Home extends Component {
                     {...formItemLayout}
                     label="Major"
                   >
-                    {getFieldDecorator('rate', {})(
+                    {getFieldDecorator('major', {})(
                       <Select
                         onChange={this.handleFormSubmit}
-                        placeholder="不限"
+                        placeholder="Any"
                         style={{ maxWidth: 200, width: '100%' }}
                       >
-                        <Option value="good">软件工程</Option>
-                        <Option value="good">统计</Option>
-                        <Option value="good">计算机</Option>
-                        <Option value="good">信息管理</Option>
+                        <Option value="softwar">软件工程</Option>
+                        <Option value="statistics">统计</Option>
+                        <Option value="computer">计算机</Option>
+                        <Option value="information">信息管理</Option>
                       </Select>
                     )}
                   </FormItem>
@@ -135,22 +127,20 @@ export default class Home extends Component {
             renderItem={item => (
               <List.Item
                 key={item.id}
-                actions={[
-                  <IconText type="star-o" text={item.star} />,
-                  <IconText type="like-o" text={item.like} />,
-                  <IconText type="message" text={item.message} />,
-                ]}
                 extra={<div className={styles.listItemExtra} />}
               >
                 <List.Item.Meta
                   title={(
-                    <a className={styles.listItemMetaTitle} href={item.href}>{item.title}</a>
+                    <span>
+                      <Avatar style={{ magain: 48 }} src={item.avatar} size="small" />
+                      <a className={styles.listItemMetaTitle} href={item.href}>{item.title}</a>
+                    </span>
                   )}
                   description={
                     <span>
-                      <Tag>2014</Tag>
-                      <Tag>2018</Tag>
-                      <Tag>软件工程</Tag>
+                      <Tag>{item.tag_startdate}</Tag>
+                      <Tag>{item.tag_enddate}</Tag>
+                      <Tag>{item.tag_major}</Tag>
                     </span>
                   }
                 />

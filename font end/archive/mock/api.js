@@ -1,15 +1,40 @@
 import { parse } from 'url';
 
 const titles = [
-  'Alipay',
-  'Angular',
-  'Ant Design',
-  'Ant Design Pro',
-  'Bootstrap',
-  'React',
-  'Vue',
-  'Webpack',
+  '吴成洋',
+  '张如仟',
+  '吴建',
+  '吴洋',
+  '吴霞',
+  '张三',
+  '李四',
+  '曹操',
 ];
+
+const tagstartdate = [
+  '2014',
+  '2015',
+  '2016',
+  '2017',
+  '2018',
+  '2019',
+];
+
+const tagenddate = [
+  '2014',
+  '2015',
+  '2016',
+  '2017',
+  '2018',
+  '2019',
+];
+const tagmajor = [
+  '软件工程',
+  '统计',
+  '计算机',
+  '信息管理',
+];
+
 const avatars = [
   'https://gw.alipayobjects.com/zos/rmsportal/WdGqmHpayyMjiEhcKoVE.png', // Alipay
   'https://gw.alipayobjects.com/zos/rmsportal/zOsKZmFRdUtvpqCImOVY.png', // Angular
@@ -34,70 +59,53 @@ const avatars2 = [
   'https://gw.alipayobjects.com/zos/rmsportal/UrQsqscbKEpNuJcvBZBu.png',
 ];
 
-const covers = [
-  'https://gw.alipayobjects.com/zos/rmsportal/uMfMFlvUuceEyPpotzlq.png',
-  'https://gw.alipayobjects.com/zos/rmsportal/iZBVOIhGJiAnhplqjvZW.png',
-  'https://gw.alipayobjects.com/zos/rmsportal/uVZonEtjWwmUZPBQfycs.png',
-  'https://gw.alipayobjects.com/zos/rmsportal/gLaIAoVWTtLbBWZNYEMg.png',
+const email = [
+  '123@123.com',
+  '888@888.com',
+  '123@788.com',
+  '123@456.com',
 ];
-const desc = [
-  '那是一种内在的东西， 他们到达不了，也无法触及的',
-  '希望是一个好东西，也许是最好的，好东西是不会消亡的',
-  '生命就像一盒巧克力，结果往往出人意料',
-  '城镇中有那么多的酒馆，她却偏偏走进了我的酒馆',
-  '那时候我只会想自己想要什么，从不想自己拥有什么',
+const phonenumber = [
+  '123489956787',
+  '167899879123',
+  '789912345687',
+  '678998712345',
+];
+const company = [
+  'Alibaba',
+  'Jingdong',
+  'Amazon',
+  'Facebook',
+];
+const occupation = [
+  'CEO',
+  '打杂的',
+  '实习生',
+  '经理',
+];
+const industry = [
+  '金融',
+  'IT/互联网',
+  '物联',
+  '前沿科技',
 ];
 
-const user = [
-  '付小小',
-  '曲丽丽',
-  '林东东',
-  '周星星',
-  '吴加好',
-  '朱偏右',
-  '鱼酱',
-  '乐哥',
-  '谭小仪',
-  '仲尼',
-];
 
 export function fakeList(count) {
   const list = [];
   for (let i = 0; i < count; i += 1) {
     list.push({
       id: `fake-list-${i}`,
-      owner: user[i % 10],
+      avatar: avatars2[i % 4],
       title: titles[i % 8],
-      avatar: avatars[i % 8],
-      cover: parseInt(i / 4, 10) % 2 === 0 ? covers[i % 4] : covers[3 - (i % 4)],
-      status: ['active', 'exception', 'normal'][i % 3],
-      percent: Math.ceil(Math.random() * 50) + 50,
-      logo: avatars[i % 8],
-      href: 'https://ant.design',
-      updatedAt: new Date(new Date().getTime() - (1000 * 60 * 60 * 2 * i)),
-      createdAt: new Date(new Date().getTime() - (1000 * 60 * 60 * 2 * i)),
-      subDescription: desc[i % 5],
-      description: '在中台产品的研发过程中，会出现不同的设计规范和实现方式，但其中往往存在很多类似的页面和组件，这些类似的组件会被抽离成一套标准规范。',
-      activeUser: Math.ceil(Math.random() * 100000) + 100000,
-      newUser: Math.ceil(Math.random() * 1000) + 1000,
-      star: Math.ceil(Math.random() * 100) + 100,
-      like: Math.ceil(Math.random() * 100) + 100,
-      message: Math.ceil(Math.random() * 10) + 10,
-      content: '段落示意：蚂蚁金服设计平台 ant.design，用最小的工作量，无缝接入蚂蚁金服生态，提供跨越设计与开发的体验解决方案。蚂蚁金服设计平台 ant.design，用最小的工作量，无缝接入蚂蚁金服生态，提供跨越设计与开发的体验解决方案。',
-      members: [
-        {
-          avatar: 'https://gw.alipayobjects.com/zos/rmsportal/ZiESqWwCXBRQoaPONSJe.png',
-          name: '曲丽丽',
-        },
-        {
-          avatar: 'https://gw.alipayobjects.com/zos/rmsportal/tBOxZPlITHqwlGjsJWaF.png',
-          name: '王昭君',
-        },
-        {
-          avatar: 'https://gw.alipayobjects.com/zos/rmsportal/sBxjgqiuHMGRkIjqlQCd.png',
-          name: '董娜娜',
-        },
-      ],
+      email: email[i % 4],
+      phonenumber: phonenumber[i % 4],
+      company: company[i % 4],
+      occupation: occupation[i % 4],
+      industry: industry[i % 4],
+      tag_startdate: tagstartdate[i % 6],
+      tag_enddate: tagenddate[i % 6],
+      tag_major: tagmajor[i % 4],
     });
   }
 

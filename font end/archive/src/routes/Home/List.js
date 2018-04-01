@@ -31,7 +31,6 @@ export default class SearchList extends Component {
         tabActiveKey={location.pathname.replace(`${match.path}/`, '')}
       >
         <Switch>
-          {/* 默认生成的路由列表，不包含 /list/search/projects */}
           {
         getRoutes(match.path, routerData).map(item => (
           <Route
@@ -42,7 +41,6 @@ export default class SearchList extends Component {
           />
         ))
       }
-          {/* 补充 /list/search/projects 的路由 */}
           <Route exact path="/home" component={routerData['/home/homepage'].component} />
           <Route render={NotFound} />
         </Switch>
