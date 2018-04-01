@@ -419,6 +419,11 @@ export default class Archive extends PureComponent {
                    批量新增
                 </Button>
               </Upload>
+              <Upload {...fileprops}>
+                <Button icon="upload">
+                   覆盖批量新增
+                </Button>
+              </Upload>
 
             </div>
             <StandardTable
