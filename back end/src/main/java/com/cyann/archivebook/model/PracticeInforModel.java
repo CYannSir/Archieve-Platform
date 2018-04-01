@@ -6,8 +6,8 @@ import javax.persistence.Table;
 
 /**
  * @author CYann
- * @date 2018-02-26 0:32
- *  校友信息
+ * @date 2018-03-01 22:22
+ * 实习生工作信息表
  * -所属用户编号 stuNumber(String varchar) 外键
  * -所在公司 company(String varchar)
  * -公司地址 CompanyAddress(Stirng varchar)
@@ -16,8 +16,8 @@ import javax.persistence.Table;
  * -薪水 salary(String varchar)
  */
 @Entity
-@Table(name = "tb_alumniinformation")
-public class AlumniInformationModel extends BaseEntity{
+@Table(name = "tb_practiceinfor")
+public class PracticeInforModel extends BaseEntity {
     @Column(nullable = false , length = 32)
     private String stuNumber;
     @Column(nullable = false , length = 32)
@@ -78,5 +78,4 @@ public class AlumniInformationModel extends BaseEntity{
     public void setSalary(String salary) {
         this.salary = salary;
     }
-
 }

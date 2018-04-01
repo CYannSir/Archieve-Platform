@@ -1,6 +1,7 @@
 package com.cyann.archivebook.controller;
 
 import com.cyann.archivebook.model.UserModel;
+import com.cyann.archivebook.service.FileService;
 import com.cyann.archivebook.service.UserService;
 import com.cyann.archivebook.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class AdminController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private FileService fileService;
     /*
      *所有用户操作 - Start 待添加
     */
@@ -53,6 +56,32 @@ public class AdminController {
      *所有用户操作 - End 待添加
      */
 
+    /*
+     *通过EXCEL 的.xlsx文件添加信息
+     */
+    /*
+    @PostMapping(value = "/adduserbyfile")
+    public Result addUserByfile(@RequestParam("file")MultipartFile file){
+        if (file != null){
+            System.out.println("File Not NULL");
+            String fileName = file.getOriginalFilename();
+            List<Map<String,String>> list = fileService.viewExcelFile("xlsx",file);
+            for (int i=0;i<list.size();i++){
+                Map<String,String> tempMap = list.get(i);
+                User user = new User();
+                user.setLogId(tempMap.get("logId"));
+                user.setPwd(tempMap.get("pwd"));
+                user.setOfficeNum(tempMap.get("officeNum"));
+                user.setUserType(tempMap.get("userType"));
+                user.setUserName(tempMap.get("userName"));
+                userService.add(user);
+            }
+        } else {
+            System.out.println("File is NULL");
+        }
+        return Result.success();
+    }
+    */
 
 
 }

@@ -8,7 +8,7 @@ import javax.persistence.Table;
  * @author CYann
  * @date 2018-02-26 0:30
  *  红色档案
- * -所属用户编号 userNum(String varchar) 外键
+ * -所属用户编号 stuNumber(String varchar) 外键
  * -加入党日期 joinDate(String varchar)
  * -成为积极分子日期 becomeActivistDate(Stirng varchar)
  * -介绍人 Introducer(String varchar)
@@ -19,7 +19,7 @@ import javax.persistence.Table;
 @Table(name = "tb_redarchive")
 public class RedArchiveModel extends BaseEntity{
     @Column(nullable = false , length = 32)
-    private String userNum;
+    private String stuNumber;
     @Column(nullable = false , length = 16)
     private String joinDate;
     @Column(nullable = false , length = 16)
@@ -27,12 +27,12 @@ public class RedArchiveModel extends BaseEntity{
     @Column(nullable = false , length = 16)
     private String Introducer;
 
-    public String getUserNum() {
-        return userNum;
+    public String getStuNumber() {
+        return stuNumber;
     }
 
-    public void setUserNum(String userNum) {
-        this.userNum = userNum;
+    public void setStuNumber(String stuNumber) {
+        this.stuNumber = stuNumber;
     }
 
     public String getJoinDate() {

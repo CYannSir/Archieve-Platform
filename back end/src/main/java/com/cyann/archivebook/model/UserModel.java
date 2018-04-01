@@ -8,74 +8,118 @@ import javax.persistence.Table;
  * @author CYann
  * @date 2018-02-25 22:50
  *  用户
- * -用户学号 userNumber(String varchar)
- * -邮箱 logEmail(String varchar)
- * -用户姓名 userName(Stirng varchar)
- * -用户班级 userClass(String varchar)
- * -联系方式 userPhone(String varchar)
- * -用户权限 userPower(int int) 1:在校生 不是共产党员 2:在校生 共产党员 3:实习生 不是共产党员 4:实习生 共产党员 5:毕业生 6:管理员
+ * -学生学号 stuNumber(String varchar)
+ * -学生名称 stuName(String varchar)
+ * -学生班级 stuClass(String varchar)
+ * -学生专业 stuMajor(String varchar)
+ * -学生入学年份 stuStartYear(String varchar)
+ * -学生毕业年份 stuEndYear(String varchar)
+ * -是否为党员 ifred(String varchar)
+ * -现在邮箱 currentEmail(String varchar)
+ * -现在联系方式 currentPhone(String varchar)
+ * -用户权限 stuPower(int int) 1:实习生  2:毕业生
  */
 @Entity
 @Table(name = "tb_user")
 public class UserModel extends BaseEntity {
-    @Column(nullable = false , length = 9)
-    private String userNumber;
     @Column(nullable = false , length = 32)
-    private String Email;
+    private String stuNumber;
     @Column(nullable = false , length = 16)
-    private String userName;
+    private String stuName;
     @Column(nullable = false , length = 16)
-    private String userClass;
+    private String stuClass;
+    @Column(nullable = false , length = 16)
+    private String stuMajor;
     @Column(nullable = false , length = 32)
-    private String userPhone;
+    private String stuStartYear;
+    @Column(nullable = false , length = 32)
+    private String stuEndYear;
     @Column(nullable = false)
-    private Integer userPower;
+    private Integer ifred;
+    @Column(nullable = false , length = 32)
+    private String currentEmail;
+    @Column(nullable = false , length = 32)
+    private String currentPhone;
+    @Column(nullable = false)
+    private Integer stuPower;
 
-    public String getUserNumber() {
-        return userNumber;
+    public String getStuNumber() {
+        return stuNumber;
     }
 
-    public void setUserNumber(String userNumber) {
-        this.userNumber = userNumber;
+    public void setStuNumber(String stuNumber) {
+        this.stuNumber = stuNumber;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getStuName() {
+        return stuName;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setStuName(String stuName) {
+        this.stuName = stuName;
     }
 
-    public String getUserClass() {
-        return userClass;
+    public String getStuClass() {
+        return stuClass;
     }
 
-    public void setUserClass(String userClass) {
-        this.userClass = userClass;
+    public void setStuClass(String stuClass) {
+        this.stuClass = stuClass;
     }
 
-    public String getEmail() {
-        return Email;
+    public String getStuMajor() {
+        return stuMajor;
     }
 
-    public void setEmail(String email) {
-        Email = email;
+    public void setStuMajor(String stuMajor) {
+        this.stuMajor = stuMajor;
     }
 
-    public String getUserPhone() {
-        return userPhone;
+    public String getStuStartYear() {
+        return stuStartYear;
     }
 
-    public void setUserPhone(String userPhone) {
-        this.userPhone = userPhone;
+    public void setStuStartYear(String stuStartYear) {
+        this.stuStartYear = stuStartYear;
     }
 
-    public Integer getUserPower() {
-        return userPower;
+    public String getStuEndYear() {
+        return stuEndYear;
     }
 
-    public void setUserPower(Integer userPower) {
-        this.userPower = userPower;
+    public void setStuEndYear(String stuEndYear) {
+        this.stuEndYear = stuEndYear;
+    }
+
+    public Integer getIfred() {
+        return ifred;
+    }
+
+    public void setIfred(Integer ifred) {
+        this.ifred = ifred;
+    }
+
+    public String getCurrentEmail() {
+        return currentEmail;
+    }
+
+    public void setCurrentEmail(String currentEmail) {
+        this.currentEmail = currentEmail;
+    }
+
+    public String getCurrentPhone() {
+        return currentPhone;
+    }
+
+    public void setCurrentPhone(String currentPhone) {
+        this.currentPhone = currentPhone;
+    }
+
+    public Integer getStuPower() {
+        return stuPower;
+    }
+
+    public void setStuPower(Integer stuPower) {
+        this.stuPower = stuPower;
     }
 }

@@ -2,8 +2,8 @@ package com.cyann.archivebook.service;
 
 import com.cyann.archivebook.enums.ResultEnum;
 import com.cyann.archivebook.exception.MyException;
-import com.cyann.archivebook.model.TraineeInformationModel;
-import com.cyann.archivebook.respository.TraineeInformationRepository;
+import com.cyann.archivebook.model.PracticeInforModel;
+import com.cyann.archivebook.respository.PracticeInforRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.transaction.Transactional;
@@ -13,21 +13,21 @@ import java.util.List;
  * @author CYann
  * @date 2018-03-01 23:15
  */
-public class TraineeInformationService extends BaseService {
+public class PracticeInforService extends BaseService {
     @Autowired
-    private TraineeInformationRepository traineeInformationRepository;
+    private PracticeInforRepository traineeInformationRepository;
     @Autowired
     private BaseService baseService;
 
     //增
-    public void add(TraineeInformationModel traineeInformationModel){
+    public void add(PracticeInforModel traineeInformationModel){
         traineeInformationRepository.save(traineeInformationModel);
     }
 
     //删
     @Transactional
-    public void delete(TraineeInformationModel traineeInformationModel){
-        TraineeInformationModel traineeInformationItem = traineeInformationRepository.findById(traineeInformationModel.getObjectId());
+    public void delete(PracticeInforModel traineeInformationModel){
+        PracticeInforModel traineeInformationItem = traineeInformationRepository.findById(traineeInformationModel.getObjectId());
         if (traineeInformationItem ==null){
             throw new MyException(ResultEnum.ERROR_101);
         }else {
@@ -37,8 +37,8 @@ public class TraineeInformationService extends BaseService {
     }
 
     //改
-    public void update(TraineeInformationModel traineeInformationModel){
-        TraineeInformationModel traineeInformationItem = traineeInformationRepository.findById(traineeInformationModel.getObjectId());
+    public void update(PracticeInforModel traineeInformationModel){
+        PracticeInforModel traineeInformationItem = traineeInformationRepository.findById(traineeInformationModel.getObjectId());
         if (traineeInformationItem ==null){
             throw new MyException(ResultEnum.ERROR_101);
         }else {
@@ -47,8 +47,8 @@ public class TraineeInformationService extends BaseService {
     }
 
     //查询所有校友信息
-    public List<TraineeInformationModel> findAllTraineeInformation(){
-        List<TraineeInformationModel> list = traineeInformationRepository.findALLTraineeInformation();
+    public List<PracticeInforModel> findAllTraineeInformation(){
+        List<PracticeInforModel> list = traineeInformationRepository.findALLTraineeInformation();
         return list;
     }
 

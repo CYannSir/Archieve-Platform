@@ -8,89 +8,140 @@ import javax.persistence.Table;
  * @author CYann
  * @date 2018-02-25 23:50
  *  档案
- * -所属用户编号 userNum(String varchar) 外键
- * -档案上个单位 archiveUnit(String varchar)
- * -档案上个单位地址 archiveUnitAddress(String varchar)
- * -档案流向下级时间 archiveFlowDate(String varchar)
- * -档案下个单位 archiveNextUnit(String varchar)
- * -档案所在单位地址 archiveNextUnitAddress(String varchar)
- * -档案层级 archiveLevel(int int)
- * -
- * -档案单位1
- * -档案单位2
- * -档案单位3
+ * -所属用户编号 stuNumber(String varchar) 外键
+ * -档案目前单位 currentUnit(String varchar)
+ * -档案目前单位地址 currentUnitAddress(String varchar)
+ * -档案流向下级时间 flowDate(String varchar)
+ * -档案上个单位 preUnit(String varchar)
+ * -档案上个单位地址 preUnitAddress(String varchar)
+ * -流向下级时间 secondFlowDate(String varchar)
+ * -档案单位1 secondUnit(String varchar)
+ * -流向下级时间 thirdFlowDate(String varchar)
+ * -档案单位2 thirdUnit(String varchar)
+ * -流向下级时间 forthFlowDate(String varchar)
+ * -档案单位3 forthUnit(String varchar)
  */
 @Entity
 @Table(name = "tb_archive")
 public class ArchiveModel extends BaseEntity {
     @Column(nullable = false , length = 32)
-    private String userNum;
+    private String stuNumber;
     @Column(nullable = false , length = 64)
-    private String archiveUnit;
+    private String currentUnit;
     @Column(nullable = false , length = 108)
-    private String archiveUnitAddress;
-    @Column(nullable = false , length = 64)
-    private String archiveNextUnit;
-    @Column(nullable = false , length = 108)
-    private String getArchiveNextUnitAddress;
+    private String currentUnitAddress;
     @Column(nullable = false , length = 32)
-    private String archiveFlowDate;
-    @Column(nullable = false)
-    private Integer archiveLevel;
+    private String flowDate;
+    @Column(nullable = false , length = 64)
+    private String preUnit;
+    @Column(nullable = false , length = 108)
+    private String preUnitAddress;
+    @Column(nullable = false , length = 32)
+    private String secondFlowDate;
+    @Column(nullable = false , length = 64)
+    private String secondUnit;
+    @Column(nullable = false , length = 32)
+    private String thirdFlowDate;
+    @Column(nullable = false , length = 64)
+    private String thirdUnit;
+    @Column(nullable = false , length = 32)
+    private String forthFlowDate;
+    @Column(nullable = false , length = 64)
+    private String forthUnit;
 
-    public String getUserNum() {
-        return userNum;
+    public String getStuNumber() {
+        return stuNumber;
     }
 
-    public void setUserNum(String userNum) {
-        this.userNum = userNum;
+    public void setStuNumber(String stuNumber) {
+        this.stuNumber = stuNumber;
     }
 
-    public String getArchiveUnit() {
-        return archiveUnit;
+    public String getCurrentUnit() {
+        return currentUnit;
     }
 
-    public void setArchiveUnit(String archiveUnit) {
-        this.archiveUnit = archiveUnit;
+    public void setCurrentUnit(String currentUnit) {
+        this.currentUnit = currentUnit;
     }
 
-    public String getArchiveUnitAddress() {
-        return archiveUnitAddress;
+    public String getCurrentUnitAddress() {
+        return currentUnitAddress;
     }
 
-    public void setArchiveUnitAddress(String archiveUnitAddress) {
-        this.archiveUnitAddress = archiveUnitAddress;
+    public void setCurrentUnitAddress(String currentUnitAddress) {
+        this.currentUnitAddress = currentUnitAddress;
     }
 
-    public String getArchiveNextUnit() {
-        return archiveNextUnit;
+    public String getFlowDate() {
+        return flowDate;
     }
 
-    public void setArchiveNextUnit(String archiveNextUnit) {
-        this.archiveNextUnit = archiveNextUnit;
+    public void setFlowDate(String flowDate) {
+        this.flowDate = flowDate;
     }
 
-    public String getGetArchiveNextUnitAddress() {
-        return getArchiveNextUnitAddress;
+    public String getPreUnit() {
+        return preUnit;
     }
 
-    public void setGetArchiveNextUnitAddress(String getArchiveNextUnitAddress) {
-        this.getArchiveNextUnitAddress = getArchiveNextUnitAddress;
+    public void setPreUnit(String preUnit) {
+        this.preUnit = preUnit;
     }
 
-    public String getArchiveFlowDate() {
-        return archiveFlowDate;
+    public String getPreUnitAddress() {
+        return preUnitAddress;
     }
 
-    public void setArchiveFlowDate(String archiveFlowDate) {
-        this.archiveFlowDate = archiveFlowDate;
+    public void setPreUnitAddress(String preUnitAddress) {
+        this.preUnitAddress = preUnitAddress;
     }
 
-    public Integer getArchiveLevel() {
-        return archiveLevel;
+    public String getSecondFlowDate() {
+        return secondFlowDate;
     }
 
-    public void setArchiveLevel(Integer archiveLevel) {
-        this.archiveLevel = archiveLevel;
+    public void setSecondFlowDate(String secondFlowDate) {
+        this.secondFlowDate = secondFlowDate;
+    }
+
+    public String getSecondUnit() {
+        return secondUnit;
+    }
+
+    public void setSecondUnit(String secondUnit) {
+        this.secondUnit = secondUnit;
+    }
+
+    public String getThirdFlowDate() {
+        return thirdFlowDate;
+    }
+
+    public void setThirdFlowDate(String thirdFlowDate) {
+        this.thirdFlowDate = thirdFlowDate;
+    }
+
+    public String getThirdUnit() {
+        return thirdUnit;
+    }
+
+    public void setThirdUnit(String thirdUnit) {
+        this.thirdUnit = thirdUnit;
+    }
+
+    public String getForthFlowDate() {
+        return forthFlowDate;
+    }
+
+    public void setForthFlowDate(String forthFlowDate) {
+        this.forthFlowDate = forthFlowDate;
+    }
+
+    public String getForthUnit() {
+        return forthUnit;
+    }
+
+    public void setForthUnit(String forthUnit) {
+        this.forthUnit = forthUnit;
     }
 }
