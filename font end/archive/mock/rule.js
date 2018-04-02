@@ -12,6 +12,13 @@ for (let i = 0; i < 46; i += 1) {
     title: `一个任务名称 ${i}`,
     owner: '曲丽丽',
     description: '这是一段描述',
+    studentno: '31401417',
+    accountaddress: '杭州市 拱墅区 浙大城院',
+    preaccountaddress: '杭州市 西湖区 浙大西溪校区',
+    changedate: new Date(),
+    uploadtime: new Date(),
+    deletetime: new Date(),
+    updatedtime: new Date(),
     callNo: Math.floor(Math.random() * 1000),
     status: Math.floor(Math.random() * 10) % 4,
     updatedAt: new Date(`2017-07-${Math.floor(i / 2) + 1}`),
@@ -83,7 +90,7 @@ export function postRule(req, res, u, b) {
   }
 
   const body = (b && b.body) || req.body;
-  const { method, no, description } = body;
+  const { method, no, description, studentno, accountaddress, updatedate } = body;
 
   switch (method) {
     /* eslint no-case-declarations:0 */
@@ -99,6 +106,12 @@ export function postRule(req, res, u, b) {
         no: `TradeCode ${i}`,
         title: `一个任务名称 ${i}`,
         owner: '曲丽丽',
+        studentno,
+        accountaddress,
+        updatedate,
+        uploadtime: new Date(),
+        deletetime: new Date(),
+        updatedtime: new Date(),
         description,
         callNo: Math.floor(Math.random() * 1000),
         status: Math.floor(Math.random() * 10) % 2,

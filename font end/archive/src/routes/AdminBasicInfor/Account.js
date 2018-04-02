@@ -92,7 +92,7 @@ const CreateForm = Form.create()((props) => {
         wrapperCol={{ span: 15 }}
         label="学生学号"
       >
-        {form.getFieldDecorator('number', {
+        {form.getFieldDecorator('studentno', {
           rules: [{ required: true, message: '请输入学生学号' }],
         })(
           <Input placeholder="请输入学生学号" />
@@ -114,7 +114,7 @@ const CreateForm = Form.create()((props) => {
         wrapperCol={{ span: 15 }}
         label="更改时间"
       >
-        {form.getFieldDecorator('startyear', {
+        {form.getFieldDecorator('updatedate', {
           rules: [{ required: true, message: '请输入户口更改时间' }],
         })(
           <DatePicker placeholder="请输入户口更改时间" />
@@ -246,6 +246,21 @@ export default class Account extends PureComponent {
   handleModalVisible = (flag) => {
     this.setState({
       modalVisible: !!flag,
+    });
+  }
+  handleAdd = (fields) => {
+    this.props.dispatch({
+      type: 'rule/add',
+      payload: {
+        studentno: fields.studentno,
+        accountaddress: fields.accountaddress,
+        updatedtime: fields.updatedate,
+      },
+    });
+
+    message.success('添加成功');
+    this.setState({
+      modalVisible: false,
     });
   }
 
