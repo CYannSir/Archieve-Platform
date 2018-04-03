@@ -37,7 +37,7 @@ export default class Register extends Component {
     const account = this.props.form.getFieldValue('mail');
     if (nextProps.register.status === 'ok') {
       this.props.dispatch(routerRedux.push({
-        pathname: '/user/register-result',
+        pathname: '/user/register-verification',
         state: {
           account,
         },
@@ -244,7 +244,6 @@ export default class Register extends Component {
               ],
             })(<Input size="large" type="password" placeholder="Confirm" />)}
           </FormItem>
-          <h3>Verification questions</h3>
           <FormItem>
             <Button
               size="large"
@@ -253,7 +252,7 @@ export default class Register extends Component {
               type="primary"
               htmlType="submit"
             >
-              Sign up
+              NEXT
             </Button>
             <Link className={styles.login} to="/user/login">
               Use existing account login

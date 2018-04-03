@@ -6,8 +6,7 @@ import styles from './RegisterResult.less';
 
 const actions = (
   <div className={styles.actions}>
-    <a href=""><Button size="large" type="primary">Check E-mail</Button></a>
-    <Link to="/"><Button size="large">Return Index</Button></Link>
+    <Link to="/home"><Button size="large">Return Index</Button></Link>
   </div>
 );
 

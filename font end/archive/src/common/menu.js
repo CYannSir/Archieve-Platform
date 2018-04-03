@@ -93,6 +93,9 @@ const menuData = [{
     name: '注册',
     path: 'register',
   }, {
+    name: '验证',
+    path: 'register-verification',
+  }, {
     name: '注册结果',
     path: 'register-result',
   }],
