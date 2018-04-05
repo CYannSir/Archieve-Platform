@@ -8,19 +8,19 @@ import styles from './style.less';
 
 const tableData = [{
   key: '1',
-  workId: '00001',
-  name: 'John Brown',
-  department: 'New York No. 1 Lake Park',
+  major: '软件工程',
+  endyear: '2018',
+  qqno: '623209668',
 }, {
   key: '2',
-  workId: '00002',
-  name: 'Jim Green',
-  department: 'London No. 1 Lake Park',
+  major: '商务管理',
+  endyear: '2019',
+  qqno: '1234444444',
 }, {
   key: '3',
-  workId: '00003',
-  name: 'Joe Black',
-  department: 'Sidney No. 1 Lake Park',
+  major: '计算机',
+  endyear: '2018',
+  qqno: '4444444444',
 }];
 
 class ChatGroup extends PureComponent {
@@ -50,7 +50,7 @@ class ChatGroup extends PureComponent {
         content="为毕业生或者实习生专门设置的交流群设置"
         wrapperClassName={styles.advancedForm}
       >
-        <Card title="成员管理" bordered={false}>
+        <Card title="交流群设置" bordered={false}>
           {getFieldDecorator('members', {
             initialValue: tableData,
           })(<TableForm />)}

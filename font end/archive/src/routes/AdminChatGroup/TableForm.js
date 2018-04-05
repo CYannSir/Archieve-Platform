@@ -64,9 +64,9 @@ export default class TableForm extends PureComponent {
     const newData = this.state.data.map(item => ({ ...item }));
     newData.push({
       key: `NEW_TEMP_ID_${this.index}`,
-      workId: '',
-      name: '',
-      department: '',
+      major: '',
+      endyear: '',
+      qqno: '',
       editable: true,
       isNew: true,
     });
@@ -97,7 +97,7 @@ export default class TableForm extends PureComponent {
         return;
       }
       const target = this.getRowByKey(key) || {};
-      if (!target.workId || !target.name || !target.department) {
+      if (!target.major || !target.endyear || !target.qqno) {
         message.error('请填写完整交流组信息。');
         e.target.focus();
         this.setState({
@@ -250,7 +250,7 @@ export default class TableForm extends PureComponent {
           onClick={this.newMember}
           icon="plus"
         >
-          新增成员
+          新增交流群
         </Button>
       </Fragment>
     );
