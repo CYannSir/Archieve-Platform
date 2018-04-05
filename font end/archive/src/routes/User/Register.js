@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import { routerRedux, Link } from 'dva/router';
-import { Form, Input, Button, Row, Col, Popover, Progress } from 'antd';
+import { Form, Input, Button, Row, Col, Popover, Progress, Tooltip } from 'antd';
 import styles from './Register.less';
 
 const FormItem = Form.Item;
@@ -30,14 +30,13 @@ export default class Register extends Component {
     confirmDirty: false,
     visible: false,
     help: '',
-    prefix: '86',
   };
 
   componentWillReceiveProps(nextProps) {
     const account = this.props.form.getFieldValue('mail');
     if (nextProps.register.status === 'ok') {
       this.props.dispatch(routerRedux.push({
-        pathname: '/user/register-verification',
+        pathname: '/user/register-result',
         state: {
           account,
         },
@@ -83,7 +82,6 @@ export default class Register extends Component {
           type: 'register/submit',
           payload: {
             ...values,
-            prefix: this.state.prefix,
           },
         });
       }
@@ -132,11 +130,6 @@ export default class Register extends Component {
     }
   };
 
-  changePrefix = (value) => {
-    this.setState({
-      prefix: value,
-    });
-  };
 
   renderPasswordProgress = () => {
     const { form } = this.props;
@@ -155,6 +148,7 @@ export default class Register extends Component {
     ) : null;
   };
 
+
   render() {
     const { form, submitting } = this.props;
     const { getFieldDecorator } = form;
@@ -171,7 +165,7 @@ export default class Register extends Component {
                   message: 'Please enter your E-mail',
                 },
                 {
-                  type: 'email',
+                  type: 'mail',
                   message: 'Please enter a real E-mail',
                 },
               ],
@@ -215,6 +209,7 @@ export default class Register extends Component {
               overlayStyle={{ width: 320 }}
               placement="right"
               visible={this.state.visible}
+              onVisibleChange={this.handleVisibleChange}
             >
               {getFieldDecorator('password', {
                 rules: [
@@ -242,7 +237,48 @@ export default class Register extends Component {
                   validator: this.checkConfirm,
                 },
               ],
-            })(<Input size="large" type="password" placeholder="Confirm" />)}
+            })(<Input size="large" type="password" placeholder="Confirm the password" />)}
+          </FormItem>
+          <Tooltip placement="right" title={<span>Archive Book Team | Archive Book Team will not reveal your information</span>}>
+            <h3>Verification and Information</h3>
+          </Tooltip>
+          <FormItem>
+            {getFieldDecorator('name', {
+              rules: [
+                {
+                  required: true,
+                  message: 'Please enter your Real name',
+                },
+                {
+                  type: 'name',
+                  message: 'Please enter your Real name',
+                },
+              ],
+            })(<Input size="large" placeholder="Please enter your Real name" />)}
+          </FormItem>
+          <FormItem>
+            {getFieldDecorator('no', {
+              rules: [
+                {
+                  required: true,
+                  message: 'Please enter your ID in collage',
+                },
+                {
+                  type: 'no',
+                  message: 'Please enter your ID in collage',
+                },
+              ],
+            })(<Input size="large" placeholder="Please enter your ID in collage" />)}
+          </FormItem>
+          <FormItem>
+            {getFieldDecorator('phone', {
+              rules: [
+                {
+                  required: true,
+                  message: 'Please enter your mobile phone',
+                },
+              ],
+            })(<Input size="large" placeholder="Please enter your mobile phone" />)}
           </FormItem>
           <FormItem>
             <Button
@@ -252,7 +288,7 @@ export default class Register extends Component {
               type="primary"
               htmlType="submit"
             >
-              NEXT
+              Submit
             </Button>
             <Link className={styles.login} to="/user/login">
               Use existing account login
