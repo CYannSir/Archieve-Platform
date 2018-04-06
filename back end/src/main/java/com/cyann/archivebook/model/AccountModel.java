@@ -8,7 +8,7 @@ import javax.persistence.Table;
  * @author CYann
  * @date 2018-02-26 0:31
  *  户口
- * -所属用户编号 userNum(String varchar) 外键
+ * -所属用户编号 stuNumber(String varchar) 外键
  * -户口所在地 accountAddress(String varchar)
  * -户口更换时间 accountDate(String varchar)
  */
@@ -16,7 +16,7 @@ import javax.persistence.Table;
 @Table(name ="tb_account")
 public class AccountModel extends BaseEntity{
     @Column(nullable = false , length = 32)
-    private String userNum;
+    private String stuNumber;
     @Column(nullable = false , length = 64)
     private String accountAddress;
     @Column(nullable = false , length = 32)
@@ -38,12 +38,11 @@ public class AccountModel extends BaseEntity{
         this.accountAddress = accountAddress;
     }
 
-    public String getUserNum() {
-        return userNum;
+    public String getStuNumber() {
+        return stuNumber;
     }
 
-    public void setUserNum(String userNum) {
-        this.userNum = userNum;
+    public void setStuNumber(String stuNumber) {
+        this.stuNumber = stuNumber;
     }
-
 }

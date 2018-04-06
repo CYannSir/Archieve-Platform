@@ -35,13 +35,21 @@ public class UserModel extends BaseEntity {
     @Column(nullable = false , length = 32)
     private String stuEndYear;
     @Column(nullable = false)
-    private Integer ifred;
+    private Integer ifRed;
     @Column(nullable = false , length = 32)
     private String currentEmail;
     @Column(nullable = false , length = 32)
     private String currentPhone;
     @Column(nullable = false)
     private Integer stuPower;
+
+    public Integer getIfRed() {
+        return ifRed;
+    }
+
+    public void setIfRed(Integer ifRed) {
+        this.ifRed = ifRed;
+    }
 
     public String getStuNumber() {
         return stuNumber;
@@ -89,14 +97,6 @@ public class UserModel extends BaseEntity {
 
     public void setStuEndYear(String stuEndYear) {
         this.stuEndYear = stuEndYear;
-    }
-
-    public Integer getIfred() {
-        return ifred;
-    }
-
-    public void setIfred(Integer ifred) {
-        this.ifred = ifred;
     }
 
     public String getCurrentEmail() {

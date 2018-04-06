@@ -10,7 +10,7 @@ import javax.persistence.Table;
  *  校友信息
  * -所属用户编号 stuNumber(String varchar) 外键
  * -所在公司 company(String varchar)
- * -公司地址 CompanyAddress(Stirng varchar)
+ * -公司地址 companyAddress(Stirng varchar)
  * -行业 industry(String varchar)
  * -职位 occupation(String varchar)
  * -薪水 salary(String varchar)

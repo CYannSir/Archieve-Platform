@@ -25,7 +25,7 @@ public class RedArchiveModel extends BaseEntity{
     @Column(nullable = false , length = 16)
     private String becomeActivistDate;
     @Column(nullable = false , length = 16)
-    private String Introducer;
+    private String introducer;
 
     public String getStuNumber() {
         return stuNumber;
@@ -52,10 +52,10 @@ public class RedArchiveModel extends BaseEntity{
     }
 
     public String getIntroducer() {
-        return Introducer;
+        return introducer;
     }
 
     public void setIntroducer(String introducer) {
-        Introducer = introducer;
+        this.introducer = introducer;
     }
 }

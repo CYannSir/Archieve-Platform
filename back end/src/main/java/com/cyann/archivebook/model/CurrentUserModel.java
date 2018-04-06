@@ -26,11 +26,21 @@ public class CurrentUserModel extends BaseEntity {
     @Column(nullable = false , length = 32)
     private String stuNumber;
     @Column(nullable = false , length = 32)
-    private String mobliePhone;
+    private String stuName;
+    @Column(nullable = false , length = 32)
+    private String mobilePhone;
     @Column(nullable = false , length = 32)
     private String activeCode;
     @Column(nullable = false , length = 32)
     private String userType;
+
+    public String getStuName() {
+        return stuName;
+    }
+
+    public void setStuName(String stuName) {
+        this.stuName = stuName;
+    }
 
     public String getUserType() {
         return userType;
@@ -64,12 +74,12 @@ public class CurrentUserModel extends BaseEntity {
         this.stuNumber = stuNumber;
     }
 
-    public String getMobliePhone() {
-        return mobliePhone;
+    public String getMobilePhone() {
+        return mobilePhone;
     }
 
-    public void setMobliePhone(String mobliePhone) {
-        this.mobliePhone = mobliePhone;
+    public void setMobilePhone(String mobilePhone) {
+        this.mobilePhone = mobilePhone;
     }
 
     public String getActiveCode() {

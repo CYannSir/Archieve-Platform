@@ -9,8 +9,8 @@ import javax.persistence.Table;
  * @date 2018-02-25 23:50
  *  档案
  * -所属用户编号 stuNumber(String varchar) 外键
- * -档案目前单位 currentUnit(String varchar)
- * -档案目前单位地址 currentUnitAddress(String varchar)
+ * -档案单位 unit(String varchar)
+ * -档案单位地址 unitAddress(String varchar)
  * -档案流向下级时间 flowDate(String varchar)
  */
 @Entity
@@ -19,9 +19,9 @@ public class ArchiveModel extends BaseEntity {
     @Column(nullable = false , length = 32)
     private String stuNumber;
     @Column(nullable = false , length = 64)
-    private String currentUnit;
+    private String unit;
     @Column(nullable = false , length = 108)
-    private String currentUnitAddress;
+    private String unitAddress;
     @Column(nullable = false , length = 32)
     private String flowDate;
 
@@ -33,20 +33,20 @@ public class ArchiveModel extends BaseEntity {
         this.stuNumber = stuNumber;
     }
 
-    public String getCurrentUnit() {
-        return currentUnit;
+    public String getUnit() {
+        return unit;
     }
 
-    public void setCurrentUnit(String currentUnit) {
-        this.currentUnit = currentUnit;
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 
-    public String getCurrentUnitAddress() {
-        return currentUnitAddress;
+    public String getUnitAddress() {
+        return unitAddress;
     }
 
-    public void setCurrentUnitAddress(String currentUnitAddress) {
-        this.currentUnitAddress = currentUnitAddress;
+    public void setUnitAddress(String unitAddress) {
+        this.unitAddress = unitAddress;
     }
 
     public String getFlowDate() {
