@@ -11,7 +11,7 @@ const FormItem = Form.Item;
 const { Option } = Select;
 const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
 const statusMap = ['default', 'processing', 'success', 'error'];
-const status = ['党员', '普通'];
+const status = ['普通', '党员'];
 const fileprops = {
   name: 'file',
   action: '//jsonplaceholder.typicode.com/posts/',

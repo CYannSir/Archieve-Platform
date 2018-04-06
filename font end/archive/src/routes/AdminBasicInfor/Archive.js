@@ -37,54 +37,15 @@ const columns = [
     dataIndex: 'currentarchive',
   },
   {
+    title: '目前单位地址',
+    dataIndex: 'currentarchiveaddress',
+  },
+  {
     title: '流向时间',
     dataIndex: 'flowdate',
     sorter: true,
     align: 'right',
     render: val => <span>{moment(val).format('YYYY-MM-DD')}</span>,
-  },
-  {
-    title: '上一个单位',
-    dataIndex: 'prearchive',
-  },
-  {
-    title: '流向时间',
-    dataIndex: 'second_flowdate',
-    sorter: true,
-    align: 'right',
-    render: val => <span>{moment(val).format('YYYY-MM-DD')}</span>,
-  },
-  {
-    title: '第2个单位',
-    dataIndex: 'second_prearchive',
-  },
-  {
-    title: '流向时间',
-    dataIndex: 'third_flowdate',
-    sorter: true,
-    align: 'right',
-    render: val => <span>{moment(val).format('YYYY-MM-DD')}</span>,
-  },
-  {
-    title: '第3个单位',
-    dataIndex: 'third_prearchive',
-  },
-  {
-    title: '流向时间',
-    dataIndex: 'forth_flowdate',
-    sorter: true,
-    align: 'right',
-    render: val => <span>{moment(val).format('YYYY-MM-DD')}</span>,
-  },
-  {
-    title: '第4个单位',
-    dataIndex: 'forth_prearchive',
-  },
-  {
-    title: '档案层级',
-    dataIndex: 'level',
-    sorter: true,
-    align: 'right',
   },
   {
     title: '上传时间',

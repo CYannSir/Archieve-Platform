@@ -91,17 +91,14 @@ export const getRouterData = (app) => {
     '/dashboard/redarchive': {
       component: dynamicWrapper(app, ['form'], () => import('../routes/AdminBasicInfor/RedArchive')),
     },
-    '/form/chatgroup': {
+    '/alumniinfor/chatgroup': {
       component: dynamicWrapper(app, ['form'], () => import('../routes/AdminChatGroup/ChatGroup')),
     },
-    '/form/adminalumniinfor': {
+    '/alumniinfor/adminalumniinfor': {
       component: dynamicWrapper(app, ['form'], () => import('../routes/AdminAlumniInfor/AlumniInfor')),
     },
-    '/form/adminpracticeinfor': {
+    '/alumniinfor/adminpracticeinfor': {
       component: dynamicWrapper(app, ['form'], () => import('../routes/AdminAlumniInfor/PracticeInfor')),
-    },
-    '/form/advanced-form': {
-      component: dynamicWrapper(app, ['form'], () => import('../routes/Forms/AdvancedForm')),
     },
     '/list/table-list': {
       component: dynamicWrapper(app, ['rule'], () => import('../routes/List/TableList')),

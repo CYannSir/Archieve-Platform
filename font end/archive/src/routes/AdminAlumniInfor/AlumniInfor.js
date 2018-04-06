@@ -53,7 +53,7 @@ const columns = [
   },
   {
     title: '公司地址',
-    dataIndex: 'company_address',
+    dataIndex: 'companyaddress',
   },
   {
     title: '行业',

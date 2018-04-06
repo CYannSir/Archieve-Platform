@@ -34,7 +34,7 @@ const menuData = [{
 }, {
   name: '校友信息管理',
   icon: 'rocket',
-  path: 'form',
+  path: 'alumniinfor',
   authority: 'admin',
   children: [{
     name: '校友信息管理',
