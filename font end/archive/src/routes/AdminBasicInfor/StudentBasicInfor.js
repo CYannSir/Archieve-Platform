@@ -12,6 +12,9 @@ const { Option } = Select;
 const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
 const statusMap = ['default', 'processing', 'success', 'error'];
 const status = ['普通', '党员'];
+/**
+ * 上传文件参数
+ */
 const fileprops = {
   name: 'file',
   action: '//jsonplaceholder.typicode.com/posts/',
@@ -29,6 +32,7 @@ const fileprops = {
     }
   },
 };
+
 const columns = [
   {
     title: '名字',
@@ -51,14 +55,12 @@ const columns = [
     dataIndex: 'studentstartyear',
     sorter: true,
     align: 'right',
-    needTotal: true,
   },
   {
     title: '毕业年份',
     dataIndex: 'studentendyear',
     sorter: true,
     align: 'right',
-    needTotal: true,
   },
   {
     title: '是否党员',

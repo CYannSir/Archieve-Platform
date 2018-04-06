@@ -32,6 +32,7 @@ for (let i = 0; i < 10; i += 1) {
     currentarchiveaddress: '杭州市西湖区农贸市场1号',
     flowdate: '2018-01-07',
     name: '张如仟',
+    introducer: '张如仟',
     schoolid: '31401417',
     mobilephone: '13588299239',
     email: '123@123.com',
@@ -133,6 +134,7 @@ export function postRule(req, res, u, b) {
     currentarchive,
     currentarchiveaddress,
     flowdate,
+    introducer,
   } = body;
 
   switch (method) {
@@ -167,6 +169,7 @@ export function postRule(req, res, u, b) {
         currentarchive,
         currentarchiveaddress,
         flowdate,
+        introducer,
         updatedate,
         uploadtime: new Date(),
         deletetime: new Date(),

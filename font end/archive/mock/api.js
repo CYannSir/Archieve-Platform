@@ -90,7 +90,7 @@ const industry = [
   '前沿科技',
 ];
 
-
+// cover: avatars2[i % 4],
 export function fakeList(count) {
   const list = [];
   for (let i = 0; i < count; i += 1) {
@@ -99,6 +99,7 @@ export function fakeList(count) {
       avatar: avatars2[i % 4],
       title: titles[i % 8],
       email: email[i % 4],
+      cover: avatars2[i % 4],
       phonenumber: phonenumber[i % 4],
       company: company[i % 4],
       occupation: occupation[i % 4],
