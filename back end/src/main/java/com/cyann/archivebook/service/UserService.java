@@ -97,9 +97,33 @@ public class UserService {
         return userRepository.findByStuNumber(stuNumber);
     }
 
+    //学号、姓名查找
+    public List<UserModel> findByStuNameAndStuNumber(String stuName, String stuNumber){
+        List<UserModel> list = userRepository.findByStuNameAndStuNumber(stuName, stuNumber);
+        return list;
+    }
+
+    //学号、是否党员查找
+    public List<UserModel> findByStuNumberAndIfRed(String stuNumber, int ifRed){
+        List<UserModel> list = userRepository.findByStuNumberAndIfRed(stuNumber, ifRed);
+        return list;
+    }
+
+    //学号、姓名、专业、班级、入学年份、毕业年份、是否党员查找
+    public List<UserModel> findByStuNumberAndStuNameAndStuClassAndStuMajorAndStuStartYearAndStuEndYearAndIfRed(String stuNumber, String stuName, String stuClass, String stuMajor, String stuStartYear, String stuEndYear, int ifRed){
+        List<UserModel> list = userRepository.findByStuNumberAndStuNameAndStuClassAndStuMajorAndStuStartYearAndStuEndYearAndIfRed(stuNumber, stuName, stuClass,stuMajor, stuStartYear, stuEndYear, ifRed);
+        return list;
+    }
+
     //班级查询
     public List<UserModel> findByStuClass(String stuClass){
         List<UserModel> list = userRepository.findByStuClass(stuClass);
+        return list;
+    }
+
+    //专业查询
+    public List<UserModel> findByStuMajor(String stuMajor){
+        List<UserModel> list = userRepository.findByStuClass(stuMajor);
         return list;
     }
 
