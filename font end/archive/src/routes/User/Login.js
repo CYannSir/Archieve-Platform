@@ -53,7 +53,7 @@ export default class LoginPage extends Component {
               !login.submitting &&
               this.renderMessage('Please correct your account or passwords !')
             }
-            <UserName name="userName" placeholder="Please enter your E-mail" />
+            <UserName name="loginEmail" placeholder="Please enter your E-mail" />
             <Password name="password" placeholder="Please enter your passwords" />
           </div>
 

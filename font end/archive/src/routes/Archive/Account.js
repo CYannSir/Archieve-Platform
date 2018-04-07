@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import Debounce from 'lodash-decorators/debounce';
 import Bind from 'lodash-decorators/bind';
 import { connect } from 'dva';
-import { Icon, Steps, Card } from 'antd';
+import { Icon, Steps, Card, Button } from 'antd';
 import DescriptionList from 'components/DescriptionList';
 import classNames from 'classnames';
 import styles from './Account.less';
@@ -96,6 +96,7 @@ export default class Account extends Component {
             <Step title="Level 1" description={desc1} />
             <Step title="Level 2" description={desc2} />
           </Steps>
+          <Button size="small" type="primary" ghost onClick={() => this.handleModalVisible(true)} icon="plus">添加</Button>
         </Card>
       </PageHeaderLayout>
     );

@@ -317,13 +317,6 @@ export default class Archive extends PureComponent {
               )}
             </FormItem>
           </Col>
-          <Col md={8} sm={24}>
-            <FormItem label="上一个单位">
-              {getFieldDecorator('studentpreunit')(
-                <Input placeholder="请输入上一个单位" />
-              )}
-            </FormItem>
-          </Col>
         </Row>
         <div style={{ overflow: 'hidden' }}>
           <span style={{ float: 'right', marginBottom: 24 }}>
