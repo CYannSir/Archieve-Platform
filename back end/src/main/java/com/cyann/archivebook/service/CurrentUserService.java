@@ -67,10 +67,5 @@ public class CurrentUserService {
         return list;
     }
 
-    //通过学号、姓名、手机、邮箱查询用户
-    public CurrentUserModel findByAdvancedForm(String stuNumber, String stuName, String mobilePhone, String loginEmail){
-        return currentUserRepository.findByAdvancedForm(stuNumber, stuName, mobilePhone, loginEmail);
-    }
-
 
 }

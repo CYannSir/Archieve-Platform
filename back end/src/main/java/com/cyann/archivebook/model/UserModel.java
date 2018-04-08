@@ -14,7 +14,7 @@ import javax.persistence.Table;
  * -学生专业 stuMajor(String varchar)
  * -学生入学年份 stuStartYear(String varchar)
  * -学生毕业年份 stuEndYear(String varchar)
- * -是否为党员 ifred(String varchar)
+ * -是否为党员 ifRed(String varchar)
  * -现在邮箱 currentEmail(String varchar)
  * -现在联系方式 currentPhone(String varchar)
  * -用户权限 stuPower(int int) 1:实习生  2:毕业生
@@ -36,9 +36,9 @@ public class UserModel extends BaseEntity {
     private String stuEndYear;
     @Column(nullable = false)
     private Integer ifRed;
-    @Column(nullable = false , length = 32)
+    @Column(length = 32)
     private String currentEmail;
-    @Column(nullable = false , length = 32)
+    @Column(length = 32)
     private String currentPhone;
     @Column(nullable = false)
     private Integer stuPower;

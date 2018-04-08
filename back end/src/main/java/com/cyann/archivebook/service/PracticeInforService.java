@@ -47,8 +47,8 @@ public class PracticeInforService extends BaseService {
     }
 
     //查询所有校友信息
-    public List<PracticeInforModel> findAllTraineeInformation(){
-        List<PracticeInforModel> list = traineeInformationRepository.findALLTraineeInformation();
+    public List<PracticeInforModel> findALLPracticeInfor(){
+        List<PracticeInforModel> list = traineeInformationRepository.findALLPracticeInfor();
         return list;
     }
 

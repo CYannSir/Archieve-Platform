@@ -22,7 +22,7 @@ import javax.servlet.http.HttpSession;
 @Aspect
 @Component
 public class LoginAspect {
-    private final static Logger logger = LoggerFactory.getLogger(LoginAspect.class);
+    /*private final static Logger logger = LoggerFactory.getLogger(LoginAspect.class);
 
     @Pointcut("execution(public * com.cyann.archivebook.controller.*.*(..))")
     public void point(){}
@@ -63,4 +63,5 @@ public class LoginAspect {
     public void doAfterAdmin() {
         logger.info("after!!!!");
     }
+    */
 }

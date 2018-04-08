@@ -13,10 +13,10 @@ import java.util.List;
  */
 public interface PracticeInforRepository extends JpaRepository<PracticeInforModel,String> {
     //查询所有实习生信息
-    @Query("select traineeInformationModel from TraineeInformationModel traineeInformationModel where traineeInformationModel.delTime is null")
-    List<PracticeInforModel> findALLTraineeInformation();
+    @Query("select practiceInforModel from PracticeInforModel practiceInforModel where practiceInforModel.delTime is null")
+    List<PracticeInforModel> findALLPracticeInfor();
 
     //Id查询实习生信息
-    @Query("select traineeInformationModel from TraineeInformationModel traineeInformationModel where traineeInformationModel.objectId = :objectId and traineeInformationModel.delTime is null")
+    @Query("select practiceInforModel from PracticeInforModel practiceInforModel where practiceInforModel.objectId = :objectId and practiceInforModel.delTime is null")
     PracticeInforModel findById(@Param("objectId") String objectId);
 }
