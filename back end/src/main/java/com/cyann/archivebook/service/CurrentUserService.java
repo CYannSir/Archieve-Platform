@@ -40,8 +40,8 @@ public class CurrentUserService {
 
 
     //用户登录
-    public CurrentUserModel findByLoginEmailAndLoginPwd(String loginEmail , String loginPwd){
-        return currentUserRepository.findByLoginEmailAndLoginPwdAndDelTimeIsNull(loginEmail, loginPwd);
+    public CurrentUserModel findByLoginEmailAndLoginPwd(String loginEmail , String loginPsw){
+        return currentUserRepository.findByLoginEmailAndLoginPswAndDelTimeIsNull(loginEmail, loginPsw);
     }
 
 
@@ -68,9 +68,8 @@ public class CurrentUserService {
     }
 
     //通过学号、姓名、手机、邮箱查询用户
-    public List<CurrentUserModel> findByStuNumberAndStuNameaAndMobilePhoneAndLoginEmailAndDelTimeIsNull(String stuNumber, String stuName, String mobilePhone, String loginEmail){
-        List<CurrentUserModel> list = currentUserRepository.findByStuNumberAndStuNameaAndMobilePhoneAndLoginEmailAndDelTimeIsNull(stuNumber, stuName, mobilePhone, loginEmail);
-        return list;
+    public CurrentUserModel findByAdvancedForm(String stuNumber, String stuName, String mobilePhone, String loginEmail){
+        return currentUserRepository.findByAdvancedForm(stuNumber, stuName, mobilePhone, loginEmail);
     }
 
 

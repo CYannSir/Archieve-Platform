@@ -48,8 +48,14 @@ public class ArchiveService extends BaseService {
     }
 
     //查询所有档案
-    public List<ArchiveModel> findAllArchive(){
-        List<ArchiveModel> list = archiveRepository.findALLArchive();
+    public List<ArchiveModel> findByStuNumber(String stuNumber){
+        List<ArchiveModel> list = archiveRepository.findByStuNumber(stuNumber);
         return list;
     }
+
+    //根据学号查所有档案
+    public ArchiveModel findByStuNumberAndUnit(String stuNumber, String unit){
+        return archiveRepository.findByStuNumberAndUnit(stuNumber, unit);
+    }
+
 }

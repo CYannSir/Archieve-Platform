@@ -40,6 +40,8 @@ public interface UserRepository extends JpaRepository<UserModel,String>{
     @Query("select userModel from UserModel userModel where userModel.stuNumber = ?1 and userModel.ifRed = ?2 and userModel.delTime is null")
     List<UserModel> findByStuNumberAndIfRed(@Param("stuNumber") String stuNumber, @Param("ifRed") int ifRed);
 
+
+
     //通过姓名、学号、班级、专业、入学年份、毕业年份、是否为党员查找用户
     @Query("select userModel from UserModel userModel where " +
             "userModel.stuNumber = ?1 " +
@@ -50,13 +52,11 @@ public interface UserRepository extends JpaRepository<UserModel,String>{
             "and userModel.stuEndYear = ?6 " +
             "and userModel.ifRed = ?7 " +
             "and userModel.delTime is null")
-    List<UserModel> findByStuNumberAndStuNameAndStuClassAndStuMajorAndStuStartYearAndStuEndYearAndIfRed(@Param("stuNumber") String stuNumber,
-                                                                                                        @Param("stuName") String stuName,
-                                                                                                        @Param("stuClass") String stuClass,
-                                                                                                        @Param("stuMajor") String stuMajor,
-                                                                                                        @Param("stuStartYear") String stuStartYear,
-                                                                                                        @Param("stuEndYear") String stuEndYear,
-                                                                                                        @Param("ifRed") int ifRed);
+    List<UserModel> findByAdvancedForm(@Param("stuNumber") String stuNumber, @Param("stuName") String stuName, @Param("stuClass") String stuClass,
+                                       @Param("stuMajor") String stuMajor,
+                                       @Param("stuStartYear") String stuStartYear,
+                                       @Param("stuEndYear") String stuEndYear,
+                                       @Param("ifRed") int ifRed);
 
     //通过查找班级查找用户
     @Query("select userModel from UserModel userModel where userModel.stuClass = ?1 and userModel.delTime is null")
@@ -75,7 +75,7 @@ public interface UserRepository extends JpaRepository<UserModel,String>{
     List<UserModel> findByStuEndYear(@Param("stuEndYear") String stuEndYear);
 
     //是否党员查找用户
-    @Query("select userModel from UserModel userModel where userModel.ifred = ?1 and userModel.delTime is null")
+    @Query("select userModel from UserModel userModel where userModel.ifRed = ?1 and userModel.delTime is null")
     List<UserModel> findByIfRed(@Param("ifRed") int ifRed);
 
     //通过学生学号删除用户

@@ -31,12 +31,12 @@ public interface CurrentUserRepository extends JpaRepository<CurrentUserModel,St
             "and currentUserModel.mobilePhone = ?3" +
             "and currentUserModel.loginEmail = ?4" +
             "and currentUserModel.delTime is null")
-    List<CurrentUserModel> findByStuNumberAndStuNameaAndMobilePhoneAndLoginEmailAndDelTimeIsNull(@Param("stuNumber") String stuNumber,
-                                     @Param("stuName") String stuName,
-                                     @Param("mobilePhone") String mobilePhone,
-                                     @Param("loginEmail") String loginEmail);
+    CurrentUserModel findByAdvancedForm(@Param("stuNumber") String stuNumber,
+                                        @Param("stuName") String stuName,
+                                        @Param("mobilePhone") String mobilePhone,
+                                        @Param("loginEmail") String loginEmail);
 
 
-    CurrentUserModel findByLoginEmailAndLoginPwdAndDelTimeIsNull(String loginEmail, String loginPsw);
+    CurrentUserModel findByLoginEmailAndLoginPswAndDelTimeIsNull(String loginEmail, String loginPsw);
 
 }

@@ -21,4 +21,12 @@ public interface ArchiveRepository extends JpaRepository<ArchiveModel,String> {
     @Query("select archiveModel from ArchiveModel archiveModel where archiveModel.objectId = :objectId and archiveModel.delTime is null")
     ArchiveModel findById(@Param("objectId") String objectId);
 
+    //学号查询档案信息
+    @Query("select archiveModel from ArchiveModel archiveModel where archiveModel.stuNumber = ?1 and archiveModel.delTime is null")
+    List<ArchiveModel> findByStuNumber(@Param("stuNumber") String stuNumber);
+
+    //学号和目前单位查询档案信息
+    @Query("select archiveModel from ArchiveModel archiveModel where archiveModel.stuNumber = ?1 and archiveModel.unit = ?2 and archiveModel.delTime is null")
+    ArchiveModel findByStuNumberAndUnit(@Param("stuNumber") String stuNumber, @Param("unit") String unit);
+
 }

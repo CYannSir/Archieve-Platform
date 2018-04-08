@@ -110,8 +110,8 @@ public class UserService {
     }
 
     //学号、姓名、专业、班级、入学年份、毕业年份、是否党员查找
-    public List<UserModel> findByStuNumberAndStuNameAndStuClassAndStuMajorAndStuStartYearAndStuEndYearAndIfRed(String stuNumber, String stuName, String stuClass, String stuMajor, String stuStartYear, String stuEndYear, int ifRed){
-        List<UserModel> list = userRepository.findByStuNumberAndStuNameAndStuClassAndStuMajorAndStuStartYearAndStuEndYearAndIfRed(stuNumber, stuName, stuClass,stuMajor, stuStartYear, stuEndYear, ifRed);
+    public List<UserModel> findByAdvancedForm(String stuNumber, String stuName, String stuClass, String stuMajor, String stuStartYear, String stuEndYear, int ifRed){
+        List<UserModel> list = userRepository.findByAdvancedForm(stuNumber, stuName, stuClass,stuMajor, stuStartYear, stuEndYear, ifRed);
         return list;
     }
 
