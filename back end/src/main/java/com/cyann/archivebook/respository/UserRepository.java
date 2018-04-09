@@ -37,8 +37,8 @@ public interface UserRepository extends JpaRepository<UserModel,String>{
     List<UserModel> findByStuNameAndStuNumber(@Param("stuName") String stuName, @Param("stuNumber") String stuNumber);
 
     //通过查找学号和是否党员查找用户
-    @Query("select userModel from UserModel userModel where userModel.stuNumber = ?1 and userModel.ifRed = ?2 and userModel.delTime is null")
-    List<UserModel> findByStuNumberAndIfRed(@Param("stuNumber") String stuNumber, @Param("ifRed") int ifRed);
+    @Query("select userModel from UserModel userModel where userModel.stuNumber = ?1 and userModel.redParty = ?2 and userModel.delTime is null")
+    List<UserModel> findByStuNumberAndRedParty(@Param("stuNumber") String stuNumber, @Param("redParty") int redParty);
 
 
 
@@ -50,13 +50,13 @@ public interface UserRepository extends JpaRepository<UserModel,String>{
             "and userModel.stuMajor = ?4 " +
             "and userModel.stuStartYear = ?5 " +
             "and userModel.stuEndYear = ?6 " +
-            "and userModel.ifRed = ?7 " +
+            "and userModel.redParty = ?7 " +
             "and userModel.delTime is null")
     List<UserModel> findByAdvancedForm(@Param("stuNumber") String stuNumber, @Param("stuName") String stuName, @Param("stuClass") String stuClass,
                                        @Param("stuMajor") String stuMajor,
                                        @Param("stuStartYear") String stuStartYear,
                                        @Param("stuEndYear") String stuEndYear,
-                                       @Param("ifRed") int ifRed);
+                                       @Param("redParty") int redParty);
 
     //通过查找班级查找用户
     @Query("select userModel from UserModel userModel where userModel.stuClass = ?1 and userModel.delTime is null")
@@ -75,8 +75,8 @@ public interface UserRepository extends JpaRepository<UserModel,String>{
     List<UserModel> findByStuEndYear(@Param("stuEndYear") String stuEndYear);
 
     //是否党员查找用户
-    @Query("select userModel from UserModel userModel where userModel.ifRed = ?1 and userModel.delTime is null")
-    List<UserModel> findByIfRed(@Param("ifRed") int ifRed);
+    @Query("select userModel from UserModel userModel where userModel.redParty = ?1 and userModel.delTime is null")
+    List<UserModel> findByRedParty(@Param("redParty") int redParty);
 
     //通过学生学号删除用户
     @Modifying

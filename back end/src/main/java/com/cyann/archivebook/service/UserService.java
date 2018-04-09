@@ -21,12 +21,14 @@ public class UserService {
     @Autowired
     private BaseService baseService;
 
-    //增加用户
+    //增加学生用户
+    @Transactional
     public void add(UserModel userModel){
+        baseService.modify(userRepository,userModel);
         userRepository.save(userModel);
     }
 
-    //删除用户
+    //删除学生用户
     @Transactional
     public void delete(UserModel userModel){
         UserModel userItem = userRepository.findById(userModel.getObjectId());
@@ -37,7 +39,7 @@ public class UserService {
         }
     }
 
-    //改
+    //修改学生用户
     public void update(UserModel userModel){
         UserModel userItem = userRepository.findById(userModel.getObjectId());
         if(userItem == null){
@@ -104,14 +106,14 @@ public class UserService {
     }
 
     //学号、是否党员查找
-    public List<UserModel> findByStuNumberAndIfRed(String stuNumber, int ifRed){
-        List<UserModel> list = userRepository.findByStuNumberAndIfRed(stuNumber, ifRed);
+    public List<UserModel> findByStuNumberAndIfRed(String stuNumber, int redParty){
+        List<UserModel> list = userRepository.findByStuNumberAndRedParty(stuNumber, redParty);
         return list;
     }
 
     //学号、姓名、专业、班级、入学年份、毕业年份、是否党员查找
-    public List<UserModel> findByAdvancedForm(String stuNumber, String stuName, String stuClass, String stuMajor, String stuStartYear, String stuEndYear, int ifRed){
-        List<UserModel> list = userRepository.findByAdvancedForm(stuNumber, stuName, stuClass,stuMajor, stuStartYear, stuEndYear, ifRed);
+    public List<UserModel> findByAdvancedForm(String stuNumber, String stuName, String stuClass, String stuMajor, String stuStartYear, String stuEndYear, int redParty){
+        List<UserModel> list = userRepository.findByAdvancedForm(stuNumber, stuName, stuClass,stuMajor, stuStartYear, stuEndYear, redParty);
         return list;
     }
 
