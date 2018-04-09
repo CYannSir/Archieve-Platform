@@ -34,14 +34,14 @@ public class UserModel extends BaseEntity {
     private String stuStartYear;
     @Column(nullable = false , length = 32)
     private String stuEndYear;
-    @Column(nullable = false , length = 5)
-    private String redParty;
+    @Column(nullable = false )
+    private int redParty;
     @Column(length = 32)
     private String currentEmail;
     @Column(length = 32)
     private String currentPhone;
-    @Column(nullable = false , length = 5)
-    private String stuPower;
+    @Column(nullable = false)
+    private int stuPower;
 
     public String getStuNumber() {
         return stuNumber;
@@ -91,11 +91,11 @@ public class UserModel extends BaseEntity {
         this.stuEndYear = stuEndYear;
     }
 
-    public String getRedParty() {
+    public int getRedParty() {
         return redParty;
     }
 
-    public void setRedParty(String redParty) {
+    public void setRedParty(int redParty) {
         this.redParty = redParty;
     }
 
@@ -115,11 +115,11 @@ public class UserModel extends BaseEntity {
         this.currentPhone = currentPhone;
     }
 
-    public String getStuPower() {
+    public int getStuPower() {
         return stuPower;
     }
 
-    public void setStuPower(String stuPower) {
+    public void setStuPower(int stuPower) {
         this.stuPower = stuPower;
     }
 }

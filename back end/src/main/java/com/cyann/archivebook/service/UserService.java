@@ -5,9 +5,17 @@ import com.cyann.archivebook.exception.MyException;
 import com.cyann.archivebook.model.UserModel;
 import com.cyann.archivebook.respository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+
+import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,9 +32,10 @@ public class UserService {
     //增加学生用户
     @Transactional
     public void add(UserModel userModel){
-        baseService.modify(userRepository,userModel);
+        baseService.add(userRepository,userModel);
         userRepository.save(userModel);
     }
+
 
     //删除学生用户
     @Transactional
@@ -111,12 +120,6 @@ public class UserService {
         return list;
     }
 
-    //学号、姓名、专业、班级、入学年份、毕业年份、是否党员查找
-    public List<UserModel> findByAdvancedForm(String stuNumber, String stuName, String stuClass, String stuMajor, String stuStartYear, String stuEndYear, int redParty){
-        List<UserModel> list = userRepository.findByAdvancedForm(stuNumber, stuName, stuClass,stuMajor, stuStartYear, stuEndYear, redParty);
-        return list;
-    }
-
     //班级查询
     public List<UserModel> findByStuClass(String stuClass){
         List<UserModel> list = userRepository.findByStuClass(stuClass);
@@ -127,6 +130,37 @@ public class UserService {
     public List<UserModel> findByStuMajor(String stuMajor){
         List<UserModel> list = userRepository.findByStuClass(stuMajor);
         return list;
+    }
+
+    //根据 名字 学号 专业 毕业年份 入学年份 多条件动态查询课程
+    public List<UserModel> findAllByAdvancedForm(UserModel userModel) {
+        return userRepository.findAll(new Specification<UserModel>(){
+            @Override
+            public Predicate toPredicate(Root<UserModel> root, CriteriaQuery<?> query, CriteriaBuilder cb){
+                List<Predicate> list = new ArrayList<Predicate>();
+                list.add(cb.isNull(root.get("delTime")));
+                if(userModel != null && !StringUtils.isEmpty(userModel.getStuName()) ){
+                    list.add(cb.equal(root.get("stuName"), userModel.getStuName()));
+                }
+                if(userModel != null && !StringUtils.isEmpty(userModel.getStuNumber()) ){
+                    list.add(cb.equal(root.get("stuNumber"), userModel.getStuNumber()));
+                }
+                if(userModel != null && !StringUtils.isEmpty(userModel.getStuMajor()) ){
+                    list.add(cb.equal(root.get("stuMajor"), userModel.getStuMajor()));
+                }
+                if(userModel != null && !StringUtils.isEmpty(userModel.getStuEndYear()) ){
+                    list.add(cb.equal(root.get("stuEndYear"), userModel.getStuEndYear()));
+                }
+                if(userModel != null && !StringUtils.isEmpty(userModel.getStuStartYear()) ){
+                    list.add(cb.equal(root.get("stuStartYear"), userModel.getStuStartYear()));
+                }
+                if(userModel != null && !StringUtils.isEmpty(userModel.getRedParty()) ){
+                    list.add(cb.lessThanOrEqualTo(root.get("redParty"), userModel.getRedParty()));
+                }
+                Predicate[] p = new Predicate[list.size()];
+                return cb.and(list.toArray(p));
+            }
+        });
     }
 
 }

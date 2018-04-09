@@ -2,6 +2,7 @@ package com.cyann.archivebook.respository;
 
 import com.cyann.archivebook.model.UserModel;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -14,7 +15,7 @@ import java.util.List;
  * @date 2018-02-26 20:43
  */
 
-public interface UserRepository extends JpaRepository<UserModel,String>{
+public interface UserRepository extends JpaRepository<UserModel,String>, JpaSpecificationExecutor<UserModel> {
 
     //查找所有用户
     @Query(value = "select userModel from UserModel userModel where userModel.delTime is null")
@@ -39,24 +40,6 @@ public interface UserRepository extends JpaRepository<UserModel,String>{
     //通过查找学号和是否党员查找用户
     @Query("select userModel from UserModel userModel where userModel.stuNumber = ?1 and userModel.redParty = ?2 and userModel.delTime is null")
     List<UserModel> findByStuNumberAndRedParty(@Param("stuNumber") String stuNumber, @Param("redParty") int redParty);
-
-
-
-    //通过姓名、学号、班级、专业、入学年份、毕业年份、是否为党员查找用户
-    @Query("select userModel from UserModel userModel where " +
-            "userModel.stuNumber = ?1 " +
-            "and userModel.stuName = ?2 " +
-            "and userModel.stuClass = ?3 " +
-            "and userModel.stuMajor = ?4 " +
-            "and userModel.stuStartYear = ?5 " +
-            "and userModel.stuEndYear = ?6 " +
-            "and userModel.redParty = ?7 " +
-            "and userModel.delTime is null")
-    List<UserModel> findByAdvancedForm(@Param("stuNumber") String stuNumber, @Param("stuName") String stuName, @Param("stuClass") String stuClass,
-                                       @Param("stuMajor") String stuMajor,
-                                       @Param("stuStartYear") String stuStartYear,
-                                       @Param("stuEndYear") String stuEndYear,
-                                       @Param("redParty") int redParty);
 
     //通过查找班级查找用户
     @Query("select userModel from UserModel userModel where userModel.stuClass = ?1 and userModel.delTime is null")

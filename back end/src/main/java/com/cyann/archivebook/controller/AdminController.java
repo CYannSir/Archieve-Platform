@@ -7,12 +7,18 @@ import com.cyann.archivebook.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author CYann
  * @date 2018-02-27 22:26
  */
+
 @RestController
 @CrossOrigin
 public class AdminController {
@@ -21,7 +27,7 @@ public class AdminController {
     @Autowired
     private FileService fileService;
     /*
-     *所有用户操作 - Start 待添加
+     *所有学生用户操作 Start Here
     */
 
     //增加用户
@@ -31,10 +37,43 @@ public class AdminController {
         return Result.success();
     }
 
+    //批量增加用户 stuName / stuNumber / stuMajor / stuEndYear / redParty / stuClass / stuPower / stuStartYear
+    @PostMapping(value = "/addstubyfile")
+    public Result addStuByfile(@RequestParam("file")MultipartFile file){
+        if (file != null){
+            System.out.println("File Not NULL");
+            String fileName = file.getOriginalFilename();
+            List<Map<String,String>> list = fileService.viewExcelFile("xlsx",file);
+            for (int i=0;i<list.size();i++){
+                Map<String,String> tempMap = list.get(i);
+                UserModel userModel = new UserModel();
+                userModel.setStuName(tempMap.get("stuName"));
+                userModel.setStuNumber(tempMap.get("stuNumber"));
+                userModel.setStuMajor(tempMap.get("stuMajor"));
+                userModel.setStuEndYear(tempMap.get("stuEndYear"));
+                userModel.setRedParty(Integer.parseInt(tempMap.get("redParty")));
+                userModel.setStuClass(tempMap.get("stuClass"));
+                userModel.setStuPower(Integer.parseInt(tempMap.get("stuPower")));
+                userModel.setStuStartYear(tempMap.get("stuStartYear"));
+                userService.add(userModel);
+            }
+        } else {
+            System.out.println("File is NULL");
+        }
+        return Result.success();
+    }
+
     //删除用户
     @PostMapping(value = "/deletestu")
     public Result deleteUser(UserModel userModel){
         userService.delete(userModel);
+        return Result.success();
+    }
+
+    //根据 名字 学号 专业 毕业年份 入学年份 多条件动态查询课程
+    @PostMapping(value = "/searchstu")
+    public Result searchUser(UserModel userModel){
+        userService.findAllByAdvancedForm(userModel);
         return Result.success();
     }
 
