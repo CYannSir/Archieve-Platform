@@ -132,6 +132,38 @@ public class UserService {
         return list;
     }
 
+
+    //根据 名字 学号 专业 毕业年份 入学年份 多条件动态修改课程
+    public List<UserModel> modifyByForm(UserModel userModel) {
+        return userRepository.findAll(new Specification<UserModel>() {
+            @Override
+            public Predicate toPredicate(Root<UserModel> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                List<Predicate> list = new ArrayList<Predicate>();
+                list.add(cb.isNull(root.get("delTime")));
+                if (userModel != null && !StringUtils.isEmpty(userModel.getStuName())) {
+                    list.add(cb.equal(root.get("stuName"), userModel.getStuName()));
+                }
+                if (userModel != null && !StringUtils.isEmpty(userModel.getStuNumber())) {
+                    list.add(cb.equal(root.get("stuNumber"), userModel.getStuNumber()));
+                }
+                if (userModel != null && !StringUtils.isEmpty(userModel.getStuMajor())) {
+                    list.add(cb.equal(root.get("stuMajor"), userModel.getStuMajor()));
+                }
+                if (userModel != null && !StringUtils.isEmpty(userModel.getStuEndYear())) {
+                    list.add(cb.equal(root.get("stuEndYear"), userModel.getStuEndYear()));
+                }
+                if (userModel != null && !StringUtils.isEmpty(userModel.getStuStartYear())) {
+                    list.add(cb.equal(root.get("stuStartYear"), userModel.getStuStartYear()));
+                }
+                if (userModel != null && !StringUtils.isEmpty(userModel.getRedParty())) {
+                    list.add(cb.lessThanOrEqualTo(root.get("redParty"), userModel.getRedParty()));
+                }
+                Predicate[] p = new Predicate[list.size()];
+                return cb.and(list.toArray(p));
+            }
+        });
+    }
+
     //根据 名字 学号 专业 毕业年份 入学年份 多条件动态查询课程
     public List<UserModel> findAllByAdvancedForm(UserModel userModel) {
         return userRepository.findAll(new Specification<UserModel>(){

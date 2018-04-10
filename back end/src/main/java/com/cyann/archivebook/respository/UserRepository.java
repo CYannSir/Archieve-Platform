@@ -66,4 +66,8 @@ public interface UserRepository extends JpaRepository<UserModel,String>, JpaSpec
     @Query(value = "update UserModel userModel  set userModel.delTime=?2 where userModel.stuNumber = ?1")
     void deleteByStuNumber(String stuNumber, Timestamp delTime);
 
+    @Modifying
+    @Query(value = "update UserModel userModel  set userModel=?1 ")
+    void modifyByForm(UserModel userModel);
+
 }

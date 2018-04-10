@@ -77,9 +77,9 @@ public class AdminController {
         return Result.success();
     }
 
-    //修改用户权限
-    @PostMapping(value = "/editstupower")
-    public Result editUserPower(UserModel userModel){
+    //修改用户信息
+    @PostMapping(value = "/editstu")
+    public Result editUser(UserModel userModel){
         userService.updatePower(userModel);
         return Result.success();
     }
