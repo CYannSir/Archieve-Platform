@@ -347,6 +347,26 @@ export default class StudentBasicInfor extends PureComponent {
       modalVisible: false,
     });
   }
+  handleAdd = () => {
+    this.props.dispatch({
+      type: 'rule/add',
+    });
+
+    message.success('添加成功');
+    this.setState({
+      modalVisible: false,
+    });
+  }
+  handleModify = () => {
+    this.props.dispatch({
+      type: 'rule/modify',
+    });
+
+    message.success('修改成功');
+    this.setState({
+      modalVisible: false,
+    });
+  }
 
   renderSimpleForm() {
     const { getFieldDecorator } = this.props.form;
@@ -459,6 +479,7 @@ export default class StudentBasicInfor extends PureComponent {
 
     const parentMethods = {
       handleAdd: this.handleAdd,
+      handleModify: this.handleModify,
       handleModalVisible: this.handleModalVisible,
     };
 
