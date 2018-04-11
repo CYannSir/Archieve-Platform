@@ -9,11 +9,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.*;
 
-import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
@@ -132,37 +129,33 @@ public class UserService {
         return list;
     }
 
-
-    //根据 名字 学号 专业 毕业年份 入学年份 多条件动态修改课程
-    public List<UserModel> modifyByForm(UserModel userModel) {
-        return userRepository.findAll(new Specification<UserModel>() {
+    //CriteriaUpdate
+    public List<UserModel> modifyByForm(UserModel userModel){
+        return userRepository.findAll(new Specification<UserModel>(){
             @Override
-            public Predicate toPredicate(Root<UserModel> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+            public Predicate toPredicate(Root<UserModel> root, CriteriaQuery<?> query, CriteriaBuilder cb){
+                CriteriaUpdate cu = cb.createCriteriaUpdate(UserModel.class);
                 List<Predicate> list = new ArrayList<Predicate>();
                 list.add(cb.isNull(root.get("delTime")));
-                if (userModel != null && !StringUtils.isEmpty(userModel.getStuName())) {
-                    list.add(cb.equal(root.get("stuName"), userModel.getStuName()));
+                if(userModel != null && !StringUtils.isEmpty(userModel.getStuName()) ){
+                    list.add((Predicate) cu.set(root.get("stuName"), userModel.getStuName()));
                 }
-                if (userModel != null && !StringUtils.isEmpty(userModel.getStuNumber())) {
-                    list.add(cb.equal(root.get("stuNumber"), userModel.getStuNumber()));
+                if(userModel != null && !StringUtils.isEmpty(userModel.getStuNumber()) ){
+                    list.add((Predicate) cu.set(root.get("stuNumber"), userModel.getStuNumber()));
                 }
-                if (userModel != null && !StringUtils.isEmpty(userModel.getStuMajor())) {
-                    list.add(cb.equal(root.get("stuMajor"), userModel.getStuMajor()));
+                if(userModel != null && !StringUtils.isEmpty(userModel.getStuMajor()) ){
+                    list.add((Predicate) cu.set(root.get("stuMajor"), userModel.getStuMajor()));
                 }
-                if (userModel != null && !StringUtils.isEmpty(userModel.getStuEndYear())) {
-                    list.add(cb.equal(root.get("stuEndYear"), userModel.getStuEndYear()));
+                if(userModel != null && !StringUtils.isEmpty(userModel.getStuMajor()) ){
+                    list.add((Predicate) cu.set(root.get("stuClass"), userModel.getStuMajor()));
                 }
-                if (userModel != null && !StringUtils.isEmpty(userModel.getStuStartYear())) {
-                    list.add(cb.equal(root.get("stuStartYear"), userModel.getStuStartYear()));
-                }
-                if (userModel != null && !StringUtils.isEmpty(userModel.getRedParty())) {
-                    list.add(cb.lessThanOrEqualTo(root.get("redParty"), userModel.getRedParty()));
-                }
+
                 Predicate[] p = new Predicate[list.size()];
                 return cb.and(list.toArray(p));
             }
         });
     }
+
 
     //根据 名字 学号 专业 毕业年份 入学年份 多条件动态查询课程
     public List<UserModel> findAllByAdvancedForm(UserModel userModel) {
