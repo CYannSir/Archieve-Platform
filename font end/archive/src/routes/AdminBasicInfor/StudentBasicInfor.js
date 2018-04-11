@@ -108,98 +108,191 @@ const columns = [
 ];
 
 const CreateForm = Form.create()((props) => {
-  const { modalVisible, form, handleAdd, handleModalVisible, handleModify } = props;
-  const okHandle = () => {
-    form.validateFields((err, fieldsValue) => {
-      if (err) return;
-      form.resetFields();
-      handleAdd(fieldsValue);
-    });
-    form.validateFields((err, fieldsValue) => {
-      if (err) return;
-      form.resetFields();
-      handleModify(fieldsValue);
-    });
-  };
-  return (
-    <Modal
-      title="新建学生用户"
-      visible={modalVisible}
-      onOk={okHandle}
-      onCancel={() => handleModalVisible()}
-    >
-      <FormItem
-        labelCol={{ span: 5 }}
-        wrapperCol={{ span: 15 }}
-        label="学生名字"
+  const { modalVisible, form, handleAdd, handleModalVisible, handleModify, formprops } = props;
+  if (formprops === true) {
+    const okHandle = () => {
+      form.validateFields((err, fieldsValue) => {
+        if (err) return;
+        form.resetFields();
+        handleModify(fieldsValue);
+      });
+    };
+    return (
+      <Modal
+        title="修改学生用户"
+        visible={modalVisible}
+        onOk={okHandle}
+        onCancel={() => handleModalVisible()}
       >
-        {form.getFieldDecorator('name', {
+        <FormItem
+          labelCol={{ span: 5 }}
+          wrapperCol={{ span: 15 }}
+          label="学生名字"
+        >
+          {form.getFieldDecorator('name', {
+          rules: [{ message: '请输入学生名字' }],
+        })(
+          <Input placeholder="请输入学生名字" />
+        )}
+        </FormItem>
+        <FormItem
+          labelCol={{ span: 5 }}
+          wrapperCol={{ span: 15 }}
+          label="学生学号"
+        >
+          {form.getFieldDecorator('number', {
+          rules: [{ message: '请输入学生学号' }],
+        })(
+          <Input placeholder="请输入学生学号" />
+        )}
+        </FormItem>
+        <FormItem
+          labelCol={{ span: 5 }}
+          wrapperCol={{ span: 15 }}
+          label="学生专业"
+        >
+          {form.getFieldDecorator('major', {
+          rules: [{ message: '请输入学生专业' }],
+        })(
+          <Input placeholder="请输入学生专业" />
+        )}
+        </FormItem>
+        <FormItem
+          labelCol={{ span: 5 }}
+          wrapperCol={{ span: 15 }}
+          label="学生班级"
+        >
+          {form.getFieldDecorator('class', {
+          rules: [{ message: '请输入学生班级' }],
+        })(
+          <Input placeholder="请输入学生班级" />
+        )}
+        </FormItem>
+        <FormItem
+          labelCol={{ span: 5 }}
+          wrapperCol={{ span: 15 }}
+          label="入学年份"
+        >
+          {form.getFieldDecorator('startyear', {
+          rules: [{ message: '请输入学生入学年份' }],
+        })(
+          <Input placeholder="请输入学生入学年份" />
+        )}
+        </FormItem>
+        <FormItem
+          labelCol={{ span: 5 }}
+          wrapperCol={{ span: 15 }}
+          label="毕业年份"
+        >
+          {form.getFieldDecorator('endyear', {
+          rules: [{ message: '请输入学生毕业年份' }],
+        })(
+          <Input placeholder="请输入学生毕业年份" />
+        )}
+        </FormItem>
+        <FormItem
+          labelCol={{ span: 5 }}
+          wrapperCol={{ span: 15 }}
+          label="是否为党员"
+        >
+          {form.getFieldDecorator('ifred', {
+            rules: [{ message: '请选择学生是否为党员' }],
+        })(
+          <Select placeholder="请选择" style={{ width: '100%' }}>
+            <Option value="0">普通</Option>
+            <Option value="1">党员</Option>
+          </Select>
+              )}
+        </FormItem>
+      </Modal>
+    );
+  } else {
+    const okHandle = () => {
+      form.validateFields((err, fieldsValue) => {
+        if (err) return;
+        form.resetFields();
+        handleAdd(fieldsValue);
+      });
+    };
+    return (
+      <Modal
+        title="新建学生用户"
+        visible={modalVisible}
+        onOk={okHandle}
+        onCancel={() => handleModalVisible()}
+      >
+        <FormItem
+          labelCol={{ span: 5 }}
+          wrapperCol={{ span: 15 }}
+          label="学生名字"
+        >
+          {form.getFieldDecorator('name', {
           rules: [{ required: true, message: '请输入学生名字' }],
         })(
           <Input placeholder="请输入学生名字" />
         )}
-      </FormItem>
-      <FormItem
-        labelCol={{ span: 5 }}
-        wrapperCol={{ span: 15 }}
-        label="学生学号"
-      >
-        {form.getFieldDecorator('number', {
+        </FormItem>
+        <FormItem
+          labelCol={{ span: 5 }}
+          wrapperCol={{ span: 15 }}
+          label="学生学号"
+        >
+          {form.getFieldDecorator('number', {
           rules: [{ required: true, message: '请输入学生学号' }],
         })(
           <Input placeholder="请输入学生学号" />
         )}
-      </FormItem>
-      <FormItem
-        labelCol={{ span: 5 }}
-        wrapperCol={{ span: 15 }}
-        label="学生专业"
-      >
-        {form.getFieldDecorator('major', {
+        </FormItem>
+        <FormItem
+          labelCol={{ span: 5 }}
+          wrapperCol={{ span: 15 }}
+          label="学生专业"
+        >
+          {form.getFieldDecorator('major', {
           rules: [{ required: true, message: '请输入学生专业' }],
         })(
           <Input placeholder="请输入学生专业" />
         )}
-      </FormItem>
-      <FormItem
-        labelCol={{ span: 5 }}
-        wrapperCol={{ span: 15 }}
-        label="学生班级"
-      >
-        {form.getFieldDecorator('class', {
+        </FormItem>
+        <FormItem
+          labelCol={{ span: 5 }}
+          wrapperCol={{ span: 15 }}
+          label="学生班级"
+        >
+          {form.getFieldDecorator('class', {
           rules: [{ required: true, message: '请输入学生班级' }],
         })(
           <Input placeholder="请输入学生班级" />
         )}
-      </FormItem>
-      <FormItem
-        labelCol={{ span: 5 }}
-        wrapperCol={{ span: 15 }}
-        label="入学年份"
-      >
-        {form.getFieldDecorator('startyear', {
+        </FormItem>
+        <FormItem
+          labelCol={{ span: 5 }}
+          wrapperCol={{ span: 15 }}
+          label="入学年份"
+        >
+          {form.getFieldDecorator('startyear', {
           rules: [{ required: true, message: '请输入学生入学年份' }],
         })(
           <Input placeholder="请输入学生入学年份" />
         )}
-      </FormItem>
-      <FormItem
-        labelCol={{ span: 5 }}
-        wrapperCol={{ span: 15 }}
-        label="毕业年份"
-      >
-        {form.getFieldDecorator('endyear', {
+        </FormItem>
+        <FormItem
+          labelCol={{ span: 5 }}
+          wrapperCol={{ span: 15 }}
+          label="毕业年份"
+        >
+          {form.getFieldDecorator('endyear', {
           rules: [{ required: true, message: '请输入学生毕业年份' }],
         })(
           <Input placeholder="请输入学生毕业年份" />
         )}
-      </FormItem>
-      <FormItem
-        labelCol={{ span: 5 }}
-        wrapperCol={{ span: 15 }}
-        label="是否为党员"
-      >
-        {form.getFieldDecorator('ifred', {
+        </FormItem>
+        <FormItem
+          labelCol={{ span: 5 }}
+          wrapperCol={{ span: 15 }}
+          label="是否为党员"
+        >
+          {form.getFieldDecorator('ifred', {
             rules: [{ required: true, message: '请选择学生是否为党员' }],
         })(
           <Select placeholder="请选择" style={{ width: '100%' }}>
@@ -207,9 +300,10 @@ const CreateForm = Form.create()((props) => {
             <Option value="1">党员</Option>
           </Select>
               )}
-      </FormItem>
-    </Modal>
-  );
+        </FormItem>
+      </Modal>
+    );
+  }
 });
 
 @connect(({ rule, loading }) => ({
@@ -221,6 +315,7 @@ export default class StudentBasicInfor extends PureComponent {
   state = {
     modalVisible: false,
     expandForm: false,
+    formprops: false,
     selectedRows: [],
     formValues: {},
   };
@@ -333,9 +428,17 @@ export default class StudentBasicInfor extends PureComponent {
 
   handleModalVisible = (flag) => {
     this.setState({
+      formprops: !flag,
       modalVisible: !!flag,
     });
   }
+    handleModifyModalVisible = (flag) => {
+      this.setState({
+        formprops: !!flag,
+        modalVisible: !!flag,
+      });
+    }
+
 
   handleDelete = () => {
     this.props.dispatch({
@@ -365,6 +468,7 @@ export default class StudentBasicInfor extends PureComponent {
     message.success('修改成功');
     this.setState({
       modalVisible: false,
+      formprops: false,
     });
   }
 
@@ -474,7 +578,7 @@ export default class StudentBasicInfor extends PureComponent {
 
   render() {
     const { rule: { data }, loading } = this.props;
-    const { selectedRows, modalVisible } = this.state;
+    const { selectedRows, modalVisible, formprops } = this.state;
 
 
     const parentMethods = {
@@ -497,7 +601,7 @@ export default class StudentBasicInfor extends PureComponent {
               {
                 selectedRows.length > 0 && (
                   <span>
-                    <Button icon="plus" type="primary" onClick={() => this.handleModalVisible(true)}>
+                    <Button icon="plus" type="primary" onClick={() => this.handleModifyModalVisible(true)}>
                         修改
                     </Button>
                     <Button icon="delete" type="primary" onClick={this.handleDelete}>
@@ -508,7 +612,7 @@ export default class StudentBasicInfor extends PureComponent {
               }
               <Upload {...fileprops}>
                 <Button icon="upload">
-                   批量新增
+                    批量新增
                 </Button>
               </Upload>
 
@@ -526,6 +630,7 @@ export default class StudentBasicInfor extends PureComponent {
         <CreateForm
           {...parentMethods}
           modalVisible={modalVisible}
+          formprops={formprops}
         />
       </PageHeaderLayout>
     );
