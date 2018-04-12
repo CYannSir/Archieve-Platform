@@ -33,6 +33,24 @@ public class UserService {
         userRepository.save(userModel);
     }
 
+    //修改学生用户
+    @Transactional
+    public void modify(UserModel userModel) {
+        UserModel userItem = userRepository.findById(userModel.getObjectId());
+        if (userItem == null) {
+            throw new MyException(ResultEnum.ERROR_101);
+        } else {
+            userItem.setStuNumber(userModel.getStuNumber());
+            userItem.setStuName(userModel.getStuName());
+            userItem.setStuClass(userModel.getStuClass());
+            userItem.setStuMajor(userModel.getStuMajor());
+            userItem.setStuStartYear(userModel.getStuStartYear());
+            userItem.setStuEndYear(userItem.getStuEndYear());
+            userItem.setStuPower(userItem.getStuPower());
+            baseService.modify(userRepository,userModel);
+            userRepository.save(userItem);
+        }
+    }
 
     //删除学生用户
     @Transactional
@@ -128,34 +146,6 @@ public class UserService {
         List<UserModel> list = userRepository.findByStuClass(stuMajor);
         return list;
     }
-
-    //CriteriaUpdate
-    public List<UserModel> modifyByForm(UserModel userModel){
-        return userRepository.findAll(new Specification<UserModel>(){
-            @Override
-            public Predicate toPredicate(Root<UserModel> root, CriteriaQuery<?> query, CriteriaBuilder cb){
-                CriteriaUpdate cu = cb.createCriteriaUpdate(UserModel.class);
-                List<Predicate> list = new ArrayList<Predicate>();
-                list.add(cb.isNull(root.get("delTime")));
-                if(userModel != null && !StringUtils.isEmpty(userModel.getStuName()) ){
-                    list.add((Predicate) cu.set(root.get("stuName"), userModel.getStuName()));
-                }
-                if(userModel != null && !StringUtils.isEmpty(userModel.getStuNumber()) ){
-                    list.add((Predicate) cu.set(root.get("stuNumber"), userModel.getStuNumber()));
-                }
-                if(userModel != null && !StringUtils.isEmpty(userModel.getStuMajor()) ){
-                    list.add((Predicate) cu.set(root.get("stuMajor"), userModel.getStuMajor()));
-                }
-                if(userModel != null && !StringUtils.isEmpty(userModel.getStuMajor()) ){
-                    list.add((Predicate) cu.set(root.get("stuClass"), userModel.getStuMajor()));
-                }
-
-                Predicate[] p = new Predicate[list.size()];
-                return cb.and(list.toArray(p));
-            }
-        });
-    }
-
 
     //根据 名字 学号 专业 毕业年份 入学年份 多条件动态查询课程
     public List<UserModel> findAllByAdvancedForm(UserModel userModel) {

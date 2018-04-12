@@ -1,5 +1,7 @@
 package com.cyann.archivebook.model;
 
+import org.hibernate.annotations.DynamicUpdate;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -20,6 +22,7 @@ import javax.persistence.Table;
  * -用户权限 stuPower(int int) 1:实习生  2:毕业生
  */
 @Entity
+@DynamicUpdate(true)
 @Table(name = "tb_user")
 public class UserModel extends BaseEntity {
     @Column(nullable = false , length = 32)
