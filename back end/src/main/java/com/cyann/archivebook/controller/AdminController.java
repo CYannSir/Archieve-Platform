@@ -215,10 +215,19 @@ public class AdminController {
         }
         return Result.success();
     }
+    /*
+     * 户口信息操作 - End
+     */
+
+    /*
+     * 红色档案信息操作 - Start
+     */
+
+
 
 
     /*
-     * 户口信息操作 - End
+     * 红色档案信息操作 - End
      */
 
 

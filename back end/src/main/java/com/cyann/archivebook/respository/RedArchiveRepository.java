@@ -20,4 +20,9 @@ public interface RedArchiveRepository extends JpaRepository<RedArchiveModel,Stri
     //Id查询红色档案信息
     @Query("select redArchiveModel from RedArchiveModel redArchiveModel where redArchiveModel.objectId = :objectId and redArchiveModel.delTime is null")
     RedArchiveModel findById(@Param("objectId") String objectId);
+
+    //学号查询红色档案信息
+    @Query("select redArchiveModel from RedArchiveModel redArchiveModel where redArchiveModel.stuNumber = ?1 and redArchiveModel.delTime is null")
+    List<RedArchiveModel> findByStuNumber(@Param("stuNumber") String stuNumber);
+
 }

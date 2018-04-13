@@ -1,5 +1,7 @@
 package com.cyann.archivebook.model;
 
+import org.hibernate.annotations.DynamicUpdate;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -16,6 +18,7 @@ import javax.persistence.Table;
 
 
 @Entity
+@DynamicUpdate(true)
 @Table(name = "tb_redarchive")
 public class RedArchiveModel extends BaseEntity{
     @Column(nullable = false , length = 32)
