@@ -68,72 +68,130 @@ const columns = [
 ];
 
 const CreateForm = Form.create()((props) => {
-  const { modalVisible, form, handleAdd, handleModalVisible, handleModify } = props;
-  const okHandle = () => {
-    form.validateFields((err, fieldsValue) => {
-      if (err) return;
-      form.resetFields();
-      handleAdd(fieldsValue);
-    });
-    form.validateFields((err, fieldsValue) => {
-      if (err) return;
-      form.resetFields();
-      handleModify(fieldsValue);
-    });
-  };
-  return (
-    <Modal
-      title="新建个人档案"
-      visible={modalVisible}
-      onOk={okHandle}
-      onCancel={() => handleModalVisible()}
-    >
-      <FormItem
-        labelCol={{ span: 5 }}
-        wrapperCol={{ span: 15 }}
-        label="学生学号"
+  const { modalVisible, form, handleAdd, handleModalVisible, handleModify, formprops } = props;
+  if (formprops === true) {
+    const okHandle = () => {
+      form.validateFields((err, fieldsValue) => {
+        if (err) return;
+        form.resetFields();
+        handleModify(fieldsValue);
+      });
+    };
+    return (
+      <Modal
+        title="修改个人档案"
+        visible={modalVisible}
+        onOk={okHandle}
+        onCancel={() => handleModalVisible()}
       >
-        {form.getFieldDecorator('number', {
+        <FormItem
+          labelCol={{ span: 5 }}
+          wrapperCol={{ span: 15 }}
+          label="学生学号"
+        >
+          {form.getFieldDecorator('number', {
+          rules: [{ message: '请输入学生学号' }],
+        })(
+          <Input placeholder="请输入学生学号" />
+        )}
+        </FormItem>
+        <FormItem
+          labelCol={{ span: 5 }}
+          wrapperCol={{ span: 15 }}
+          label="档案目前单位"
+        >
+          {form.getFieldDecorator('unit', {
+          rules: [{ message: '请输入档案目前单位' }],
+        })(
+          <Input placeholder="请输入目前单位" />
+        )}
+        </FormItem>
+        <FormItem
+          labelCol={{ span: 5 }}
+          wrapperCol={{ span: 15 }}
+          label="档案单位地址"
+        >
+          {form.getFieldDecorator('unitaddress', {
+          rules: [{ message: '请输入档案单位地址' }],
+        })(
+          <Input placeholder="请输入档案单位地址" />
+        )}
+        </FormItem>
+        <FormItem
+          labelCol={{ span: 5 }}
+          wrapperCol={{ span: 15 }}
+          label="流向时间"
+        >
+          {form.getFieldDecorator('date', {
+          rules: [{ message: '请输入流向时间' }],
+        })(
+          <DatePicker placeholder="请输入流向时间" />
+        )}
+        </FormItem>
+      </Modal>
+    );
+  } else {
+    const okHandle = () => {
+      form.validateFields((err, fieldsValue) => {
+        if (err) return;
+        form.resetFields();
+        handleAdd(fieldsValue);
+      });
+    };
+    return (
+      <Modal
+        title="新建个人档案"
+        visible={modalVisible}
+        onOk={okHandle}
+        onCancel={() => handleModalVisible()}
+      >
+        <FormItem
+          labelCol={{ span: 5 }}
+          wrapperCol={{ span: 15 }}
+          label="学生学号"
+        >
+          {form.getFieldDecorator('number', {
           rules: [{ required: true, message: '请输入学生学号' }],
         })(
           <Input placeholder="请输入学生学号" />
         )}
-      </FormItem>
-      <FormItem
-        labelCol={{ span: 5 }}
-        wrapperCol={{ span: 15 }}
-        label="档案目前单位"
-      >
-        {form.getFieldDecorator('unit', {
+        </FormItem>
+        <FormItem
+          labelCol={{ span: 5 }}
+          wrapperCol={{ span: 15 }}
+          label="档案目前单位"
+        >
+          {form.getFieldDecorator('unit', {
           rules: [{ required: true, message: '请输入档案目前单位' }],
         })(
           <Input placeholder="请输入目前单位" />
         )}
-      </FormItem>
-      <FormItem
-        labelCol={{ span: 5 }}
-        wrapperCol={{ span: 15 }}
-        label="档案单位地址"
-      >
-        {form.getFieldDecorator('unitaddress', {
+        </FormItem>
+        <FormItem
+          labelCol={{ span: 5 }}
+          wrapperCol={{ span: 15 }}
+          label="档案单位地址"
+        >
+          {form.getFieldDecorator('unitaddress', {
           rules: [{ required: true, message: '请输入档案单位地址' }],
         })(
           <Input placeholder="请输入档案单位地址" />
         )}
-      </FormItem>
-      <FormItem
-        labelCol={{ span: 5 }}
-        wrapperCol={{ span: 15 }}
-        label="流向时间"
-      >
-        {form.getFieldDecorator('date', {
+        </FormItem>
+        <FormItem
+          labelCol={{ span: 5 }}
+          wrapperCol={{ span: 15 }}
+          label="流向时间"
+        >
+          {form.getFieldDecorator('date', {
           rules: [{ required: true, message: '请输入流向时间' }],
         })(
           <DatePicker placeholder="请输入流向时间" />
         )}
-      </FormItem>
-    </Modal>
-  );
+        </FormItem>
+      </Modal>
+    );
+  }
 });
 
 @connect(({ rule, loading }) => ({
@@ -145,6 +203,7 @@ export default class Archive extends PureComponent {
   state = {
     modalVisible: false,
     expandForm: false,
+    formprops: false,
     selectedRows: [],
     formValues: {},
   };
@@ -257,10 +316,39 @@ export default class Archive extends PureComponent {
 
   handleModalVisible = (flag) => {
     this.setState({
+      formprops: !flag,
       modalVisible: !!flag,
     });
   }
 
+    handleModifyModalVisible = (flag) => {
+      this.setState({
+        formprops: !!flag,
+        modalVisible: !!flag,
+      });
+    }
+
+  handleAdd = () => {
+    this.props.dispatch({
+      type: 'rule/add',
+    });
+
+    message.success('新增成功');
+    this.setState({
+      modalVisible: false,
+    });
+  }
+  handleModify = () => {
+    this.props.dispatch({
+      type: 'rule/modify',
+    });
+
+    message.success('修改成功');
+    this.setState({
+      modalVisible: false,
+      formprops: false,
+    });
+  }
   handleDelete = () => {
     this.props.dispatch({
       type: 'rule/delete',
@@ -337,7 +425,7 @@ export default class Archive extends PureComponent {
 
   render() {
     const { rule: { data }, loading } = this.props;
-    const { selectedRows, modalVisible } = this.state;
+    const { selectedRows, modalVisible, formprops } = this.state;
 
 
     const parentMethods = {
@@ -359,7 +447,7 @@ export default class Archive extends PureComponent {
               {
                 selectedRows.length > 0 && (
                   <span>
-                    <Button icon="plus" type="primary" onClick={() => this.handleModalVisible(true)}>
+                    <Button icon="plus" type="primary" onClick={() => this.handleModifyModalVisible(true)}>
                         修改
                     </Button>
                     <Button icon="delete" type="primary" onClick={this.handleDelete}>
@@ -388,6 +476,7 @@ export default class Archive extends PureComponent {
         <CreateForm
           {...parentMethods}
           modalVisible={modalVisible}
+          formprops={formprops}
         />
       </PageHeaderLayout>
     );

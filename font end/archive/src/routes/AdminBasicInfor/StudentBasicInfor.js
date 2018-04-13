@@ -488,8 +488,8 @@ export default class StudentBasicInfor extends PureComponent {
             <FormItem label="是否为党员">
               {getFieldDecorator('studentifred')(
                 <Select placeholder="请选择" style={{ width: '100%' }}>
-                  <Option value="0">党员</Option>
-                  <Option value="1">普通</Option>
+                  <Option value="0">普通</Option>
+                  <Option value="1">党员</Option>
                 </Select>
               )}
             </FormItem>
@@ -552,8 +552,8 @@ export default class StudentBasicInfor extends PureComponent {
             <FormItem label="是否为党员">
               {getFieldDecorator('studentifred')(
                 <Select placeholder="请选择" style={{ width: '100%' }}>
-                  <Option value="0">党员</Option>
-                  <Option value="1">普通</Option>
+                  <Option value="0">普通</Option>
+                  <Option value="1">党员</Option>
                 </Select>
               )}
             </FormItem>
