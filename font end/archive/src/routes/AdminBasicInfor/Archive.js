@@ -351,7 +351,7 @@ export default class Archive extends PureComponent {
   }
   handleDelete = () => {
     this.props.dispatch({
-      type: 'rule/delete',
+      type: 'rule/remove',
     });
 
     message.success('删除成功');
@@ -449,7 +449,7 @@ export default class Archive extends PureComponent {
               {
                 selectedRows.length > 0 && (
                   <span>
-                    <Button icon="plus" type="primary" onClick={() => this.handleModifyModalVisible(true)}>
+                    <Button icon="edit" type="primary" onClick={() => this.handleModifyModalVisible(true)}>
                         修改
                     </Button>
                     <Button icon="delete" type="primary" onClick={this.handleDelete}>

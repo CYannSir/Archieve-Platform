@@ -584,6 +584,7 @@ export default class StudentBasicInfor extends PureComponent {
     const parentMethods = {
       handleAdd: this.handleAdd,
       handleModify: this.handleModify,
+      handleDelete: this.handleDelete,
       handleModalVisible: this.handleModalVisible,
     };
 
@@ -601,8 +602,11 @@ export default class StudentBasicInfor extends PureComponent {
               {
                 selectedRows.length > 0 && (
                   <span>
-                    <Button icon="plus" type="primary" onClick={() => this.handleModifyModalVisible(true)}>
+                    <Button icon="edit" type="primary" onClick={() => this.handleModifyModalVisible(true)}>
                         修改
+                    </Button>
+                    <Button icon="edit" type="primary" onClick={() => this.handleModifyModalVisible(true)}>
+                        毕业生状态
                     </Button>
                     <Button icon="delete" type="primary" onClick={this.handleDelete}>
                         删除
