@@ -321,12 +321,12 @@ export default class Archive extends PureComponent {
     });
   }
 
-    handleModifyModalVisible = (flag) => {
-      this.setState({
-        formprops: !!flag,
-        modalVisible: !!flag,
-      });
-    }
+  handleModifyModalVisible = (flag) => {
+    this.setState({
+      formprops: !!flag,
+      modalVisible: !!flag,
+    });
+  }
 
   handleAdd = () => {
     this.props.dispatch({
@@ -430,6 +430,8 @@ export default class Archive extends PureComponent {
 
     const parentMethods = {
       handleAdd: this.handleAdd,
+      handleModify: this.handleModify,
+      handleDelete: this.handleDelete,
       handleModalVisible: this.handleModalVisible,
     };
 
