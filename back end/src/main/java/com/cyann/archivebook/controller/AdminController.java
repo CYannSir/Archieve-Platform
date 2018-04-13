@@ -77,7 +77,7 @@ public class AdminController {
         return Result.success();
     }
 
-    //动态更新
+    //动态修改更新
     @PostMapping(value = "/modifystu")
     public Result modifyUser(UserModel userModel){
         userService.modify(userModel);

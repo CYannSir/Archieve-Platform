@@ -36,18 +36,32 @@ public class UserService {
     //修改学生用户
     @Transactional
     public void modify(UserModel userModel) {
-        UserModel userItem = userRepository.findById(userModel.getObjectId());
+        UserModel userItem = userRepository.findByStuNumber(userModel.getStuNumber());
         if (userItem == null) {
             throw new MyException(ResultEnum.ERROR_101);
         } else {
-            userItem.setStuNumber(userModel.getStuNumber());
-            userItem.setStuName(userModel.getStuName());
-            userItem.setStuClass(userModel.getStuClass());
-            userItem.setStuMajor(userModel.getStuMajor());
-            userItem.setStuStartYear(userModel.getStuStartYear());
-            userItem.setStuEndYear(userItem.getStuEndYear());
-            userItem.setStuPower(userItem.getStuPower());
-            baseService.modify(userRepository,userModel);
+            if(userModel.getStuNumber() !=null && userItem.getStuNumber().equals(userModel.getStuNumber()) == false ){
+                userItem.setStuNumber(userModel.getStuNumber());
+            }
+            if(userModel.getStuName() != null && userItem.getStuName().equals(userModel.getStuName()) == false ){
+                userItem.setStuName(userModel.getStuName());
+            }
+            if(userModel.getStuClass() != null && userItem.getStuClass().equals(userModel.getStuClass()) == false ){
+                userItem.setStuClass(userModel.getStuClass());
+            }
+            if(userModel.getStuMajor() != null && userItem.getStuMajor().equals(userModel.getStuMajor()) == false ){
+                userItem.setStuMajor(userModel.getStuMajor());
+            }
+            if(userModel.getStuStartYear() != null && userItem.getStuStartYear().equals(userModel.getStuStartYear()) == false ){
+                userItem.setStuStartYear(userModel.getStuStartYear());
+            }
+            if(userModel.getStuEndYear() != null && userItem.getStuEndYear().equals(userModel.getStuEndYear()) == false){
+                userItem.setStuEndYear(userModel.getStuEndYear());
+            }
+            if(userItem.getRedParty() != userModel.getRedParty()){
+                userItem.setRedParty(userModel.getRedParty());
+            }
+            baseService.modify(userRepository,userItem);
             userRepository.save(userItem);
         }
     }
