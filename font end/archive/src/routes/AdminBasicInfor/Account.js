@@ -38,10 +38,6 @@ const columns = [
     dataIndex: 'accountaddress',
   },
   {
-    title: '户口前所在地',
-    dataIndex: 'preaccountaddress',
-  },
-  {
     title: '时间',
     dataIndex: 'changedate',
     render: val => <span>{moment(val).format('YYYY-MM-DD')}</span>,
@@ -67,61 +63,108 @@ const columns = [
 ];
 
 const CreateForm = Form.create()((props) => {
-  const { modalVisible, form, handleAdd, handleModalVisible, handleModify } = props;
-  const okHandle = () => {
-    form.validateFields((err, fieldsValue) => {
-      if (err) return;
-      form.resetFields();
-      handleAdd(fieldsValue);
-    });
-    form.validateFields((err, fieldsValue) => {
-      if (err) return;
-      form.resetFields();
-      handleModify(fieldsValue);
-    });
-  };
-  return (
-    <Modal
-      title="新建户口信息"
-      visible={modalVisible}
-      onOk={okHandle}
-      onCancel={() => handleModalVisible()}
-    >
-      <FormItem
-        labelCol={{ span: 5 }}
-        wrapperCol={{ span: 15 }}
-        label="学生学号"
+  const { modalVisible, form, handleAdd, handleModalVisible, handleModify, formprops } = props;
+  if (formprops === true) {
+    const okHandle = () => {
+      form.validateFields((err, fieldsValue) => {
+        if (err) return;
+        form.resetFields();
+        handleModify(fieldsValue);
+      });
+    };
+    return (
+      <Modal
+        title="修改户口信息"
+        visible={modalVisible}
+        onOk={okHandle}
+        onCancel={() => handleModalVisible()}
       >
-        {form.getFieldDecorator('studentno', {
+        <FormItem
+          labelCol={{ span: 5 }}
+          wrapperCol={{ span: 15 }}
+          label="学生学号"
+        >
+          {form.getFieldDecorator('studentno', {
+          rules: [{ message: '请输入学生学号' }],
+        })(
+          <Input placeholder="请输入学生学号" />
+        )}
+        </FormItem>
+        <FormItem
+          labelCol={{ span: 5 }}
+          wrapperCol={{ span: 15 }}
+          label="户口所在地"
+        >
+          {form.getFieldDecorator('accountaddress', {
+          rules: [{ message: '请输入新的户口所在地' }],
+        })(
+          <Input placeholder="请输入新的户口所在地，浙江杭州拱墅 示例" />
+        )}
+        </FormItem>
+        <FormItem
+          labelCol={{ span: 5 }}
+          wrapperCol={{ span: 15 }}
+          label="更改时间"
+        >
+          {form.getFieldDecorator('updatedate', {
+          rules: [{ message: '请输入户口更改时间' }],
+        })(
+          <DatePicker placeholder="请输入户口更改时间" />
+        )}
+        </FormItem>
+      </Modal>
+    );
+  } else {
+    const okHandle = () => {
+      form.validateFields((err, fieldsValue) => {
+        if (err) return;
+        form.resetFields();
+        handleAdd(fieldsValue);
+      });
+    };
+    return (
+      <Modal
+        title="新建户口信息"
+        visible={modalVisible}
+        onOk={okHandle}
+        onCancel={() => handleModalVisible()}
+      >
+        <FormItem
+          labelCol={{ span: 5 }}
+          wrapperCol={{ span: 15 }}
+          label="学生学号"
+        >
+          {form.getFieldDecorator('studentno', {
           rules: [{ required: true, message: '请输入学生学号' }],
         })(
           <Input placeholder="请输入学生学号" />
         )}
-      </FormItem>
-      <FormItem
-        labelCol={{ span: 5 }}
-        wrapperCol={{ span: 15 }}
-        label="户口所在地"
-      >
-        {form.getFieldDecorator('accountaddress', {
+        </FormItem>
+        <FormItem
+          labelCol={{ span: 5 }}
+          wrapperCol={{ span: 15 }}
+          label="户口所在地"
+        >
+          {form.getFieldDecorator('accountaddress', {
           rules: [{ required: true, message: '请输入新的户口所在地' }],
         })(
           <Input placeholder="请输入新的户口所在地，浙江杭州拱墅 示例" />
         )}
-      </FormItem>
-      <FormItem
-        labelCol={{ span: 5 }}
-        wrapperCol={{ span: 15 }}
-        label="更改时间"
-      >
-        {form.getFieldDecorator('updatedate', {
+        </FormItem>
+        <FormItem
+          labelCol={{ span: 5 }}
+          wrapperCol={{ span: 15 }}
+          label="更改时间"
+        >
+          {form.getFieldDecorator('updatedate', {
           rules: [{ required: true, message: '请输入户口更改时间' }],
         })(
           <DatePicker placeholder="请输入户口更改时间" />
         )}
-      </FormItem>
-    </Modal>
-  );
+        </FormItem>
+      </Modal>
+    );
+  }
 });
 
 @connect(({ rule, loading }) => ({
@@ -133,6 +176,7 @@ export default class Account extends PureComponent {
   state = {
     modalVisible: false,
     expandForm: false,
+    formprops: false,
     selectedRows: [],
     formValues: {},
   };
@@ -248,6 +292,12 @@ export default class Account extends PureComponent {
       modalVisible: !!flag,
     });
   }
+  handleModifyModalVisible = (flag) => {
+    this.setState({
+      formprops: !!flag,
+      modalVisible: !!flag,
+    });
+  }
   handleAdd = (fields) => {
     this.props.dispatch({
       type: 'rule/add',
@@ -272,6 +322,17 @@ export default class Account extends PureComponent {
     message.success('删除成功');
     this.setState({
       modalVisible: false,
+    });
+  }
+  handleModify = () => {
+    this.props.dispatch({
+      type: 'rule/modify',
+    });
+
+    message.success('修改成功');
+    this.setState({
+      modalVisible: false,
+      formprops: false,
     });
   }
 
@@ -304,11 +365,13 @@ export default class Account extends PureComponent {
 
   render() {
     const { rule: { data }, loading } = this.props;
-    const { selectedRows, modalVisible } = this.state;
+    const { selectedRows, modalVisible, formprops } = this.state;
 
 
     const parentMethods = {
       handleAdd: this.handleAdd,
+      handleModify: this.handleModify,
+      handleDelete: this.handleDelete,
       handleModalVisible: this.handleModalVisible,
     };
 
@@ -326,7 +389,7 @@ export default class Account extends PureComponent {
               {
                 selectedRows.length > 0 && (
                   <span>
-                    <Button icon="plus" type="primary" onClick={() => this.handleModalVisible(true)}>
+                    <Button icon="plus" type="primary" onClick={() => this.handleModifyModalVisible(true)}>
                         修改
                     </Button>
                     <Button icon="delete" type="primary" onClick={this.handleDelete}>
@@ -355,6 +418,7 @@ export default class Account extends PureComponent {
         <CreateForm
           {...parentMethods}
           modalVisible={modalVisible}
+          formprops={formprops}
         />
       </PageHeaderLayout>
     );
