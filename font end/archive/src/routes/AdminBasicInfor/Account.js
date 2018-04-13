@@ -109,7 +109,7 @@ const CreateForm = Form.create()((props) => {
           {form.getFieldDecorator('updatedate', {
           rules: [{ message: '请输入户口更改时间' }],
         })(
-          <DatePicker placeholder="请输入户口更改时间" />
+          <DatePicker placeholder="请输入户口更改时间" style={{ width: '100%' }} />
         )}
         </FormItem>
       </Modal>
@@ -159,7 +159,7 @@ const CreateForm = Form.create()((props) => {
           {form.getFieldDecorator('updatedate', {
           rules: [{ required: true, message: '请输入户口更改时间' }],
         })(
-          <DatePicker placeholder="请输入户口更改时间" />
+          <DatePicker placeholder="请输入户口更改时间" style={{ width: '100%' }} />
         )}
         </FormItem>
       </Modal>
@@ -389,7 +389,7 @@ export default class Account extends PureComponent {
               {
                 selectedRows.length > 0 && (
                   <span>
-                    <Button icon="plus" type="primary" onClick={() => this.handleModifyModalVisible(true)}>
+                    <Button icon="edit" type="primary" onClick={() => this.handleModifyModalVisible(true)}>
                         修改
                     </Button>
                     <Button icon="delete" type="primary" onClick={this.handleDelete}>

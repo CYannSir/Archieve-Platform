@@ -85,8 +85,8 @@ const CreateForm = Form.create()((props) => {
         onCancel={() => handleModalVisible()}
       >
         <FormItem
-          labelCol={{ span: 5 }}
-          wrapperCol={{ span: 15 }}
+          labelCol={{ span: 6 }}
+          wrapperCol={{ span: 18 }}
           label="学生学号"
         >
           {form.getFieldDecorator('number', {
@@ -96,8 +96,8 @@ const CreateForm = Form.create()((props) => {
         )}
         </FormItem>
         <FormItem
-          labelCol={{ span: 5 }}
-          wrapperCol={{ span: 15 }}
+          labelCol={{ span: 6 }}
+          wrapperCol={{ span: 18 }}
           label="档案目前单位"
         >
           {form.getFieldDecorator('unit', {
@@ -107,8 +107,8 @@ const CreateForm = Form.create()((props) => {
         )}
         </FormItem>
         <FormItem
-          labelCol={{ span: 5 }}
-          wrapperCol={{ span: 15 }}
+          labelCol={{ span: 6 }}
+          wrapperCol={{ span: 18 }}
           label="档案单位地址"
         >
           {form.getFieldDecorator('unitaddress', {
@@ -118,14 +118,14 @@ const CreateForm = Form.create()((props) => {
         )}
         </FormItem>
         <FormItem
-          labelCol={{ span: 5 }}
-          wrapperCol={{ span: 15 }}
+          labelCol={{ span: 6 }}
+          wrapperCol={{ span: 18 }}
           label="流向时间"
         >
           {form.getFieldDecorator('date', {
           rules: [{ message: '请输入流向时间' }],
         })(
-          <DatePicker placeholder="请输入流向时间" />
+          <DatePicker placeholder="请输入流向时间" style={{ width: '100%' }} />
         )}
         </FormItem>
       </Modal>
@@ -146,8 +146,8 @@ const CreateForm = Form.create()((props) => {
         onCancel={() => handleModalVisible()}
       >
         <FormItem
-          labelCol={{ span: 5 }}
-          wrapperCol={{ span: 15 }}
+          labelCol={{ span: 6 }}
+          wrapperCol={{ span: 18 }}
           label="学生学号"
         >
           {form.getFieldDecorator('number', {
@@ -157,8 +157,8 @@ const CreateForm = Form.create()((props) => {
         )}
         </FormItem>
         <FormItem
-          labelCol={{ span: 5 }}
-          wrapperCol={{ span: 15 }}
+          labelCol={{ span: 6 }}
+          wrapperCol={{ span: 18 }}
           label="档案目前单位"
         >
           {form.getFieldDecorator('unit', {
@@ -168,8 +168,8 @@ const CreateForm = Form.create()((props) => {
         )}
         </FormItem>
         <FormItem
-          labelCol={{ span: 5 }}
-          wrapperCol={{ span: 15 }}
+          labelCol={{ span: 6 }}
+          wrapperCol={{ span: 18 }}
           label="档案单位地址"
         >
           {form.getFieldDecorator('unitaddress', {
@@ -179,14 +179,14 @@ const CreateForm = Form.create()((props) => {
         )}
         </FormItem>
         <FormItem
-          labelCol={{ span: 5 }}
-          wrapperCol={{ span: 15 }}
+          labelCol={{ span: 6 }}
+          wrapperCol={{ span: 18 }}
           label="流向时间"
         >
           {form.getFieldDecorator('date', {
           rules: [{ required: true, message: '请输入流向时间' }],
         })(
-          <DatePicker placeholder="请输入流向时间" />
+          <DatePicker placeholder="请输入流向时间" style={{ width: '100%' }} />
         )}
         </FormItem>
       </Modal>

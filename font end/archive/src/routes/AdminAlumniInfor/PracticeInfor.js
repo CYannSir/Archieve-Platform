@@ -297,13 +297,13 @@ export default class PracticeInfor extends PureComponent {
               {this.renderForm()}
             </div>
             <div className={styles.tableListOperator}>
-              <Button icon="plus" type="primary" >
+              <Button icon="export" type="primary" >
                 导出
               </Button>
               {
                 selectedRows.length > 0 && (
                   <span>
-                    <Button icon="plus" type="primary" >
+                    <Button icon="export" type="primary" >
                         单个信息导出
                     </Button>
                   </span>

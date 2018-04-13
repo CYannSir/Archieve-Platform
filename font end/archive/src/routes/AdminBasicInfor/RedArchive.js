@@ -67,72 +67,131 @@ const columns = [
 ];
 
 const CreateForm = Form.create()((props) => {
-  const { modalVisible, form, handleAdd, handleModalVisible, handleModify } = props;
-  const okHandle = () => {
-    form.validateFields((err, fieldsValue) => {
-      if (err) return;
-      form.resetFields();
-      handleAdd(fieldsValue);
-    });
-    form.validateFields((err, fieldsValue) => {
-      if (err) return;
-      form.resetFields();
-      handleModify(fieldsValue);
-    });
-  };
-  return (
-    <Modal
-      title="新建红色档案"
-      visible={modalVisible}
-      onOk={okHandle}
-      onCancel={() => handleModalVisible()}
-    >
-      <FormItem
-        labelCol={{ span: 5 }}
-        wrapperCol={{ span: 15 }}
-        label="学生学号"
+  const { modalVisible, form, handleAdd, handleModalVisible, handleModify, formprops } = props;
+  if (formprops === true) {
+    const okHandle = () => {
+      form.validateFields((err, fieldsValue) => {
+        if (err) return;
+        form.resetFields();
+        handleModify(fieldsValue);
+      });
+    };
+    return (
+      <Modal
+        title="修改红色档案"
+        visible={modalVisible}
+        onOk={okHandle}
+        onCancel={() => handleModalVisible()}
       >
-        {form.getFieldDecorator('number', {
+        <FormItem
+          labelCol={{ span: 6 }}
+          wrapperCol={{ span: 18 }}
+          label="学生学号"
+        >
+          {form.getFieldDecorator('number', {
+          rules: [{ message: '请输入学生学号' }],
+        })(
+          <Input placeholder="请输入学生学号" />
+        )}
+        </FormItem>
+        <FormItem
+          labelCol={{ span: 6 }}
+          wrapperCol={{ span: 18 }}
+          label="加入党日期"
+        >
+          {form.getFieldDecorator('joindate', {
+          rules: [{ message: '请输入加入党日期' }],
+        })(
+          <DatePicker placeholder="请输入加入党日期" style={{ width: '100%' }} />
+        )}
+        </FormItem>
+        <FormItem
+          labelCol={{ span: 6 }}
+          wrapperCol={{ span: 18 }}
+          label="成为积极日期"
+        >
+          {form.getFieldDecorator('becameactivistdate', {
+          rules: [{ message: '请输入成为积极分子日期' }],
+        })(
+          <DatePicker placeholder="请输入成为积极分子日期" style={{ width: '100%' }} />
+        )}
+        </FormItem>
+        <FormItem
+          labelCol={{ span: 6 }}
+          wrapperCol={{ span: 18 }}
+          label="介绍人"
+        >
+          {form.getFieldDecorator('introducer', {
+          rules: [{ message: '请输入入党介绍人' }],
+        })(
+          <Input placeholder="请输入入党介绍人" />
+        )}
+        </FormItem>
+      </Modal>
+    );
+  } else {
+    const okHandle = () => {
+      form.validateFields((err, fieldsValue) => {
+        if (err) return;
+        form.resetFields();
+        handleAdd(fieldsValue);
+      });
+    };
+    return (
+      <Modal
+        title="新建红色档案"
+        visible={modalVisible}
+        onOk={okHandle}
+        onCancel={() => handleModalVisible()}
+      >
+        <FormItem
+          labelCol={{ span: 6 }}
+          wrapperCol={{ span: 18 }}
+          label="学生学号"
+        >
+          {form.getFieldDecorator('number', {
           rules: [{ required: true, message: '请输入学生学号' }],
         })(
           <Input placeholder="请输入学生学号" />
         )}
-      </FormItem>
-      <FormItem
-        labelCol={{ span: 5 }}
-        wrapperCol={{ span: 15 }}
-        label="加入党日期"
-      >
-        {form.getFieldDecorator('joindate', {
+        </FormItem>
+        <FormItem
+          labelCol={{ span: 6 }}
+          wrapperCol={{ span: 18 }}
+          label="加入党日期"
+        >
+          {form.getFieldDecorator('joindate', {
           rules: [{ required: true, message: '请输入加入党日期' }],
         })(
-          <DatePicker placeholder="请输入加入党日期" />
+          <DatePicker placeholder="请输入加入党日期" style={{ width: '100%' }} />
         )}
-      </FormItem>
-      <FormItem
-        labelCol={{ span: 5 }}
-        wrapperCol={{ span: 15 }}
-        label="成为积极分子日期"
-      >
-        {form.getFieldDecorator('becameactivistdate', {
+        </FormItem>
+        <FormItem
+          labelCol={{ span: 6 }}
+          wrapperCol={{ span: 18 }}
+          label="成为积极日期"
+          style={{ width: '100%' }}
+        >
+          {form.getFieldDecorator('becameactivistdate', {
           rules: [{ required: true, message: '请输入成为积极分子日期' }],
         })(
-          <DatePicker placeholder="请输入成为积极分子日期" />
+          <DatePicker placeholder="请输入成为积极分子日期" style={{ width: '100%' }} />
         )}
-      </FormItem>
-      <FormItem
-        labelCol={{ span: 5 }}
-        wrapperCol={{ span: 15 }}
-        label="介绍人"
-      >
-        {form.getFieldDecorator('introducer', {
+        </FormItem>
+        <FormItem
+          labelCol={{ span: 6 }}
+          wrapperCol={{ span: 18 }}
+          label="介绍人"
+        >
+          {form.getFieldDecorator('introducer', {
           rules: [{ required: true, message: '请输入入党介绍人' }],
         })(
           <Input placeholder="请输入入党介绍人" />
         )}
-      </FormItem>
-    </Modal>
-  );
+        </FormItem>
+      </Modal>
+    );
+  }
 });
 
 @connect(({ rule, loading }) => ({
@@ -144,6 +203,7 @@ export default class RedArchive extends PureComponent {
   state = {
     modalVisible: false,
     expandForm: false,
+    formprops: false,
     selectedRows: [],
     formValues: {},
   };
@@ -256,6 +316,14 @@ export default class RedArchive extends PureComponent {
 
   handleModalVisible = (flag) => {
     this.setState({
+      formprops: !flag,
+      modalVisible: !!flag,
+    });
+  }
+
+  handleModifyModalVisible = (flag) => {
+    this.setState({
+      formprops: !!flag,
       modalVisible: !!flag,
     });
   }
@@ -268,6 +336,27 @@ export default class RedArchive extends PureComponent {
     message.success('删除成功');
     this.setState({
       modalVisible: false,
+    });
+  }
+  handleAdd = () => {
+    this.props.dispatch({
+      type: 'rule/add',
+    });
+
+    message.success('新增成功');
+    this.setState({
+      modalVisible: false,
+    });
+  }
+  handleModify = () => {
+    this.props.dispatch({
+      type: 'rule/modify',
+    });
+
+    message.success('修改成功');
+    this.setState({
+      modalVisible: false,
+      formprops: false,
     });
   }
 
@@ -300,11 +389,13 @@ export default class RedArchive extends PureComponent {
 
   render() {
     const { rule: { data }, loading } = this.props;
-    const { selectedRows, modalVisible } = this.state;
+    const { selectedRows, modalVisible, formprops } = this.state;
 
 
     const parentMethods = {
       handleAdd: this.handleAdd,
+      handleModify: this.handleModify,
+      handleDelete: this.handleDelete,
       handleModalVisible: this.handleModalVisible,
     };
 
@@ -322,7 +413,7 @@ export default class RedArchive extends PureComponent {
               {
                 selectedRows.length > 0 && (
                   <span>
-                    <Button icon="plus" type="primary" onClick={() => this.handleModalVisible(true)}>
+                    <Button icon="edit" type="primary" onClick={() => this.handleModifyModalVisible(true)}>
                         修改
                     </Button>
                     <Button icon="delete" type="primary" onClick={this.handleDelete}>
@@ -351,6 +442,7 @@ export default class RedArchive extends PureComponent {
         <CreateForm
           {...parentMethods}
           modalVisible={modalVisible}
+          formprops={formprops}
         />
       </PageHeaderLayout>
     );
