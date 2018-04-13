@@ -39,13 +39,24 @@ public class AccountService {
 
     }
 
-    //改
-    public void update(AccountModel accountModel){
+    //动态修改户口信息
+    @Transactional
+    public void update(AccountModel accountModel) {
         AccountModel accountItem = accountRepository.findById(accountModel.getObjectId());
-        if (accountItem ==null){
+        if (accountItem == null) {
             throw new MyException(ResultEnum.ERROR_101);
-        }else {
-            accountRepository.save(accountModel);
+        } else {
+            if(accountModel.getStuNumber() !=null && accountItem.getStuNumber().equals(accountModel.getStuNumber()) == false ){
+                accountItem.setStuNumber(accountModel.getStuNumber());
+            }
+            if(accountModel.getAccountAddress() !=null && accountItem.getAccountAddress().equals(accountModel.getAccountAddress()) == false ){
+                accountItem.setAccountAddress(accountModel.getAccountAddress());
+            }
+            if(accountModel.getAccountDate() !=null && accountItem.getAccountDate().equals(accountModel.getAccountDate()) == false ){
+                accountItem.setAccountDate(accountModel.getAccountDate());
+            }
+            baseService.modify(accountRepository,accountItem);
+            accountRepository.save(accountItem);
         }
     }
 
@@ -54,6 +65,13 @@ public class AccountService {
         List<AccountModel> list = accountRepository.findALLAccount();
         return list;
     }
+
+    //学号查询户口列表
+    public List<AccountModel> findByStuNumber(String stuNumber){
+        List<AccountModel> list = accountRepository.findByStuNumber(stuNumber);
+        return list;
+    }
+
 
 
 }

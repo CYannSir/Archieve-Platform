@@ -1,11 +1,9 @@
 package com.cyann.archivebook.controller;
 
+import com.cyann.archivebook.model.AccountModel;
 import com.cyann.archivebook.model.ArchiveModel;
 import com.cyann.archivebook.model.UserModel;
-import com.cyann.archivebook.service.ArchiveService;
-import com.cyann.archivebook.service.BaseService;
-import com.cyann.archivebook.service.FileService;
-import com.cyann.archivebook.service.UserService;
+import com.cyann.archivebook.service.*;
 import com.cyann.archivebook.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -32,7 +30,7 @@ public class AdminController {
     @Autowired
     private ArchiveService archiveService;
     @Autowired
-    private BaseService baseService;
+    private AccountService accountService;
     /*
      *学生用户操作 Start Here
     */
@@ -77,7 +75,7 @@ public class AdminController {
         return Result.success();
     }
 
-    //根据 名字 学号 专业 毕业年份 入学年份 多条件动态查询课程
+    //根据 名字 学号 专业 毕业年份 入学年份 多条件动态查询学生用户
     @PostMapping(value = "/searchstu")
     public Result searchUser(UserModel userModel){
         userService.findAllByAdvancedForm(userModel);
@@ -135,9 +133,9 @@ public class AdminController {
         return Result.success();
     }
 
-    //根据 学号 目前单位 多条件动态查询课程
-    @PostMapping(value = "/searcharchive")
-    public Result searchArchive(ArchiveModel archiveModel){
+    //根据 学号 目前单位 多条件动态查询档案
+    @PostMapping(value = "/searchaccount")
+    public Result searchAccount(ArchiveModel archiveModel){
         archiveService.findAllByAdvancedForm(archiveModel);
         return Result.success();
     }
@@ -171,6 +169,52 @@ public class AdminController {
      * 户口信息操作 - Start
      */
 
+    //新增户口
+    @PostMapping(value = "/addaccount")
+    public Result addAccount(AccountModel accountModel){
+        accountService.add(accountModel);
+        return Result.success();
+    }
+
+    //删除户口
+    @PostMapping(value = "/deleteaccount")
+    public Result deleteAccount(AccountModel accountModel){
+        accountService.delete(accountModel);
+        return Result.success();
+    }
+
+    //根据 学号 查询户口
+    @PostMapping(value = "/searcharchive")
+    public Result searchArchive(AccountModel accountModel){
+        accountService.findByStuNumber(accountModel.getStuNumber());
+        return Result.success();
+    }
+    //动态修改更新户口
+    @PostMapping(value = "/modifyaccount")
+    public Result modifyAccount(AccountModel accountModel){
+        accountService.update(accountModel);
+        return Result.success();
+    }
+
+    //批量增加户口  stuNumber / accountAddress / accountDate
+    @PostMapping(value = "/addarchviebyfile")
+    public Result addAccountByfile(@RequestParam("file")MultipartFile file){
+        if (file != null){
+            System.out.println("File Not NULL");
+            String fileName = file.getOriginalFilename();
+            List<Map<String,String>> list = fileService.viewExcelFile("xlsx",file);
+            for (int i=0;i<list.size();i++){
+                Map<String,String> tempMap = list.get(i);
+                AccountModel accountModel = new AccountModel();
+                accountModel.setStuNumber(tempMap.get("stuNumber"));
+                accountModel.setAccountAddress(tempMap.get("accountAddress"));
+                accountModel.setAccountDate(tempMap.get("accountDate"));
+            }
+        } else {
+            System.out.println("File is NULL");
+        }
+        return Result.success();
+    }
 
 
     /*
