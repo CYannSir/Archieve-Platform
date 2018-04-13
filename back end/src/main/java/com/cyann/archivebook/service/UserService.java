@@ -33,10 +33,10 @@ public class UserService {
         userRepository.save(userModel);
     }
 
-    //修改学生用户
+    //动态修改学生用户
     @Transactional
-    public void modify(UserModel userModel) {
-        UserModel userItem = userRepository.findByStuNumber(userModel.getStuNumber());
+    public void update(UserModel userModel) {
+        UserModel userItem = userRepository.findById(userModel.getObjectId());
         if (userItem == null) {
             throw new MyException(ResultEnum.ERROR_101);
         } else {
@@ -77,15 +77,6 @@ public class UserService {
         }
     }
 
-    //修改学生用户
-    public void update(UserModel userModel){
-        UserModel userItem = userRepository.findById(userModel.getObjectId());
-        if(userItem == null){
-            throw new MyException(ResultEnum.ERROR_101);
-        }else {
-            userRepository.save(userModel);
-        }
-    }
 
     //用户修改基本信息-联系方式
     public void updateInfor(UserModel userModel){

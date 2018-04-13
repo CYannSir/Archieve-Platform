@@ -1,5 +1,7 @@
 package com.cyann.archivebook.model;
 
+import org.hibernate.annotations.DynamicUpdate;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -14,6 +16,7 @@ import javax.persistence.Table;
  * -档案流向下级时间 flowDate(String varchar)
  */
 @Entity
+@DynamicUpdate(true)
 @Table(name = "tb_archive")
 public class ArchiveModel extends BaseEntity {
     @Column(nullable = false , length = 32)

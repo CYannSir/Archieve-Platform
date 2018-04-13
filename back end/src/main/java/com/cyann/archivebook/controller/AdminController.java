@@ -1,6 +1,9 @@
 package com.cyann.archivebook.controller;
 
+import com.cyann.archivebook.model.ArchiveModel;
 import com.cyann.archivebook.model.UserModel;
+import com.cyann.archivebook.service.ArchiveService;
+import com.cyann.archivebook.service.BaseService;
 import com.cyann.archivebook.service.FileService;
 import com.cyann.archivebook.service.UserService;
 import com.cyann.archivebook.util.Result;
@@ -26,8 +29,12 @@ public class AdminController {
     private UserService userService;
     @Autowired
     private FileService fileService;
+    @Autowired
+    private ArchiveService archiveService;
+    @Autowired
+    private BaseService baseService;
     /*
-     *所有学生用户操作 Start Here
+     *学生用户操作 Start Here
     */
 
     //增加用户
@@ -77,14 +84,14 @@ public class AdminController {
         return Result.success();
     }
 
-    //动态修改更新
+    //动态修改更新学生用户
     @PostMapping(value = "/modifystu")
     public Result modifyUser(UserModel userModel){
-        userService.modify(userModel);
+        userService.update(userModel);
         return Result.success();
     }
 
-    //修改用户信息
+    //修改用户权限信息
     @PostMapping(value = "/editstu")
     public Result editUser(UserModel userModel){
         userService.updatePower(userModel);
@@ -99,8 +106,77 @@ public class AdminController {
     }
     */
     /*
-     *所有用户操作 - End 待添加
+     *学生用户操作 - End 待添加
      */
+
+
+    /*
+    * 档案信息操作 - Start
+    */
+
+    //新增档案
+    @PostMapping(value = "/addarchive")
+    public Result addArchiver(ArchiveModel archiveModel){
+        archiveService.add(archiveModel);
+        return Result.success();
+    }
+
+    //删除档案
+    @PostMapping(value = "/deletearchive")
+    public Result deleteArchive(ArchiveModel archiveModel){
+        archiveService.delete(archiveModel);
+        return Result.success();
+    }
+
+    //动态修改更新档案
+    @PostMapping(value = "/modifyarchive")
+    public Result modifyArchive(ArchiveModel archiveModel){
+        archiveService.update(archiveModel);
+        return Result.success();
+    }
+
+    //根据 学号 目前单位 多条件动态查询课程
+    @PostMapping(value = "/searcharchive")
+    public Result searchArchive(ArchiveModel archiveModel){
+        archiveService.findAllByAdvancedForm(archiveModel);
+        return Result.success();
+    }
+
+    //批量增加档案  stuNumber / unit / unitAddress / flowDate
+    @PostMapping(value = "/addarchviebyfile")
+    public Result addArchiveByfile(@RequestParam("file")MultipartFile file){
+        if (file != null){
+            System.out.println("File Not NULL");
+            String fileName = file.getOriginalFilename();
+            List<Map<String,String>> list = fileService.viewExcelFile("xlsx",file);
+            for (int i=0;i<list.size();i++){
+                Map<String,String> tempMap = list.get(i);
+                ArchiveModel archiveModel = new ArchiveModel();
+                archiveModel.setStuNumber(tempMap.get("stuNumber"));
+                archiveModel.setUnit(tempMap.get("unit"));
+                archiveModel.setUnitAddress(tempMap.get("unitAddress"));
+                archiveModel.setFlowDate(tempMap.get("flowDate"));
+                archiveService.add(archiveModel);
+            }
+        } else {
+            System.out.println("File is NULL");
+        }
+        return Result.success();
+    }
+    /*
+     * 档案信息操作 - End
+     */
+
+    /*
+     * 户口信息操作 - Start
+     */
+
+
+
+    /*
+     * 户口信息操作 - End
+     */
+
 
     /*
      *通过EXCEL 的.xlsx文件添加信息
