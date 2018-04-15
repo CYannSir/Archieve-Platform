@@ -5,6 +5,7 @@ import com.cyann.archivebook.exception.MyException;
 import com.cyann.archivebook.model.PracticeInforModel;
 import com.cyann.archivebook.respository.PracticeInforRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -13,45 +14,57 @@ import java.util.List;
  * @author CYann
  * @date 2018-03-01 23:15
  */
+@Service
 public class PracticeInforService extends BaseService {
     @Autowired
-    private PracticeInforRepository traineeInformationRepository;
+    private PracticeInforRepository practiceInforRepository;
     @Autowired
     private BaseService baseService;
 
     //增
     public void add(PracticeInforModel traineeInformationModel){
-        traineeInformationRepository.save(traineeInformationModel);
+        practiceInforRepository.save(traineeInformationModel);
     }
 
     //删
     @Transactional
     public void delete(PracticeInforModel traineeInformationModel){
-        PracticeInforModel traineeInformationItem = traineeInformationRepository.findById(traineeInformationModel.getObjectId());
+        PracticeInforModel traineeInformationItem = practiceInforRepository.findById(traineeInformationModel.getObjectId());
         if (traineeInformationItem ==null){
             throw new MyException(ResultEnum.ERROR_101);
         }else {
-            baseService.delete(traineeInformationRepository, traineeInformationItem);
+            baseService.delete(practiceInforRepository, traineeInformationItem);
         }
 
     }
 
     //改
     public void update(PracticeInforModel traineeInformationModel){
-        PracticeInforModel traineeInformationItem = traineeInformationRepository.findById(traineeInformationModel.getObjectId());
+        PracticeInforModel traineeInformationItem = practiceInforRepository.findById(traineeInformationModel.getObjectId());
         if (traineeInformationItem ==null){
             throw new MyException(ResultEnum.ERROR_101);
         }else {
-            traineeInformationRepository.save(traineeInformationModel);
+            practiceInforRepository.save(traineeInformationModel);
         }
     }
 
-    //查询所有校友信息
+    //查询所有实习生信息
     public List<PracticeInforModel> findALLPracticeInfor(){
-        List<PracticeInforModel> list = traineeInformationRepository.findALLPracticeInfor();
+        List<PracticeInforModel> list = practiceInforRepository.findALLPracticeInfor();
         return list;
     }
 
+    //视图--学号查询实习生信息
+    public List<Object[]> findByStuNumber(String stuNumber){
+        List<Object[]> list = practiceInforRepository.findByStuNumber(stuNumber);
+        return list;
+    }
+
+    //视图--查询所有实习生信息
+    public List<Object[]> findAllAlumniInformation(){
+        List<Object[]> list = practiceInforRepository.findAllPractice();
+        return list;
+    }
 
 
 }
