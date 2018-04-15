@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import { Row, Col, Card, Form, Input, Select, Icon, Button, Modal, message } from 'antd';
+import { Row, Col, Card, Form, Input, Select, Button, Modal, message } from 'antd';
 import StandardTable from 'components/StandardTable';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 
@@ -9,6 +9,10 @@ import styles from './AlumniInfor.less';
 const FormItem = Form.Item;
 const { Option } = Select;
 const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
+
+function downloadfile() {
+  window.location.href = '/UserExcelDownloads';
+}
 
 const columns = [
   {
@@ -299,12 +303,24 @@ export default class AlumniInfor extends PureComponent {
     });
   }
 
-  handleDelete = () => {
+  handleExport = () => {
+    downloadfile();
     this.props.dispatch({
-      type: 'rule/delete',
+      type: 'rule/export',
     });
 
-    message.success('删除成功');
+    message.success('导出成功');
+    this.setState({
+      modalVisible: false,
+    });
+  }
+  handleSimpleExport = () => {
+    downloadfile();
+    this.props.dispatch({
+      type: 'rule/simpleexport',
+    });
+
+    message.success('单个信息导出成功');
     this.setState({
       modalVisible: false,
     });
@@ -323,19 +339,9 @@ export default class AlumniInfor extends PureComponent {
             </FormItem>
           </Col>
           <Col md={8} sm={24}>
-            <FormItem label="学生名字">
-              {getFieldDecorator('studentname')(
-                <Input placeholder="请输入学生名字" />
-              )}
-            </FormItem>
-          </Col>
-          <Col md={8} sm={24}>
             <span className={styles.submitButtons}>
               <Button type="primary" htmlType="submit" onClick={this.handleSearch}>查询</Button>
               <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>重置</Button>
-              <a style={{ marginLeft: 8 }} onClick={this.toggleForm}>
-                展开 <Icon type="down" />
-              </a>
             </span>
           </Col>
         </Row>
@@ -343,69 +349,8 @@ export default class AlumniInfor extends PureComponent {
     );
   }
 
-  renderAdvancedForm() {
-    const { getFieldDecorator } = this.props.form;
-    return (
-      <Form onSubmit={this.handleSearch} layout="inline">
-        <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-          <Col md={8} sm={24}>
-            <FormItem label="学生名字">
-              {getFieldDecorator('studentname')(
-                <Input placeholder="请输入学生名字" />
-              )}
-            </FormItem>
-          </Col>
-          <Col md={8} sm={24}>
-            <FormItem label="学生学号">
-              {getFieldDecorator('studentno')(
-                <Input placeholder="请输入学生学号" />
-              )}
-            </FormItem>
-          </Col>
-          <Col md={8} sm={24}>
-            <FormItem label="学生专业">
-              {getFieldDecorator('studentmajor')(
-                <Input placeholder="请输入学生专业" />
-              )}
-            </FormItem>
-          </Col>
-          <Col md={8} sm={24}>
-            <FormItem label="学生班级">
-              {getFieldDecorator('studentclass')(
-                <Input placeholder="请输入学生班级" />
-              )}
-            </FormItem>
-          </Col>
-          <Col md={8} sm={24}>
-            <FormItem label="入学年份">
-              {getFieldDecorator('studentstartyear')(
-                <Input placeholder="请输入入学年份" />
-              )}
-            </FormItem>
-          </Col>
-          <Col md={8} sm={24}>
-            <FormItem label="毕业年份">
-              {getFieldDecorator('studentendyear')(
-                <Input placeholder="请输入学生毕业年份" />
-              )}
-            </FormItem>
-          </Col>
-        </Row>
-        <div style={{ overflow: 'hidden' }}>
-          <span style={{ float: 'right', marginBottom: 24 }}>
-            <Button type="primary" htmlType="submit" onClick={this.handleSearch}>查询</Button>
-            <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>重置</Button>
-            <a style={{ marginLeft: 8 }} onClick={this.toggleForm}>
-              收起 <Icon type="up" />
-            </a>
-          </span>
-        </div>
-      </Form>
-    );
-  }
-
   renderForm() {
-    return this.state.expandForm ? this.renderAdvancedForm() : this.renderSimpleForm();
+    return this.renderSimpleForm();
   }
 
   render() {
@@ -414,7 +359,8 @@ export default class AlumniInfor extends PureComponent {
 
 
     const parentMethods = {
-      handleAdd: this.handleAdd,
+      handleExport: this.handleExport,
+      handleSimpleExport: this.handleSimpleExport,
       handleModalVisible: this.handleModalVisible,
     };
 
@@ -426,13 +372,13 @@ export default class AlumniInfor extends PureComponent {
               {this.renderForm()}
             </div>
             <div className={styles.tableListOperator}>
-              <Button icon="export" type="primary" >
+              <Button icon="export" type="primary" onClick={this.handleExport}>
                 导出
               </Button>
               {
                 selectedRows.length > 0 && (
                   <span>
-                    <Button icon="export" type="primary" >
+                    <Button icon="export" type="primary" onClick={this.handleSimpleExport}>
                         单个信息导出
                     </Button>
                   </span>
