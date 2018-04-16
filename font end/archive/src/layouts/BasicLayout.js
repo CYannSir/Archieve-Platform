@@ -149,9 +149,10 @@ class BasicLayout extends React.PureComponent {
       payload: type,
     });
   }
+  // 用户栏下菜单操作
   handleMenuClick = ({ key }) => {
-    if (key === 'triggerError') {
-      this.props.dispatch(routerRedux.push('/exception/trigger'));
+    if (key === 'modify') {
+      this.props.dispatch(routerRedux.push('/user/modifypwd'));
       return;
     }
     if (key === 'logout') {

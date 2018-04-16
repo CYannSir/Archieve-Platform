@@ -1,13 +1,85 @@
 import React, { PureComponent } from 'react';
-import { Menu, Icon, Spin, Tag, Dropdown, Avatar, Divider, Tooltip } from 'antd';
+import { Menu, Icon, Spin, Dropdown, Avatar, Divider, message, Tooltip, Form, Modal, Input } from 'antd';
 import moment from 'moment';
 import groupBy from 'lodash/groupBy';
 import Debounce from 'lodash-decorators/debounce';
 import { Link } from 'dva/router';
+import { connect } from 'dva';
 import NoticeIcon from '../NoticeIcon';
 import styles from './index.less';
 
+const FormItem = Form.Item;
+const { TextArea } = Input;
+const CreateForm = Form.create()((props) => {
+  const { modalVisible, form, handleAdd, handleModalVisible, handleAddFeedback, formprops } = props;
+  if (formprops === true) {
+    const okHandle = () => {
+      form.validateFields((err, fieldsValue) => {
+        if (err) return;
+        form.resetFields();
+        handleAdd(fieldsValue);
+      });
+    };
+    return (
+      <Modal
+        title="反馈消息"
+        visible={modalVisible}
+        onOk={okHandle}
+        onCancel={() => handleModalVisible()}
+      >
+        <FormItem
+          labelCol={{ span: 6 }}
+          wrapperCol={{ span: 18 }}
+          label="反馈消息"
+        >
+          {form.getFieldDecorator('number', {
+          rules: [{ required: true, message: '请输入' }],
+        })(
+          <TextArea placeholder="请输入反馈信息" autosize />
+        )}
+        </FormItem>
+      </Modal>
+    );
+  } else {
+    const okHandle = () => {
+      form.validateFields((err, fieldsValue) => {
+        if (err) return;
+        form.resetFields();
+        handleAddFeedback(fieldsValue);
+      });
+    };
+    return (
+      <Modal
+        title="消息"
+        visible={modalVisible}
+        onOk={okHandle}
+        onCancel={() => handleModalVisible()}
+      >
+        <FormItem
+          labelCol={{ span: 6 }}
+          wrapperCol={{ span: 18 }}
+          label="回复消息"
+        >
+          {form.getFieldDecorator('number', {
+          rules: [{ required: true, message: '请输入' }],
+        })(
+          <TextArea placeholder="请输入回复消息" autosize />
+        )}
+        </FormItem>
+      </Modal>
+    );
+  }
+});
+@connect(({ rule, loading }) => ({
+  rule,
+  loading: loading.models.rule,
+}))
 export default class GlobalHeader extends PureComponent {
+  state = {
+    modalVisible: false,
+    formprops: false,
+  };
+
   componentWillUnmount() {
     this.triggerResizeEvent.cancel();
   }
@@ -25,15 +97,6 @@ export default class GlobalHeader extends PureComponent {
       if (newNotice.id) {
         newNotice.key = newNotice.id;
       }
-      if (newNotice.extra && newNotice.status) {
-        const color = ({
-          todo: '',
-          processing: 'blue',
-          urgent: 'red',
-          doing: 'gold',
-        })[newNotice.status];
-        newNotice.extra = <Tag color={color} style={{ marginRight: 0 }}>{newNotice.extra}</Tag>;
-      }
       return newNotice;
     });
     return groupBy(newNotices, 'type');
@@ -50,19 +113,60 @@ export default class GlobalHeader extends PureComponent {
     event.initEvent('resize', true, false);
     window.dispatchEvent(event);
   }
+
+  handleModalVisible = (flag) => {
+    this.setState({
+      formprops: !flag,
+      modalVisible: !!flag,
+    });
+  }
+  handleFeedbackModalVisible = (flag) => {
+    this.setState({
+      formprops: !!flag,
+      modalVisible: !!flag,
+    });
+  }
+  handleAdd = () => {
+    this.props.dispatch({
+      type: 'rule/add',
+    });
+
+    message.success('回复成功');
+    this.setState({
+      modalVisible: false,
+    });
+  }
+  handleAddFeedback = () => {
+    this.props.dispatch({
+      type: 'rule/delete',
+    });
+
+    message.success('反馈成功');
+    this.setState({
+      modalVisible: false,
+      formprops: false,
+    });
+  }
   render() {
     const {
       currentUser, collapsed, fetchingNotices, isMobile, logo,
       onNoticeVisibleChange, onMenuClick, onNoticeClear,
     } = this.props;
+    const { modalVisible, formprops } = this.state;
+
     const menu = (
       <Menu className={styles.menu} selectedKeys={[]} onClick={onMenuClick}>
-        <Menu.Item ><Icon type="setting" />修改密码</Menu.Item>
-        <Menu.Item ><Icon type="smile-o" />反馈意见</Menu.Item>
+        <Menu.Item key="modify"><Icon type="setting" />修改密码</Menu.Item>
         <Menu.Divider />
         <Menu.Item key="logout"><Icon type="logout" />退出登录</Menu.Item>
       </Menu>
     );
+    const parentMethods = {
+      handleAdd: this.handleAdd,
+      handleAddFeedback: this.handleAddFeedback,
+      handleModalVisible: this.handleModalVisible,
+      handleFeedbackModalVisible: this.handleFeedbackModalVisible,
+    };
     const noticeData = this.getNoticeData();
     return (
       <div className={styles.header}>
@@ -82,7 +186,7 @@ export default class GlobalHeader extends PureComponent {
           onClick={this.toggle}
         />
         <div className={styles.right}>
-          <Tooltip title="Feedback">
+          <Tooltip title="Feedback" onClick={() => this.handleFeedbackModalVisible(true)}>
             <a
               className={styles.action}
             >
@@ -93,6 +197,7 @@ export default class GlobalHeader extends PureComponent {
             className={styles.action}
             count={currentUser.notifyCount}
             onItemClick={(item, tabProps) => {
+              this.handleModalVisible(true);
               console.log(item, tabProps); // eslint-disable-line
             }}
             onClear={onNoticeClear}
@@ -116,6 +221,11 @@ export default class GlobalHeader extends PureComponent {
             </Dropdown>
           ) : <Spin size="small" style={{ marginLeft: 8 }} />}
         </div>
+        <CreateForm
+          {...parentMethods}
+          modalVisible={modalVisible}
+          formprops={formprops}
+        />
       </div>
     );
   }
