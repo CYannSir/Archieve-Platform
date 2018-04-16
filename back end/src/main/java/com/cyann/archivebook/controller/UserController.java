@@ -4,10 +4,7 @@ import com.cyann.archivebook.model.UserModel;
 import com.cyann.archivebook.service.UserService;
 import com.cyann.archivebook.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author CYann
@@ -15,9 +12,18 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @CrossOrigin
+@RequestMapping("/user")
 public class UserController {
     @Autowired
     private UserService userService;
+
+    //用户信息展示
+    @PostMapping(value = "/listuserinfor")
+    public Result listUserInfor(UserModel userModel){
+        userService.findById(userModel.getObjectId());
+        return Result.success();
+    }
+
 
     //用户更改基础信息-联系方式
     @PostMapping(value = "/changeuserinfor")
@@ -25,4 +31,6 @@ public class UserController {
         userService.updateInfor(userModel);
         return Result.success();
     }
+
+
 }

@@ -2,6 +2,7 @@ package com.cyann.archivebook.respository;
 
 import com.cyann.archivebook.model.CurrentUserModel;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -11,7 +12,8 @@ import java.util.List;
  * @author CYann
  * @date 2018-03-29 21:23
  */
-public interface CurrentUserRepository extends JpaRepository<CurrentUserModel,String> {
+public interface CurrentUserRepository extends JpaRepository<CurrentUserModel,String>,JpaSpecificationExecutor<CurrentUserModel> {
+
     //查找所有用户
     @Query(value = "select currentUserModel from CurrentUserModel currentUserModel where currentUserModel.delTime is null")
     List<CurrentUserModel> findAllUser();
@@ -24,7 +26,7 @@ public interface CurrentUserRepository extends JpaRepository<CurrentUserModel,St
     @Query("select currentUserModel from CurrentUserModel currentUserModel where currentUserModel.stuNumber = ?1 and currentUserModel.delTime is null")
     List<CurrentUserModel> findByStuNumber(@Param("stuNumber") String stuNumber);
 
-
+    //登录
     CurrentUserModel findByLoginEmailAndLoginPswAndDelTimeIsNull(String loginEmail, String loginPsw);
 
 }

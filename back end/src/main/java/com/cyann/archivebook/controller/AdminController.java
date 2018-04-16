@@ -5,10 +5,7 @@ import com.cyann.archivebook.service.*;
 import com.cyann.archivebook.util.Result;
 import org.apache.poi.hssf.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
@@ -23,6 +20,7 @@ import java.util.Map;
 
 @RestController
 @CrossOrigin
+@RequestMapping("/admin")
 public class AdminController {
     @Autowired
     private UserService userService;
