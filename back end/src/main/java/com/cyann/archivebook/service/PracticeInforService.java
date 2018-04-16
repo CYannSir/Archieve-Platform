@@ -54,6 +54,12 @@ public class PracticeInforService extends BaseService {
         return list;
     }
 
+    //学号查询所有实习生信息
+    public List<PracticeInforModel> findByStuNum(String stuNumber){
+        List<PracticeInforModel> list = practiceInforRepository.findByStuNum(stuNumber);
+        return list;
+    }
+
     //视图--学号查询实习生信息
     public List<Object[]> findByStuNumber(String stuNumber){
         List<Object[]> list = practiceInforRepository.findByStuNumber(stuNumber);

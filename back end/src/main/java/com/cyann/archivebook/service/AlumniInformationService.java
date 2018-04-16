@@ -70,6 +70,12 @@ public class AlumniInformationService extends BaseService {
         return list;
     }
 
+    //学号查询所有校友信息
+    public List<AlumniInformationModel> findByStuNum(String stuNumber){
+        List<AlumniInformationModel> list = alumniInformationRepository.findByStuNum(stuNumber);
+        return list;
+    }
+
     //视图--学号查询校友信息
     public List<Object[]> findByStuNumber(String stuNumber){
         List<Object[]> list = alumniInformationRepository.findByStuNumber(stuNumber);

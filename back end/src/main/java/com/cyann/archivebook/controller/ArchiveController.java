@@ -32,7 +32,7 @@ public class ArchiveController {
 
     //展示档案
     @PostMapping(value = "/listarchive")
-    public Result listArchiver(ArchiveModel archiveModel,@RequestParam("objectId") String objectId){
+    public Result listArchiver(@RequestParam("objectId") String objectId){
         UserModel userModel = userService.findById(objectId);
         List<ArchiveModel> list = archiveService.findByStuNumber(userModel.getStuNumber());
         return Result.success(list);

@@ -20,6 +20,10 @@ public interface PracticeInforRepository extends JpaRepository<PracticeInforMode
     @Query("select practiceInforModel from PracticeInforModel practiceInforModel where practiceInforModel.objectId = :objectId and practiceInforModel.delTime is null")
     PracticeInforModel findById(@Param("objectId") String objectId);
 
+    //学号查询实习生信息
+    @Query("select practiceInforModel from PracticeInforModel practiceInforModel where practiceInforModel.stuNumber = ?1 and practiceInforModel.delTime is null")
+    List<PracticeInforModel> findByStuNum(@Param("stuNumber") String stuNumber);
+
     //学校Id查询实习生信息
     @Query(value = "select * from practiceview where practiceview.del_time is null and practiceview.stu_number = ?1",nativeQuery = true)
     List<Object[]> findByStuNumber(@Param("stuNumber") String stuNumber);

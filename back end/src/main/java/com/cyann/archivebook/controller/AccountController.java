@@ -26,14 +26,14 @@ public class AccountController {
 
     //新增户口
     @PostMapping(value = "/addaccount")
-    public Result addArchiver(AccountModel accountModel){
+    public Result addAccount(AccountModel accountModel){
         accountService.add(accountModel);
         return Result.success();
     }
 
     //展示户口
     @PostMapping(value = "/listaccount")
-    public Result listArchiver(AccountModel accountModel, @RequestParam("objectId") String objectId){
+    public Result listAccount(@RequestParam("objectId") String objectId){
         UserModel userModel = userService.findById(objectId);
         List<AccountModel> list = accountService.findByStuNumber(userModel.getStuNumber());
         return Result.success(list);
