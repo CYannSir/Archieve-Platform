@@ -47,6 +47,13 @@ public class AdminController {
      *学生用户操作 Start Here
     */
 
+    //展示用户
+    @PostMapping(value = "/liststu")
+    public Result listUser(UserModel userModel){
+        userService.findAllUser();
+        return Result.success();
+    }
+
     //增加用户
     @PostMapping(value = "/addstu")
     public Result addUser(UserModel userModel){
