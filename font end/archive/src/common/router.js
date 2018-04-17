@@ -160,7 +160,7 @@ export const getRouterData = (app) => {
     '/user/register-result': {
       component: dynamicWrapper(app, [], () => import('../routes/User/RegisterResult')),
     },
-    '/user/modifypwd': {
+    '/archive/modifypwd': {
       component: dynamicWrapper(app, [], () => import('../routes/User/UpdatePwd')),
     },
     // '/user/:id': {

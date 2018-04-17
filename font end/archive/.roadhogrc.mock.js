@@ -1,5 +1,6 @@
 import mockjs from 'mockjs';
 import { getRule, postRule } from './mock/rule';
+import { getStuInfor, postStuInfor } from './mock/stuinfor';
 import { getActivities, getNotice, getFakeList } from './mock/api';
 import { getFakeChartData } from './mock/chart';
 import { getProfileBasicData } from './mock/profile';
@@ -56,6 +57,16 @@ const proxy = {
       },
     },
     $body: postRule,
+  },
+  'GET /admin/liststu': getStuInfor,
+  'POST /admin/liststu': {
+    $params: {
+      pageSize: {
+        desc: '分页',
+        exp: 2,
+      },
+    },
+    $body: postStuInfor,
   },
   'POST /api/forms': (req, res) => {
     res.send({ message: 'Ok' });

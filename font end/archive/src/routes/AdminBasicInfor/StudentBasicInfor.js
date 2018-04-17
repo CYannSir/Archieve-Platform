@@ -306,9 +306,9 @@ const CreateForm = Form.create()((props) => {
   }
 });
 
-@connect(({ rule, loading }) => ({
-  rule,
-  loading: loading.models.rule,
+@connect(({ stuinfor, loading }) => ({
+  stuinfor,
+  loading: loading.models.stuinfor,
 }))
 @Form.create()
 export default class StudentBasicInfor extends PureComponent {
@@ -323,7 +323,7 @@ export default class StudentBasicInfor extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'rule/fetch',
+      type: 'stuinfor/fetch',
     });
   }
 
@@ -348,7 +348,7 @@ export default class StudentBasicInfor extends PureComponent {
     }
 
     dispatch({
-      type: 'rule/fetch',
+      type: 'stuinfor/fetch',
       payload: params,
     });
   }
@@ -360,7 +360,7 @@ export default class StudentBasicInfor extends PureComponent {
       formValues: {},
     });
     dispatch({
-      type: 'rule/fetch',
+      type: 'stuinfor/fetch',
       payload: {},
     });
   }
@@ -378,9 +378,9 @@ export default class StudentBasicInfor extends PureComponent {
     if (!selectedRows) return;
 
     switch (e.key) {
-      case 'remove':
+      case 'delete':
         dispatch({
-          type: 'rule/remove',
+          type: 'stuinfor/delete',
           payload: {
             no: selectedRows.map(row => row.no).join(','),
           },
@@ -420,7 +420,7 @@ export default class StudentBasicInfor extends PureComponent {
       });
 
       dispatch({
-        type: 'rule/fetch',
+        type: 'stuinfor/fetch',
         payload: values,
       });
     });
@@ -442,7 +442,7 @@ export default class StudentBasicInfor extends PureComponent {
 
   handleDelete = () => {
     this.props.dispatch({
-      type: 'rule/delete',
+      type: 'stuinfor/delete',
     });
 
     message.success('删除成功');
@@ -452,7 +452,7 @@ export default class StudentBasicInfor extends PureComponent {
   }
   handleAdd = () => {
     this.props.dispatch({
-      type: 'rule/add',
+      type: 'stuinfor/add',
     });
 
     message.success('添加成功');
@@ -462,7 +462,7 @@ export default class StudentBasicInfor extends PureComponent {
   }
   handleModify = () => {
     this.props.dispatch({
-      type: 'rule/modify',
+      type: 'stuinfor/modify',
     });
 
     message.success('修改成功');
@@ -577,7 +577,7 @@ export default class StudentBasicInfor extends PureComponent {
   }
 
   render() {
-    const { rule: { data }, loading } = this.props;
+    const { stuinfor: { data }, loading } = this.props;
     const { selectedRows, modalVisible, formprops } = this.state;
 
 

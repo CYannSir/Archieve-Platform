@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Form, Input, Button, Popover, Progress } from 'antd';
+import { Form, Input, Button, Popover, Progress, Tooltip, Card } from 'antd';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import styles from './UpdatePwd.less';
+
 
 const FormItem = Form.Item;
 
@@ -19,9 +20,10 @@ const passwordProgressMap = {
   poor: 'exception',
 };
 
+
 @connect(({ register, loading }) => ({
   register,
-  submitting: loading.effects['register/submit'],
+  loading: loading.effects['register/submit'],
 }))
 @Form.create()
 export default class UpdatePwd extends Component {
@@ -31,12 +33,9 @@ export default class UpdatePwd extends Component {
     help: '',
   };
 
-
   componentWillUnmount() {
     clearInterval(this.interval);
   }
-
-
   /**
    * 判断密码强度
    */
@@ -51,7 +50,6 @@ export default class UpdatePwd extends Component {
     }
     return 'poor';
   };
-
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields({ force: true }, (err, values) => {
@@ -125,50 +123,48 @@ export default class UpdatePwd extends Component {
       </div>
     ) : null;
   };
-
-
   render() {
     const { form, submitting } = this.props;
     const { getFieldDecorator } = form;
     return (
       <PageHeaderLayout
-        title="Account"
-        logo={<img alt="Archive" src="https://gw.alipayobjects.com/zos/rmsportal/nxkuOJlFJuAUhzlMTCEe.png" />}
+        title="Change your passwords"
       >
-        <div className={styles.main}>
-          <h3>Create your personal account</h3>
-          <Form onSubmit={this.handleSubmit}>
-            <FormItem>
-              {getFieldDecorator('pwd', {
+        <Card>
+          <div className={styles.main}>
+            <h3>Create your personal account</h3>
+            <Form onSubmit={this.handleSubmit}>
+              <FormItem>
+                {getFieldDecorator('mail', {
               rules: [
                 {
                   required: true,
-                  message: 'Please enter your old password',
+                  message: 'Please enter your E-mail',
                 },
                 {
                   type: 'mail',
-                  message: 'Please enter your old password',
+                  message: 'Please enter a real E-mail',
                 },
               ],
-            })(<Input size="large" placeholder="Please enter your old password" />)}
-            </FormItem>
-            <FormItem help={this.state.help}>
-              <Popover
-                content={
-                  <div style={{ padding: '4px 0' }}>
-                    {passwordStatusMap[this.getPasswordStatus()]}
-                    {this.renderPasswordProgress()}
-                    <div style={{ marginTop: 10 }}>
+            })(<Input size="large" placeholder="Please enter your E-mail" />)}
+              </FormItem>
+              <FormItem help={this.state.help}>
+                <Popover
+                  content={
+                    <div style={{ padding: '4px 0' }}>
+                      {passwordStatusMap[this.getPasswordStatus()]}
+                      {this.renderPasswordProgress()}
+                      <div style={{ marginTop: 10 }}>
                     Please enter at least 6 characters, Do not use passwords that are easy to guess.
+                      </div>
                     </div>
-                  </div>
               }
-                overlayStyle={{ width: 320 }}
-                placement="right"
-                visible={this.state.visible}
-                onVisibleChange={this.handleVisibleChange}
-              >
-                {getFieldDecorator('newpassword', {
+                  overlayStyle={{ width: 320 }}
+                  placement="right"
+                  visible={this.state.visible}
+                  onVisibleChange={this.handleVisibleChange}
+                >
+                  {getFieldDecorator('password', {
                 rules: [
                   {
                     validator: this.checkPassword,
@@ -181,10 +177,10 @@ export default class UpdatePwd extends Component {
                   placeholder="At least 6 passwords"
                 />
               )}
-              </Popover>
-            </FormItem>
-            <FormItem>
-              {getFieldDecorator('confirmpwd', {
+                </Popover>
+              </FormItem>
+              <FormItem>
+                {getFieldDecorator('confirm', {
               rules: [
                 {
                   required: true,
@@ -195,20 +191,62 @@ export default class UpdatePwd extends Component {
                 },
               ],
             })(<Input size="large" type="password" placeholder="Confirm the password" />)}
-            </FormItem>
-            <FormItem>
-              <Button
-                size="large"
-                loading={submitting}
-                className={styles.submit}
-                type="primary"
-                htmlType="submit"
-              >
+              </FormItem>
+              <Tooltip placement="right" title={<span>Archive Book Team | Archive Book Team will not reveal your information</span>}>
+                <h3>Verification and Information</h3>
+              </Tooltip>
+              <FormItem>
+                {getFieldDecorator('name', {
+              rules: [
+                {
+                  required: true,
+                  message: 'Please enter your Real name',
+                },
+                {
+                  type: 'name',
+                  message: 'Please enter your Real name',
+                },
+              ],
+            })(<Input size="large" placeholder="Please enter your Real name" />)}
+              </FormItem>
+              <FormItem>
+                {getFieldDecorator('no', {
+              rules: [
+                {
+                  required: true,
+                  message: 'Please enter your ID in collage',
+                },
+                {
+                  type: 'no',
+                  message: 'Please enter your ID in collage',
+                },
+              ],
+            })(<Input size="large" placeholder="Please enter your ID in collage" />)}
+              </FormItem>
+              <FormItem>
+                {getFieldDecorator('phone', {
+              rules: [
+                {
+                  required: true,
+                  message: 'Please enter your mobile phone',
+                },
+              ],
+            })(<Input size="large" placeholder="Please enter your mobile phone" />)}
+              </FormItem>
+              <FormItem>
+                <Button
+                  size="large"
+                  loading={submitting}
+                  className={styles.submit}
+                  type="primary"
+                  htmlType="submit"
+                >
               Submit
-              </Button>
-            </FormItem>
-          </Form>
-        </div>
+                </Button>
+              </FormItem>
+            </Form>
+          </div>
+        </Card>
       </PageHeaderLayout>
     );
   }

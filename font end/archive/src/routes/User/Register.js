@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import { routerRedux, Link } from 'dva/router';
-import { Form, Input, Button, Row, Col, Popover, Progress, Tooltip } from 'antd';
+import { Form, Input, Button, Popover, Progress, Tooltip } from 'antd';
 import styles from './Register.less';
 
 const FormItem = Form.Item;
@@ -26,7 +26,6 @@ const passwordProgressMap = {
 @Form.create()
 export default class Register extends Component {
   state = {
-    count: 0,
     confirmDirty: false,
     visible: false,
     help: '',
@@ -48,17 +47,6 @@ export default class Register extends Component {
     clearInterval(this.interval);
   }
 
-  onGetCaptcha = () => {
-    let count = 59;
-    this.setState({ count });
-    this.interval = setInterval(() => {
-      count -= 1;
-      this.setState({ count });
-      if (count === 0) {
-        clearInterval(this.interval);
-      }
-    }, 1000);
-  };
   /**
    * 判断密码强度
    */
@@ -152,7 +140,6 @@ export default class Register extends Component {
   render() {
     const { form, submitting } = this.props;
     const { getFieldDecorator } = form;
-    const { count } = this.state;
     return (
       <div className={styles.main}>
         <h3>Create your personal account</h3>
@@ -170,30 +157,6 @@ export default class Register extends Component {
                 },
               ],
             })(<Input size="large" placeholder="Please enter your E-mail" />)}
-          </FormItem>
-          <FormItem>
-            <Row gutter={8}>
-              <Col span={16}>
-                {getFieldDecorator('captcha', {
-                  rules: [
-                    {
-                      required: true,
-                      message: 'Please enter the verification code',
-                    },
-                  ],
-                })(<Input size="large" placeholder="Verification code" />)}
-              </Col>
-              <Col span={8}>
-                <Button
-                  size="large"
-                  disabled={count}
-                  className={styles.getCaptcha}
-                  onClick={this.onGetCaptcha}
-                >
-                  {count ? `${count} s` : 'Get Code'}
-                </Button>
-              </Col>
-            </Row>
           </FormItem>
           <FormItem help={this.state.help}>
             <Popover
