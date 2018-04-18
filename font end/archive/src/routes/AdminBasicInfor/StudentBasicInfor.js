@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import moment from 'moment';
 import { Row, Col, Card, Form, Input, Select, Icon, Button, Modal, message, Badge, Upload } from 'antd';
 import StandardTable from 'components/StandardTable';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
@@ -36,35 +35,35 @@ const fileprops = {
 const columns = [
   {
     title: '名字',
-    dataIndex: 'studentname',
+    dataIndex: 'stuName',
   },
   {
     title: '学号',
-    dataIndex: 'studentno',
+    dataIndex: 'stuNumber',
   },
   {
     title: '专业',
-    dataIndex: 'studentmajor',
+    dataIndex: 'stuMajor',
   },
   {
     title: '班级',
-    dataIndex: 'studentclass',
+    dataIndex: 'stuClass',
   },
   {
     title: '入学年份',
-    dataIndex: 'studentstartyear',
+    dataIndex: 'stuStartYear',
     sorter: true,
     align: 'right',
   },
   {
     title: '毕业年份',
-    dataIndex: 'studentendyear',
+    dataIndex: 'stuEndYear',
     sorter: true,
     align: 'right',
   },
   {
     title: '是否党员',
-    dataIndex: 'studentifred',
+    dataIndex: 'redParty',
     filters: [
       {
         text: status[0],
@@ -81,29 +80,21 @@ const columns = [
   },
   {
     title: '现在邮箱',
-    dataIndex: 'currentemail',
+    dataIndex: 'currentEmail',
   },
   {
     title: '现在联系方式',
-    dataIndex: 'currentnumber',
+    dataIndex: 'currentPhone',
   },
   {
-    title: '上传时间',
-    dataIndex: 'uploadtime',
+    title: '创建时间',
+    dataIndex: 'createTime',
     sorter: true,
-    render: val => <span>{moment(val).format('YYYY-MM-DD')}</span>,
-  },
-  {
-    title: '删除时间',
-    dataIndex: 'deletetime',
-    sorter: true,
-    render: val => <span>{moment(val).format('YYYY-MM-DD')}</span>,
   },
   {
     title: '更新时间',
-    dataIndex: 'updatedtime',
+    dataIndex: 'updateTime',
     sorter: true,
-    render: val => <span>{moment(val).format('YYYY-MM-DD')}</span>,
   },
 ];
 
@@ -129,7 +120,7 @@ const CreateForm = Form.create()((props) => {
           wrapperCol={{ span: 15 }}
           label="学生名字"
         >
-          {form.getFieldDecorator('name', {
+          {form.getFieldDecorator('stuName', {
           rules: [{ message: '请输入学生名字' }],
         })(
           <Input placeholder="请输入学生名字" />
@@ -140,7 +131,7 @@ const CreateForm = Form.create()((props) => {
           wrapperCol={{ span: 15 }}
           label="学生学号"
         >
-          {form.getFieldDecorator('number', {
+          {form.getFieldDecorator('stuNumber', {
           rules: [{ message: '请输入学生学号' }],
         })(
           <Input placeholder="请输入学生学号" />
@@ -151,7 +142,7 @@ const CreateForm = Form.create()((props) => {
           wrapperCol={{ span: 15 }}
           label="学生专业"
         >
-          {form.getFieldDecorator('major', {
+          {form.getFieldDecorator('stuMajor', {
           rules: [{ message: '请输入学生专业' }],
         })(
           <Input placeholder="请输入学生专业" />
@@ -162,7 +153,7 @@ const CreateForm = Form.create()((props) => {
           wrapperCol={{ span: 15 }}
           label="学生班级"
         >
-          {form.getFieldDecorator('class', {
+          {form.getFieldDecorator('stuClass', {
           rules: [{ message: '请输入学生班级' }],
         })(
           <Input placeholder="请输入学生班级" />
@@ -173,7 +164,7 @@ const CreateForm = Form.create()((props) => {
           wrapperCol={{ span: 15 }}
           label="入学年份"
         >
-          {form.getFieldDecorator('startyear', {
+          {form.getFieldDecorator('stuStartYear', {
           rules: [{ message: '请输入学生入学年份' }],
         })(
           <Input placeholder="请输入学生入学年份" />
@@ -184,7 +175,7 @@ const CreateForm = Form.create()((props) => {
           wrapperCol={{ span: 15 }}
           label="毕业年份"
         >
-          {form.getFieldDecorator('endyear', {
+          {form.getFieldDecorator('stuEndYear', {
           rules: [{ message: '请输入学生毕业年份' }],
         })(
           <Input placeholder="请输入学生毕业年份" />
@@ -195,7 +186,7 @@ const CreateForm = Form.create()((props) => {
           wrapperCol={{ span: 15 }}
           label="是否为党员"
         >
-          {form.getFieldDecorator('ifred', {
+          {form.getFieldDecorator('redParty', {
             rules: [{ message: '请选择学生是否为党员' }],
         })(
           <Select placeholder="请选择" style={{ width: '100%' }}>
@@ -226,7 +217,7 @@ const CreateForm = Form.create()((props) => {
           wrapperCol={{ span: 15 }}
           label="学生名字"
         >
-          {form.getFieldDecorator('name', {
+          {form.getFieldDecorator('stuName', {
           rules: [{ required: true, message: '请输入学生名字' }],
         })(
           <Input placeholder="请输入学生名字" />
@@ -237,7 +228,7 @@ const CreateForm = Form.create()((props) => {
           wrapperCol={{ span: 15 }}
           label="学生学号"
         >
-          {form.getFieldDecorator('number', {
+          {form.getFieldDecorator('stuNumber', {
           rules: [{ required: true, message: '请输入学生学号' }],
         })(
           <Input placeholder="请输入学生学号" />
@@ -248,7 +239,7 @@ const CreateForm = Form.create()((props) => {
           wrapperCol={{ span: 15 }}
           label="学生专业"
         >
-          {form.getFieldDecorator('major', {
+          {form.getFieldDecorator('stuMajor', {
           rules: [{ required: true, message: '请输入学生专业' }],
         })(
           <Input placeholder="请输入学生专业" />
@@ -259,7 +250,7 @@ const CreateForm = Form.create()((props) => {
           wrapperCol={{ span: 15 }}
           label="学生班级"
         >
-          {form.getFieldDecorator('class', {
+          {form.getFieldDecorator('stuClass', {
           rules: [{ required: true, message: '请输入学生班级' }],
         })(
           <Input placeholder="请输入学生班级" />
@@ -270,7 +261,7 @@ const CreateForm = Form.create()((props) => {
           wrapperCol={{ span: 15 }}
           label="入学年份"
         >
-          {form.getFieldDecorator('startyear', {
+          {form.getFieldDecorator('stuStartYear', {
           rules: [{ required: true, message: '请输入学生入学年份' }],
         })(
           <Input placeholder="请输入学生入学年份" />
@@ -281,7 +272,7 @@ const CreateForm = Form.create()((props) => {
           wrapperCol={{ span: 15 }}
           label="毕业年份"
         >
-          {form.getFieldDecorator('endyear', {
+          {form.getFieldDecorator('stuEndYear', {
           rules: [{ required: true, message: '请输入学生毕业年份' }],
         })(
           <Input placeholder="请输入学生毕业年份" />
@@ -292,7 +283,7 @@ const CreateForm = Form.create()((props) => {
           wrapperCol={{ span: 15 }}
           label="是否为党员"
         >
-          {form.getFieldDecorator('ifred', {
+          {form.getFieldDecorator('redParty', {
             rules: [{ required: true, message: '请选择学生是否为党员' }],
         })(
           <Select placeholder="请选择" style={{ width: '100%' }}>
@@ -382,7 +373,7 @@ export default class StudentBasicInfor extends PureComponent {
         dispatch({
           type: 'stuinfor/delete',
           payload: {
-            no: selectedRows.map(row => row.no).join(','),
+            delTime: selectedRows.map(row => row.delTime).join(','),
           },
           callback: () => {
             this.setState({
@@ -412,7 +403,13 @@ export default class StudentBasicInfor extends PureComponent {
 
       const values = {
         ...fieldsValue,
-        updatedAt: fieldsValue.updatedAt && fieldsValue.updatedAt.valueOf(),
+        stuNumber: fieldsValue.stuNumber,
+        stuName: fieldsValue.stuName,
+        stuMajor: fieldsValue.stuMajor,
+        stuClass: fieldsValue.stuClass,
+        stuStartYear: fieldsValue.stuStartYear,
+        stuEndYear: fieldsValue.stuEndYear,
+        redParty: fieldsValue.redParty,
       };
 
       this.setState({
@@ -450,9 +447,18 @@ export default class StudentBasicInfor extends PureComponent {
       modalVisible: false,
     });
   }
-  handleAdd = () => {
+  handleAdd = (fields) => {
     this.props.dispatch({
       type: 'stuinfor/add',
+      payload: {
+        stuNumber: fields.stuNumber,
+        stuName: fields.stuName,
+        stuMajor: fields.stuMajor,
+        stuClass: fields.stuClass,
+        stuStartYear: fields.stuStartYear,
+        stuEndYear: fields.stuEndYear,
+        redParty: fields.redParty,
+      },
     });
 
     message.success('添加成功');
@@ -460,9 +466,18 @@ export default class StudentBasicInfor extends PureComponent {
       modalVisible: false,
     });
   }
-  handleModify = () => {
+  handleModify = (fields) => {
     this.props.dispatch({
       type: 'stuinfor/modify',
+      payload: {
+        stuNumber: fields.stuNumber,
+        stuName: fields.stuName,
+        stuMajor: fields.stuMajor,
+        stuClass: fields.stuClass,
+        stuStartYear: fields.stuStartYear,
+        stuEndYear: fields.stuEndYear,
+        redParty: fields.redParty,
+      },
     });
 
     message.success('修改成功');

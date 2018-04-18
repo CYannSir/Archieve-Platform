@@ -10,7 +10,7 @@ export async function addStu(params) {
     method: 'POST',
     body: {
       ...params,
-      method: 'post',
+      method: 'add',
     },
   });
 }
@@ -20,7 +20,7 @@ export async function addStuByfile(params) {
     method: 'POST',
     body: {
       ...params,
-      method: 'post',
+      method: 'addbyfile',
     },
   });
 }
@@ -30,7 +30,7 @@ export async function deleteStu(params) {
     method: 'POST',
     body: {
       ...params,
-      method: 'post',
+      method: 'delete',
     },
   });
 }
@@ -40,17 +40,17 @@ export async function searchStu(params) {
     method: 'POST',
     body: {
       ...params,
-      method: 'post',
+      method: 'search',
     },
   });
 }
 
 export async function modifyStu(params) {
-  return request('/admin/searchstu', {
+  return request('/admin/modifystu', {
     method: 'POST',
     body: {
       ...params,
-      method: 'post',
+      method: 'modify',
     },
   });
 }

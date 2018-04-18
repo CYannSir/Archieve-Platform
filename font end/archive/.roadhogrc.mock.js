@@ -59,7 +59,7 @@ const proxy = {
     $body: postRule,
   },
   'GET /admin/liststu': getStuInfor,
-  'POST /admin/liststu': {
+  'POST /admin/addstu': {
     $params: {
       pageSize: {
         desc: '分页',
@@ -68,6 +68,43 @@ const proxy = {
     },
     $body: postStuInfor,
   },
+  'POST /admin/addstubyfile': {
+    $params: {
+      pageSize: {
+        desc: '分页',
+        exp: 2,
+      },
+    },
+    $body: postStuInfor,
+  },
+  'POST /admin/deletestu': {
+    $params: {
+      pageSize: {
+        desc: '分页',
+        exp: 2,
+      },
+    },
+    $body: postStuInfor,
+  },
+  'POST /admin/searchstu': {
+    $params: {
+      pageSize: {
+        desc: '分页',
+        exp: 2,
+      },
+    },
+    $body: postStuInfor,
+  },
+  'POST /admin/modifystu': {
+    $params: {
+      pageSize: {
+        desc: '分页',
+        exp: 2,
+      },
+    },
+    $body: postStuInfor,
+  },
+
   'POST /api/forms': (req, res) => {
     res.send({ message: 'Ok' });
   },

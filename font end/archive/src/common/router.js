@@ -74,7 +74,7 @@ export const getRouterData = (app) => {
       component: dynamicWrapper(app, ['user', 'login'], () => import('../layouts/BasicLayout')),
     },
     '/dashboard/studentbasicinfor': {
-      component: dynamicWrapper(app, ['form'], () => import('../routes/AdminBasicInfor/StudentBasicInfor')),
+      component: dynamicWrapper(app, ['form', 'stuinfor'], () => import('../routes/AdminBasicInfor/StudentBasicInfor')),
       // hideInBreadcrumb: true,
       // name: '工作台',
       // authority: 'admin',

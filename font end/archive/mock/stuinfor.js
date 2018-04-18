@@ -2,19 +2,21 @@ import { parse } from 'url';
 
 // mock tableListDataSource
 let tableListDataSource = [];
-for (let i = 0; i < 10; i += 1) {
+for (let i = 0; i < 50; i += 1) {
   tableListDataSource.push({
-    studentname: '吴成洋',
-    studentmajor: '软件工程',
-    studentclass: '软工1404',
-    studentstartyear: '2014',
-    studentendyear: '2018',
-    currentemail: 'wcy623209668@vip.qq.com',
-    currentnumber: '13588299239',
-    studentno: '31401417',
-    uploadtime: new Date(),
-    deletetime: new Date(),
-    updatedtime: new Date(),
+    objectId: 'sadasdasfdsfsfdsfafdsafsdf',
+    updateTime: new Date(),
+    createTime: new Date(),
+    delTime: '',
+    stuNumber: '31401417',
+    stuName: '张三',
+    stuMajor: '软件工程',
+    stuClass: '软工1404',
+    stuStartYear: '2014',
+    stuEndYear: '2018',
+    redParty: '1',
+    currentEmail: 'wcy623209668@vip.qq.com',
+    currentPhone: '13588299239',
   });
 }
 
@@ -38,19 +40,19 @@ export function getStuInfor(req, res, u) {
     });
   }
 
-  if (params.status) {
-    const status = params.status.split(',');
+  if (params.redParty) {
+    const redParty = params.redParty.split(',');
     let filterDataSource = [];
-    status.forEach((s) => {
+    redParty.forEach((s) => {
       filterDataSource = filterDataSource.concat(
-        [...dataSource].filter(data => parseInt(data.status, 10) === parseInt(s[0], 10))
+        [...dataSource].filter(data => parseInt(data.redParty, 10) === parseInt(s[0], 10))
       );
     });
     dataSource = filterDataSource;
   }
 
-  if (params.no) {
-    dataSource = dataSource.filter(data => data.no.indexOf(params.no) > -1);
+  if (params.delTime) {
+    dataSource = dataSource.filter(data => data.delTime === null);
   }
 
   let pageSize = 10;
@@ -83,40 +85,56 @@ export function postStuInfor(req, res, u, b) {
   const body = (b && b.body) || req.body;
   const {
     method,
-    no,
-    studentno,
-    accountaddress,
-    updatedate,
-    studentname,
-    studentmajor,
-    studentclass,
-    studentstartyear,
-    studentendyear,
-    currentemail,
-    currentnumber,
+    objectId,
+    updateTime,
+    createTime,
+    delTime,
+    stuNumber,
+    stuName,
+    stuMajor,
+    stuClass,
+    stuStartYear,
+    stuEndYear,
+    redParty,
   } = body;
 
   switch (method) {
     /* eslint no-case-declarations:0 */
     case 'delete':
-      tableListDataSource = tableListDataSource.filter(item => no.indexOf(item.no) === -1);
+      tableListDataSource = tableListDataSource.filter(
+        item => item.delTime === new Date());
       break;
-    case 'post':
+    case 'add':
       tableListDataSource.unshift({
-        studentname,
-        studentno,
-        studentmajor,
-        studentclass,
-        studentstartyear,
-        accountaddress,
-        studentendyear,
-        currentemail,
-        currentnumber,
-        updatedate,
-        uploadtime: new Date(),
-        deletetime: new Date(),
-        updatedtime: new Date(),
+        objectId,
+        updateTime,
+        createTime,
+        delTime,
+        stuNumber,
+        stuName,
+        stuMajor,
+        stuClass,
+        stuStartYear,
+        stuEndYear,
+        redParty,
       });
+      break;
+    case 'addbyfile':
+      tableListDataSource.unshift({
+        objectId,
+        updateTime,
+        createTime,
+        delTime,
+        stuNumber,
+        stuName,
+        stuMajor,
+        stuClass,
+        stuStartYear,
+        stuEndYear,
+        redParty,
+      });
+      break;
+    case 'modify':
       break;
     default:
       break;
