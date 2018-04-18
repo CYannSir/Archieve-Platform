@@ -2,6 +2,7 @@ import mockjs from 'mockjs';
 import { getRule, postRule } from './mock/rule';
 import { getStuInfor, postStuInfor } from './mock/stuinfor';
 import { getArchive, postArchive } from './mock/archive';
+import { getAccount, postAccount } from './mock/account';
 import { getActivities, getNotice, getFakeList } from './mock/api';
 import { getFakeChartData } from './mock/chart';
 import { getProfileBasicData } from './mock/profile';
@@ -150,6 +151,52 @@ const proxy = {
       },
     },
     $body: postArchive,
+  },
+  'GET /admin/listaccount': getAccount,
+  'POST /admin/addaccount': {
+    $params: {
+      pageSize: {
+        desc: '分页',
+        exp: 2,
+      },
+    },
+    $body: postAccount,
+  },
+  'POST /admin/addaccountbyfile': {
+    $params: {
+      pageSize: {
+        desc: '分页',
+        exp: 2,
+      },
+    },
+    $body: postAccount,
+  },
+  'POST /admin/deleteaccount': {
+    $params: {
+      pageSize: {
+        desc: '分页',
+        exp: 2,
+      },
+    },
+    $body: postAccount,
+  },
+  'POST /admin/searchaccount': {
+    $params: {
+      pageSize: {
+        desc: '分页',
+        exp: 2,
+      },
+    },
+    $body: postAccount,
+  },
+  'POST /admin/modifyaccount': {
+    $params: {
+      pageSize: {
+        desc: '分页',
+        exp: 2,
+      },
+    },
+    $body: postAccount,
   },
 
   'POST /api/forms': (req, res) => {

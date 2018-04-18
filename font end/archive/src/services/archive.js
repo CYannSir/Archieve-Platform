@@ -16,7 +16,7 @@ export async function addArchive(params) {
 }
 
 export async function addArchiveByfile(params) {
-  return request('/admin/addstubyfile', {
+  return request('/admin/addarchivebyfile', {
     method: 'POST',
     body: {
       ...params,

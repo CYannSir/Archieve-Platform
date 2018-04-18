@@ -31,32 +31,26 @@ const fileprops = {
 const columns = [
   {
     title: '学号',
-    dataIndex: 'studentno',
+    dataIndex: 'stuNumber',
   },
   {
     title: '户口所在地',
-    dataIndex: 'accountaddress',
+    dataIndex: 'accountAddress',
   },
   {
     title: '时间',
-    dataIndex: 'changedate',
+    dataIndex: 'accountDate',
     render: val => <span>{moment(val).format('YYYY-MM-DD')}</span>,
   },
   {
-    title: '上传时间',
-    dataIndex: 'uploadtime',
-    sorter: true,
-    render: val => <span>{moment(val).format('YYYY-MM-DD')}</span>,
-  },
-  {
-    title: '删除时间',
-    dataIndex: 'deletetime',
+    title: '创建时间',
+    dataIndex: 'createTime',
     sorter: true,
     render: val => <span>{moment(val).format('YYYY-MM-DD')}</span>,
   },
   {
     title: '更新时间',
-    dataIndex: 'updatedtime',
+    dataIndex: 'updateTime',
     sorter: true,
     render: val => <span>{moment(val).format('YYYY-MM-DD')}</span>,
   },
@@ -84,7 +78,7 @@ const CreateForm = Form.create()((props) => {
           wrapperCol={{ span: 15 }}
           label="学生学号"
         >
-          {form.getFieldDecorator('studentno', {
+          {form.getFieldDecorator('stuNumber', {
           rules: [{ message: '请输入学生学号' }],
         })(
           <Input placeholder="请输入学生学号" />
@@ -95,7 +89,7 @@ const CreateForm = Form.create()((props) => {
           wrapperCol={{ span: 15 }}
           label="户口所在地"
         >
-          {form.getFieldDecorator('accountaddress', {
+          {form.getFieldDecorator('accountAddress', {
           rules: [{ message: '请输入新的户口所在地' }],
         })(
           <Input placeholder="请输入新的户口所在地，浙江杭州拱墅 示例" />
@@ -106,7 +100,7 @@ const CreateForm = Form.create()((props) => {
           wrapperCol={{ span: 15 }}
           label="更改时间"
         >
-          {form.getFieldDecorator('updatedate', {
+          {form.getFieldDecorator('accountDate', {
           rules: [{ message: '请输入户口更改时间' }],
         })(
           <DatePicker placeholder="请输入户口更改时间" style={{ width: '100%' }} />
@@ -134,7 +128,7 @@ const CreateForm = Form.create()((props) => {
           wrapperCol={{ span: 15 }}
           label="学生学号"
         >
-          {form.getFieldDecorator('studentno', {
+          {form.getFieldDecorator('stuNumber', {
           rules: [{ required: true, message: '请输入学生学号' }],
         })(
           <Input placeholder="请输入学生学号" />
@@ -145,7 +139,7 @@ const CreateForm = Form.create()((props) => {
           wrapperCol={{ span: 15 }}
           label="户口所在地"
         >
-          {form.getFieldDecorator('accountaddress', {
+          {form.getFieldDecorator('accountAddress', {
           rules: [{ required: true, message: '请输入新的户口所在地' }],
         })(
           <Input placeholder="请输入新的户口所在地，浙江杭州拱墅 示例" />
@@ -156,7 +150,7 @@ const CreateForm = Form.create()((props) => {
           wrapperCol={{ span: 15 }}
           label="更改时间"
         >
-          {form.getFieldDecorator('updatedate', {
+          {form.getFieldDecorator('accountDate', {
           rules: [{ required: true, message: '请输入户口更改时间' }],
         })(
           <DatePicker placeholder="请输入户口更改时间" style={{ width: '100%' }} />
@@ -167,9 +161,9 @@ const CreateForm = Form.create()((props) => {
   }
 });
 
-@connect(({ rule, loading }) => ({
-  rule,
-  loading: loading.models.rule,
+@connect(({ account, loading }) => ({
+  account,
+  loading: loading.models.account,
 }))
 @Form.create()
 export default class Account extends PureComponent {
@@ -184,7 +178,7 @@ export default class Account extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'rule/fetch',
+      type: 'account/fetch',
     });
   }
 
@@ -209,7 +203,7 @@ export default class Account extends PureComponent {
     }
 
     dispatch({
-      type: 'rule/fetch',
+      type: 'account/fetch',
       payload: params,
     });
   }
@@ -221,7 +215,7 @@ export default class Account extends PureComponent {
       formValues: {},
     });
     dispatch({
-      type: 'rule/fetch',
+      type: 'account/fetch',
       payload: {},
     });
   }
@@ -232,29 +226,27 @@ export default class Account extends PureComponent {
     });
   }
 
-  handleMenuClick = (e) => {
+  handleMenuClick = () => {
     const { dispatch } = this.props;
     const { selectedRows } = this.state;
 
     if (!selectedRows) return;
-
-    switch (e.key) {
-      case 'remove':
-        dispatch({
-          type: 'rule/remove',
-          payload: {
-            no: selectedRows.map(row => row.no).join(','),
-          },
-          callback: () => {
-            this.setState({
-              selectedRows: [],
-            });
-          },
+    dispatch({
+      type: 'account/delete',
+      payload: {
+        objectId: selectedRows.map(row => row.objectId).join(','),
+      },
+      callback: () => {
+        this.setState({
+          selectedRows: [],
         });
-        break;
-      default:
-        break;
-    }
+      },
+    });
+    message.success('删除成功');
+    this.setState({
+      modalVisible: false,
+      formprops: false,
+    });
   }
 
   handleSelectRows = (rows) => {
@@ -281,7 +273,7 @@ export default class Account extends PureComponent {
       });
 
       dispatch({
-        type: 'rule/fetch',
+        type: 'account/fetch',
         payload: values,
       });
     });
@@ -300,11 +292,11 @@ export default class Account extends PureComponent {
   }
   handleAdd = (fields) => {
     this.props.dispatch({
-      type: 'rule/add',
+      type: 'account/add',
       payload: {
-        studentno: fields.studentno,
-        accountaddress: fields.accountaddress,
-        updatedtime: fields.updatedate,
+        stuNumber: fields.stuNumber,
+        accountAddress: fields.accountAddress,
+        accountDate: fields.accountDate,
       },
     });
 
@@ -314,19 +306,14 @@ export default class Account extends PureComponent {
     });
   }
 
-  handleDelete = () => {
+  handleModify = (fields) => {
     this.props.dispatch({
-      type: 'rule/delete',
-    });
-
-    message.success('删除成功');
-    this.setState({
-      modalVisible: false,
-    });
-  }
-  handleModify = () => {
-    this.props.dispatch({
-      type: 'rule/modify',
+      type: 'archive/modify',
+      payload: {
+        stuNumber: fields.stuNumber,
+        accountAddress: fields.accountAddress,
+        accountDate: fields.accountDate,
+      },
     });
 
     message.success('修改成功');
@@ -343,7 +330,7 @@ export default class Account extends PureComponent {
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={8} sm={24}>
             <FormItem label="学生学号">
-              {getFieldDecorator('studentno')(
+              {getFieldDecorator('stuNmuber')(
                 <Input placeholder="请输入学生学号" />
               )}
             </FormItem>
@@ -364,14 +351,14 @@ export default class Account extends PureComponent {
   }
 
   render() {
-    const { rule: { data }, loading } = this.props;
+    const { account: { data }, loading } = this.props;
     const { selectedRows, modalVisible, formprops } = this.state;
 
 
     const parentMethods = {
       handleAdd: this.handleAdd,
       handleModify: this.handleModify,
-      handleDelete: this.handleDelete,
+      handleMenuClick: this.handleMenuClick,
       handleModalVisible: this.handleModalVisible,
     };
 
@@ -392,7 +379,7 @@ export default class Account extends PureComponent {
                     <Button icon="edit" type="primary" onClick={() => this.handleModifyModalVisible(true)}>
                         修改
                     </Button>
-                    <Button icon="delete" type="primary" onClick={this.handleDelete}>
+                    <Button icon="delete" type="primary" onClick={this.handleMenuClick}>
                         删除
                     </Button>
                   </span>

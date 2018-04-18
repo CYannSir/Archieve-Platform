@@ -362,7 +362,7 @@ export default class Archive extends PureComponent {
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={8} sm={24}>
             <FormItem label="学生学号">
-              {getFieldDecorator('studentno')(
+              {getFieldDecorator('stuNumber')(
                 <Input placeholder="请输入" />
               )}
             </FormItem>
@@ -388,14 +388,14 @@ export default class Archive extends PureComponent {
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={8} sm={24}>
             <FormItem label="学号">
-              {getFieldDecorator('studentno')(
+              {getFieldDecorator('stuNumber')(
                 <Input placeholder="请输入学生学号" />
               )}
             </FormItem>
           </Col>
           <Col md={8} sm={24}>
             <FormItem label="目前单位">
-              {getFieldDecorator('studentunit')(
+              {getFieldDecorator('unit')(
                 <Input placeholder="请输入目前单位" />
               )}
             </FormItem>

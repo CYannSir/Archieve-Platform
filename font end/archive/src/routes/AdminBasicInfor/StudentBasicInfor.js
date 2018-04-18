@@ -490,14 +490,14 @@ export default class StudentBasicInfor extends PureComponent {
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={8} sm={24}>
             <FormItem label="学生学号">
-              {getFieldDecorator('studentno')(
+              {getFieldDecorator('stuNumber')(
                 <Input placeholder="请输入" />
               )}
             </FormItem>
           </Col>
           <Col md={8} sm={24}>
             <FormItem label="是否为党员">
-              {getFieldDecorator('studentifred')(
+              {getFieldDecorator('redParty')(
                 <Select placeholder="请选择" style={{ width: '100%' }}>
                   <Option value="0">普通</Option>
                   <Option value="1">党员</Option>
@@ -526,42 +526,42 @@ export default class StudentBasicInfor extends PureComponent {
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={8} sm={24}>
             <FormItem label="名字">
-              {getFieldDecorator('studentname')(
+              {getFieldDecorator('stuName')(
                 <Input placeholder="请输入学生名字" />
               )}
             </FormItem>
           </Col>
           <Col md={8} sm={24}>
             <FormItem label="学号">
-              {getFieldDecorator('studentno')(
+              {getFieldDecorator('stuNumber')(
                 <Input placeholder="请输入学生学号" />
               )}
             </FormItem>
           </Col>
           <Col md={8} sm={24}>
             <FormItem label="学生专业">
-              {getFieldDecorator('studentmajor')(
+              {getFieldDecorator('stuMajor')(
                 <Input placeholder="请输入学生专业" />
               )}
             </FormItem>
           </Col>
           <Col md={8} sm={24}>
             <FormItem label="入学年份">
-              {getFieldDecorator('studentstartyear')(
+              {getFieldDecorator('stuStartYear')(
                 <Input placeholder="请输入入学年份" />
               )}
             </FormItem>
           </Col>
           <Col md={8} sm={24}>
             <FormItem label="毕业年份">
-              {getFieldDecorator('studentendyear')(
+              {getFieldDecorator('stuEndYear')(
                 <Input placeholder="请输入学生毕业年份" />
               )}
             </FormItem>
           </Col>
           <Col md={8} sm={24}>
             <FormItem label="是否为党员">
-              {getFieldDecorator('studentifred')(
+              {getFieldDecorator('redParty')(
                 <Select placeholder="请选择" style={{ width: '100%' }}>
                   <Option value="0">普通</Option>
                   <Option value="1">党员</Option>
