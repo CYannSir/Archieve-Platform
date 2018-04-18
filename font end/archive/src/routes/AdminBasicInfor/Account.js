@@ -46,13 +46,11 @@ const columns = [
     title: '创建时间',
     dataIndex: 'createTime',
     sorter: true,
-    render: val => <span>{moment(val).format('YYYY-MM-DD')}</span>,
   },
   {
     title: '更新时间',
     dataIndex: 'updateTime',
     sorter: true,
-    render: val => <span>{moment(val).format('YYYY-MM-DD')}</span>,
   },
 ];
 
@@ -265,7 +263,7 @@ export default class Account extends PureComponent {
 
       const values = {
         ...fieldsValue,
-        updatedAt: fieldsValue.updatedAt && fieldsValue.updatedAt.valueOf(),
+        stuNumber: fieldsValue.stuNumber && fieldsValue.stuNumber.valueOf(),
       };
 
       this.setState({

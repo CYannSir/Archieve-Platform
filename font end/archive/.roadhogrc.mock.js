@@ -3,6 +3,7 @@ import { getRule, postRule } from './mock/rule';
 import { getStuInfor, postStuInfor } from './mock/stuinfor';
 import { getArchive, postArchive } from './mock/archive';
 import { getAccount, postAccount } from './mock/account';
+import { getRedArchive, postRedArchive } from './mock/redarchive';
 import { getActivities, getNotice, getFakeList } from './mock/api';
 import { getFakeChartData } from './mock/chart';
 import { getProfileBasicData } from './mock/profile';
@@ -197,6 +198,52 @@ const proxy = {
       },
     },
     $body: postAccount,
+  },
+  'GET /admin/listredarchive': getRedArchive,
+  'POST /admin/addredarchive': {
+    $params: {
+      pageSize: {
+        desc: '分页',
+        exp: 2,
+      },
+    },
+    $body: postRedArchive,
+  },
+  'POST /admin/addredarchivebyfile': {
+    $params: {
+      pageSize: {
+        desc: '分页',
+        exp: 2,
+      },
+    },
+    $body: postRedArchive,
+  },
+  'POST /admin/deleteredarchive': {
+    $params: {
+      pageSize: {
+        desc: '分页',
+        exp: 2,
+      },
+    },
+    $body: postRedArchive,
+  },
+  'POST /admin/searchredarchive': {
+    $params: {
+      pageSize: {
+        desc: '分页',
+        exp: 2,
+      },
+    },
+    $body: postRedArchive,
+  },
+  'POST /admin/modifyredarchive': {
+    $params: {
+      pageSize: {
+        desc: '分页',
+        exp: 2,
+      },
+    },
+    $body: postRedArchive,
   },
 
   'POST /api/forms': (req, res) => {

@@ -292,8 +292,6 @@ export default class Archive extends PureComponent {
         ...fieldsValue,
         stuNumber: fieldsValue.stuNumber && fieldsValue.stuNumber.valueOf(),
         unit: fieldsValue.unit && fieldsValue.unit.valueOf(),
-        unitAddress: fieldsValue.unitAddress && fieldsValue.unitAddress.valueOf(),
-        flowDate: fieldsValue.flowDate && fieldsValue.flowDate.valueOf(),
       };
 
       this.setState({

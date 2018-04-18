@@ -30,16 +30,16 @@ const fileprops = {
 const columns = [
   {
     title: '学号',
-    dataIndex: 'studentno',
+    dataIndex: 'stuNumber',
   },
   {
     title: '加入党日期',
-    dataIndex: 'joindate',
+    dataIndex: 'joinDate',
     render: val => <span>{moment(val).format('YYYY-MM-DD')}</span>,
   },
   {
     title: '成为积极分子日期',
-    dataIndex: 'becameactivistdate',
+    dataIndex: 'becameActivistDate',
     render: val => <span>{moment(val).format('YYYY-MM-DD')}</span>,
   },
   {
@@ -47,22 +47,14 @@ const columns = [
     dataIndex: 'introducer',
   },
   {
-    title: '上传时间',
-    dataIndex: 'uploadtime',
+    title: '创建时间',
+    dataIndex: 'createTime',
     sorter: true,
-    render: val => <span>{moment(val).format('YYYY-MM-DD')}</span>,
-  },
-  {
-    title: '删除时间',
-    dataIndex: 'deletetime',
-    sorter: true,
-    render: val => <span>{moment(val).format('YYYY-MM-DD')}</span>,
   },
   {
     title: '更新时间',
-    dataIndex: 'updatedtime',
+    dataIndex: 'updateTime',
     sorter: true,
-    render: val => <span>{moment(val).format('YYYY-MM-DD')}</span>,
   },
 ];
 
@@ -88,7 +80,7 @@ const CreateForm = Form.create()((props) => {
           wrapperCol={{ span: 18 }}
           label="学生学号"
         >
-          {form.getFieldDecorator('number', {
+          {form.getFieldDecorator('stuNumber', {
           rules: [{ message: '请输入学生学号' }],
         })(
           <Input placeholder="请输入学生学号" />
@@ -99,7 +91,7 @@ const CreateForm = Form.create()((props) => {
           wrapperCol={{ span: 18 }}
           label="加入党日期"
         >
-          {form.getFieldDecorator('joindate', {
+          {form.getFieldDecorator('joinDate', {
           rules: [{ message: '请输入加入党日期' }],
         })(
           <DatePicker placeholder="请输入加入党日期" style={{ width: '100%' }} />
@@ -110,7 +102,7 @@ const CreateForm = Form.create()((props) => {
           wrapperCol={{ span: 18 }}
           label="成为积极日期"
         >
-          {form.getFieldDecorator('becameactivistdate', {
+          {form.getFieldDecorator('becameActivistDate', {
           rules: [{ message: '请输入成为积极分子日期' }],
         })(
           <DatePicker placeholder="请输入成为积极分子日期" style={{ width: '100%' }} />
@@ -149,7 +141,7 @@ const CreateForm = Form.create()((props) => {
           wrapperCol={{ span: 18 }}
           label="学生学号"
         >
-          {form.getFieldDecorator('number', {
+          {form.getFieldDecorator('stuNumber', {
           rules: [{ required: true, message: '请输入学生学号' }],
         })(
           <Input placeholder="请输入学生学号" />
@@ -160,7 +152,7 @@ const CreateForm = Form.create()((props) => {
           wrapperCol={{ span: 18 }}
           label="加入党日期"
         >
-          {form.getFieldDecorator('joindate', {
+          {form.getFieldDecorator('joinDate', {
           rules: [{ required: true, message: '请输入加入党日期' }],
         })(
           <DatePicker placeholder="请输入加入党日期" style={{ width: '100%' }} />
@@ -172,7 +164,7 @@ const CreateForm = Form.create()((props) => {
           label="成为积极日期"
           style={{ width: '100%' }}
         >
-          {form.getFieldDecorator('becameactivistdate', {
+          {form.getFieldDecorator('becameActivistDate', {
           rules: [{ required: true, message: '请输入成为积极分子日期' }],
         })(
           <DatePicker placeholder="请输入成为积极分子日期" style={{ width: '100%' }} />
@@ -194,9 +186,9 @@ const CreateForm = Form.create()((props) => {
   }
 });
 
-@connect(({ rule, loading }) => ({
-  rule,
-  loading: loading.models.rule,
+@connect(({ redarchive, loading }) => ({
+  redarchive,
+  loading: loading.models.redarchive,
 }))
 @Form.create()
 export default class RedArchive extends PureComponent {
@@ -211,7 +203,7 @@ export default class RedArchive extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'rule/fetch',
+      type: 'redarchive/fetch',
     });
   }
 
@@ -236,7 +228,7 @@ export default class RedArchive extends PureComponent {
     }
 
     dispatch({
-      type: 'rule/fetch',
+      type: 'redarchive/fetch',
       payload: params,
     });
   }
@@ -248,7 +240,7 @@ export default class RedArchive extends PureComponent {
       formValues: {},
     });
     dispatch({
-      type: 'rule/fetch',
+      type: 'redarchive/fetch',
       payload: {},
     });
   }
@@ -259,29 +251,26 @@ export default class RedArchive extends PureComponent {
     });
   }
 
-  handleMenuClick = (e) => {
+  handleMenuClick = () => {
     const { dispatch } = this.props;
     const { selectedRows } = this.state;
 
     if (!selectedRows) return;
-
-    switch (e.key) {
-      case 'remove':
-        dispatch({
-          type: 'rule/remove',
-          payload: {
-            no: selectedRows.map(row => row.no).join(','),
-          },
-          callback: () => {
-            this.setState({
-              selectedRows: [],
-            });
-          },
+    dispatch({
+      type: 'redarchive/delete',
+      payload: {
+        objectId: selectedRows.map(row => row.objectId).join(','),
+      },
+      callback: () => {
+        this.setState({
+          selectedRows: [],
         });
-        break;
-      default:
-        break;
-    }
+      },
+    });
+    message.success('删除成功');
+    this.setState({
+      modalVisible: false,
+    });
   }
 
   handleSelectRows = (rows) => {
@@ -300,7 +289,7 @@ export default class RedArchive extends PureComponent {
 
       const values = {
         ...fieldsValue,
-        updatedAt: fieldsValue.updatedAt && fieldsValue.updatedAt.valueOf(),
+        stuNumber: fieldsValue.stuNumber && fieldsValue.stuNumber.valueOf(),
       };
 
       this.setState({
@@ -308,7 +297,7 @@ export default class RedArchive extends PureComponent {
       });
 
       dispatch({
-        type: 'rule/fetch',
+        type: 'redarchive/fetch',
         payload: values,
       });
     });
@@ -328,19 +317,15 @@ export default class RedArchive extends PureComponent {
     });
   }
 
-  handleDelete = () => {
+  handleAdd = (fields) => {
     this.props.dispatch({
-      type: 'rule/delete',
-    });
-
-    message.success('删除成功');
-    this.setState({
-      modalVisible: false,
-    });
-  }
-  handleAdd = () => {
-    this.props.dispatch({
-      type: 'rule/add',
+      type: 'redarchive/add',
+      payload: {
+        stuNumber: fields.stuNumber,
+        joinDate: fields.joinDate,
+        becomeActivistDate: fields.becomeActivistDate,
+        introducer: fields.introducer,
+      },
     });
 
     message.success('新增成功');
@@ -348,9 +333,15 @@ export default class RedArchive extends PureComponent {
       modalVisible: false,
     });
   }
-  handleModify = () => {
+  handleModify = (fields) => {
     this.props.dispatch({
-      type: 'rule/modify',
+      type: 'redarchive/modify',
+      payload: {
+        stuNumber: fields.stuNumber,
+        joinDate: fields.joinDate,
+        becomeActivistDate: fields.becomeActivistDate,
+        introducer: fields.introducer,
+      },
     });
 
     message.success('修改成功');
@@ -367,7 +358,7 @@ export default class RedArchive extends PureComponent {
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={8} sm={24}>
             <FormItem label="学生学号">
-              {getFieldDecorator('studentno')(
+              {getFieldDecorator('stuNumber')(
                 <Input placeholder="请输入" />
               )}
             </FormItem>
@@ -388,14 +379,14 @@ export default class RedArchive extends PureComponent {
   }
 
   render() {
-    const { rule: { data }, loading } = this.props;
+    const { redarchive: { data }, loading } = this.props;
     const { selectedRows, modalVisible, formprops } = this.state;
 
 
     const parentMethods = {
       handleAdd: this.handleAdd,
       handleModify: this.handleModify,
-      handleDelete: this.handleDelete,
+      handleMenuClick: this.handleMenuClick,
       handleModalVisible: this.handleModalVisible,
     };
 
@@ -416,7 +407,7 @@ export default class RedArchive extends PureComponent {
                     <Button icon="edit" type="primary" onClick={() => this.handleModifyModalVisible(true)}>
                         修改
                     </Button>
-                    <Button icon="delete" type="primary" onClick={this.handleDelete}>
+                    <Button icon="delete" type="primary" onClick={this.handleMenuClick}>
                         删除
                     </Button>
                   </span>
