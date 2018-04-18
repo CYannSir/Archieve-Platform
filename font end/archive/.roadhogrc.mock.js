@@ -1,6 +1,7 @@
 import mockjs from 'mockjs';
 import { getRule, postRule } from './mock/rule';
 import { getStuInfor, postStuInfor } from './mock/stuinfor';
+import { getArchive, postArchive } from './mock/archive';
 import { getActivities, getNotice, getFakeList } from './mock/api';
 import { getFakeChartData } from './mock/chart';
 import { getProfileBasicData } from './mock/profile';
@@ -103,6 +104,52 @@ const proxy = {
       },
     },
     $body: postStuInfor,
+  }, 
+  'GET /admin/listarchive': getArchive,
+  'POST /admin/addarchive': {
+    $params: {
+      pageSize: {
+        desc: '分页',
+        exp: 2,
+      },
+    },
+    $body: postArchive,
+  },
+  'POST /admin/addarchivebyfile': {
+    $params: {
+      pageSize: {
+        desc: '分页',
+        exp: 2,
+      },
+    },
+    $body: postArchive,
+  },
+  'POST /admin/deletearchive': {
+    $params: {
+      pageSize: {
+        desc: '分页',
+        exp: 2,
+      },
+    },
+    $body: postArchive,
+  },
+  'POST /admin/searcharchive': {
+    $params: {
+      pageSize: {
+        desc: '分页',
+        exp: 2,
+      },
+    },
+    $body: postArchive,
+  },
+  'POST /admin/modifyarchive': {
+    $params: {
+      pageSize: {
+        desc: '分页',
+        exp: 2,
+      },
+    },
+    $body: postArchive,
   },
 
   'POST /api/forms': (req, res) => {

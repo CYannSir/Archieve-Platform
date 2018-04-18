@@ -362,29 +362,26 @@ export default class StudentBasicInfor extends PureComponent {
     });
   }
 
-  handleMenuClick = (e) => {
+  handleMenuClick = () => {
     const { dispatch } = this.props;
     const { selectedRows } = this.state;
 
     if (!selectedRows) return;
-
-    switch (e.key) {
-      case 'delete':
-        dispatch({
-          type: 'stuinfor/delete',
-          payload: {
-            delTime: selectedRows.map(row => row.delTime).join(','),
-          },
-          callback: () => {
-            this.setState({
-              selectedRows: [],
-            });
-          },
+    dispatch({
+      type: 'stuinfor/delete',
+      payload: {
+        objectId: selectedRows.map(row => row.objectId).join(','),
+      },
+      callback: () => {
+        this.setState({
+          selectedRows: [],
         });
-        break;
-      default:
-        break;
-    }
+      },
+    });
+    message.success('删除成功');
+    this.setState({
+      modalVisible: false,
+    });
   }
 
   handleSelectRows = (rows) => {
@@ -403,13 +400,12 @@ export default class StudentBasicInfor extends PureComponent {
 
       const values = {
         ...fieldsValue,
-        stuNumber: fieldsValue.stuNumber,
-        stuName: fieldsValue.stuName,
-        stuMajor: fieldsValue.stuMajor,
-        stuClass: fieldsValue.stuClass,
-        stuStartYear: fieldsValue.stuStartYear,
-        stuEndYear: fieldsValue.stuEndYear,
-        redParty: fieldsValue.redParty,
+        stuNumber: fieldsValue.stuNumber && fieldsValue.stuNumber.valueOf(),
+        stuName: fieldsValue.stuName && fieldsValue.stuName.valueOf(),
+        stuMajor: fieldsValue.stuMajor && fieldsValue.stuMajor.valueOf(),
+        stuStartYear: fieldsValue.stuStartYear && fieldsValue.stuStartYear.valueOf(),
+        stuEndYear: fieldsValue.stuEndYear && fieldsValue.stuEndYear.valueOf(),
+        redParty: fieldsValue.redParty && fieldsValue.redParty.valueOf(),
       };
 
       this.setState({
@@ -417,7 +413,7 @@ export default class StudentBasicInfor extends PureComponent {
       });
 
       dispatch({
-        type: 'stuinfor/fetch',
+        type: 'stuinfor/search',
         payload: values,
       });
     });
@@ -623,7 +619,7 @@ export default class StudentBasicInfor extends PureComponent {
                     <Button icon="edit" type="primary" onClick={() => this.handleModifyModalVisible(true)}>
                         毕业生状态
                     </Button>
-                    <Button icon="delete" type="primary" onClick={this.handleDelete}>
+                    <Button icon="delete" type="primary" onClick={this.handleMenuClick}>
                         删除
                     </Button>
                   </span>

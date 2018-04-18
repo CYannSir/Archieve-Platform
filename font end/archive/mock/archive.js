@@ -9,18 +9,13 @@ for (let i = 0; i < 50; i += 1) {
     createTime: new Date(),
     delTime: '',
     stuNumber: '31401417',
-    stuName: '张三',
-    stuMajor: '软件工程',
-    stuClass: '软工1404',
-    stuStartYear: '2014',
-    stuEndYear: '2018',
-    redParty: '1',
-    currentEmail: 'wcy623209668@vip.qq.com',
-    currentPhone: '13588299239',
+    unit: '浙江大学城市学院',
+    unitAddress: '浙江省杭州市拱墅区湖州街51#',
+    flowDate: new Date(),
   });
 }
 
-export function getStuInfor(req, res, u) {
+export function getArchive(req, res, u) {
   let url = u;
   if (!url || Object.prototype.toString.call(url) !== '[object String]') {
     url = req.url; // eslint-disable-line
@@ -76,7 +71,7 @@ export function getStuInfor(req, res, u) {
   }
 }
 
-export function postStuInfor(req, res, u, b) {
+export function postArchive(req, res, u, b) {
   let url = u;
   if (!url || Object.prototype.toString.call(url) !== '[object String]') {
     url = req.url; // eslint-disable-line
@@ -90,12 +85,9 @@ export function postStuInfor(req, res, u, b) {
     createTime,
     delTime,
     stuNumber,
-    stuName,
-    stuMajor,
-    stuClass,
-    stuStartYear,
-    stuEndYear,
-    redParty,
+    unit,
+    unitAddress,
+    flowDate,
   } = body;
 
   switch (method) {
@@ -109,12 +101,9 @@ export function postStuInfor(req, res, u, b) {
         createTime,
         delTime,
         stuNumber,
-        stuName,
-        stuMajor,
-        stuClass,
-        stuStartYear,
-        stuEndYear,
-        redParty,
+        unit,
+        unitAddress,
+        flowDate,
       });
       break;
     case 'addbyfile':
@@ -124,12 +113,9 @@ export function postStuInfor(req, res, u, b) {
         createTime,
         delTime,
         stuNumber,
-        stuName,
-        stuMajor,
-        stuClass,
-        stuStartYear,
-        stuEndYear,
-        redParty,
+        unit,
+        unitAddress,
+        flowDate,
       });
       break;
     case 'modify':
@@ -153,6 +139,6 @@ export function postStuInfor(req, res, u, b) {
 }
 
 export default {
-  getStuInfor,
-  postStuInfor,
+  getArchive,
+  postArchive,
 };

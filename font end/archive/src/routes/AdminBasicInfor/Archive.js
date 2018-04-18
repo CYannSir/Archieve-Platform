@@ -30,40 +30,32 @@ const fileprops = {
 const columns = [
   {
     title: '学号',
-    dataIndex: 'studentno',
+    dataIndex: 'stuNumber',
   },
   {
     title: '档案目前单位',
-    dataIndex: 'currentarchive',
+    dataIndex: 'unit',
   },
   {
     title: '目前单位地址',
-    dataIndex: 'currentarchiveaddress',
+    dataIndex: 'unitAddress',
   },
   {
     title: '流向时间',
-    dataIndex: 'flowdate',
+    dataIndex: 'flowDate',
     sorter: true,
     align: 'right',
     render: val => <span>{moment(val).format('YYYY-MM-DD')}</span>,
   },
   {
-    title: '上传时间',
-    dataIndex: 'uploadtime',
+    title: '创建时间',
+    dataIndex: 'createTime',
     sorter: true,
-    render: val => <span>{moment(val).format('YYYY-MM-DD')}</span>,
-  },
-  {
-    title: '删除时间',
-    dataIndex: 'deletetime',
-    sorter: true,
-    render: val => <span>{moment(val).format('YYYY-MM-DD')}</span>,
   },
   {
     title: '更新时间',
-    dataIndex: 'updatedtime',
+    dataIndex: 'updateTime',
     sorter: true,
-    render: val => <span>{moment(val).format('YYYY-MM-DD')}</span>,
   },
 ];
 
@@ -89,7 +81,7 @@ const CreateForm = Form.create()((props) => {
           wrapperCol={{ span: 18 }}
           label="学生学号"
         >
-          {form.getFieldDecorator('number', {
+          {form.getFieldDecorator('stuNumber', {
           rules: [{ message: '请输入学生学号' }],
         })(
           <Input placeholder="请输入学生学号" />
@@ -111,7 +103,7 @@ const CreateForm = Form.create()((props) => {
           wrapperCol={{ span: 18 }}
           label="档案单位地址"
         >
-          {form.getFieldDecorator('unitaddress', {
+          {form.getFieldDecorator('unitAddress', {
           rules: [{ message: '请输入档案单位地址' }],
         })(
           <Input placeholder="请输入档案单位地址" />
@@ -122,7 +114,7 @@ const CreateForm = Form.create()((props) => {
           wrapperCol={{ span: 18 }}
           label="流向时间"
         >
-          {form.getFieldDecorator('date', {
+          {form.getFieldDecorator('flowDate', {
           rules: [{ message: '请输入流向时间' }],
         })(
           <DatePicker placeholder="请输入流向时间" style={{ width: '100%' }} />
@@ -150,7 +142,7 @@ const CreateForm = Form.create()((props) => {
           wrapperCol={{ span: 18 }}
           label="学生学号"
         >
-          {form.getFieldDecorator('number', {
+          {form.getFieldDecorator('stuNumber', {
           rules: [{ required: true, message: '请输入学生学号' }],
         })(
           <Input placeholder="请输入学生学号" />
@@ -172,7 +164,7 @@ const CreateForm = Form.create()((props) => {
           wrapperCol={{ span: 18 }}
           label="档案单位地址"
         >
-          {form.getFieldDecorator('unitaddress', {
+          {form.getFieldDecorator('unitAddress', {
           rules: [{ required: true, message: '请输入档案单位地址' }],
         })(
           <Input placeholder="请输入档案单位地址" />
@@ -183,7 +175,7 @@ const CreateForm = Form.create()((props) => {
           wrapperCol={{ span: 18 }}
           label="流向时间"
         >
-          {form.getFieldDecorator('date', {
+          {form.getFieldDecorator('flowDate', {
           rules: [{ required: true, message: '请输入流向时间' }],
         })(
           <DatePicker placeholder="请输入流向时间" style={{ width: '100%' }} />
@@ -194,9 +186,9 @@ const CreateForm = Form.create()((props) => {
   }
 });
 
-@connect(({ rule, loading }) => ({
-  rule,
-  loading: loading.models.rule,
+@connect(({ archive, loading }) => ({
+  archive,
+  loading: loading.models.archive,
 }))
 @Form.create()
 export default class Archive extends PureComponent {
@@ -211,7 +203,7 @@ export default class Archive extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'rule/fetch',
+      type: 'archive/fetch',
     });
   }
 
@@ -236,7 +228,7 @@ export default class Archive extends PureComponent {
     }
 
     dispatch({
-      type: 'rule/fetch',
+      type: 'archive/fetch',
       payload: params,
     });
   }
@@ -248,7 +240,7 @@ export default class Archive extends PureComponent {
       formValues: {},
     });
     dispatch({
-      type: 'rule/fetch',
+      type: 'archive/fetch',
       payload: {},
     });
   }
@@ -259,29 +251,27 @@ export default class Archive extends PureComponent {
     });
   }
 
-  handleMenuClick = (e) => {
+  handleMenuClick = () => {
     const { dispatch } = this.props;
     const { selectedRows } = this.state;
 
     if (!selectedRows) return;
-
-    switch (e.key) {
-      case 'remove':
-        dispatch({
-          type: 'rule/remove',
-          payload: {
-            no: selectedRows.map(row => row.no).join(','),
-          },
-          callback: () => {
-            this.setState({
-              selectedRows: [],
-            });
-          },
+    dispatch({
+      type: 'archive/delete',
+      payload: {
+        objectId: selectedRows.map(row => row.objectId).join(','),
+      },
+      callback: () => {
+        this.setState({
+          selectedRows: [],
         });
-        break;
-      default:
-        break;
-    }
+      },
+    });
+
+    message.success('删除成功');
+    this.setState({
+      modalVisible: false,
+    });
   }
 
   handleSelectRows = (rows) => {
@@ -300,7 +290,10 @@ export default class Archive extends PureComponent {
 
       const values = {
         ...fieldsValue,
-        updatedAt: fieldsValue.updatedAt && fieldsValue.updatedAt.valueOf(),
+        stuNumber: fieldsValue.stuNumber && fieldsValue.stuNumber.valueOf(),
+        unit: fieldsValue.unit && fieldsValue.unit.valueOf(),
+        unitAddress: fieldsValue.unitAddress && fieldsValue.unitAddress.valueOf(),
+        flowDate: fieldsValue.flowDate && fieldsValue.flowDate.valueOf(),
       };
 
       this.setState({
@@ -308,7 +301,7 @@ export default class Archive extends PureComponent {
       });
 
       dispatch({
-        type: 'rule/fetch',
+        type: 'archive/search',
         payload: values,
       });
     });
@@ -328,9 +321,15 @@ export default class Archive extends PureComponent {
     });
   }
 
-  handleAdd = () => {
+  handleAdd = (fields) => {
     this.props.dispatch({
-      type: 'rule/add',
+      type: 'archive/add',
+      payload: {
+        stuNumber: fields.stuNumber,
+        unit: fields.unit,
+        unitAddress: fields.unitAddress,
+        flowDate: fields.flowDate,
+      },
     });
 
     message.success('新增成功');
@@ -338,25 +337,21 @@ export default class Archive extends PureComponent {
       modalVisible: false,
     });
   }
-  handleModify = () => {
+  handleModify = (fields) => {
     this.props.dispatch({
-      type: 'rule/modify',
+      type: 'archive/modify',
+      payload: {
+        stuNumber: fields.stuNumber,
+        unit: fields.unit,
+        unitAddress: fields.unitAddress,
+        flowDate: fields.flowDate,
+      },
     });
 
     message.success('修改成功');
     this.setState({
       modalVisible: false,
       formprops: false,
-    });
-  }
-  handleDelete = () => {
-    this.props.dispatch({
-      type: 'rule/remove',
-    });
-
-    message.success('删除成功');
-    this.setState({
-      modalVisible: false,
     });
   }
 
@@ -424,7 +419,7 @@ export default class Archive extends PureComponent {
   }
 
   render() {
-    const { rule: { data }, loading } = this.props;
+    const { archive: { data }, loading } = this.props;
     const { selectedRows, modalVisible, formprops } = this.state;
 
 
@@ -452,7 +447,7 @@ export default class Archive extends PureComponent {
                     <Button icon="edit" type="primary" onClick={() => this.handleModifyModalVisible(true)}>
                         修改
                     </Button>
-                    <Button icon="delete" type="primary" onClick={this.handleDelete}>
+                    <Button icon="delete" type="primary" onClick={this.handleMenuClick}>
                         删除
                     </Button>
                   </span>
