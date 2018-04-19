@@ -353,21 +353,21 @@ public class AdminController {
     /*
      * 交流群信息操作 - Start
      */
-    //增加用户
+    //增加交流群
     @PostMapping(value = "/addchatgroup")
     public Result addChatGroup(ChatGroupModel chatGroupModel){
         chatGroupService.add(chatGroupModel);
         return Result.success();
     }
 
-    //删除用户
+    //删除交流群
     @PostMapping(value = "/deletechatgroup")
     public Result deleteChatGroup(ChatGroupModel chatGroupModel){
         chatGroupService.delete(chatGroupModel);
         return Result.success();
     }
 
-    //动态修改更新学生用户
+    //动态修改更新交流群
     @PostMapping(value = "/modifychatgroup")
     public Result modifyChatGroup(ChatGroupModel chatGroupModel){
         chatGroupService.update(chatGroupModel);
