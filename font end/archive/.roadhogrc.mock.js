@@ -6,6 +6,7 @@ import { getAccount, postAccount } from './mock/account';
 import { getRedArchive, postRedArchive } from './mock/redarchive';
 import { getAlumniInfor, postAlumniInfor } from './mock/alumniinfor';
 import { getPractice, postPractice } from './mock/practice'
+import { getChatGroup, postChatGroup } from './mock/chatgroup'
 import { getActivities, getNotice, getFakeList } from './mock/api';
 import { getFakeChartData } from './mock/chart';
 import { getProfileBasicData } from './mock/profile';
@@ -320,6 +321,34 @@ const proxy = {
       },
     },
     $body: postPractice,
+  },
+   'GET /admin/listchatgroup': getChatGroup,
+  'POST /admin/addchatgroup': {
+    $params: {
+      pageSize: {
+        desc: '分页',
+        exp: 2,
+      },
+    },
+    $body: postChatGroup,
+  },
+  'POST /admin/deletechatgroup': {
+    $params: {
+      pageSize: {
+        desc: '分页',
+        exp: 2,
+      },
+    },
+    $body: postChatGroup,
+  },
+  'POST /admin/modifychatgroup': {
+    $params: {
+      pageSize: {
+        desc: '分页',
+        exp: 2,
+      },
+    },
+    $body: postChatGroup,
   },
 
   'POST /api/forms': (req, res) => {

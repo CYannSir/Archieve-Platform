@@ -1,13 +1,10 @@
-import { queryChatGroup, addChatGroup, deleteChatGroup, searchChatGroup, modifyChatGroup } from '../services/chatgroup';
+import { queryChatGroup, addChatGroup, deleteChatGroup, modifyChatGroup } from '../services/chatgroup';
 
 export default {
   namespace: 'chatgroup',
 
   state: {
-    data: {
-      list: [],
-      pagination: {},
-    },
+    collapsed: false,
   },
 
   effects: {
@@ -34,14 +31,6 @@ export default {
       });
       if (callback) callback();
     },
-    *search({ payload, callback }, { call, put }) {
-      const response = yield call(searchChatGroup, payload);
-      yield put({
-        type: 'save',
-        payload: response,
-      });
-      if (callback) callback();
-    },
     *modify({ payload, callback }, { call, put }) {
       const response = yield call(modifyChatGroup, payload);
       yield put({
@@ -53,6 +42,12 @@ export default {
   },
 
   reducers: {
+    changeLayoutCollapsed(state, { payload }) {
+      return {
+        ...state,
+        collapsed: payload,
+      };
+    },
     save(state, action) {
       return {
         ...state,

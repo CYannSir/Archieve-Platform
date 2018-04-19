@@ -26,16 +26,6 @@ export async function deleteChatGroup(params) {
   });
 }
 
-export async function searchChatGroup(params) {
-  return request('/admin/searchchatgroup', {
-    method: 'POST',
-    body: {
-      ...params,
-      method: 'search',
-    },
-  });
-}
-
 export async function modifyChatGroup(params) {
   return request('/admin/modifychatgroup', {
     method: 'POST',

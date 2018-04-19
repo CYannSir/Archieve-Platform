@@ -10,13 +10,8 @@ for (let i = 0; i < 50; i += 1) {
     delTime: '',
     stuMajor: 'SE',
     stuEndYear: '2018',
-    qqNo: '123@123.com',
+    qqNo: '123456',
     wechatNo: '',
-    company: '浙江大学城市学院',
-    companyAddress: '浙江省杭州市拱墅区湖州街51#',
-    industry: 'IT/互联网',
-    occupation: 'PM',
-    salary: '9k/month',
   });
 }
 
@@ -89,19 +84,10 @@ export function postChatGroup(req, res, u, b) {
     updateTime,
     createTime,
     delTime,
-    stuName,
-    stuNumber,
-    stuClass,
     stuMajor,
-    stuStartYear,
     stuEndYear,
-    currentEmail,
-    currentPhone,
-    company,
-    companyAddress,
-    industry,
-    occupation,
-    salary,
+    qqNo,
+    wechatNo,
   } = body;
 
   switch (method) {
@@ -114,40 +100,10 @@ export function postChatGroup(req, res, u, b) {
         updateTime,
         createTime,
         delTime,
-        stuName,
-        stuNumber,
-        stuClass,
         stuMajor,
-        stuStartYear,
         stuEndYear,
-        currentEmail,
-        currentPhone,
-        company,
-        companyAddress,
-        industry,
-        occupation,
-        salary,
-      });
-      break;
-    case 'addbyfile':
-      tableListDataSource.unshift({
-        objectId,
-        updateTime,
-        createTime,
-        delTime,
-        stuName,
-        stuNumber,
-        stuClass,
-        stuMajor,
-        stuStartYear,
-        stuEndYear,
-        currentEmail,
-        currentPhone,
-        company,
-        companyAddress,
-        industry,
-        occupation,
-        salary,
+        qqNo,
+        wechatNo,
       });
       break;
     case 'modify':

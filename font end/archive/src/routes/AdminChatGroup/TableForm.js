@@ -60,10 +60,9 @@ export default class TableForm extends PureComponent {
     this.setState({ data: newData });
     this.props.onChange(newData);
   }
-  newMember = () => {
+  newChatGroup = () => {
     const newData = this.state.data.map(item => ({ ...item }));
     newData.push({
-      key: `NEW_TEMP_ID_${this.index}`,
       major: '',
       endyear: '',
       qqno: '',
@@ -129,8 +128,8 @@ export default class TableForm extends PureComponent {
   render() {
     const columns = [{
       title: '专业',
-      dataIndex: 'major',
-      key: 'major',
+      dataIndex: 'stuMajor',
+      key: 'stuMajor',
       width: '20%',
       render: (text, record) => {
         if (record.editable) {
@@ -148,8 +147,8 @@ export default class TableForm extends PureComponent {
       },
     }, {
       title: '毕业年份',
-      dataIndex: 'endyear',
-      key: 'endyear',
+      dataIndex: 'stuEndYear',
+      key: 'stuEndYear',
       width: '20%',
       render: (text, record) => {
         if (record.editable) {
@@ -166,8 +165,8 @@ export default class TableForm extends PureComponent {
       },
     }, {
       title: 'QQ群',
-      dataIndex: 'qqno',
-      key: 'qqno',
+      dataIndex: 'qqNo',
+      key: 'qqNo',
       width: '20%',
       render: (text, record) => {
         if (record.editable) {
@@ -184,7 +183,7 @@ export default class TableForm extends PureComponent {
       },
     }, {
       title: '微信群',
-      key: 'wechat',
+      key: 'wechatNo',
       render: () => {
         return (
           <span>
@@ -247,7 +246,7 @@ export default class TableForm extends PureComponent {
         <Button
           style={{ width: '100%', marginTop: 16, marginBottom: 8 }}
           type="dashed"
-          onClick={this.newMember}
+          onClick={this.newChatGroup}
           icon="plus"
         >
           新增交流群

@@ -8,19 +8,19 @@ import styles from './style.less';
 
 const tableData = [{
   key: '1',
-  major: '软件工程',
-  endyear: '2018',
-  qqno: '623209668',
+  stuMajor: '软件工程',
+  stuEndYear: '2018',
+  qqNo: '623209668',
 }, {
   key: '2',
-  major: '商务管理',
-  endyear: '2019',
-  qqno: '1234444444',
+  stuMajor: '商务管理',
+  stuEndYear: '2019',
+  qqNo: '1234444444',
 }, {
   key: '3',
-  major: '计算机',
-  endyear: '2018',
-  qqno: '4444444444',
+  stuMajor: '计算机',
+  stuEndYear: '2018',
+  qqNo: '4444444444',
 }];
 
 class ChatGroup extends PureComponent {
@@ -51,7 +51,7 @@ class ChatGroup extends PureComponent {
         wrapperClassName={styles.advancedForm}
       >
         <Card title="交流群设置" bordered={false}>
-          {getFieldDecorator('members', {
+          {getFieldDecorator('chatgroup', {
             initialValue: tableData,
           })(<TableForm />)}
         </Card>
@@ -60,7 +60,7 @@ class ChatGroup extends PureComponent {
   }
 }
 
-export default connect(({ global, loading }) => ({
-  collapsed: global.collapsed,
-  submitting: loading.effects['form/submitAdvancedForm'],
+export default connect(({ chatgroup, loading }) => ({
+  collapsed: chatgroup.collapsed,
+  submitting: loading.effects['chatgroup/submitAdvancedForm'],
 }))(Form.create()(ChatGroup));

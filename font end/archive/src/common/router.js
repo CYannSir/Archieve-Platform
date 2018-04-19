@@ -92,7 +92,7 @@ export const getRouterData = (app) => {
       component: dynamicWrapper(app, ['form', 'redarchive'], () => import('../routes/AdminBasicInfor/RedArchive')),
     },
     '/alumniinfor/chatgroup': {
-      component: dynamicWrapper(app, ['form'], () => import('../routes/AdminChatGroup/ChatGroup')),
+      component: dynamicWrapper(app, ['form', 'chatgroup'], () => import('../routes/AdminChatGroup/ChatGroup')),
     },
     '/alumniinfor/adminalumniinfor': {
       component: dynamicWrapper(app, ['form', 'alumniinfor'], () => import('../routes/AdminAlumniInfor/AlumniInfor')),
