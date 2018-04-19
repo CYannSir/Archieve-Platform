@@ -12,39 +12,39 @@ const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
 const columns = [
   {
     title: '名字',
-    dataIndex: 'studentname',
+    dataIndex: 'stuName',
   },
   {
     title: '学号',
-    dataIndex: 'studentno',
+    dataIndex: 'stuNumber',
   },
   {
     title: '专业',
-    dataIndex: 'studentmajor',
+    dataIndex: 'stuMajor',
   },
   {
     title: '班级',
-    dataIndex: 'studentclass',
+    dataIndex: 'stuClass',
   },
   {
     title: '入学年份',
-    dataIndex: 'studentstartyear',
+    dataIndex: 'stuStartYear',
     sorter: true,
     align: 'right',
   },
   {
     title: '毕业年份',
-    dataIndex: 'studentendyear',
+    dataIndex: 'stuEndYear',
     sorter: true,
     align: 'right',
   },
   {
     title: '现在邮箱',
-    dataIndex: 'currentemail',
+    dataIndex: 'currentEmail',
   },
   {
     title: '现在联系方式',
-    dataIndex: 'currentnumber',
+    dataIndex: 'currentPhone',
   },
   {
     title: '公司',
@@ -69,9 +69,9 @@ const columns = [
 ];
 
 
-@connect(({ rule, loading }) => ({
-  rule,
-  loading: loading.models.rule,
+@connect(({ practice, loading }) => ({
+  practice,
+  loading: loading.models.practice,
 }))
 @Form.create()
 export default class PracticeInfor extends PureComponent {
@@ -84,7 +84,7 @@ export default class PracticeInfor extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'rule/fetch',
+      type: 'practice/fetch',
     });
   }
 
@@ -109,7 +109,7 @@ export default class PracticeInfor extends PureComponent {
     }
 
     dispatch({
-      type: 'rule/fetch',
+      type: 'practice/fetch',
       payload: params,
     });
   }
@@ -121,7 +121,7 @@ export default class PracticeInfor extends PureComponent {
       formValues: {},
     });
     dispatch({
-      type: 'rule/fetch',
+      type: 'practice/fetch',
       payload: {},
     });
   }
@@ -141,7 +141,7 @@ export default class PracticeInfor extends PureComponent {
     switch (e.key) {
       case 'remove':
         dispatch({
-          type: 'rule/remove',
+          type: 'practice/delete',
           payload: {
             no: selectedRows.map(row => row.no).join(','),
           },
@@ -181,7 +181,7 @@ export default class PracticeInfor extends PureComponent {
       });
 
       dispatch({
-        type: 'rule/fetch',
+        type: 'practice/fetch',
         payload: values,
       });
     });
@@ -214,7 +214,7 @@ export default class PracticeInfor extends PureComponent {
   }
 
   render() {
-    const { rule: { data }, loading } = this.props;
+    const { practice: { data }, loading } = this.props;
     const { selectedRows } = this.state;
 
     return (

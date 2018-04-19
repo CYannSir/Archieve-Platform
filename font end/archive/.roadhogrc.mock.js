@@ -4,6 +4,8 @@ import { getStuInfor, postStuInfor } from './mock/stuinfor';
 import { getArchive, postArchive } from './mock/archive';
 import { getAccount, postAccount } from './mock/account';
 import { getRedArchive, postRedArchive } from './mock/redarchive';
+import { getAlumniInfor, postAlumniInfor } from './mock/alumniinfor';
+import { getPractice, postPractice } from './mock/practice'
 import { getActivities, getNotice, getFakeList } from './mock/api';
 import { getFakeChartData } from './mock/chart';
 import { getProfileBasicData } from './mock/profile';
@@ -244,6 +246,80 @@ const proxy = {
       },
     },
     $body: postRedArchive,
+  },
+  'GET /admin/listalumniinfor': getAlumniInfor,
+  'POST /admin/addalumniinfor': {
+    $params: {
+      pageSize: {
+        desc: '分页',
+        exp: 2,
+      },
+    },
+    $body: postAlumniInfor,
+  },
+  'POST /admin/deletealumniinfor': {
+    $params: {
+      pageSize: {
+        desc: '分页',
+        exp: 2,
+      },
+    },
+    $body: postAlumniInfor,
+  },
+  'POST /admin/searchalumniinfor': {
+    $params: {
+      pageSize: {
+        desc: '分页',
+        exp: 2,
+      },
+    },
+    $body: postAlumniInfor,
+  },
+  'POST /admin/modifyalumniinfor': {
+    $params: {
+      pageSize: {
+        desc: '分页',
+        exp: 2,
+      },
+    },
+    $body: postAlumniInfor,
+  },
+ 'GET /admin/listpractice': getPractice,
+  'POST /admin/addpractice': {
+    $params: {
+      pageSize: {
+        desc: '分页',
+        exp: 2,
+      },
+    },
+    $body: postPractice,
+  },
+  'POST /admin/deletepracticer': {
+    $params: {
+      pageSize: {
+        desc: '分页',
+        exp: 2,
+      },
+    },
+    $body: postPractice,
+  },
+  'POST /admin/searchpractice': {
+    $params: {
+      pageSize: {
+        desc: '分页',
+        exp: 2,
+      },
+    },
+    $body: postPractice,
+  },
+  'POST /admin/modifypractice': {
+    $params: {
+      pageSize: {
+        desc: '分页',
+        exp: 2,
+      },
+    },
+    $body: postPractice,
   },
 
   'POST /api/forms': (req, res) => {

@@ -95,10 +95,10 @@ export const getRouterData = (app) => {
       component: dynamicWrapper(app, ['form'], () => import('../routes/AdminChatGroup/ChatGroup')),
     },
     '/alumniinfor/adminalumniinfor': {
-      component: dynamicWrapper(app, ['form'], () => import('../routes/AdminAlumniInfor/AlumniInfor')),
+      component: dynamicWrapper(app, ['form', 'alumniinfor'], () => import('../routes/AdminAlumniInfor/AlumniInfor')),
     },
     '/alumniinfor/adminpracticeinfor': {
-      component: dynamicWrapper(app, ['form'], () => import('../routes/AdminAlumniInfor/PracticeInfor')),
+      component: dynamicWrapper(app, ['form', 'practice'], () => import('../routes/AdminAlumniInfor/PracticeInfor')),
     },
     '/list/table-list': {
       component: dynamicWrapper(app, ['rule'], () => import('../routes/List/TableList')),

@@ -17,39 +17,39 @@ function downloadfile() {
 const columns = [
   {
     title: '名字',
-    dataIndex: 'studentname',
+    dataIndex: 'stuName',
   },
   {
     title: '学号',
-    dataIndex: 'studentno',
+    dataIndex: 'stuNumber',
   },
   {
     title: '专业',
-    dataIndex: 'studentmajor',
+    dataIndex: 'stuMajor',
   },
   {
     title: '班级',
-    dataIndex: 'studentclass',
+    dataIndex: 'stuClass',
   },
   {
     title: '入学年份',
-    dataIndex: 'studentstartyear',
+    dataIndex: 'stuStartYear',
     sorter: true,
     align: 'right',
   },
   {
     title: '毕业年份',
-    dataIndex: 'studentendyear',
+    dataIndex: 'stuEndYear',
     sorter: true,
     align: 'right',
   },
   {
     title: '现在邮箱',
-    dataIndex: 'currentemail',
+    dataIndex: 'currentEmail',
   },
   {
     title: '现在联系方式',
-    dataIndex: 'currentnumber',
+    dataIndex: 'currentPhone',
   },
   {
     title: '公司',
@@ -57,7 +57,7 @@ const columns = [
   },
   {
     title: '公司地址',
-    dataIndex: 'companyaddress',
+    dataIndex: 'companyAddress',
   },
   {
     title: '行业',
@@ -99,7 +99,7 @@ const CreateForm = Form.create()((props) => {
         wrapperCol={{ span: 15 }}
         label="学生名字"
       >
-        {form.getFieldDecorator('name', {
+        {form.getFieldDecorator('stuName', {
           rules: [{ required: true, message: '请输入学生名字' }],
         })(
           <Input placeholder="请输入学生名字" />
@@ -110,7 +110,7 @@ const CreateForm = Form.create()((props) => {
         wrapperCol={{ span: 15 }}
         label="学生学号"
       >
-        {form.getFieldDecorator('number', {
+        {form.getFieldDecorator('stuNumber', {
           rules: [{ required: true, message: '请输入学生学号' }],
         })(
           <Input placeholder="请输入学生学号" />
@@ -121,7 +121,7 @@ const CreateForm = Form.create()((props) => {
         wrapperCol={{ span: 15 }}
         label="学生专业"
       >
-        {form.getFieldDecorator('major', {
+        {form.getFieldDecorator('stuMajor', {
           rules: [{ required: true, message: '请输入学生专业' }],
         })(
           <Input placeholder="请输入学生专业" />
@@ -132,7 +132,7 @@ const CreateForm = Form.create()((props) => {
         wrapperCol={{ span: 15 }}
         label="学生班级"
       >
-        {form.getFieldDecorator('class', {
+        {form.getFieldDecorator('stuClass', {
           rules: [{ required: true, message: '请输入学生班级' }],
         })(
           <Input placeholder="请输入学生班级" />
@@ -143,7 +143,7 @@ const CreateForm = Form.create()((props) => {
         wrapperCol={{ span: 15 }}
         label="入学年份"
       >
-        {form.getFieldDecorator('startyear', {
+        {form.getFieldDecorator('stuStartYear', {
           rules: [{ required: true, message: '请输入学生入学年份' }],
         })(
           <Input placeholder="请输入学生入学年份" />
@@ -154,7 +154,7 @@ const CreateForm = Form.create()((props) => {
         wrapperCol={{ span: 15 }}
         label="毕业年份"
       >
-        {form.getFieldDecorator('endyear', {
+        {form.getFieldDecorator('stuEndYear', {
           rules: [{ required: true, message: '请输入学生毕业年份' }],
         })(
           <Input placeholder="请输入学生毕业年份" />
@@ -165,7 +165,7 @@ const CreateForm = Form.create()((props) => {
         wrapperCol={{ span: 15 }}
         label="是否为党员"
       >
-        {form.getFieldDecorator('ifred', {
+        {form.getFieldDecorator('redParty', {
             rules: [{ required: true, message: '请选择学生是否为党员' }],
         })(
           <Select placeholder="请选择" style={{ width: '100%' }}>
@@ -178,9 +178,9 @@ const CreateForm = Form.create()((props) => {
   );
 });
 
-@connect(({ rule, loading }) => ({
-  rule,
-  loading: loading.models.rule,
+@connect(({ alumniinfor, loading }) => ({
+  alumniinfor,
+  loading: loading.models.alumniinfor,
 }))
 @Form.create()
 export default class AlumniInfor extends PureComponent {
@@ -194,7 +194,7 @@ export default class AlumniInfor extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'rule/fetch',
+      type: 'alumniinfor/fetch',
     });
   }
 
@@ -219,7 +219,7 @@ export default class AlumniInfor extends PureComponent {
     }
 
     dispatch({
-      type: 'rule/fetch',
+      type: 'alumniinfor/fetch',
       payload: params,
     });
   }
@@ -231,7 +231,7 @@ export default class AlumniInfor extends PureComponent {
       formValues: {},
     });
     dispatch({
-      type: 'rule/fetch',
+      type: 'alumniinfor/fetch',
       payload: {},
     });
   }
@@ -249,9 +249,9 @@ export default class AlumniInfor extends PureComponent {
     if (!selectedRows) return;
 
     switch (e.key) {
-      case 'remove':
+      case 'delete':
         dispatch({
-          type: 'rule/remove',
+          type: 'alumniinfor/delete',
           payload: {
             no: selectedRows.map(row => row.no).join(','),
           },
@@ -291,7 +291,7 @@ export default class AlumniInfor extends PureComponent {
       });
 
       dispatch({
-        type: 'rule/fetch',
+        type: 'alumniinfor/fetch',
         payload: values,
       });
     });
@@ -306,7 +306,7 @@ export default class AlumniInfor extends PureComponent {
   handleExport = () => {
     downloadfile();
     this.props.dispatch({
-      type: 'rule/export',
+      type: 'alumniinfor/export',
     });
 
     message.success('导出成功');
@@ -317,7 +317,7 @@ export default class AlumniInfor extends PureComponent {
   handleSimpleExport = () => {
     downloadfile();
     this.props.dispatch({
-      type: 'rule/simpleexport',
+      type: 'alumniinfor/simpleexport',
     });
 
     message.success('单个信息导出成功');
@@ -333,7 +333,7 @@ export default class AlumniInfor extends PureComponent {
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={8} sm={24}>
             <FormItem label="学生学号">
-              {getFieldDecorator('studentno')(
+              {getFieldDecorator('stuNumber')(
                 <Input placeholder="请输入学生学号" />
               )}
             </FormItem>
@@ -354,7 +354,7 @@ export default class AlumniInfor extends PureComponent {
   }
 
   render() {
-    const { rule: { data }, loading } = this.props;
+    const { alumniinfor: { data }, loading } = this.props;
     const { selectedRows, modalVisible } = this.state;
 
 
