@@ -5,6 +5,9 @@ export default {
 
   state: {
     collapsed: false,
+    date: {
+      list: [],
+    },
   },
 
   effects: {

@@ -2,7 +2,7 @@ import { parse } from 'url';
 
 // mock tableListDataSource
 const tableListDataSource = [];
-for (let i = 0; i < 50; i += 1) {
+for (let i = 0; i < 10; i += 1) {
   tableListDataSource.push({
     objectId: 'sadasdasfdsfsfdsfafdsafsdf',
     updateTime: new Date(),

@@ -63,9 +63,9 @@ export default class TableForm extends PureComponent {
   newChatGroup = () => {
     const newData = this.state.data.map(item => ({ ...item }));
     newData.push({
-      major: '',
-      endyear: '',
-      qqno: '',
+      stuMajor: '',
+      stuEndYear: '',
+      qqNo: '',
       editable: true,
       isNew: true,
     });
@@ -137,7 +137,7 @@ export default class TableForm extends PureComponent {
             <Input
               value={text}
               autoFocus
-              onChange={e => this.handleFieldChange(e, 'major', record.key)}
+              onChange={e => this.handleFieldChange(e, 'stuMajor', record.key)}
               onKeyPress={e => this.handleKeyPress(e, record.key)}
               placeholder="专业"
             />
@@ -155,7 +155,7 @@ export default class TableForm extends PureComponent {
           return (
             <Input
               value={text}
-              onChange={e => this.handleFieldChange(e, 'endyear', record.key)}
+              onChange={e => this.handleFieldChange(e, 'stuEndYear', record.key)}
               onKeyPress={e => this.handleKeyPress(e, record.key)}
               placeholder="毕业年份"
             />
@@ -173,7 +173,7 @@ export default class TableForm extends PureComponent {
           return (
             <Input
               value={text}
-              onChange={e => this.handleFieldChange(e, 'qqno', record.key)}
+              onChange={e => this.handleFieldChange(e, 'qqNo', record.key)}
               onKeyPress={e => this.handleKeyPress(e, record.key)}
               placeholder="QQ群"
             />

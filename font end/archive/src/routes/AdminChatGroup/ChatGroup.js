@@ -6,7 +6,7 @@ import TableForm from './TableForm';
 import styles from './style.less';
 
 
-const tableData = [{
+/* const tableData = [{
   key: '1',
   stuMajor: '软件工程',
   stuEndYear: '2018',
@@ -21,13 +21,17 @@ const tableData = [{
   stuMajor: '计算机',
   stuEndYear: '2018',
   qqNo: '4444444444',
-}];
+}]; */
 
 class ChatGroup extends PureComponent {
   state = {
     width: '100%',
   };
   componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'chatgroup/fetch',
+    });
     window.addEventListener('resize', this.resizeFooterToolbar);
   }
   componentWillUnmount() {
@@ -41,7 +45,7 @@ class ChatGroup extends PureComponent {
     }
   }
   render() {
-    const { form } = this.props;
+    const { chatgroup: { data }, form } = this.props;
     const { getFieldDecorator } = form;
 
     return (
@@ -52,7 +56,7 @@ class ChatGroup extends PureComponent {
       >
         <Card title="交流群设置" bordered={false}>
           {getFieldDecorator('chatgroup', {
-            initialValue: tableData,
+            initialValue: data.list,
           })(<TableForm />)}
         </Card>
       </PageHeaderLayout>
@@ -60,7 +64,8 @@ class ChatGroup extends PureComponent {
   }
 }
 
-export default connect(({ chatgroup, loading }) => ({
-  collapsed: chatgroup.collapsed,
+export default connect(({ chatgroup, global, loading }) => ({
+  chatgroup,
+  collapsed: global.collapsed,
   submitting: loading.effects['chatgroup/submitAdvancedForm'],
 }))(Form.create()(ChatGroup));
