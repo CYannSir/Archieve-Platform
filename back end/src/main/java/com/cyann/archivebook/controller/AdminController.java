@@ -48,15 +48,15 @@ public class AdminController {
     */
 
     //展示用户
-    @PostMapping(value = "/liststu")
+    @GetMapping(value = "/liststu")
     public Result listUser(UserModel userModel){
-        userService.findAllUser();
-        return Result.success();
+        List<UserModel> list = userService.findAllUser();
+        return Result.success(list);
     }
 
     //增加用户
     @PostMapping(value = "/addstu")
-    public Result addUser(UserModel userModel){
+    public Result addUser(@RequestBody UserModel userModel){
         userService.add(userModel);
         return Result.success();
     }

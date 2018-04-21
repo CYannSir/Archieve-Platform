@@ -21,7 +21,7 @@ public interface AlumniInformationRepository extends JpaRepository<AlumniInforma
     AlumniInformationModel findById(@Param("objectId") String objectId);
 
     //学校查询校友信息
-    @Query("select alumniInformationModel from AlumniInformationModel alumniInformationModel where alumniInformationModel.stu_number = ?1 and alumniInformationModel.delTime is null")
+    @Query("select alumniInformationModel from AlumniInformationModel alumniInformationModel where alumniInformationModel.stuNumber = ?1 and alumniInformationModel.delTime is null")
     List<AlumniInformationModel> findByStuNum(@Param("stuNumber") String stuNumber);
 
     //学校Id查询校友信息

@@ -17,11 +17,11 @@ public interface ChatGroupRepository extends JpaRepository<ChatGroupModel,String
     List<ChatGroupModel> findALL();
 
     //查询所有交流群信息
-    @Query("select chatGroupModel from ChatGroupModel chatGroupModel where chatGroupModel.objectId = :objectId and ochatGroupModel.delTime is null")
+    @Query("select chatGroupModel from ChatGroupModel chatGroupModel where chatGroupModel.objectId = :objectId and chatGroupModel.delTime is null")
     ChatGroupModel findById(@Param("objectId") String objectId);
 
     //通过专业和毕业时间 查询所有交流群信息
-    @Query("select chatGroupModel from ChatGroupModel chatGroupModel where chatGroupModel.stuMajor = ?1 and chatGroupModel.stuEndYear = ?2 and ochatGroupModel.delTime is null")
+    @Query("select chatGroupModel from ChatGroupModel chatGroupModel where chatGroupModel.stuMajor = ?1 and chatGroupModel.stuEndYear = ?2 and chatGroupModel.delTime is null")
     ChatGroupModel findByStuMajorAndAndStuEndYear(@Param("stuMajor") String stuMajor,@Param("stuEndYear") String stuEndYear );
 
 }
