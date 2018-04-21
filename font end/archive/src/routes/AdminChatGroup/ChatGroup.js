@@ -1,71 +1,414 @@
 import React, { PureComponent } from 'react';
-import { Card, Form } from 'antd';
 import { connect } from 'dva';
+import { Row, Col, Card, Form, Input, Button, Modal, message } from 'antd';
+import StandardTable from 'components/StandardTable';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
-import TableForm from './TableForm';
-import styles from './style.less';
 
+import styles from './ChatGroup.less';
 
-/* const tableData = [{
-  key: '1',
-  stuMajor: '软件工程',
-  stuEndYear: '2018',
-  qqNo: '623209668',
-}, {
-  key: '2',
-  stuMajor: '商务管理',
-  stuEndYear: '2019',
-  qqNo: '1234444444',
-}, {
-  key: '3',
-  stuMajor: '计算机',
-  stuEndYear: '2018',
-  qqNo: '4444444444',
-}]; */
+const FormItem = Form.Item;
+const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
 
-class ChatGroup extends PureComponent {
+const columns = [
+  {
+    title: '专业',
+    dataIndex: 'stuMajor',
+  },
+  {
+    title: '毕业年份',
+    dataIndex: 'stuEndYear',
+  },
+  {
+    title: 'QQ群',
+    dataIndex: 'qqNo',
+  },
+  {
+    title: '微信群',
+    dataIndex: 'wechatNo',
+  },
+  {
+    title: '创建时间',
+    dataIndex: 'createTime',
+    sorter: true,
+  },
+  {
+    title: '更新时间',
+    dataIndex: 'updateTime',
+    sorter: true,
+  },
+];
+
+const CreateForm = Form.create()((props) => {
+  const { modalVisible, form, handleAdd, handleModalVisible, handleModify, formprops } = props;
+  if (formprops === true) {
+    const okHandle = () => {
+      form.validateFields((err, fieldsValue) => {
+        if (err) return;
+        form.resetFields();
+        handleModify(fieldsValue);
+      });
+    };
+    return (
+      <Modal
+        title="修改交流群信息"
+        visible={modalVisible}
+        onOk={okHandle}
+        onCancel={() => handleModalVisible()}
+      >
+        <FormItem
+          labelCol={{ span: 6 }}
+          wrapperCol={{ span: 18 }}
+          label="专业"
+        >
+          {form.getFieldDecorator('stuMajor', {
+          rules: [{ message: '请输入专业' }],
+        })(
+          <Input placeholder="请输入专业" />
+        )}
+        </FormItem>
+        <FormItem
+          labelCol={{ span: 6 }}
+          wrapperCol={{ span: 18 }}
+          label="毕业年份"
+        >
+          {form.getFieldDecorator('stuEndYear', {
+          rules: [{ message: '请输入毕业年份' }],
+        })(
+          <Input placeholder="请输入毕业年份" />
+        )}
+        </FormItem>
+        <FormItem
+          labelCol={{ span: 6 }}
+          wrapperCol={{ span: 18 }}
+          label="qq群"
+        >
+          {form.getFieldDecorator('qqNo', {
+          rules: [{ message: '请输入QQ群' }],
+        })(
+          <Input placeholder="请输入QQ群" />
+        )}
+        </FormItem>
+        <FormItem
+          labelCol={{ span: 6 }}
+          wrapperCol={{ span: 18 }}
+          label="微信群"
+        >
+          {form.getFieldDecorator('wechatNo', {
+          rules: [{ message: '请输入微信群' }],
+        })(
+          <Input placeholder="请输入微信群" />
+        )}
+        </FormItem>
+      </Modal>
+    );
+  } else {
+    const okHandle = () => {
+      form.validateFields((err, fieldsValue) => {
+        if (err) return;
+        form.resetFields();
+        handleAdd(fieldsValue);
+      });
+    };
+    return (
+      <Modal
+        title="新增交流群信息"
+        visible={modalVisible}
+        onOk={okHandle}
+        onCancel={() => handleModalVisible()}
+      >
+        <FormItem
+          labelCol={{ span: 6 }}
+          wrapperCol={{ span: 18 }}
+          label="专业"
+        >
+          {form.getFieldDecorator('stuMajor', {
+          rules: [{ message: '请输入专业' }],
+        })(
+          <Input placeholder="请输入专业" />
+        )}
+        </FormItem>
+        <FormItem
+          labelCol={{ span: 6 }}
+          wrapperCol={{ span: 18 }}
+          label="毕业年份"
+        >
+          {form.getFieldDecorator('stuEndYear', {
+          rules: [{ message: '请输入毕业年份' }],
+        })(
+          <Input placeholder="请输入毕业年份" />
+        )}
+        </FormItem>
+        <FormItem
+          labelCol={{ span: 6 }}
+          wrapperCol={{ span: 18 }}
+          label="qq群"
+        >
+          {form.getFieldDecorator('qqNo', {
+          rules: [{ message: '请输入QQ群' }],
+        })(
+          <Input placeholder="请输入QQ群" />
+        )}
+        </FormItem>
+        <FormItem
+          labelCol={{ span: 6 }}
+          wrapperCol={{ span: 18 }}
+          label="微信群"
+        >
+          {form.getFieldDecorator('wechatNo', {
+          rules: [{ message: '请输入微信群' }],
+        })(
+          <Input placeholder="请输入微信群" />
+        )}
+        </FormItem>
+      </Modal>
+    );
+  }
+});
+
+@connect(({ chatgroup, loading }) => ({
+  chatgroup,
+  loading: loading.models.chatgroup,
+}))
+@Form.create()
+export default class ChatGroup extends PureComponent {
   state = {
-    width: '100%',
+    modalVisible: false,
+    expandForm: false,
+    formprops: false,
+    selectedRows: [],
+    formValues: {},
   };
+
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
       type: 'chatgroup/fetch',
     });
-    window.addEventListener('resize', this.resizeFooterToolbar);
   }
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.resizeFooterToolbar);
-  }
-  resizeFooterToolbar = () => {
-    const sider = document.querySelectorAll('.ant-layout-sider')[0];
-    const width = `calc(100% - ${sider.style.width})`;
-    if (this.state.width !== width) {
-      this.setState({ width });
+
+  handleStandardTableChange = (pagination, filtersArg, sorter) => {
+    const { dispatch } = this.props;
+    const { formValues } = this.state;
+
+    const filters = Object.keys(filtersArg).reduce((obj, key) => {
+      const newObj = { ...obj };
+      newObj[key] = getValue(filtersArg[key]);
+      return newObj;
+    }, {});
+
+    const params = {
+      currentPage: pagination.current,
+      pageSize: pagination.pageSize,
+      ...formValues,
+      ...filters,
+    };
+    if (sorter.field) {
+      params.sorter = `${sorter.field}_${sorter.order}`;
     }
+
+    dispatch({
+      type: 'chatgroup/fetch',
+      payload: params,
+    });
   }
+
+  handleFormReset = () => {
+    const { form, dispatch } = this.props;
+    form.resetFields();
+    this.setState({
+      formValues: {},
+    });
+    dispatch({
+      type: 'chatgroup/fetch',
+      payload: {},
+    });
+  }
+
+  toggleForm = () => {
+    this.setState({
+      expandForm: !this.state.expandForm,
+    });
+  }
+
+  handleMenuClick = () => {
+    const { dispatch } = this.props;
+    const { selectedRows } = this.state;
+
+    if (!selectedRows) return;
+    dispatch({
+      type: 'chatgroup/delete',
+      payload: {
+        objectId: selectedRows.map(row => row.objectId).join(','),
+      },
+      callback: () => {
+        this.setState({
+          selectedRows: [],
+        });
+      },
+    });
+
+    message.success('删除成功');
+    this.setState({
+      modalVisible: false,
+    });
+  }
+
+  handleSelectRows = (rows) => {
+    this.setState({
+      selectedRows: rows,
+    });
+  }
+
+  handleSearch = (e) => {
+    e.preventDefault();
+
+    const { dispatch, form } = this.props;
+
+    form.validateFields((err, fieldsValue) => {
+      if (err) return;
+
+      const values = {
+        ...fieldsValue,
+        stuMajor: fieldsValue.stuMajor && fieldsValue.stuMajor.valueOf(),
+      };
+
+      this.setState({
+        formValues: values,
+      });
+
+      dispatch({
+        type: 'chatgroup/search',
+        payload: values,
+      });
+    });
+  }
+
+  handleModalVisible = (flag) => {
+    this.setState({
+      formprops: !flag,
+      modalVisible: !!flag,
+    });
+  }
+
+  handleModifyModalVisible = (flag) => {
+    this.setState({
+      formprops: !!flag,
+      modalVisible: !!flag,
+    });
+  }
+
+  handleAdd = (fields) => {
+    this.props.dispatch({
+      type: 'chatgroup/add',
+      payload: {
+        stuMajor: fields.stuMajor,
+        stuEndYear: fields.stuEndYear,
+        qqNo: fields.qqNo,
+        wechatNo: fields.wechatNo,
+      },
+    });
+
+    message.success('新增成功');
+    this.setState({
+      modalVisible: false,
+    });
+  }
+  handleModify = (fields) => {
+    this.props.dispatch({
+      type: 'chatgroup/modify',
+      payload: {
+        stuMajor: fields.stuMajor,
+        stuEndYear: fields.stuEndYear,
+        qqNo: fields.qqNo,
+        wechatNo: fields.wechatNo,
+      },
+    });
+
+    message.success('修改成功');
+    this.setState({
+      modalVisible: false,
+      formprops: false,
+    });
+  }
+
+  renderSimpleForm() {
+    const { getFieldDecorator } = this.props.form;
+    return (
+      <Form onSubmit={this.handleSearch} layout="inline">
+        <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
+          <Col md={8} sm={24}>
+            <FormItem label="学生专业">
+              {getFieldDecorator('stuMajor')(
+                <Input placeholder="请输入" />
+              )}
+            </FormItem>
+          </Col>
+          <Col md={8} sm={24}>
+            <span className={styles.submitButtons}>
+              <Button type="primary" htmlType="submit" onClick={this.handleSearch}>查询</Button>
+              <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>重置</Button>
+            </span>
+          </Col>
+        </Row>
+      </Form>
+    );
+  }
+
+  renderForm() {
+    return this.renderSimpleForm();
+  }
+
   render() {
-    const { chatgroup: { data }, form } = this.props;
-    const { getFieldDecorator } = form;
+    const { chatgroup: { data }, loading } = this.props;
+    const { selectedRows, modalVisible, formprops } = this.state;
+
+
+    const parentMethods = {
+      handleAdd: this.handleAdd,
+      handleModify: this.handleModify,
+      handleModalVisible: this.handleModalVisible,
+    };
 
     return (
-      <PageHeaderLayout
-        title="交流群设置"
-        content="为毕业生或者实习生专门设置的交流群设置"
-        wrapperClassName={styles.advancedForm}
-      >
-        <Card title="交流群设置" bordered={false}>
-          {getFieldDecorator('chatgroup', {
-            initialValue: data.list,
-          })(<TableForm />)}
+      <PageHeaderLayout title="交流群管理">
+        <Card bordered={false}>
+          <div className={styles.tableList}>
+            <div className={styles.tableListForm}>
+              {this.renderForm()}
+            </div>
+            <div className={styles.tableListOperator}>
+              <Button icon="plus" type="primary" onClick={() => this.handleModalVisible(true)}>
+                新建
+              </Button>
+              {
+                selectedRows.length > 0 && (
+                  <span>
+                    <Button icon="edit" type="primary" onClick={() => this.handleModifyModalVisible(true)}>
+                        修改
+                    </Button>
+                    <Button icon="delete" type="primary" onClick={this.handleMenuClick}>
+                        删除
+                    </Button>
+                  </span>
+                )
+              }
+            </div>
+            <StandardTable
+              selectedRows={selectedRows}
+              loading={loading}
+              data={data}
+              columns={columns}
+              onSelectRow={this.handleSelectRows}
+              onChange={this.handleStandardTableChange}
+            />
+          </div>
         </Card>
+        <CreateForm
+          {...parentMethods}
+          modalVisible={modalVisible}
+          formprops={formprops}
+        />
       </PageHeaderLayout>
     );
   }
 }
-
-export default connect(({ chatgroup, global, loading }) => ({
-  chatgroup,
-  collapsed: global.collapsed,
-  submitting: loading.effects['chatgroup/submitAdvancedForm'],
-}))(Form.create()(ChatGroup));

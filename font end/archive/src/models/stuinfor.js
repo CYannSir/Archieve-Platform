@@ -4,10 +4,11 @@ export default {
   namespace: 'stuinfor',
 
   state: {
+    code: '',
     data: {
       list: [],
-      pagination: {},
     },
+    msg: '',
   },
 
   effects: {
@@ -15,7 +16,9 @@ export default {
       const response = yield call(queryStuInfor, payload);
       yield put({
         type: 'save',
-        payload: response,
+        payload: {
+          response,
+        },
       });
     },
     *add({ payload, callback }, { call, put }) {

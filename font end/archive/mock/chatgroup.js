@@ -11,7 +11,7 @@ for (let i = 0; i < 10; i += 1) {
     stuMajor: 'SE',
     stuEndYear: '2018',
     qqNo: '123456',
-    wechatNo: '',
+    wechatNo: 'all623209668',
   });
 }
 

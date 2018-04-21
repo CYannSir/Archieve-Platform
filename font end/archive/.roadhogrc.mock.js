@@ -64,16 +64,8 @@ const proxy = {
     },
     $body: postRule,
   },
-  'GET /admin/liststu': getStuInfor,
-  'POST /admin/addstu': {
-    $params: {
-      pageSize: {
-        desc: '分页',
-        exp: 2,
-      },
-    },
-    $body: postStuInfor,
-  },
+  'GET /admin/liststu': 'http://localhost:8080',
+  'POST /admin/addstu': 'http://localhost:8080',
   'POST /admin/addstubyfile': {
     $params: {
       pageSize: {
@@ -322,7 +314,7 @@ const proxy = {
     },
     $body: postPractice,
   },
-   'GET /admin/listchatgroup': getChatGroup,
+  'GET /admin/listchatgroup': getChatGroup,
   'POST /admin/addchatgroup': {
     $params: {
       pageSize: {
@@ -333,6 +325,15 @@ const proxy = {
     $body: postChatGroup,
   },
   'POST /admin/deletechatgroup': {
+    $params: {
+      pageSize: {
+        desc: '分页',
+        exp: 2,
+      },
+    },
+    $body: postChatGroup,
+  },
+  'POST /admin/searchchatgroup': {
     $params: {
       pageSize: {
         desc: '分页',
