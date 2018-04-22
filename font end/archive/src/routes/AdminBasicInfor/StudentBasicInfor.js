@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
+import moment from 'moment';
 import { Row, Col, Card, Form, Input, Select, Icon, Button, Modal, message, Badge, Upload } from 'antd';
 import StandardTable from 'components/StandardTable';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
@@ -88,13 +89,15 @@ const columns = [
   },
   {
     title: '创建时间',
-    dataIndex: 'createTime',
+    dataIndex: 'creatTime',
     sorter: true,
+    render: val => (<span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>),
   },
   {
     title: '更新时间',
     dataIndex: 'updateTime',
     sorter: true,
+    render: val => (val === null ? (<span />) : (<span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>)),
   },
 ];
 
