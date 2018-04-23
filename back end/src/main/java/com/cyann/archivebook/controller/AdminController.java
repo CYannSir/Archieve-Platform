@@ -58,7 +58,8 @@ public class AdminController {
     @PostMapping(value = "/addstu")
     public Result addUser(@RequestBody UserModel userModel){
         userService.add(userModel);
-        return Result.success();
+        List<UserModel> list = userService.findAllUser();
+        return Result.success(list);
     }
 
     //批量增加用户 stuName / stuNumber / stuMajor / stuEndYear / redParty / stuClass / stuPower / stuStartYear
@@ -89,23 +90,25 @@ public class AdminController {
 
     //删除用户
     @PostMapping(value = "/deletestu")
-    public Result deleteUser(UserModel userModel){
+    public Result deleteUser(@RequestBody UserModel userModel){
         userService.delete(userModel);
-        return Result.success();
+        List<UserModel> list = userService.findAllUser();
+        return Result.success(list);
     }
 
     //根据 名字 学号 专业 毕业年份 入学年份 多条件动态查询学生用户
     @PostMapping(value = "/searchstu")
-    public Result searchUser(UserModel userModel){
-        userService.findAllByAdvancedForm(userModel);
-        return Result.success();
+    public Result searchUser(@RequestBody UserModel userModel){
+        List<UserModel> list = userService.findAllByAdvancedForm(userModel);
+        return Result.success(list);
     }
 
     //动态修改更新学生用户
     @PostMapping(value = "/modifystu")
-    public Result modifyUser(UserModel userModel){
+    public Result modifyUser(@RequestBody UserModel userModel){
         userService.update(userModel);
-        return Result.success();
+        List<UserModel> list = userService.findAllUser();
+        return Result.success(list);
     }
 
     //修改用户权限信息

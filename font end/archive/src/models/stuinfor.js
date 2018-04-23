@@ -13,88 +13,108 @@ export default {
   effects: {
     *fetch({ payload }, { call, put }) {
       const response = yield call(queryStuInfor, payload);
-      const params = response;
-      let dataSource = [...response.data];
 
-      if (params.sorter) {
-        const s = params.sorter.split('_');
-        dataSource = dataSource.sort((prev, next) => {
-          if (s[1] === 'descend') {
-            return next[s[0]] - prev[s[0]];
-          }
-          return prev[s[0]] - next[s[0]];
-        });
-      }
-
-      if (params.redParty) {
-        const redParty = params.redParty.split(',');
-        let filterDataSource = [];
-        redParty.forEach((s) => {
-          filterDataSource = filterDataSource.concat(
-            [...dataSource].filter(data => parseInt(data.redParty, 10) === parseInt(s[0], 10))
-          );
-        });
-        dataSource = filterDataSource;
-      }
-
-      if (params.delTime) {
-        dataSource = dataSource.filter(data => data.delTime === null);
-      }
-
-      let pageSize = 10;
-      if (params.pageSize) {
-        pageSize = params.pageSize * 1;
-      }
+      const pageSize = 10;
 
       yield put({
         type: 'save',
         payload: {
-          list: dataSource,
+          response,
+          list: response.data,
           pagination: {
-            total: dataSource.length,
+            total: response.data.length,
             pageSize,
-            current: parseInt(params.currentPage, 10) || 1,
+            current: parseInt(response.data.currentPage, 10) || 1,
           },
         },
       });
     },
     *add({ payload, callback }, { call, put }) {
       const response = yield call(addStu, payload);
+      const pageSize = 10;
       yield put({
         type: 'save',
-        payload: response,
+        payload: {
+          response,
+          list: response.data,
+          pagination: {
+            total: response.data.length,
+            pageSize,
+            current: parseInt(response.data.currentPage, 10) || 1,
+          },
+        },
       });
       if (callback) callback();
     },
     *addbyfile({ payload, callback }, { call, put }) {
       const response = yield call(addStuByfile, payload);
+      const pageSize = 10;
       yield put({
         type: 'save',
-        payload: response,
+        payload: {
+          response,
+          list: response.data,
+          pagination: {
+            total: response.data.length,
+            pageSize,
+            current: parseInt(response.data.currentPage, 10) || 1,
+          },
+
+        },
       });
       if (callback) callback();
     },
     *delete({ payload, callback }, { call, put }) {
       const response = yield call(deleteStu, payload);
+      const pageSize = 10;
       yield put({
         type: 'save',
-        payload: response,
+        payload: {
+          response,
+          list: response.data,
+          pagination: {
+            total: response.data.length,
+            pageSize,
+            current: parseInt(response.data.currentPage, 10) || 1,
+          },
+
+        },
       });
       if (callback) callback();
     },
     *search({ payload, callback }, { call, put }) {
       const response = yield call(searchStu, payload);
+      const pageSize = 10;
       yield put({
         type: 'save',
-        payload: response,
+        payload: {
+          response,
+          list: response.data,
+          pagination: {
+            total: response.data.length,
+            pageSize,
+            current: parseInt(response.data.currentPage, 10) || 1,
+          },
+
+        },
       });
       if (callback) callback();
     },
     *modify({ payload, callback }, { call, put }) {
       const response = yield call(modifyStu, payload);
+      const pageSize = 10;
       yield put({
         type: 'save',
-        payload: response,
+        payload: {
+          response,
+          list: response.data,
+          pagination: {
+            total: response.data.length,
+            pageSize,
+            current: parseInt(response.data.currentPage, 10) || 1,
+          },
+
+        },
       });
       if (callback) callback();
     },

@@ -66,42 +66,10 @@ const proxy = {
   },
   'GET /admin/liststu': 'http://localhost:8080',
   'POST /admin/addstu': 'http://localhost:8080',
-  'POST /admin/addstubyfile': {
-    $params: {
-      pageSize: {
-        desc: '分页',
-        exp: 2,
-      },
-    },
-    $body: postStuInfor,
-  },
-  'POST /admin/deletestu': {
-    $params: {
-      pageSize: {
-        desc: '分页',
-        exp: 2,
-      },
-    },
-    $body: postStuInfor,
-  },
-  'POST /admin/searchstu': {
-    $params: {
-      pageSize: {
-        desc: '分页',
-        exp: 2,
-      },
-    },
-    $body: postStuInfor,
-  },
-  'POST /admin/modifystu': {
-    $params: {
-      pageSize: {
-        desc: '分页',
-        exp: 2,
-      },
-    },
-    $body: postStuInfor,
-  }, 
+  'POST /admin/addstubyfile': 'http://localhost:8080',
+  'POST /admin/deletestu': 'http://localhost:8080',
+  'POST /admin/searchstu': 'http://localhost:8080',
+  'POST /admin/modifystu': 'http://localhost:8080', 
   'GET /admin/listarchive': getArchive,
   'POST /admin/addarchive': {
     $params: {

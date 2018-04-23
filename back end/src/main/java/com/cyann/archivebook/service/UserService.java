@@ -61,6 +61,9 @@ public class UserService {
             if(userItem.getRedParty() != userModel.getRedParty()){
                 userItem.setRedParty(userModel.getRedParty());
             }
+            if(userItem.getStuPower() != userModel.getStuPower()){
+                userItem.setStuPower(userModel.getStuPower());
+            }
             baseService.modify(userRepository,userItem);
             userRepository.save(userItem);
         }
@@ -175,7 +178,7 @@ public class UserService {
                     list.add(cb.equal(root.get("stuStartYear"), userModel.getStuStartYear()));
                 }
                 if(userModel != null && !StringUtils.isEmpty(userModel.getRedParty()) ){
-                    list.add(cb.lessThanOrEqualTo(root.get("redParty"), userModel.getRedParty()));
+                    list.add(cb.equal(root.get("redParty"), Integer.valueOf(userModel.getRedParty())));
                 }
                 Predicate[] p = new Predicate[list.size()];
                 return cb.and(list.toArray(p));

@@ -30,7 +30,6 @@ export async function deleteStu(params) {
     method: 'POST',
     body: {
       ...params,
-      method: 'delete',
     },
   });
 }

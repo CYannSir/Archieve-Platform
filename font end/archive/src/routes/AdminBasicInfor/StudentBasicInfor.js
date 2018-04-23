@@ -12,20 +12,23 @@ const { Option } = Select;
 const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
 const statusMap = ['default', 'processing', 'success', 'error'];
 const status = ['普通', '党员'];
-/**
- * 上传文件参数
- */
+const stupower = ['实习生', '毕业生'];
+
 const fileprops = {
   name: 'file',
   action: '//jsonplaceholder.typicode.com/posts/',
   headers: {
     authorization: 'authorization-text',
   },
-  onChange(info) {
+  onchange(info) {
+    const { dispatch } = this.props;
     if (info.file.status !== 'uploading') {
       console.log(info.file, info.fileList);
     }
     if (info.file.status === 'done') {
+      dispatch({
+        type: 'stuinfor/addstubyfile',
+      });
       message.success(`${info.file.name} file uploaded successfully`);
     } else if (info.file.status === 'error') {
       message.error(`${info.file.name} file upload failed.`);
@@ -37,64 +40,71 @@ const columns = [
   {
     title: '名字',
     dataIndex: 'stuName',
+    align: 'center',
   },
   {
     title: '学号',
     dataIndex: 'stuNumber',
+    align: 'center',
   },
   {
     title: '专业',
     dataIndex: 'stuMajor',
+    align: 'center',
   },
   {
     title: '班级',
     dataIndex: 'stuClass',
+    align: 'center',
   },
   {
     title: '入学年份',
     dataIndex: 'stuStartYear',
     sorter: true,
-    align: 'right',
+    align: 'center',
   },
   {
     title: '毕业年份',
     dataIndex: 'stuEndYear',
     sorter: true,
-    align: 'right',
+    align: 'center',
   },
   {
     title: '是否党员',
     dataIndex: 'redParty',
-    filters: [
-      {
-        text: status[0],
-        value: 0,
-      },
-      {
-        text: status[1],
-        value: 1,
-      },
-    ],
+    align: 'center',
     render(val) {
       return <Badge status={statusMap[val]} text={status[val]} />;
     },
   },
   {
+    title: '是否毕业',
+    dataIndex: 'stuPower',
+    align: 'center',
+    render(val) {
+      return <Badge status={statusMap[val]} text={stupower[val]} />;
+    },
+  },
+  {
     title: '现在邮箱',
     dataIndex: 'currentEmail',
+    align: 'center',
   },
   {
     title: '现在联系方式',
     dataIndex: 'currentPhone',
+    align: 'center',
   },
   {
     title: '创建时间',
     dataIndex: 'creatTime',
+    align: 'center',
     sorter: true,
     render: val => (<span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>),
   },
   {
     title: '更新时间',
+    align: 'center',
     dataIndex: 'updateTime',
     sorter: true,
     render: val => (val === null ? (<span />) : (<span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>)),
@@ -103,6 +113,8 @@ const columns = [
 
 const CreateForm = Form.create()((props) => {
   const { modalVisible, form, handleAdd, handleModalVisible, handleModify, formprops } = props;
+
+  // const { selectedRows } = this.state;
   if (formprops === true) {
     const okHandle = () => {
       form.validateFields((err, fieldsValue) => {
@@ -195,6 +207,20 @@ const CreateForm = Form.create()((props) => {
           <Select placeholder="请选择" style={{ width: '100%' }}>
             <Option value="0">普通</Option>
             <Option value="1">党员</Option>
+          </Select>
+              )}
+        </FormItem>
+        <FormItem
+          labelCol={{ span: 5 }}
+          wrapperCol={{ span: 15 }}
+          label="是否毕业"
+        >
+          {form.getFieldDecorator('redParty', {
+            rules: [{ message: '请选择学生是否毕业' }],
+        })(
+          <Select placeholder="请选择" style={{ width: '100%' }}>
+            <Option value="0">实习生</Option>
+            <Option value="1">毕业生</Option>
           </Select>
               )}
         </FormItem>
@@ -295,6 +321,20 @@ const CreateForm = Form.create()((props) => {
           </Select>
               )}
         </FormItem>
+        <FormItem
+          labelCol={{ span: 5 }}
+          wrapperCol={{ span: 15 }}
+          label="是否毕业"
+        >
+          {form.getFieldDecorator('redParty', {
+            rules: [{ required: true, message: '请选择学生是否毕业' }],
+        })(
+          <Select placeholder="请选择" style={{ width: '100%' }}>
+            <Option value="0">实习生</Option>
+            <Option value="1">毕业生</Option>
+          </Select>
+              )}
+        </FormItem>
       </Modal>
     );
   }
@@ -322,7 +362,7 @@ export default class StudentBasicInfor extends PureComponent {
   }
 
   handleStandardTableChange = (pagination, filtersArg, sorter) => {
-    const { dispatch } = this.props;
+    const { stuinfor: { data }, dispatch } = this.props;
     const { formValues } = this.state;
 
     const filters = Object.keys(filtersArg).reduce((obj, key) => {
@@ -330,20 +370,36 @@ export default class StudentBasicInfor extends PureComponent {
       newObj[key] = getValue(filtersArg[key]);
       return newObj;
     }, {});
-
+    // console.log('formValuessad==>', formValues);
     const params = {
       currentPage: pagination.current,
       pageSize: pagination.pageSize,
       ...formValues,
       ...filters,
     };
+    // console.log('formValues==>', formValues);
+
     if (sorter.field) {
       params.sorter = `${sorter.field}_${sorter.order}`;
+      const s = params.sorter.split('_');
+      data.list = data.list.sort((prev, next) => {
+        if (s[1] === 'descend') {
+          return next[s[0]] - prev[s[0]];
+        }
+        return prev[s[0]] - next[s[0]];
+      });
     }
 
+    const result = {
+      list: data.list,
+      pagination,
+    };
+
+    // console.log('pageSize==>', params.pageSize);
+    // console.log('result==>', result);
     dispatch({
-      type: 'stuinfor/fetch',
-      payload: params,
+      type: 'stuinfor/save',
+      payload: result,
     });
   }
 
@@ -365,15 +421,16 @@ export default class StudentBasicInfor extends PureComponent {
     });
   }
 
-  handleMenuClick = () => {
+  handleDeleteClick = () => {
     const { dispatch } = this.props;
     const { selectedRows } = this.state;
-
+    // console.log('srows==>', selectedRows);
+    // console.log('object==>', selectedRows.map(objectId => objectId.objectId).join(','));
     if (!selectedRows) return;
     dispatch({
       type: 'stuinfor/delete',
       payload: {
-        objectId: selectedRows.map(row => row.objectId).join(','),
+        objectId: selectedRows.map(objectId => objectId.objectId).join(','),
       },
       callback: () => {
         this.setState({
@@ -388,6 +445,7 @@ export default class StudentBasicInfor extends PureComponent {
   }
 
   handleSelectRows = (rows) => {
+    // console.log('rows==>', rows);
     this.setState({
       selectedRows: rows,
     });
@@ -403,12 +461,13 @@ export default class StudentBasicInfor extends PureComponent {
 
       const values = {
         ...fieldsValue,
-        stuNumber: fieldsValue.stuNumber && fieldsValue.stuNumber.valueOf(),
-        stuName: fieldsValue.stuName && fieldsValue.stuName.valueOf(),
-        stuMajor: fieldsValue.stuMajor && fieldsValue.stuMajor.valueOf(),
-        stuStartYear: fieldsValue.stuStartYear && fieldsValue.stuStartYear.valueOf(),
-        stuEndYear: fieldsValue.stuEndYear && fieldsValue.stuEndYear.valueOf(),
+        stuNumber: fieldsValue.stuNumber,
+        stuName: fieldsValue.stuName,
+        stuMajor: fieldsValue.stuMajor,
+        stuStartYear: fieldsValue.stuStartYear,
+        stuEndYear: fieldsValue.stuEndYear,
         redParty: fieldsValue.redParty && fieldsValue.redParty.valueOf(),
+        stuPower: fieldsValue.stuPower && fieldsValue.stuPower.valueOf(),
       };
 
       this.setState({
@@ -428,26 +487,16 @@ export default class StudentBasicInfor extends PureComponent {
       modalVisible: !!flag,
     });
   }
-    handleModifyModalVisible = (flag) => {
-      this.setState({
-        formprops: !!flag,
-        modalVisible: !!flag,
-      });
-    }
-
-
-  handleDelete = () => {
-    this.props.dispatch({
-      type: 'stuinfor/delete',
-    });
-
-    message.success('删除成功');
+  handleModifyModalVisible = (flag) => {
     this.setState({
-      modalVisible: false,
+      formprops: !!flag,
+      modalVisible: !!flag,
     });
   }
+
   handleAdd = (fields) => {
-    this.props.dispatch({
+    const { dispatch } = this.props;
+    dispatch({
       type: 'stuinfor/add',
       payload: {
         stuNumber: fields.stuNumber,
@@ -457,6 +506,7 @@ export default class StudentBasicInfor extends PureComponent {
         stuStartYear: fields.stuStartYear,
         stuEndYear: fields.stuEndYear,
         redParty: fields.redParty,
+        stuPower: fields.stuPower,
       },
     });
 
@@ -466,9 +516,13 @@ export default class StudentBasicInfor extends PureComponent {
     });
   }
   handleModify = (fields) => {
-    this.props.dispatch({
+    const { dispatch } = this.props;
+    const { selectedRows } = this.state;
+    if (!selectedRows) return;
+    dispatch({
       type: 'stuinfor/modify',
       payload: {
+        objectId: selectedRows.map(objectId => objectId.objectId).join(','),
         stuNumber: fields.stuNumber,
         stuName: fields.stuName,
         stuMajor: fields.stuMajor,
@@ -476,6 +530,12 @@ export default class StudentBasicInfor extends PureComponent {
         stuStartYear: fields.stuStartYear,
         stuEndYear: fields.stuEndYear,
         redParty: fields.redParty,
+        stuPower: fields.stuPower,
+      },
+      callback: () => {
+        this.setState({
+          selectedRows: [],
+        });
       },
     });
 
@@ -572,6 +632,16 @@ export default class StudentBasicInfor extends PureComponent {
               )}
             </FormItem>
           </Col>
+          <Col md={8} sm={24}>
+            <FormItem label="是否毕业">
+              {getFieldDecorator('stuPower')(
+                <Select placeholder="请选择" style={{ float: 'left', width: '100%' }}>
+                  <Option value="0">实习生</Option>
+                  <Option value="1">毕业生</Option>
+                </Select>
+              )}
+            </FormItem>
+          </Col>
         </Row>
         <div style={{ overflow: 'hidden' }}>
           <span style={{ float: 'right', marginBottom: 24 }}>
@@ -619,17 +689,14 @@ export default class StudentBasicInfor extends PureComponent {
                     <Button icon="edit" type="primary" onClick={() => this.handleModifyModalVisible(true)}>
                         修改
                     </Button>
-                    <Button icon="edit" type="primary" onClick={() => this.handleModifyModalVisible(true)}>
-                        毕业生状态
-                    </Button>
-                    <Button icon="delete" type="primary" onClick={this.handleMenuClick}>
+                    <Button icon="delete" type="primary" onClick={this.handleDeleteClick}>
                         删除
                     </Button>
                   </span>
                 )
               }
               <Upload {...fileprops}>
-                <Button icon="upload">
+                <Button type="ghost" onClick={this.handleAddbyfile} icon="upload">
                     批量新增
                 </Button>
               </Upload>
