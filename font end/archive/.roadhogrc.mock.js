@@ -76,52 +76,12 @@ const proxy = {
   'POST /admin/deletearchive': 'http://localhost:8080',
   'POST /admin/searcharchive': 'http://localhost:8080',
   'POST /admin/modifyarchive': 'http://localhost:8080',
-  'GET /admin/listaccount': getAccount,
-  'POST /admin/addaccount': {
-    $params: {
-      pageSize: {
-        desc: '分页',
-        exp: 2,
-      },
-    },
-    $body: postAccount,
-  },
-  'POST /admin/addaccountbyfile': {
-    $params: {
-      pageSize: {
-        desc: '分页',
-        exp: 2,
-      },
-    },
-    $body: postAccount,
-  },
-  'POST /admin/deleteaccount': {
-    $params: {
-      pageSize: {
-        desc: '分页',
-        exp: 2,
-      },
-    },
-    $body: postAccount,
-  },
-  'POST /admin/searchaccount': {
-    $params: {
-      pageSize: {
-        desc: '分页',
-        exp: 2,
-      },
-    },
-    $body: postAccount,
-  },
-  'POST /admin/modifyaccount': {
-    $params: {
-      pageSize: {
-        desc: '分页',
-        exp: 2,
-      },
-    },
-    $body: postAccount,
-  },
+  'GET /admin/listaccount': 'http://localhost:8080',
+  'POST /admin/addaccount': 'http://localhost:8080',
+  'POST /admin/addaccountbyfile': 'http://localhost:8080',
+  'POST /admin/deleteaccount': 'http://localhost:8080',
+  'POST /admin/searchaccount': 'http://localhost:8080',
+  'POST /admin/modifyaccount': 'http://localhost:8080',
   'GET /admin/listredarchive': getRedArchive,
   'POST /admin/addredarchive': {
     $params: {

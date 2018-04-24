@@ -117,10 +117,8 @@ const CreateForm = Form.create()((props) => {
           wrapperCol={{ span: 18 }}
           label="流向时间"
         >
-          {form.getFieldDecorator('flowDate', {
-          rules: [{ message: '请输入流向时间' }],
-        })(
-          <DatePicker placeholder="请输入流向时间" style={{ width: '100%' }} />
+          {form.getFieldDecorator('flowDate')(
+            <DatePicker placeholder="请输入流向时间" style={{ width: '100%' }} />
         )}
         </FormItem>
       </Modal>

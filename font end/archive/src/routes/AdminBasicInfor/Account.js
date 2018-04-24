@@ -13,10 +13,11 @@ const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
 
 const fileprops = {
   name: 'file',
-  action: '//jsonplaceholder.typicode.com/posts/',
-  headers: {
-    authorization: 'authorization-text',
-  },
+  supportServerRender: true,
+  multiple: true,
+  accpt: 'xlsx',
+  method: 'POST',
+  action: 'http://localhost:8080/admin/addaccountbyfile',
   onChange(info) {
     if (info.file.status !== 'uploading') {
       console.log(info.file, info.fileList);
@@ -44,13 +45,15 @@ const columns = [
   },
   {
     title: '创建时间',
-    dataIndex: 'createTime',
+    dataIndex: 'creatTime',
     sorter: true,
+    render: val => (<span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>),
   },
   {
     title: '更新时间',
     dataIndex: 'updateTime',
     sorter: true,
+    render: val => (val === null ? (<span />) : (<span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>)),
   },
 ];
 
@@ -98,10 +101,8 @@ const CreateForm = Form.create()((props) => {
           wrapperCol={{ span: 15 }}
           label="更改时间"
         >
-          {form.getFieldDecorator('accountDate', {
-          rules: [{ message: '请输入户口更改时间' }],
-        })(
-          <DatePicker placeholder="请输入户口更改时间" style={{ width: '100%' }} />
+          {form.getFieldDecorator('accountDate')(
+            <DatePicker placeholder="请输入户口更改时间" style={{ width: '100%' }} />
         )}
         </FormItem>
       </Modal>
@@ -181,7 +182,7 @@ export default class Account extends PureComponent {
   }
 
   handleStandardTableChange = (pagination, filtersArg, sorter) => {
-    const { dispatch } = this.props;
+    const { account: { data }, dispatch } = this.props;
     const { formValues } = this.state;
 
     const filters = Object.keys(filtersArg).reduce((obj, key) => {
@@ -198,11 +199,22 @@ export default class Account extends PureComponent {
     };
     if (sorter.field) {
       params.sorter = `${sorter.field}_${sorter.order}`;
+      const s = params.sorter.split('_');
+      data.list = data.list.sort((prev, next) => {
+        if (s[1] === 'descend') {
+          return next[s[0]] - prev[s[0]];
+        }
+        return prev[s[0]] - next[s[0]];
+      });
     }
+    const result = {
+      list: data.list,
+      pagination,
+    };
 
     dispatch({
-      type: 'account/fetch',
-      payload: params,
+      type: 'account/save',
+      payload: result,
     });
   }
 
@@ -263,7 +275,7 @@ export default class Account extends PureComponent {
 
       const values = {
         ...fieldsValue,
-        stuNumber: fieldsValue.stuNumber && fieldsValue.stuNumber.valueOf(),
+        stuNumber: fieldsValue.stuNumber,
       };
 
       this.setState({
@@ -271,7 +283,7 @@ export default class Account extends PureComponent {
       });
 
       dispatch({
-        type: 'account/fetch',
+        type: 'account/search',
         payload: values,
       });
     });
@@ -303,14 +315,33 @@ export default class Account extends PureComponent {
       modalVisible: false,
     });
   }
+  handleRefresh = () => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'account/fetch',
+    });
 
+    message.success('刷新成功');
+    this.setState({
+      modalVisible: false,
+    });
+  }
   handleModify = (fields) => {
-    this.props.dispatch({
-      type: 'archive/modify',
+    const { dispatch } = this.props;
+    const { selectedRows } = this.state;
+    if (!selectedRows) return;
+    dispatch({
+      type: 'account/modify',
       payload: {
+        objectId: selectedRows.map(objectId => objectId.objectId).join(','),
         stuNumber: fields.stuNumber,
         accountAddress: fields.accountAddress,
         accountDate: fields.accountDate,
+      },
+      callback: () => {
+        this.setState({
+          selectedRows: [],
+        });
       },
     });
 
@@ -328,7 +359,7 @@ export default class Account extends PureComponent {
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={8} sm={24}>
             <FormItem label="学生学号">
-              {getFieldDecorator('stuNmuber')(
+              {getFieldDecorator('stuNumber')(
                 <Input placeholder="请输入学生学号" />
               )}
             </FormItem>
@@ -388,7 +419,7 @@ export default class Account extends PureComponent {
                    批量新增
                 </Button>
               </Upload>
-
+              <Button icon="sync" type="ghost" onClick={this.handleRefresh} />
             </div>
             <StandardTable
               selectedRows={selectedRows}

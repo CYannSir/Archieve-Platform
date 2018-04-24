@@ -5,9 +5,16 @@ import com.cyann.archivebook.exception.MyException;
 import com.cyann.archivebook.model.AccountModel;
 import com.cyann.archivebook.respository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -24,6 +31,7 @@ public class AccountService {
 
     //增
     public void add(AccountModel accountModel){
+        baseService.add(accountRepository,accountModel);
         accountRepository.save(accountModel);
     }
 
@@ -61,7 +69,7 @@ public class AccountService {
     }
 
     //查询所有户口
-    public List<AccountModel> findAllAccount(){
+    public List<AccountModel> findAll(){
         List<AccountModel> list = accountRepository.findALLAccount();
         return list;
     }
@@ -70,6 +78,22 @@ public class AccountService {
     public List<AccountModel> findByStuNumber(String stuNumber){
         List<AccountModel> list = accountRepository.findByStuNumber(stuNumber);
         return list;
+    }
+
+    //根据 学号 多条件动态查询户口
+    public List<AccountModel> findAllByAdvancedForm(AccountModel accountModel) {
+        return accountRepository.findAll(new Specification<AccountModel>(){
+            @Override
+            public Predicate toPredicate(Root<AccountModel> root, CriteriaQuery<?> query, CriteriaBuilder cb){
+                List<Predicate> list = new ArrayList<Predicate>();
+                list.add(cb.isNull(root.get("delTime")));
+                if(accountModel != null && !StringUtils.isEmpty(accountModel.getStuNumber()) ){
+                    list.add(cb.equal(root.get("stuNumber"), accountModel.getStuNumber()));
+                }
+                Predicate[] p = new Predicate[list.size()];
+                return cb.and(list.toArray(p));
+            }
+        });
     }
 
 

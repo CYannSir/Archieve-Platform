@@ -202,37 +202,46 @@ public class AdminController {
     /*
      * 户口信息操作 - Start
      */
+    //展示档案
+    @GetMapping(value = "/listaccount")
+    public Result listAccount(){
+        List<AccountModel> list = accountService.findAll();
+        return Result.success(list);
+    }
 
     //新增户口
     @PostMapping(value = "/addaccount")
-    public Result addAccount(AccountModel accountModel){
+    public Result addAccount(@RequestBody AccountModel accountModel){
         accountService.add(accountModel);
-        return Result.success();
+        List<AccountModel> list = accountService.findAll();
+        return Result.success(list);
     }
 
     //删除户口
     @PostMapping(value = "/deleteaccount")
-    public Result deleteAccount(AccountModel accountModel){
+    public Result deleteAccount(@RequestBody AccountModel accountModel){
         accountService.delete(accountModel);
-        return Result.success();
+        List<AccountModel> list = accountService.findAll();
+        return Result.success(list);
     }
 
     //根据 学号 查询户口
     @PostMapping(value = "/searchaccount")
-    public Result searchAccount(AccountModel accountModel){
-        accountService.findByStuNumber(accountModel.getStuNumber());
-        return Result.success();
+    public Result searchAccount(@RequestBody AccountModel accountModel){
+        List<AccountModel> list = accountService.findByStuNumber(accountModel.getStuNumber());
+        return Result.success(list);
     }
     //动态修改更新户口
     @PostMapping(value = "/modifyaccount")
-    public Result modifyAccount(AccountModel accountModel){
+    public Result modifyAccount(@RequestBody AccountModel accountModel){
         accountService.update(accountModel);
-        return Result.success();
+        List<AccountModel> list = accountService.findAll();
+        return Result.success(list);
     }
 
     //批量增加户口  stuNumber / accountAddress / accountDate
     @PostMapping(value = "/addaccountbyfile")
-    public Result addAccountByfile(@RequestParam("file")MultipartFile file){
+    public Result addAccountByfile(@RequestBody @RequestParam("file")MultipartFile file){
         if (file != null){
             System.out.println("File Not NULL");
             String fileName = file.getOriginalFilename();
@@ -243,11 +252,13 @@ public class AdminController {
                 accountModel.setStuNumber(tempMap.get("stuNumber"));
                 accountModel.setAccountAddress(tempMap.get("accountAddress"));
                 accountModel.setAccountDate(tempMap.get("accountDate"));
+                accountService.add(accountModel);
             }
         } else {
             System.out.println("File is NULL");
         }
-        return Result.success();
+        List<AccountModel> list = accountService.findAll();
+        return Result.success(list);
     }
     /*
      * 户口信息操作 - End
