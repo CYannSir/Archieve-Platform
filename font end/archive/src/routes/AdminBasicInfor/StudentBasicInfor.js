@@ -618,13 +618,6 @@ export default class StudentBasicInfor extends PureComponent {
             </FormItem>
           </Col>
           <Col md={8} sm={24}>
-            <FormItem label="入学年份">
-              {getFieldDecorator('stuStartYear')(
-                <Input placeholder="请输入入学年份" />
-              )}
-            </FormItem>
-          </Col>
-          <Col md={8} sm={24}>
             <FormItem label="毕业年份">
               {getFieldDecorator('stuEndYear')(
                 <Input placeholder="请输入学生毕业年份" />
@@ -641,7 +634,7 @@ export default class StudentBasicInfor extends PureComponent {
               )}
             </FormItem>
           </Col>
-          <Col md={10} sm={24}>
+          <Col md={8} sm={24}>
             <FormItem label="是否毕业">
               {getFieldDecorator('stuPower')(
                 <Select placeholder="请选择" style={{ width: '100%' }}>

@@ -49,7 +49,7 @@ public class AdminController {
 
     //展示用户
     @GetMapping(value = "/liststu")
-    public Result listUser(UserModel userModel){
+    public Result listUser(){
         List<UserModel> list = userService.findAllUser();
         return Result.success(list);
     }
@@ -135,38 +135,47 @@ public class AdminController {
     /*
     * 档案信息操作 - Start
     */
+    //展示档案
+    @GetMapping(value = "/listarchive")
+    public Result listArchive(){
+        List<ArchiveModel> list = archiveService.findAll();
+        return Result.success(list);
+    }
 
     //新增档案
     @PostMapping(value = "/addarchive")
-    public Result addArchiver(ArchiveModel archiveModel){
+    public Result addArchiver(@RequestBody ArchiveModel archiveModel){
         archiveService.add(archiveModel);
-        return Result.success();
+        List<ArchiveModel> list = archiveService.findAll();
+        return Result.success(list);
     }
 
     //删除档案
     @PostMapping(value = "/deletearchive")
-    public Result deleteArchive(ArchiveModel archiveModel){
+    public Result deleteArchive(@RequestBody ArchiveModel archiveModel){
         archiveService.delete(archiveModel);
-        return Result.success();
+        List<ArchiveModel> list = archiveService.findAll();
+        return Result.success(list);
     }
 
     //动态修改更新档案
     @PostMapping(value = "/modifyarchive")
-    public Result modifyArchive(ArchiveModel archiveModel){
+    public Result modifyArchive(@RequestBody ArchiveModel archiveModel){
         archiveService.update(archiveModel);
-        return Result.success();
+        List<ArchiveModel> list = archiveService.findAll();
+        return Result.success(list);
     }
 
     //根据 学号 目前单位 多条件动态查询档案
     @PostMapping(value = "/searcharchive")
-    public Result searchArchive(ArchiveModel archiveModel){
-        archiveService.findAllByAdvancedForm(archiveModel);
-        return Result.success();
+    public Result searchArchive(@RequestBody ArchiveModel archiveModel){
+        List<ArchiveModel> list = archiveService.findAllByAdvancedForm(archiveModel);
+        return Result.success(list);
     }
 
     //批量增加档案  stuNumber / unit / unitAddress / flowDate
     @PostMapping(value = "/addarchviebyfile")
-    public Result addArchiveByfile(@RequestParam("file")MultipartFile file){
+    public Result addArchiveByfile(@RequestBody @RequestParam("file")MultipartFile file){
         if (file != null){
             System.out.println("File Not NULL");
             String fileName = file.getOriginalFilename();
@@ -183,7 +192,8 @@ public class AdminController {
         } else {
             System.out.println("File is NULL");
         }
-        return Result.success();
+        List<ArchiveModel> list = archiveService.findAll();
+        return Result.success(list);
     }
     /*
      * 档案信息操作 - End

@@ -31,6 +31,7 @@ public class ArchiveService extends BaseService {
 
     //增
     public void add(ArchiveModel archiveModel){
+        baseService.add(archiveRepository,archiveModel);
         archiveRepository.save(archiveModel);
     }
 
@@ -70,9 +71,15 @@ public class ArchiveService extends BaseService {
         }
     }
 
-    //查询所有档案
+    //通过学号查询所有档案
     public List<ArchiveModel> findByStuNumber(String stuNumber){
         List<ArchiveModel> list = archiveRepository.findByStuNumber(stuNumber);
+        return list;
+    }
+
+    //通过学号查询所有档案
+    public List<ArchiveModel> findAll(){
+        List<ArchiveModel> list = archiveRepository.findALLArchive();
         return list;
     }
 

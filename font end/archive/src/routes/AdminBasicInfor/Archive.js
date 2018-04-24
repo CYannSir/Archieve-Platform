@@ -12,10 +12,11 @@ const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
 
 const fileprops = {
   name: 'file',
-  action: '//jsonplaceholder.typicode.com/posts/',
-  headers: {
-    authorization: 'authorization-text',
-  },
+  supportServerRender: true,
+  multiple: true,
+  accpt: 'xlsx',
+  method: 'POST',
+  action: 'http://localhost:8080/admin/addarchviebyfile',
   onChange(info) {
     if (info.file.status !== 'uploading') {
       console.log(info.file, info.fileList);
@@ -49,13 +50,15 @@ const columns = [
   },
   {
     title: '创建时间',
-    dataIndex: 'createTime',
+    dataIndex: 'creatTime',
     sorter: true,
+    render: val => (<span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>),
   },
   {
     title: '更新时间',
     dataIndex: 'updateTime',
     sorter: true,
+    render: val => (val === null ? (<span />) : (<span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>)),
   },
 ];
 
@@ -208,7 +211,7 @@ export default class Archive extends PureComponent {
   }
 
   handleStandardTableChange = (pagination, filtersArg, sorter) => {
-    const { dispatch } = this.props;
+    const { archive: { data }, dispatch } = this.props;
     const { formValues } = this.state;
 
     const filters = Object.keys(filtersArg).reduce((obj, key) => {
@@ -225,11 +228,22 @@ export default class Archive extends PureComponent {
     };
     if (sorter.field) {
       params.sorter = `${sorter.field}_${sorter.order}`;
+      const s = params.sorter.split('_');
+      data.list = data.list.sort((prev, next) => {
+        if (s[1] === 'descend') {
+          return next[s[0]] - prev[s[0]];
+        }
+        return prev[s[0]] - next[s[0]];
+      });
     }
+    const result = {
+      list: data.list,
+      pagination,
+    };
 
     dispatch({
-      type: 'archive/fetch',
-      payload: params,
+      type: 'archive/save',
+      payload: result,
     });
   }
 
@@ -259,7 +273,7 @@ export default class Archive extends PureComponent {
     dispatch({
       type: 'archive/delete',
       payload: {
-        objectId: selectedRows.map(row => row.objectId).join(','),
+        objectId: selectedRows.map(objectId => objectId.objectId),
       },
       callback: () => {
         this.setState({
@@ -290,8 +304,8 @@ export default class Archive extends PureComponent {
 
       const values = {
         ...fieldsValue,
-        stuNumber: fieldsValue.stuNumber && fieldsValue.stuNumber.valueOf(),
-        unit: fieldsValue.unit && fieldsValue.unit.valueOf(),
+        stuNumber: fieldsValue.stuNumber,
+        unit: fieldsValue.unit,
       };
 
       this.setState({
@@ -335,14 +349,35 @@ export default class Archive extends PureComponent {
       modalVisible: false,
     });
   }
+  handleRefresh = () => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'archive/fetch',
+    });
+
+    message.success('刷新成功');
+    this.setState({
+      modalVisible: false,
+    });
+  }
   handleModify = (fields) => {
-    this.props.dispatch({
+    const { dispatch } = this.props;
+    const { selectedRows } = this.state;
+    // console.log('log==>', selectedRows.map(objectId => objectId.objectId));
+    if (!selectedRows) return;
+    dispatch({
       type: 'archive/modify',
       payload: {
+        objectId: selectedRows.map(objectId => objectId.objectId).join(','),
         stuNumber: fields.stuNumber,
         unit: fields.unit,
         unitAddress: fields.unitAddress,
         flowDate: fields.flowDate,
+      },
+      callback: () => {
+        this.setState({
+          selectedRows: [],
+        });
       },
     });
 
@@ -456,7 +491,7 @@ export default class Archive extends PureComponent {
                    批量新增
                 </Button>
               </Upload>
-
+              <Button icon="sync" type="ghost" onClick={this.handleRefresh} />
             </div>
             <StandardTable
               selectedRows={selectedRows}

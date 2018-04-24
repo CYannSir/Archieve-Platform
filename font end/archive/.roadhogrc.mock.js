@@ -70,52 +70,12 @@ const proxy = {
   'POST /admin/deletestu': 'http://localhost:8080',
   'POST /admin/searchstu': 'http://localhost:8080',
   'POST /admin/modifystu': 'http://localhost:8080', 
-  'GET /admin/listarchive': getArchive,
-  'POST /admin/addarchive': {
-    $params: {
-      pageSize: {
-        desc: '分页',
-        exp: 2,
-      },
-    },
-    $body: postArchive,
-  },
-  'POST /admin/addarchivebyfile': {
-    $params: {
-      pageSize: {
-        desc: '分页',
-        exp: 2,
-      },
-    },
-    $body: postArchive,
-  },
-  'POST /admin/deletearchive': {
-    $params: {
-      pageSize: {
-        desc: '分页',
-        exp: 2,
-      },
-    },
-    $body: postArchive,
-  },
-  'POST /admin/searcharchive': {
-    $params: {
-      pageSize: {
-        desc: '分页',
-        exp: 2,
-      },
-    },
-    $body: postArchive,
-  },
-  'POST /admin/modifyarchive': {
-    $params: {
-      pageSize: {
-        desc: '分页',
-        exp: 2,
-      },
-    },
-    $body: postArchive,
-  },
+  'GET /admin/listarchive': 'http://localhost:8080',
+  'POST /admin/addarchive': 'http://localhost:8080',
+  'POST /admin/addarchivebyfile': 'http://localhost:8080',
+  'POST /admin/deletearchive': 'http://localhost:8080',
+  'POST /admin/searcharchive': 'http://localhost:8080',
+  'POST /admin/modifyarchive': 'http://localhost:8080',
   'GET /admin/listaccount': getAccount,
   'POST /admin/addaccount': {
     $params: {
