@@ -180,6 +180,9 @@ public class UserService {
                 if(userModel != null && !StringUtils.isEmpty(userModel.getRedParty()) ){
                     list.add(cb.equal(root.get("redParty"), Integer.valueOf(userModel.getRedParty())));
                 }
+                if(userModel != null && !StringUtils.isEmpty(userModel.getStuPower()) ){
+                    list.add(cb.equal(root.get("stuPower"), Integer.valueOf(userModel.getStuPower())));
+                }
                 Predicate[] p = new Predicate[list.size()];
                 return cb.and(list.toArray(p));
             }

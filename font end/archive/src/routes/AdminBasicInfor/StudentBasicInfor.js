@@ -16,19 +16,16 @@ const stupower = ['实习生', '毕业生'];
 
 const fileprops = {
   name: 'file',
-  action: '//jsonplaceholder.typicode.com/posts/',
-  headers: {
-    authorization: 'authorization-text',
-  },
+  supportServerRender: true,
+  multiple: true,
+  accpt: 'xlsx',
+  method: 'POST',
+  action: 'http://localhost:8080/admin/addstubyfile',
   onchange(info) {
-    const { dispatch } = this.props;
     if (info.file.status !== 'uploading') {
       console.log(info.file, info.fileList);
     }
     if (info.file.status === 'done') {
-      dispatch({
-        type: 'stuinfor/addstubyfile',
-      });
       message.success(`${info.file.name} file uploaded successfully`);
     } else if (info.file.status === 'error') {
       message.error(`${info.file.name} file upload failed.`);
@@ -515,6 +512,18 @@ export default class StudentBasicInfor extends PureComponent {
       modalVisible: false,
     });
   }
+
+  handleRefresh = () => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'stuinfor/fetch',
+    });
+
+    message.success('刷新成功');
+    this.setState({
+      modalVisible: false,
+    });
+  }
   handleModify = (fields) => {
     const { dispatch } = this.props;
     const { selectedRows } = this.state;
@@ -632,10 +641,10 @@ export default class StudentBasicInfor extends PureComponent {
               )}
             </FormItem>
           </Col>
-          <Col md={8} sm={24}>
+          <Col md={10} sm={24}>
             <FormItem label="是否毕业">
               {getFieldDecorator('stuPower')(
-                <Select placeholder="请选择" style={{ float: 'left', width: '100%' }}>
+                <Select placeholder="请选择" style={{ width: '100%' }}>
                   <Option value="0">实习生</Option>
                   <Option value="1">毕业生</Option>
                 </Select>
@@ -679,10 +688,11 @@ export default class StudentBasicInfor extends PureComponent {
             <div className={styles.tableListForm}>
               {this.renderForm()}
             </div>
-            <div className={styles.tableListOperator}>
+            <div className={styles.tableListOperator} >
               <Button icon="plus" type="primary" onClick={() => this.handleModalVisible(true)}>
                 新建
               </Button>
+
               {
                 selectedRows.length > 0 && (
                   <span>
@@ -696,11 +706,11 @@ export default class StudentBasicInfor extends PureComponent {
                 )
               }
               <Upload {...fileprops}>
-                <Button type="ghost" onClick={this.handleAddbyfile} icon="upload">
+                <Button type="ghost" icon="upload">
                     批量新增
                 </Button>
               </Upload>
-
+              <Button icon="sync" type="ghost" onClick={this.handleRefresh} />
             </div>
             <StandardTable
               selectedRows={selectedRows}

@@ -42,7 +42,6 @@ public class ExcelController {
         //设置为居中加粗
         HSSFCellStyle style = workbook.createCellStyle();
         HSSFFont font = workbook.createFont();
-        font.setBold(true);
         style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
         style.setFont(font);
 

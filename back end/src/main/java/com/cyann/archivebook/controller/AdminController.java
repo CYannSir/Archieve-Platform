@@ -64,11 +64,12 @@ public class AdminController {
 
     //批量增加用户 stuName / stuNumber / stuMajor / stuEndYear / redParty / stuClass / stuPower / stuStartYear
     @PostMapping(value = "/addstubyfile")
-    public Result addStuByfile(@RequestParam("file")MultipartFile file){
+    public Result addStuByfile(@RequestBody @RequestParam("file")MultipartFile file){
         if (file != null){
             System.out.println("File Not NULL");
             String fileName = file.getOriginalFilename();
             List<Map<String,String>> list = fileService.viewExcelFile("xlsx",file);
+            // System.out.println(list);
             for (int i=0;i<list.size();i++){
                 Map<String,String> tempMap = list.get(i);
                 UserModel userModel = new UserModel();
@@ -85,7 +86,8 @@ public class AdminController {
         } else {
             System.out.println("File is NULL");
         }
-        return Result.success();
+        List<UserModel> list = userService.findAllUser();
+        return Result.success(list);
     }
 
     //删除用户

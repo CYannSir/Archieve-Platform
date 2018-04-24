@@ -39,9 +39,12 @@ public class FileService {
             if (fileType == "xlsx") {
                 byte[] fileByte = file.getBytes();
                 ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(fileByte);
+                // System.out.println(byteArrayInputStream);
                 XSSFWorkbook wb = new XSSFWorkbook(byteArrayInputStream);
+                System.out.println(wb);
                 XSSFSheet sheets = wb.getSheetAt(0);
                 String item[] = new String[sheets.getRow(0).getLastCellNum()+1];
+                // System.out.println(item);
                 for (int i = 0; i < sheets.getLastRowNum() + 1; i++) {
                     XSSFRow row = sheets.getRow(i);
                     Map<String, String> tempMap = new HashMap<String, String>();

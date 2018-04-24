@@ -10,14 +10,4 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/dbarchivebook
     username: root
     password: wcy828
-  thymeleaf:
-    cache: true
-    check-template-location: true
-    content-type: text/html
-    enabled: true
-    encoding: utf-8
-    mode: HTML5
-    prefix: classpath:/templates/
-    suffix: .html
-    excluded-view-names:
-    template-resolver-order:
+
