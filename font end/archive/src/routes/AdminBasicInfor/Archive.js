@@ -31,31 +31,36 @@ const fileprops = {
 const columns = [
   {
     title: '学号',
+    align: 'center',
     dataIndex: 'stuNumber',
   },
   {
     title: '档案目前单位',
+    align: 'center',
     dataIndex: 'unit',
   },
   {
     title: '目前单位地址',
+    align: 'center',
     dataIndex: 'unitAddress',
   },
   {
     title: '流向时间',
+    align: 'center',
     dataIndex: 'flowDate',
     sorter: true,
-    align: 'right',
     render: val => <span>{moment(val).format('YYYY-MM-DD')}</span>,
   },
   {
     title: '创建时间',
+    align: 'center',
     dataIndex: 'creatTime',
     sorter: true,
     render: val => (<span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>),
   },
   {
     title: '更新时间',
+    align: 'center',
     dataIndex: 'updateTime',
     sorter: true,
     render: val => (val === null ? (<span />) : (<span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>)),
@@ -117,8 +122,10 @@ const CreateForm = Form.create()((props) => {
           wrapperCol={{ span: 18 }}
           label="流向时间"
         >
-          {form.getFieldDecorator('flowDate')(
-            <DatePicker placeholder="请输入流向时间" style={{ width: '100%' }} />
+          {form.getFieldDecorator('flowDate', {
+          rules: [{ required: false, message: '请输入流向时间' }],
+        })(
+          <DatePicker placeholder="请输入流向时间" style={{ width: '100%' }} />
         )}
         </FormItem>
       </Modal>

@@ -268,37 +268,47 @@ public class AdminController {
      * 红色档案信息操作 - Start
      */
 
+    //展示红色档案
+    @GetMapping(value = "/listredarchive")
+    public Result listRedArchive(){
+        List<RedArchiveModel> list = redArchiveService.findALL();
+        return Result.success(list);
+    }
+
     //新增红色档案
     @PostMapping(value = "/addredarchive")
-    public Result addRedArchive(RedArchiveModel redArchiveModel){
+    public Result addRedArchive(@RequestBody RedArchiveModel redArchiveModel){
         redArchiveService.add(redArchiveModel);
-        return Result.success();
+        List<RedArchiveModel> list = redArchiveService.findALL();
+        return Result.success(list);
     }
 
     //删除红色档案
     @PostMapping(value = "/deleteredarchive")
-    public Result deleteRedArchive(RedArchiveModel redArchiveModel){
+    public Result deleteRedArchive(@RequestBody RedArchiveModel redArchiveModel){
         redArchiveService.delete(redArchiveModel);
-        return Result.success();
+        List<RedArchiveModel> list = redArchiveService.findALL();
+        return Result.success(list);
     }
 
     //根据 学号 查询红色档案
     @PostMapping(value = "/searchredarchive")
-    public Result searchRedArchive(RedArchiveModel redArchiveModel){
-        redArchiveService.findByStuNumber(redArchiveModel.getStuNumber());
-        return Result.success();
+    public Result searchRedArchive(@RequestBody RedArchiveModel redArchiveModel){
+        List<RedArchiveModel> list = redArchiveService.findByStuNumber(redArchiveModel.getStuNumber());
+        return Result.success(list);
     }
 
     //动态修改更新红色档案
     @PostMapping(value = "/modifyredarchive")
-    public Result modifyRedArchive(RedArchiveModel redArchiveModel){
+    public Result modifyRedArchive(@RequestBody RedArchiveModel redArchiveModel){
         redArchiveService.update(redArchiveModel);
-        return Result.success();
+        List<RedArchiveModel> list = redArchiveService.findALL();
+        return Result.success(list);
     }
 
     //批量增加红色档案  stuNumber / becomeActivistDate / introducer / joinDate
     @PostMapping(value = "/addredarchivebyfile")
-    public Result addRedArchiveByfile(@RequestParam("file")MultipartFile file){
+    public Result addRedArchiveByfile(@RequestBody @RequestParam("file")MultipartFile file){
         if (file != null){
             System.out.println("File Not NULL");
             String fileName = file.getOriginalFilename();
@@ -307,14 +317,16 @@ public class AdminController {
                 Map<String,String> tempMap = list.get(i);
                 RedArchiveModel redArchiveModel = new RedArchiveModel();
                 redArchiveModel.setStuNumber(tempMap.get("stuNumber"));
-                redArchiveModel.setBecomeActivistDate(tempMap.get("becomeActivistDate"));
+                redArchiveModel.setActivistDate(tempMap.get("activistDate"));
                 redArchiveModel.setIntroducer(tempMap.get("introducer"));
                 redArchiveModel.setJoinDate(tempMap.get("joinDate"));
+                redArchiveService.add(redArchiveModel);
             }
         } else {
             System.out.println("File is NULL");
         }
-        return Result.success();
+        List<RedArchiveModel> list = redArchiveService.findALL();
+        return Result.success(list);
     }
     /*
      * 红色档案信息操作 - End

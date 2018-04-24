@@ -32,25 +32,30 @@ const fileprops = {
 const columns = [
   {
     title: '学号',
+    align: 'center',
     dataIndex: 'stuNumber',
   },
   {
     title: '户口所在地',
+    align: 'center',
     dataIndex: 'accountAddress',
   },
   {
     title: '时间',
+    align: 'center',
     dataIndex: 'accountDate',
     render: val => <span>{moment(val).format('YYYY-MM-DD')}</span>,
   },
   {
     title: '创建时间',
+    align: 'center',
     dataIndex: 'creatTime',
     sorter: true,
     render: val => (<span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>),
   },
   {
     title: '更新时间',
+    align: 'center',
     dataIndex: 'updateTime',
     sorter: true,
     render: val => (val === null ? (<span />) : (<span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>)),
@@ -101,8 +106,10 @@ const CreateForm = Form.create()((props) => {
           wrapperCol={{ span: 15 }}
           label="更改时间"
         >
-          {form.getFieldDecorator('accountDate')(
-            <DatePicker placeholder="请输入户口更改时间" style={{ width: '100%' }} />
+          {form.getFieldDecorator('accountDate', {
+          rules: [{ required: false, message: '请输入户口更改时间' }],
+        })(
+          <DatePicker placeholder="请输入户口更改时间" style={{ width: '100%' }} />
         )}
         </FormItem>
       </Modal>

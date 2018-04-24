@@ -12,10 +12,11 @@ const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
 
 const fileprops = {
   name: 'file',
-  action: '//jsonplaceholder.typicode.com/posts/',
-  headers: {
-    authorization: 'authorization-text',
-  },
+  supportServerRender: true,
+  multiple: true,
+  accpt: 'xlsx',
+  method: 'POST',
+  action: 'http://localhost:8080/admin/addredarchivebyfile',
   onChange(info) {
     if (info.file.status !== 'uploading') {
       console.log(info.file, info.fileList);
@@ -30,31 +31,39 @@ const fileprops = {
 const columns = [
   {
     title: '学号',
+    align: 'center',
     dataIndex: 'stuNumber',
+  },
+  {
+    title: '成为积极分子日期',
+    align: 'center',
+    dataIndex: 'activistDate',
+    render: val => <span>{moment(val).format('YYYY-MM-DD')}</span>,
   },
   {
     title: '加入党日期',
     dataIndex: 'joinDate',
-    render: val => <span>{moment(val).format('YYYY-MM-DD')}</span>,
-  },
-  {
-    title: '成为积极分子日期',
-    dataIndex: 'becameActivistDate',
+    align: 'center',
     render: val => <span>{moment(val).format('YYYY-MM-DD')}</span>,
   },
   {
     title: '介绍人',
+    align: 'center',
     dataIndex: 'introducer',
   },
   {
     title: '创建时间',
-    dataIndex: 'createTime',
+    dataIndex: 'creatTime',
+    align: 'center',
     sorter: true,
+    render: val => (<span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>),
   },
   {
     title: '更新时间',
+    align: 'center',
     dataIndex: 'updateTime',
     sorter: true,
+    render: val => (val === null ? (<span />) : (<span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>)),
   },
 ];
 
@@ -89,23 +98,23 @@ const CreateForm = Form.create()((props) => {
         <FormItem
           labelCol={{ span: 6 }}
           wrapperCol={{ span: 18 }}
-          label="加入党日期"
+          label="成为积极日期"
         >
-          {form.getFieldDecorator('joinDate', {
-          rules: [{ message: '请输入加入党日期' }],
+          {form.getFieldDecorator('activistDate', {
+          rules: [{ required: false, message: '请输入成为积极分子日期' }],
         })(
-          <DatePicker placeholder="请输入加入党日期" style={{ width: '100%' }} />
+          <DatePicker placeholder="请输入成为积极分子日期" style={{ width: '100%' }} />
         )}
         </FormItem>
         <FormItem
           labelCol={{ span: 6 }}
           wrapperCol={{ span: 18 }}
-          label="成为积极日期"
+          label="加入党日期"
         >
-          {form.getFieldDecorator('becameActivistDate', {
-          rules: [{ message: '请输入成为积极分子日期' }],
+          {form.getFieldDecorator('joinDate', {
+          rules: [{ required: false, message: '请输入加入党日期' }],
         })(
-          <DatePicker placeholder="请输入成为积极分子日期" style={{ width: '100%' }} />
+          <DatePicker placeholder="请输入加入党日期" style={{ width: '100%' }} />
         )}
         </FormItem>
         <FormItem
@@ -150,24 +159,24 @@ const CreateForm = Form.create()((props) => {
         <FormItem
           labelCol={{ span: 6 }}
           wrapperCol={{ span: 18 }}
+          label="成为积极日期"
+          style={{ width: '100%' }}
+        >
+          {form.getFieldDecorator('activistDate', {
+          rules: [{ required: true, message: '请输入成为积极分子日期' }],
+        })(
+          <DatePicker placeholder="请输入成为积极分子日期" style={{ width: '100%' }} />
+        )}
+        </FormItem>
+        <FormItem
+          labelCol={{ span: 6 }}
+          wrapperCol={{ span: 18 }}
           label="加入党日期"
         >
           {form.getFieldDecorator('joinDate', {
           rules: [{ required: true, message: '请输入加入党日期' }],
         })(
           <DatePicker placeholder="请输入加入党日期" style={{ width: '100%' }} />
-        )}
-        </FormItem>
-        <FormItem
-          labelCol={{ span: 6 }}
-          wrapperCol={{ span: 18 }}
-          label="成为积极日期"
-          style={{ width: '100%' }}
-        >
-          {form.getFieldDecorator('becameActivistDate', {
-          rules: [{ required: true, message: '请输入成为积极分子日期' }],
-        })(
-          <DatePicker placeholder="请输入成为积极分子日期" style={{ width: '100%' }} />
         )}
         </FormItem>
         <FormItem
@@ -208,7 +217,7 @@ export default class RedArchive extends PureComponent {
   }
 
   handleStandardTableChange = (pagination, filtersArg, sorter) => {
-    const { dispatch } = this.props;
+    const { redarchive: { data }, dispatch } = this.props;
     const { formValues } = this.state;
 
     const filters = Object.keys(filtersArg).reduce((obj, key) => {
@@ -225,11 +234,23 @@ export default class RedArchive extends PureComponent {
     };
     if (sorter.field) {
       params.sorter = `${sorter.field}_${sorter.order}`;
+      const s = params.sorter.split('_');
+      data.list = data.list.sort((prev, next) => {
+        if (s[1] === 'descend') {
+          return next[s[0]] - prev[s[0]];
+        }
+        return prev[s[0]] - next[s[0]];
+      });
     }
 
+    const result = {
+      list: data.list,
+      pagination,
+    };
+
     dispatch({
-      type: 'redarchive/fetch',
-      payload: params,
+      type: 'redarchive/save',
+      payload: result,
     });
   }
 
@@ -259,7 +280,7 @@ export default class RedArchive extends PureComponent {
     dispatch({
       type: 'redarchive/delete',
       payload: {
-        objectId: selectedRows.map(row => row.objectId).join(','),
+        objectId: selectedRows.map(objectId => objectId.objectId).join(','),
       },
       callback: () => {
         this.setState({
@@ -289,7 +310,7 @@ export default class RedArchive extends PureComponent {
 
       const values = {
         ...fieldsValue,
-        stuNumber: fieldsValue.stuNumber && fieldsValue.stuNumber.valueOf(),
+        stuNumber: fieldsValue.stuNumber,
       };
 
       this.setState({
@@ -297,7 +318,7 @@ export default class RedArchive extends PureComponent {
       });
 
       dispatch({
-        type: 'redarchive/fetch',
+        type: 'redarchive/search',
         payload: values,
       });
     });
@@ -323,7 +344,7 @@ export default class RedArchive extends PureComponent {
       payload: {
         stuNumber: fields.stuNumber,
         joinDate: fields.joinDate,
-        becomeActivistDate: fields.becomeActivistDate,
+        activistDate: fields.activistDate,
         introducer: fields.introducer,
       },
     });
@@ -333,14 +354,34 @@ export default class RedArchive extends PureComponent {
       modalVisible: false,
     });
   }
+  handleRefresh = () => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'redarchive/fetch',
+    });
+
+    message.success('刷新成功');
+    this.setState({
+      modalVisible: false,
+    });
+  }
   handleModify = (fields) => {
-    this.props.dispatch({
+    const { dispatch } = this.props;
+    const { selectedRows } = this.state;
+    if (!selectedRows) return;
+    dispatch({
       type: 'redarchive/modify',
       payload: {
+        objectId: selectedRows.map(objectId => objectId.objectId).join(','),
         stuNumber: fields.stuNumber,
         joinDate: fields.joinDate,
-        becomeActivistDate: fields.becomeActivistDate,
+        activistDate: fields.activistDate,
         introducer: fields.introducer,
+      },
+      callback: () => {
+        this.setState({
+          selectedRows: [],
+        });
       },
     });
 
@@ -418,7 +459,7 @@ export default class RedArchive extends PureComponent {
                    批量新增
                 </Button>
               </Upload>
-
+              <Button icon="sync" type="ghost" onClick={this.handleRefresh} />
             </div>
             <StandardTable
               selectedRows={selectedRows}

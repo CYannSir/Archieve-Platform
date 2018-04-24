@@ -82,52 +82,12 @@ const proxy = {
   'POST /admin/deleteaccount': 'http://localhost:8080',
   'POST /admin/searchaccount': 'http://localhost:8080',
   'POST /admin/modifyaccount': 'http://localhost:8080',
-  'GET /admin/listredarchive': getRedArchive,
-  'POST /admin/addredarchive': {
-    $params: {
-      pageSize: {
-        desc: '分页',
-        exp: 2,
-      },
-    },
-    $body: postRedArchive,
-  },
-  'POST /admin/addredarchivebyfile': {
-    $params: {
-      pageSize: {
-        desc: '分页',
-        exp: 2,
-      },
-    },
-    $body: postRedArchive,
-  },
-  'POST /admin/deleteredarchive': {
-    $params: {
-      pageSize: {
-        desc: '分页',
-        exp: 2,
-      },
-    },
-    $body: postRedArchive,
-  },
-  'POST /admin/searchredarchive': {
-    $params: {
-      pageSize: {
-        desc: '分页',
-        exp: 2,
-      },
-    },
-    $body: postRedArchive,
-  },
-  'POST /admin/modifyredarchive': {
-    $params: {
-      pageSize: {
-        desc: '分页',
-        exp: 2,
-      },
-    },
-    $body: postRedArchive,
-  },
+  'GET /admin/listredarchive': 'http://localhost:8080',
+  'POST /admin/addredarchive': 'http://localhost:8080',
+  'POST /admin/addredarchivebyfile': 'http://localhost:8080',
+  'POST /admin/deleteredarchive': 'http://localhost:8080',
+  'POST /admin/searchredarchive': 'http://localhost:8080',
+  'POST /admin/modifyredarchive': 'http://localhost:8080',
   'GET /admin/listalumniinfor': getAlumniInfor,
   'POST /admin/addalumniinfor': {
     $params: {

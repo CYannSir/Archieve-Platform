@@ -23,6 +23,7 @@ public class RedArchiveService extends BaseService {
 
     //增
     public void add(RedArchiveModel redArchiveModel){
+        baseService.add(redArchiveRepository, redArchiveModel);
         redArchiveRepository.save(redArchiveModel);
     }
 
@@ -50,8 +51,8 @@ public class RedArchiveService extends BaseService {
             if(redArchiveModel.getJoinDate() !=null && redArchiveItem.getJoinDate().equals(redArchiveModel.getJoinDate()) == false ){
                 redArchiveItem.setJoinDate(redArchiveModel.getJoinDate());
             }
-            if(redArchiveModel.getBecomeActivistDate() !=null && redArchiveItem.getBecomeActivistDate().equals(redArchiveModel.getBecomeActivistDate()) == false ){
-                redArchiveItem.setBecomeActivistDate(redArchiveModel.getBecomeActivistDate());
+            if(redArchiveModel.getActivistDate() !=null && redArchiveItem.getActivistDate().equals(redArchiveModel.getActivistDate()) == false ){
+                redArchiveItem.setActivistDate(redArchiveModel.getActivistDate());
             }
             if(redArchiveModel.getIntroducer() !=null && redArchiveItem.getIntroducer().equals(redArchiveModel.getIntroducer()) == false ){
                 redArchiveItem.setIntroducer(redArchiveModel.getIntroducer());
@@ -68,7 +69,7 @@ public class RedArchiveService extends BaseService {
 
 
     //查询所有红色档案
-    public List<RedArchiveModel> findALLRedArchive(){
+    public List<RedArchiveModel> findALL(){
         List<RedArchiveModel> list = redArchiveRepository.findALLRedArchive();
         return list;
     }

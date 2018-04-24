@@ -23,11 +23,11 @@ import javax.persistence.Table;
 public class RedArchiveModel extends BaseEntity{
     @Column(nullable = false , length = 32)
     private String stuNumber;
-    @Column(nullable = false , length = 16)
+    @Column(nullable = false , length = 32)
     private String joinDate;
-    @Column(nullable = false , length = 16)
-    private String becomeActivistDate;
-    @Column(nullable = false , length = 16)
+    @Column(nullable = false , length = 32)
+    private String activistDate;
+    @Column(nullable = false , length = 32)
     private String introducer;
 
     public String getStuNumber() {
@@ -46,16 +46,16 @@ public class RedArchiveModel extends BaseEntity{
         this.joinDate = joinDate;
     }
 
-    public String getBecomeActivistDate() {
-        return becomeActivistDate;
-    }
-
-    public void setBecomeActivistDate(String becomeActivistDate) {
-        this.becomeActivistDate = becomeActivistDate;
-    }
-
     public String getIntroducer() {
         return introducer;
+    }
+
+    public String getActivistDate() {
+        return activistDate;
+    }
+
+    public void setActivistDate(String activistDate) {
+        this.activistDate = activistDate;
     }
 
     public void setIntroducer(String introducer) {
