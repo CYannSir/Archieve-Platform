@@ -10,10 +10,6 @@ const FormItem = Form.Item;
 const { Option } = Select;
 const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
 
-function downloadfile() {
-  window.location.href = '/UserExcelDownloads';
-}
-
 const columns = [
   {
     title: '名字',
@@ -324,7 +320,6 @@ export default class AlumniInfor extends PureComponent {
   }
 
   handleExport = () => {
-    downloadfile();
     this.props.dispatch({
       type: 'alumniinfor/export',
     });
@@ -346,7 +341,6 @@ export default class AlumniInfor extends PureComponent {
     });
   }
   handleSimpleExport = () => {
-    downloadfile();
     this.props.dispatch({
       type: 'alumniinfor/simpleexport',
     });

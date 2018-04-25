@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.List;
 /**
  * @author CYann
@@ -42,6 +43,7 @@ public class ExcelController {
         //设置为居中加粗
         HSSFCellStyle style = workbook.createCellStyle();
         HSSFFont font = workbook.createFont();
+        font.setBold(true);
         style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
         style.setFont(font);
 
@@ -49,7 +51,6 @@ public class ExcelController {
         cell = row.createCell(0);
         cell.setCellValue("学号");
         cell.setCellStyle(style);
-
 
         cell = row.createCell(1);
         cell.setCellValue("公司名称");
@@ -70,6 +71,18 @@ public class ExcelController {
         cell = row.createCell(5);
         cell.setCellValue("薪资");
         cell.setCellStyle(style);
+
+/*        cell = row.createCell(6);
+        cell.setCellValue("创建时间");
+        cell.setCellStyle(style);
+
+        cell = row.createCell(7);
+        cell.setCellValue("更新时间");
+        cell.setCellStyle(style);
+
+        cell = row.createCell(8);
+        cell.setCellValue("删除时间");
+        cell.setCellStyle(style);*/
     }
 
     //生成校友信息表excel
@@ -94,15 +107,14 @@ public class ExcelController {
             row.createCell(3).setCellValue(alumniInformationModel.getIndustry());
             row.createCell(4).setCellValue(alumniInformationModel.getOccupation());
             row.createCell(5).setCellValue(alumniInformationModel.getSalary());
-            row.createCell(6).setCellValue(alumniInformationModel.getCreatTime());
-            row.createCell(7).setCellValue(alumniInformationModel.getUpdateTime());
-            row.createCell(8).setCellValue(alumniInformationModel.getDelTime());
-            rowNum++;
-            HSSFCell cell = row.createCell(8);
+ /*           row.createCell(6).setCellValue(sdf.parse(String.valueOf(alumniInformationModel.getCreatTime())));
+            row.createCell(7).setCellValue((alumniInformationModel.getUpdateTime()).toString());
+            row.createCell(8).setCellValue((alumniInformationModel.getDelTime()).toString());*/
+            HSSFCell cell = row.createCell(6);
             rowNum++;
         }
 
-        String fileName = "Export-校友信息.xls";
+        String fileName = "Export-Information.xls";
 
         //生成excel文件
         buildExcelFile(fileName, workbook);
@@ -138,12 +150,11 @@ public class ExcelController {
             row.createCell(6).setCellValue(practiceInforModel.getCreatTime());
             row.createCell(7).setCellValue(practiceInforModel.getUpdateTime());
             row.createCell(8).setCellValue(practiceInforModel.getDelTime());
-            rowNum++;
             HSSFCell cell = row.createCell(8);
             rowNum++;
         }
 
-        String fileName = "Export-校友信息.xls";
+        String fileName = "Export.xls";
 
         //生成excel文件
         buildExcelFile(fileName, workbook);

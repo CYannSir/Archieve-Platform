@@ -108,6 +108,7 @@ const proxy = {
     $body: postAlumniInfor,
   },
   'POST /admin/searchalumniinfor': 'http://localhost:8080',
+  'POST /excel/alumniexcel': 'http://localhost:8080',
   'POST /admin/modifyalumniinfor': {
     $params: {
       pageSize: {
