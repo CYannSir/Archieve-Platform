@@ -1,4 +1,4 @@
-import { queryAlumniInfor, addAlumniInfor, deleteAlumniInfor, searchAlumniInfor, modifyAlumniInfor } from '../services/alumniinfor';
+import { queryAlumniInfor, addAlumniInfor, exportAlumniInfor, deleteAlumniInfor, searchAlumniInfor, modifyAlumniInfor } from '../services/alumniinfor';
 
 export default {
   namespace: 'alumniinfor',
@@ -13,9 +13,18 @@ export default {
   effects: {
     *fetch({ payload }, { call, put }) {
       const response = yield call(queryAlumniInfor, payload);
+      const pageSize = 10;
       yield put({
         type: 'save',
-        payload: response,
+        payload: {
+          response,
+          list: response.data,
+          pagination: {
+            total: response.data.length,
+            pageSize,
+            current: parseInt(response.data.currentPage, 10) || 1,
+          },
+        },
       });
     },
     *add({ payload, callback }, { call, put }) {
@@ -28,25 +37,69 @@ export default {
     },
     *delete({ payload, callback }, { call, put }) {
       const response = yield call(deleteAlumniInfor, payload);
+      const pageSize = 10;
       yield put({
         type: 'save',
-        payload: response,
+        payload: {
+          response,
+          list: response.data,
+          pagination: {
+            total: response.data.length,
+            pageSize,
+            current: parseInt(response.data.currentPage, 10) || 1,
+          },
+        },
       });
       if (callback) callback();
     },
     *search({ payload, callback }, { call, put }) {
       const response = yield call(searchAlumniInfor, payload);
+      const pageSize = 10;
       yield put({
         type: 'save',
-        payload: response,
+        payload: {
+          response,
+          list: response.data,
+          pagination: {
+            total: response.data.length,
+            pageSize,
+            current: parseInt(response.data.currentPage, 10) || 1,
+          },
+        },
+      });
+      if (callback) callback();
+    },
+    *export({ payload, callback }, { call, put }) {
+      const response = yield call(exportAlumniInfor, payload);
+      const pageSize = 10;
+      yield put({
+        type: 'save',
+        payload: {
+          response,
+          list: response.data,
+          pagination: {
+            total: response.data.length,
+            pageSize,
+            current: parseInt(response.data.currentPage, 10) || 1,
+          },
+        },
       });
       if (callback) callback();
     },
     *modify({ payload, callback }, { call, put }) {
       const response = yield call(modifyAlumniInfor, payload);
+      const pageSize = 10;
       yield put({
         type: 'save',
-        payload: response,
+        payload: {
+          response,
+          list: response.data,
+          pagination: {
+            total: response.data.length,
+            pageSize,
+            current: parseInt(response.data.currentPage, 10) || 1,
+          },
+        },
       });
       if (callback) callback();
     },

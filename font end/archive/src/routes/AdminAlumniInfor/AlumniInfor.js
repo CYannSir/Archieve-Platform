@@ -17,58 +17,69 @@ function downloadfile() {
 const columns = [
   {
     title: '名字',
+    align: 'center',
     dataIndex: 'stuName',
   },
   {
     title: '学号',
+    align: 'center',
     dataIndex: 'stuNumber',
   },
   {
     title: '专业',
+    align: 'center',
     dataIndex: 'stuMajor',
   },
   {
     title: '班级',
+    align: 'center',
     dataIndex: 'stuClass',
   },
   {
     title: '入学年份',
+    align: 'center',
     dataIndex: 'stuStartYear',
     sorter: true,
-    align: 'right',
   },
   {
     title: '毕业年份',
     dataIndex: 'stuEndYear',
     sorter: true,
-    align: 'right',
+    align: 'center',
   },
   {
     title: '现在邮箱',
+    align: 'center',
     dataIndex: 'currentEmail',
   },
   {
     title: '现在联系方式',
+    align: 'center',
     dataIndex: 'currentPhone',
   },
   {
     title: '公司',
+    align: 'center',
     dataIndex: 'company',
   },
   {
     title: '公司地址',
+    align: 'center',
     dataIndex: 'companyAddress',
   },
   {
     title: '行业',
+    align: 'center',
     dataIndex: 'industry',
   },
   {
     title: '职位',
+    align: 'center',
     dataIndex: 'occupation',
   },
   {
     title: '薪资',
+    align: 'center',
     dataIndex: 'salary',
   },
 ];
@@ -199,7 +210,7 @@ export default class AlumniInfor extends PureComponent {
   }
 
   handleStandardTableChange = (pagination, filtersArg, sorter) => {
-    const { dispatch } = this.props;
+    const { alumniinfor: { data }, dispatch } = this.props;
     const { formValues } = this.state;
 
     const filters = Object.keys(filtersArg).reduce((obj, key) => {
@@ -216,11 +227,23 @@ export default class AlumniInfor extends PureComponent {
     };
     if (sorter.field) {
       params.sorter = `${sorter.field}_${sorter.order}`;
+      const s = params.sorter.split('_');
+      data.list = data.list.sort((prev, next) => {
+        if (s[1] === 'descend') {
+          return next[s[0]] - prev[s[0]];
+        }
+        return prev[s[0]] - next[s[0]];
+      });
     }
 
+    const result = {
+      list: data.list,
+      pagination,
+    };
+
     dispatch({
-      type: 'alumniinfor/fetch',
-      payload: params,
+      type: 'alumniinfor/save',
+      payload: result,
     });
   }
 
@@ -242,29 +265,26 @@ export default class AlumniInfor extends PureComponent {
     });
   }
 
-  handleMenuClick = (e) => {
+  handleMenuClick = () => {
     const { dispatch } = this.props;
     const { selectedRows } = this.state;
 
     if (!selectedRows) return;
-
-    switch (e.key) {
-      case 'delete':
-        dispatch({
-          type: 'alumniinfor/delete',
-          payload: {
-            no: selectedRows.map(row => row.no).join(','),
-          },
-          callback: () => {
-            this.setState({
-              selectedRows: [],
-            });
-          },
+    dispatch({
+      type: 'alumniinfor/simpleexport',
+      payload: {
+        objectId: selectedRows.map(objectId => objectId.objectId).join(','),
+      },
+      callback: () => {
+        this.setState({
+          selectedRows: [],
         });
-        break;
-      default:
-        break;
-    }
+      },
+    });
+    message.success('单个信息导出成功');
+    this.setState({
+      modalVisible: false,
+    });
   }
 
   handleSelectRows = (rows) => {
@@ -283,7 +303,7 @@ export default class AlumniInfor extends PureComponent {
 
       const values = {
         ...fieldsValue,
-        updatedAt: fieldsValue.updatedAt && fieldsValue.updatedAt.valueOf(),
+        stuNumber: fieldsValue.stuNumber,
       };
 
       this.setState({
@@ -291,7 +311,7 @@ export default class AlumniInfor extends PureComponent {
       });
 
       dispatch({
-        type: 'alumniinfor/fetch',
+        type: 'alumniinfor/search',
         payload: values,
       });
     });
@@ -310,6 +330,17 @@ export default class AlumniInfor extends PureComponent {
     });
 
     message.success('导出成功');
+    this.setState({
+      modalVisible: false,
+    });
+  }
+  handleRefresh = () => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'alumniinfor/fetch',
+    });
+
+    message.success('刷新成功');
     this.setState({
       modalVisible: false,
     });
@@ -384,7 +415,7 @@ export default class AlumniInfor extends PureComponent {
                   </span>
                 )
               }
-
+              <Button icon="sync" type="ghost" onClick={this.handleRefresh} />
             </div>
             <StandardTable
               selectedRows={selectedRows}

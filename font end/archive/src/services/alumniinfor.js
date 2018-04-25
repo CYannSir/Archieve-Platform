@@ -6,7 +6,7 @@ export async function queryAlumniInfor(params) {
 }
 
 export async function addAlumniInfor(params) {
-  return request('/admin/addalumniinfor', {
+  return request('/user/addalumniinfor', {
     method: 'POST',
     body: {
       ...params,
@@ -17,7 +17,7 @@ export async function addAlumniInfor(params) {
 
 
 export async function deleteAlumniInfor(params) {
-  return request('/admin/deletealumniinfor', {
+  return request('/user/deletealumniinfor', {
     method: 'POST',
     body: {
       ...params,
@@ -36,8 +36,18 @@ export async function searchAlumniInfor(params) {
   });
 }
 
+export async function exportAlumniInfor(params) {
+  return request('/excel/alumniexcel', {
+    method: 'POST',
+    body: {
+      ...params,
+      method: 'export',
+    },
+  });
+}
+
 export async function modifyAlumniInfor(params) {
-  return request('/admin/modifyalumniinfor', {
+  return request('/user/modifyalumniinfor', {
     method: 'POST',
     body: {
       ...params,

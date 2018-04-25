@@ -3,20 +3,14 @@ package com.cyann.archivebook.service;
 import com.cyann.archivebook.enums.ResultEnum;
 import com.cyann.archivebook.exception.MyException;
 import com.cyann.archivebook.model.AlumniInformationModel;
-import com.cyann.archivebook.model.UserModel;
 import com.cyann.archivebook.respository.AlumniInformationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
-
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author CYann
@@ -32,6 +26,7 @@ public class AlumniInformationService extends BaseService {
 
     //增
     public void add(AlumniInformationModel alumniInformationModel){
+        baseService.add(alumniInformationRepository,alumniInformationModel);
         alumniInformationRepository.save(alumniInformationModel);
     }
 

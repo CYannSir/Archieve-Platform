@@ -88,7 +88,7 @@ const proxy = {
   'POST /admin/deleteredarchive': 'http://localhost:8080',
   'POST /admin/searchredarchive': 'http://localhost:8080',
   'POST /admin/modifyredarchive': 'http://localhost:8080',
-  'GET /admin/listalumniinfor': getAlumniInfor,
+  'GET /admin/listalumniinfor': 'http://localhost:8080',
   'POST /admin/addalumniinfor': {
     $params: {
       pageSize: {
@@ -107,15 +107,7 @@ const proxy = {
     },
     $body: postAlumniInfor,
   },
-  'POST /admin/searchalumniinfor': {
-    $params: {
-      pageSize: {
-        desc: '分页',
-        exp: 2,
-      },
-    },
-    $body: postAlumniInfor,
-  },
+  'POST /admin/searchalumniinfor': 'http://localhost:8080',
   'POST /admin/modifyalumniinfor': {
     $params: {
       pageSize: {

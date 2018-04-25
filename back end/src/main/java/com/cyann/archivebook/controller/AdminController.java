@@ -10,6 +10,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -345,15 +347,65 @@ public class AdminController {
     */
 
     //查看所有校友资料
-    @PostMapping(value = "/viewallalumni")
+    @GetMapping(value = "/listalumniinfor")
     public Result viewAllAlumni(){
-        return Result.success(alumniInformationService.findAllAlumniInformation());
+        List<Object[]> list = alumniInformationService.findAllAlumniInformation();
+        List<Map> returnList = new ArrayList<>();
+        for(int i=0;i<list.size();i++){
+            Object[] objects = list.get(i);
+            Map tempMap = new HashMap();
+            tempMap.put("objectId",objects[0]);
+            tempMap.put("createTime",objects[1]);
+            tempMap.put("delTime",objects[2]);
+            tempMap.put("updateTime",objects[3]);
+            tempMap.put("company",objects[4]);
+            tempMap.put("companyAddress",objects[5]);
+            tempMap.put("industry",objects[6]);
+            tempMap.put("occupation",objects[7]);
+            tempMap.put("salary",objects[8]);
+            tempMap.put("stuNumber",objects[9]);
+            tempMap.put("userobjectId",objects[10]);
+            tempMap.put("stuName",objects[11]);
+            tempMap.put("stuMajor",objects[12]);
+            tempMap.put("stuClass",objects[13]);
+            tempMap.put("stuStartYear",objects[14]);
+            tempMap.put("stuEndYear",objects[15]);
+            tempMap.put("currentEmail",objects[16]);
+            tempMap.put("currentPhone",objects[17]);
+            returnList.add(tempMap);
+        }
+        return Result.success(returnList);
     }
 
     //根据校友学号查找校友资料
-    @PostMapping(value = "/searchalumnibystunumber")
-    public Result searchAlumni(AlumniInformationModel alumniInformationModel){
-        return Result.success(alumniInformationService.findByStuNumber(alumniInformationModel.getStuNumber()));
+    @PostMapping(value = "/searchalumniinfor")
+    public Result searchAlumni(@RequestBody AlumniInformationModel alumniInformationModel){
+        List<Object[]> list = alumniInformationService.findByStuNumber(alumniInformationModel.getStuNumber());
+        List<Map> returnList = new ArrayList<>();
+        for(int i=0;i<list.size();i++){
+            Object[] objects = list.get(i);
+            Map tempMap = new HashMap();
+            tempMap.put("objectId",objects[0]);
+            tempMap.put("createTime",objects[1]);
+            tempMap.put("delTime",objects[2]);
+            tempMap.put("updateTime",objects[3]);
+            tempMap.put("company",objects[4]);
+            tempMap.put("companyAddress",objects[5]);
+            tempMap.put("industry",objects[6]);
+            tempMap.put("occupation",objects[7]);
+            tempMap.put("salary",objects[8]);
+            tempMap.put("stuNumber",objects[9]);
+            tempMap.put("userobjectId",objects[10]);
+            tempMap.put("stuName",objects[11]);
+            tempMap.put("stuMajor",objects[12]);
+            tempMap.put("stuClass",objects[13]);
+            tempMap.put("stuStartYear",objects[14]);
+            tempMap.put("stuEndYear",objects[15]);
+            tempMap.put("currentEmail",objects[16]);
+            tempMap.put("currentPhone",objects[17]);
+            returnList.add(tempMap);
+        }
+        return Result.success(returnList);
     }
 
     /*
