@@ -514,7 +514,11 @@ export default class StudentBasicInfor extends PureComponent {
   }
 
   handleRefresh = () => {
-    const { dispatch } = this.props;
+    const { form, dispatch } = this.props;
+    form.resetFields();
+    this.setState({
+      formValues: {},
+    });
     dispatch({
       type: 'stuinfor/fetch',
     });

@@ -118,34 +118,11 @@ const proxy = {
     },
     $body: postAlumniInfor,
   },
- 'GET /admin/listpractice': getPractice,
-  'POST /admin/addpractice': {
-    $params: {
-      pageSize: {
-        desc: '分页',
-        exp: 2,
-      },
-    },
-    $body: postPractice,
-  },
-  'POST /admin/deletepracticer': {
-    $params: {
-      pageSize: {
-        desc: '分页',
-        exp: 2,
-      },
-    },
-    $body: postPractice,
-  },
-  'POST /admin/searchpractice': {
-    $params: {
-      pageSize: {
-        desc: '分页',
-        exp: 2,
-      },
-    },
-    $body: postPractice,
-  },
+ 'GET /admin/listpractice': 'http://localhost:8080',
+  'POST /admin/addpractice': 'http://localhost:8080',
+  'POST /admin/deletepracticer': 'http://localhost:8080',
+  'POST /admin/searchpractice': 'http://localhost:8080',
+  'POST /excel/practiceexcel': 'http://localhost:8080',
   'POST /admin/modifypractice': {
     $params: {
       pageSize: {

@@ -19,7 +19,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.net.URLEncoder;
-import java.text.SimpleDateFormat;
 import java.util.List;
 /**
  * @author CYann
@@ -114,7 +113,7 @@ public class ExcelController {
             rowNum++;
         }
 
-        String fileName = "Export-Information.xls";
+        String fileName = "src/main/resources/static/ExportInformation.xls";
 
         //生成excel文件
         buildExcelFile(fileName, workbook);
@@ -129,7 +128,7 @@ public class ExcelController {
     @PostMapping(value = "/practiceexcel")
     public String practiceExcel(HttpServletResponse response) throws Exception{
         HSSFWorkbook workbook = new HSSFWorkbook();
-        HSSFSheet sheet = workbook.createSheet("校友信息统计表");
+        HSSFSheet sheet = workbook.createSheet("实习生信息统计表");
         createTitle(workbook,sheet);
         List<PracticeInforModel> rows = practiceInforService.findALLPracticeInfor();
 
@@ -147,14 +146,14 @@ public class ExcelController {
             row.createCell(3).setCellValue(practiceInforModel.getIndustry());
             row.createCell(4).setCellValue(practiceInforModel.getOccupation());
             row.createCell(5).setCellValue(practiceInforModel.getSalary());
-            row.createCell(6).setCellValue(practiceInforModel.getCreatTime());
+            /*row.createCell(6).setCellValue(practiceInforModel.getCreatTime());
             row.createCell(7).setCellValue(practiceInforModel.getUpdateTime());
-            row.createCell(8).setCellValue(practiceInforModel.getDelTime());
-            HSSFCell cell = row.createCell(8);
+            row.createCell(8).setCellValue(practiceInforModel.getDelTime());*/
+            HSSFCell cell = row.createCell(6);
             rowNum++;
         }
 
-        String fileName = "Export.xls";
+        String fileName = "src/main/resources/static/ExportPractice.xls";
 
         //生成excel文件
         buildExcelFile(fileName, workbook);
@@ -175,7 +174,8 @@ public class ExcelController {
 
     //浏览器下载excel
     protected void buildExcelDocument(String filename,HSSFWorkbook workbook,HttpServletResponse response) throws Exception{
-        response.setContentType("application/vnd.ms-excel");
+        response.setContentType("application/x-download;charset=UTF-8");
+        //response.setContentType("application/vnd.ms-excel");
         response.setHeader("Content-Disposition", "attachment;filename="+URLEncoder.encode(filename, "utf-8"));
         OutputStream outputStream = response.getOutputStream();
         workbook.write(outputStream);

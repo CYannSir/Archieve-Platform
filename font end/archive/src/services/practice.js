@@ -35,7 +35,11 @@ export async function searchPractice(params) {
     },
   });
 }
-
+export async function exportPractice() {
+  return request('/excel/practiceexcel', {
+    method: 'POST',
+  });
+}
 export async function modifyPractice(params) {
   return request('/admin/modifypractice', {
     method: 'POST',

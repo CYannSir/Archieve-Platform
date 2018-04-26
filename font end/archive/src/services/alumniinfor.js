@@ -36,13 +36,9 @@ export async function searchAlumniInfor(params) {
   });
 }
 
-export async function exportAlumniInfor(params) {
+export async function exportAlumniInfor() {
   return request('/excel/alumniexcel', {
     method: 'POST',
-    body: {
-      ...params,
-      method: 'export',
-    },
   });
 }
 

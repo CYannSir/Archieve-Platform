@@ -416,23 +416,73 @@ public class AdminController {
      * 实习生信息操作 - Start
      *
      *实习生信息视图展示
-        CREATE VIEW alumniview AS
+        CREATE VIEW practiceview AS
         SELECT tb_practiceinfor.*,
-        tb_user.object_id as userobject_id, tb_user.stu_number as userstu_namealumniview, tb_user.stu_name, tb_user.stu_major, tb_user.stu_class,
+        tb_user.object_id as userobject_id, tb_user.stu_name, tb_user.stu_major, tb_user.stu_class,
         tb_user.stu_start_year, tb_user.stu_end_year, tb_user.current_email, tb_user.current_phone
         FROM tb_practiceinfor,tb_user
         WHERE tb_practiceinfor.stu_number = tb_user.stu_number
     */
     //查看所有实习生资料
-    @PostMapping(value = "/viewallpractice")
+    @GetMapping(value = "/listpractice")
     public Result viewAllPractice(){
-        return Result.success(practiceInforService.findAllAlumniInformation());
+        List<Object[]> list = practiceInforService.findAllPracticeInformation();
+        List<Map> returnList = new ArrayList<>();
+        for(int i=0;i<list.size();i++){
+            Object[] objects = list.get(i);
+            Map tempMap = new HashMap();
+            tempMap.put("objectId",objects[0]);
+            tempMap.put("createTime",objects[1]);
+            tempMap.put("delTime",objects[2]);
+            tempMap.put("updateTime",objects[3]);
+            tempMap.put("company",objects[4]);
+            tempMap.put("companyAddress",objects[5]);
+            tempMap.put("industry",objects[6]);
+            tempMap.put("occupation",objects[7]);
+            tempMap.put("salary",objects[8]);
+            tempMap.put("stuNumber",objects[9]);
+            tempMap.put("userobjectId",objects[10]);
+            tempMap.put("stuName",objects[11]);
+            tempMap.put("stuMajor",objects[12]);
+            tempMap.put("stuClass",objects[13]);
+            tempMap.put("stuStartYear",objects[14]);
+            tempMap.put("stuEndYear",objects[15]);
+            tempMap.put("currentEmail",objects[16]);
+            tempMap.put("currentPhone",objects[17]);
+            returnList.add(tempMap);
+        }
+        return Result.success(returnList);
     }
 
     //根据实习生学号查找实习生资料
-    @PostMapping(value = "/searchpracticebystunumber")
-    public Result searchPractice(PracticeInforModel practiceInforModel){
-        return Result.success(practiceInforService.findByStuNumber(practiceInforModel.getStuNumber()));
+    @PostMapping(value = "/searchpractice")
+    public Result searchPractice(@RequestBody PracticeInforModel practiceInforModel){
+        List<Object[]> list = practiceInforService.findByStuNumber(practiceInforModel.getStuNumber());
+        List<Map> returnList = new ArrayList<>();
+        for(int i=0;i<list.size();i++){
+            Object[] objects = list.get(i);
+            Map tempMap = new HashMap();
+            tempMap.put("objectId",objects[0]);
+            tempMap.put("createTime",objects[1]);
+            tempMap.put("delTime",objects[2]);
+            tempMap.put("updateTime",objects[3]);
+            tempMap.put("company",objects[4]);
+            tempMap.put("companyAddress",objects[5]);
+            tempMap.put("industry",objects[6]);
+            tempMap.put("occupation",objects[7]);
+            tempMap.put("salary",objects[8]);
+            tempMap.put("stuNumber",objects[9]);
+            tempMap.put("userobjectId",objects[10]);
+            tempMap.put("stuName",objects[11]);
+            tempMap.put("stuMajor",objects[12]);
+            tempMap.put("stuClass",objects[13]);
+            tempMap.put("stuStartYear",objects[14]);
+            tempMap.put("stuEndYear",objects[15]);
+            tempMap.put("currentEmail",objects[16]);
+            tempMap.put("currentPhone",objects[17]);
+            returnList.add(tempMap);
+        }
+        return Result.success(returnList);
     }
 
 

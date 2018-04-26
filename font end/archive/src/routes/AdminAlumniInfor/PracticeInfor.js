@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import { Row, Col, Card, Form, Input, Button } from 'antd';
+import { Row, Col, Card, Form, Input, Button, message, Modal } from 'antd';
 import StandardTable from 'components/StandardTable';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 
@@ -12,62 +12,129 @@ const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
 const columns = [
   {
     title: '名字',
+    align: 'center',
     dataIndex: 'stuName',
   },
   {
     title: '学号',
+    align: 'center',
     dataIndex: 'stuNumber',
   },
   {
     title: '专业',
+    align: 'center',
     dataIndex: 'stuMajor',
   },
   {
     title: '班级',
+    align: 'center',
     dataIndex: 'stuClass',
   },
   {
     title: '入学年份',
+    align: 'center',
     dataIndex: 'stuStartYear',
     sorter: true,
-    align: 'right',
   },
   {
     title: '毕业年份',
     dataIndex: 'stuEndYear',
     sorter: true,
-    align: 'right',
+    align: 'center',
   },
   {
     title: '现在邮箱',
+    align: 'center',
     dataIndex: 'currentEmail',
   },
   {
     title: '现在联系方式',
+    align: 'center',
     dataIndex: 'currentPhone',
   },
   {
     title: '公司',
+    align: 'center',
     dataIndex: 'company',
   },
   {
     title: '公司地址',
-    dataIndex: 'companyaddress',
+    align: 'center',
+    dataIndex: 'companyAddress',
   },
   {
     title: '行业',
+    align: 'center',
     dataIndex: 'industry',
   },
   {
     title: '职位',
+    align: 'center',
     dataIndex: 'occupation',
   },
   {
     title: '薪资',
+    align: 'center',
     dataIndex: 'salary',
   },
 ];
-
+const CreateForm = Form.create()((props) => {
+  const { modalVisible, form, handleAdd, handleModalVisible, handleModify } = props;
+  const okHandle = () => {
+    form.validateFields((err, fieldsValue) => {
+      if (err) return;
+      form.resetFields();
+      handleAdd(fieldsValue);
+    });
+    form.validateFields((err, fieldsValue) => {
+      if (err) return;
+      form.resetFields();
+      handleModify(fieldsValue);
+    });
+  };
+  return (
+    <Modal
+      title="新建学生用户"
+      visible={modalVisible}
+      onOk={okHandle}
+      onCancel={() => handleModalVisible()}
+    >
+      <FormItem
+        labelCol={{ span: 5 }}
+        wrapperCol={{ span: 15 }}
+        label="学生名字"
+      >
+        {form.getFieldDecorator('stuName', {
+          rules: [{ required: true, message: '请输入学生名字' }],
+        })(
+          <Input placeholder="请输入学生名字" />
+        )}
+      </FormItem>
+      <FormItem
+        labelCol={{ span: 5 }}
+        wrapperCol={{ span: 15 }}
+        label="学生学号"
+      >
+        {form.getFieldDecorator('stuNumber', {
+          rules: [{ required: true, message: '请输入学生学号' }],
+        })(
+          <Input placeholder="请输入学生学号" />
+        )}
+      </FormItem>
+      <FormItem
+        labelCol={{ span: 5 }}
+        wrapperCol={{ span: 15 }}
+        label="学生专业"
+      >
+        {form.getFieldDecorator('stuMajor', {
+          rules: [{ required: true, message: '请输入学生专业' }],
+        })(
+          <Input placeholder="请输入学生专业" />
+        )}
+      </FormItem>
+    </Modal>
+  );
+});
 
 @connect(({ practice, loading }) => ({
   practice,
@@ -76,6 +143,7 @@ const columns = [
 @Form.create()
 export default class PracticeInfor extends PureComponent {
   state = {
+    modalVisible: false,
     expandForm: false,
     selectedRows: [],
     formValues: {},
@@ -89,7 +157,7 @@ export default class PracticeInfor extends PureComponent {
   }
 
   handleStandardTableChange = (pagination, filtersArg, sorter) => {
-    const { dispatch } = this.props;
+    const { practice: { data }, dispatch } = this.props;
     const { formValues } = this.state;
 
     const filters = Object.keys(filtersArg).reduce((obj, key) => {
@@ -106,11 +174,23 @@ export default class PracticeInfor extends PureComponent {
     };
     if (sorter.field) {
       params.sorter = `${sorter.field}_${sorter.order}`;
+      const s = params.sorter.split('_');
+      data.list = data.list.sort((prev, next) => {
+        if (s[1] === 'descend') {
+          return next[s[0]] - prev[s[0]];
+        }
+        return prev[s[0]] - next[s[0]];
+      });
     }
 
+    const result = {
+      list: data.list,
+      pagination,
+    };
+
     dispatch({
-      type: 'practice/fetch',
-      payload: params,
+      type: 'practice/save',
+      payload: result,
     });
   }
 
@@ -132,37 +212,38 @@ export default class PracticeInfor extends PureComponent {
     });
   }
 
-  handleMenuClick = (e) => {
-    const { dispatch } = this.props;
-    const { selectedRows } = this.state;
-
-    if (!selectedRows) return;
-
-    switch (e.key) {
-      case 'remove':
-        dispatch({
-          type: 'practice/delete',
-          payload: {
-            no: selectedRows.map(row => row.no).join(','),
-          },
-          callback: () => {
-            this.setState({
-              selectedRows: [],
-            });
-          },
-        });
-        break;
-      default:
-        break;
-    }
-  }
 
   handleSelectRows = (rows) => {
     this.setState({
       selectedRows: rows,
     });
   }
+  handleExport = () => {
+    this.props.dispatch({
+      type: 'practice/export',
+    });
 
+    message.success('导出成功');
+    this.setState({
+      modalVisible: false,
+    }, 1000);
+  }
+
+  handleRefresh = () => {
+    const { form, dispatch } = this.props;
+    form.resetFields();
+    this.setState({
+      formValues: {},
+    });
+    dispatch({
+      type: 'practice/fetch',
+    });
+
+    message.success('刷新成功');
+    this.setState({
+      modalVisible: false,
+    });
+  }
   handleSearch = (e) => {
     e.preventDefault();
 
@@ -173,7 +254,7 @@ export default class PracticeInfor extends PureComponent {
 
       const values = {
         ...fieldsValue,
-        updatedAt: fieldsValue.updatedAt && fieldsValue.updatedAt.valueOf(),
+        stuNumber: fieldsValue.stuNumber,
       };
 
       this.setState({
@@ -181,7 +262,7 @@ export default class PracticeInfor extends PureComponent {
       });
 
       dispatch({
-        type: 'practice/fetch',
+        type: 'practice/search',
         payload: values,
       });
     });
@@ -215,29 +296,24 @@ export default class PracticeInfor extends PureComponent {
 
   render() {
     const { practice: { data }, loading } = this.props;
-    const { selectedRows } = this.state;
-
+    const { selectedRows, modalVisible } = this.state;
+    const parentMethods = {
+      handleExport: this.handleExport,
+      handleSimpleExport: this.handleSimpleExport,
+      handleModalVisible: this.handleModalVisible,
+    };
     return (
-      <PageHeaderLayout title="校友信息管理">
+      <PageHeaderLayout title="实习生信息管理">
         <Card bordered={false}>
           <div className={styles.tableList}>
             <div className={styles.tableListForm}>
               {this.renderForm()}
             </div>
             <div className={styles.tableListOperator}>
-              <Button icon="export" type="primary" >
+              <Button icon="export" type="primary" onClick={this.handleExport}>
                 导出
               </Button>
-              {
-                selectedRows.length > 0 && (
-                  <span>
-                    <Button icon="export" type="primary" >
-                        单个信息导出
-                    </Button>
-                  </span>
-                )
-              }
-
+              <Button icon="sync" type="ghost" onClick={this.handleRefresh} />
             </div>
             <StandardTable
               selectedRows={selectedRows}
@@ -249,6 +325,10 @@ export default class PracticeInfor extends PureComponent {
             />
           </div>
         </Card>
+        <CreateForm
+          {...parentMethods}
+          modalVisible={modalVisible}
+        />
       </PageHeaderLayout>
     );
   }

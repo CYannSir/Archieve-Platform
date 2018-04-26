@@ -6,6 +6,7 @@ import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 
 import styles from './AlumniInfor.less';
 
+
 const FormItem = Form.Item;
 const { Option } = Select;
 const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
@@ -261,28 +262,6 @@ export default class AlumniInfor extends PureComponent {
     });
   }
 
-  handleMenuClick = () => {
-    const { dispatch } = this.props;
-    const { selectedRows } = this.state;
-
-    if (!selectedRows) return;
-    dispatch({
-      type: 'alumniinfor/simpleexport',
-      payload: {
-        objectId: selectedRows.map(objectId => objectId.objectId).join(','),
-      },
-      callback: () => {
-        this.setState({
-          selectedRows: [],
-        });
-      },
-    });
-    message.success('单个信息导出成功');
-    this.setState({
-      modalVisible: false,
-    });
-  }
-
   handleSelectRows = (rows) => {
     this.setState({
       selectedRows: rows,
@@ -327,25 +306,19 @@ export default class AlumniInfor extends PureComponent {
     message.success('导出成功');
     this.setState({
       modalVisible: false,
-    });
+    }, 1000);
   }
   handleRefresh = () => {
-    const { dispatch } = this.props;
+    const { form, dispatch } = this.props;
+    form.resetFields();
+    this.setState({
+      formValues: {},
+    });
     dispatch({
       type: 'alumniinfor/fetch',
     });
 
     message.success('刷新成功');
-    this.setState({
-      modalVisible: false,
-    });
-  }
-  handleSimpleExport = () => {
-    this.props.dispatch({
-      type: 'alumniinfor/simpleexport',
-    });
-
-    message.success('单个信息导出成功');
     this.setState({
       modalVisible: false,
     });
@@ -400,15 +373,6 @@ export default class AlumniInfor extends PureComponent {
               <Button icon="export" type="primary" onClick={this.handleExport}>
                 导出
               </Button>
-              {
-                selectedRows.length > 0 && (
-                  <span>
-                    <Button icon="export" type="primary" onClick={this.handleSimpleExport}>
-                        单个信息导出
-                    </Button>
-                  </span>
-                )
-              }
               <Button icon="sync" type="ghost" onClick={this.handleRefresh} />
             </div>
             <StandardTable

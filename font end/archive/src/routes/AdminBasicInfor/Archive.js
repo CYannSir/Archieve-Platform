@@ -355,7 +355,11 @@ export default class Archive extends PureComponent {
     });
   }
   handleRefresh = () => {
-    const { dispatch } = this.props;
+    const { form, dispatch } = this.props;
+    form.resetFields();
+    this.setState({
+      formValues: {},
+    });
     dispatch({
       type: 'archive/fetch',
     });
