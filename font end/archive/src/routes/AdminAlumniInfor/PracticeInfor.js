@@ -275,7 +275,7 @@ export default class PracticeInfor extends PureComponent {
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={8} sm={24}>
             <FormItem label="学生学号">
-              {getFieldDecorator('studentno')(
+              {getFieldDecorator('stuNumber')(
                 <Input placeholder="请输入学生学号" />
               )}
             </FormItem>
