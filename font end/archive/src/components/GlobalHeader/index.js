@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Menu, Icon, Spin, Dropdown, Avatar, Divider, message, Tooltip, Form, Modal, Input } from 'antd';
+import { Menu, Icon, Spin, Dropdown, Avatar, Divider, message, Tooltip, Form, Modal, Input, Button } from 'antd';
 import moment from 'moment';
 import groupBy from 'lodash/groupBy';
 import Debounce from 'lodash-decorators/debounce';
@@ -22,20 +22,26 @@ const CreateForm = Form.create()((props) => {
     };
     return (
       <Modal
-        title="反馈消息"
+        title="Feedback"
         visible={modalVisible}
         onOk={okHandle}
         onCancel={() => handleModalVisible()}
+        footer={[
+          <Button key="back" onClick={this.handleCancel}>Cancel</Button>,
+          <Button key="submit" type="primary" onClick={this.handleOk}>
+              Send
+          </Button>,
+          ]}
       >
         <FormItem
           labelCol={{ span: 6 }}
           wrapperCol={{ span: 18 }}
-          label="反馈消息"
+          label="Feedback"
         >
           {form.getFieldDecorator('number', {
-          rules: [{ required: true, message: '请输入' }],
+          rules: [{ required: true, message: 'Please enter feedback information up to 256 words' }],
         })(
-          <TextArea placeholder="请输入反馈信息" autosize />
+          <TextArea placeholder="Please enter feedback information up to 256 words" autosize />
         )}
         </FormItem>
       </Modal>
@@ -50,20 +56,27 @@ const CreateForm = Form.create()((props) => {
     };
     return (
       <Modal
-        title="消息"
+        style={{ 'z-index': 99999 }}
+        title="Message"
         visible={modalVisible}
         onOk={okHandle}
         onCancel={() => handleModalVisible()}
+        footer={[
+          <Button key="back" onClick={this.handleCancel}>Cancel</Button>,
+          <Button key="submit" type="primary" onClick={this.handleOk}>
+              Send
+          </Button>,
+          ]}
       >
         <FormItem
           labelCol={{ span: 6 }}
           wrapperCol={{ span: 18 }}
-          label="回复消息"
+          label="Reply"
         >
-          {form.getFieldDecorator('number', {
-          rules: [{ required: true, message: '请输入' }],
+          {form.getFieldDecorator('replyWords', {
+          rules: [{ required: true, message: 'Please enter message up to 256 words' }],
         })(
-          <TextArea placeholder="请输入回复消息" autosize />
+          <TextArea placeholder="Please enter message up to 256 words" autosize />
         )}
         </FormItem>
       </Modal>
@@ -131,7 +144,7 @@ export default class GlobalHeader extends PureComponent {
       type: 'rule/add',
     });
 
-    message.success('回复成功');
+    message.success('Reply successful');
     this.setState({
       modalVisible: false,
     });
@@ -141,7 +154,7 @@ export default class GlobalHeader extends PureComponent {
       type: 'rule/delete',
     });
 
-    message.success('反馈成功');
+    message.success('Feedback successful');
     this.setState({
       modalVisible: false,
       formprops: false,
@@ -156,9 +169,9 @@ export default class GlobalHeader extends PureComponent {
 
     const menu = (
       <Menu className={styles.menu} selectedKeys={[]} onClick={onMenuClick}>
-        <Menu.Item key="modify"><Icon type="setting" />修改密码</Menu.Item>
+        <Menu.Item key="modify"><Icon type="setting" />Change password</Menu.Item>
         <Menu.Divider />
-        <Menu.Item key="logout"><Icon type="logout" />退出登录</Menu.Item>
+        <Menu.Item key="logout"><Icon type="logout" />Log out</Menu.Item>
       </Menu>
     );
     const parentMethods = {
@@ -207,8 +220,8 @@ export default class GlobalHeader extends PureComponent {
           >
             <NoticeIcon.Tab
               list={noticeData['消息']}
-              title="消息"
-              emptyText="您已读完所有消息"
+              title="Notice"
+              emptyText="Empty"
               emptyImage="https://gw.alipayobjects.com/zos/rmsportal/sAuJeJzSKbUmHfBQRzmZ.svg"
             />
           </NoticeIcon>

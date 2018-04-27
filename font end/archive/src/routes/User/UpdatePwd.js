@@ -1,13 +1,10 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import { Form, Input, Button, Popover, Progress, Tooltip, Card } from 'antd';
+import { Form, Input, Button, Card, Popover, Progress } from 'antd';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import styles from './UpdatePwd.less';
 
-
 const FormItem = Form.Item;
-
-
 const passwordStatusMap = {
   ok: <div className={styles.success}>Strength: Strong</div>,
   pass: <div className={styles.warning}>Strength: Middle</div>,
@@ -20,13 +17,11 @@ const passwordProgressMap = {
   poor: 'exception',
 };
 
-
-@connect(({ register, loading }) => ({
-  register,
-  loading: loading.effects['register/submit'],
+@connect(({ loading }) => ({
+  submitting: loading.effects['form/submitRegularForm'],
 }))
 @Form.create()
-export default class UpdatePwd extends Component {
+export default class UpdatePwd extends PureComponent {
   state = {
     confirmDirty: false,
     visible: false,
@@ -36,6 +31,7 @@ export default class UpdatePwd extends Component {
   componentWillUnmount() {
     clearInterval(this.interval);
   }
+
   /**
    * 判断密码强度
    */
@@ -50,19 +46,18 @@ export default class UpdatePwd extends Component {
     }
     return 'poor';
   };
+
   handleSubmit = (e) => {
     e.preventDefault();
-    this.props.form.validateFields({ force: true }, (err, values) => {
+    this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         this.props.dispatch({
-          type: 'register/submit',
-          payload: {
-            ...values,
-          },
+          type: 'form/submitRegularForm',
+          payload: values,
         });
       }
     });
-  };
+  }
 
   handleConfirmBlur = (e) => {
     const { value } = e.target;
@@ -123,48 +118,72 @@ export default class UpdatePwd extends Component {
       </div>
     ) : null;
   };
+
   render() {
-    const { form, submitting } = this.props;
-    const { getFieldDecorator } = form;
+    const { submitting } = this.props;
+    const { getFieldDecorator } = this.props.form;
+
+    const formItemLayout = {
+      labelCol: {
+        xs: { span: 24 },
+        sm: { span: 7 },
+      },
+      wrapperCol: {
+        xs: { span: 24 },
+        sm: { span: 12 },
+        md: { span: 10 },
+      },
+    };
+
+    const submitFormLayout = {
+      wrapperCol: {
+        xs: { span: 24, offset: 0 },
+        sm: { span: 10, offset: 7 },
+      },
+    };
+
+
     return (
-      <PageHeaderLayout
-        title="Change your passwords"
-      >
-        <Card>
-          <div className={styles.main}>
-            <h3>Create your personal account</h3>
-            <Form onSubmit={this.handleSubmit}>
-              <FormItem>
-                {getFieldDecorator('mail', {
-              rules: [
-                {
-                  required: true,
-                  message: 'Please enter your E-mail',
-                },
-                {
-                  type: 'mail',
-                  message: 'Please enter a real E-mail',
-                },
-              ],
-            })(<Input size="large" placeholder="Please enter your E-mail" />)}
-              </FormItem>
-              <FormItem help={this.state.help}>
-                <Popover
-                  content={
-                    <div style={{ padding: '4px 0' }}>
-                      {passwordStatusMap[this.getPasswordStatus()]}
-                      {this.renderPasswordProgress()}
-                      <div style={{ marginTop: 10 }}>
+      <PageHeaderLayout title="Change Your Passwords" >
+        <Card bordered={false}>
+          <Form
+            onSubmit={this.handleSubmit}
+            hideRequiredMark
+            style={{ marginTop: 8 }}
+          >
+            <FormItem
+              {...formItemLayout}
+              label="Your previous password"
+            >
+              {getFieldDecorator('oldPwd', {
+                rules: [{
+                  required: true, message: 'Please enter your previous password',
+                }],
+              })(
+                <Input size="large" type="password" placeholder="Please enter your previous password" />
+              )}
+            </FormItem>
+            <FormItem
+              {...formItemLayout}
+              label="Your new password"
+              help={this.state.help}
+            >
+              <Popover
+                content={
+                  <div style={{ padding: '4px 0' }}>
+                    {passwordStatusMap[this.getPasswordStatus()]}
+                    {this.renderPasswordProgress()}
+                    <div style={{ marginTop: 10 }}>
                     Please enter at least 6 characters, Do not use passwords that are easy to guess.
-                      </div>
                     </div>
+                  </div>
               }
-                  overlayStyle={{ width: 320 }}
-                  placement="right"
-                  visible={this.state.visible}
-                  onVisibleChange={this.handleVisibleChange}
-                >
-                  {getFieldDecorator('password', {
+                overlayStyle={{ width: 320 }}
+                placement="right"
+                visible={this.state.visible}
+                onVisibleChange={this.handleVisibleChange}
+              >
+                {getFieldDecorator('password', {
                 rules: [
                   {
                     validator: this.checkPassword,
@@ -177,10 +196,13 @@ export default class UpdatePwd extends Component {
                   placeholder="At least 6 passwords"
                 />
               )}
-                </Popover>
-              </FormItem>
-              <FormItem>
-                {getFieldDecorator('confirm', {
+              </Popover>
+            </FormItem>
+            <FormItem
+              {...formItemLayout}
+              label="Comfir your new password"
+            >
+              {getFieldDecorator('confirm', {
               rules: [
                 {
                   required: true,
@@ -191,61 +213,13 @@ export default class UpdatePwd extends Component {
                 },
               ],
             })(<Input size="large" type="password" placeholder="Confirm the password" />)}
-              </FormItem>
-              <Tooltip placement="right" title={<span>Archive Book Team | Archive Book Team will not reveal your information</span>}>
-                <h3>Verification and Information</h3>
-              </Tooltip>
-              <FormItem>
-                {getFieldDecorator('name', {
-              rules: [
-                {
-                  required: true,
-                  message: 'Please enter your Real name',
-                },
-                {
-                  type: 'name',
-                  message: 'Please enter your Real name',
-                },
-              ],
-            })(<Input size="large" placeholder="Please enter your Real name" />)}
-              </FormItem>
-              <FormItem>
-                {getFieldDecorator('no', {
-              rules: [
-                {
-                  required: true,
-                  message: 'Please enter your ID in collage',
-                },
-                {
-                  type: 'no',
-                  message: 'Please enter your ID in collage',
-                },
-              ],
-            })(<Input size="large" placeholder="Please enter your ID in collage" />)}
-              </FormItem>
-              <FormItem>
-                {getFieldDecorator('phone', {
-              rules: [
-                {
-                  required: true,
-                  message: 'Please enter your mobile phone',
-                },
-              ],
-            })(<Input size="large" placeholder="Please enter your mobile phone" />)}
-              </FormItem>
-              <FormItem>
-                <Button
-                  size="large"
-                  loading={submitting}
-                  className={styles.submit}
-                  type="primary"
-                  htmlType="submit"
-                >
-              Submit
-                </Button>
-              </FormItem>
-            </Form>
-          </div>
+            </FormItem>
+            <FormItem {...submitFormLayout} style={{ marginTop: 32 }}>
+              <Button type="primary" htmlType="submit" loading={submitting}>
+                Save
+              </Button>
+            </FormItem>
+          </Form>
         </Card>
       </PageHeaderLayout>
     );

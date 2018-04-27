@@ -143,7 +143,7 @@ class BasicLayout extends React.PureComponent {
     });
   }
   handleNoticeClear = (type) => {
-    message.success(`清空了${type}`);
+    message.success(`Clear${type}`);
     this.props.dispatch({
       type: 'global/clearNotices',
       payload: type,
@@ -152,7 +152,7 @@ class BasicLayout extends React.PureComponent {
   // 用户栏下菜单操作
   handleMenuClick = ({ key }) => {
     if (key === 'modify') {
-      this.props.dispatch(routerRedux.push('/user/modifypwd'));
+      this.props.dispatch(routerRedux.push('/modifypwd'));
       return;
     }
     if (key === 'logout') {
@@ -172,6 +172,7 @@ class BasicLayout extends React.PureComponent {
     const {
       currentUser, collapsed, fetchingNotices, notices, routerData, match, location,
     } = this.props;
+    const bashRedirect = this.getBashRedirect();
     const layout = (
       <Layout>
         <SiderMenu
@@ -222,7 +223,7 @@ class BasicLayout extends React.PureComponent {
                   )
                 )
               }
-              <Redirect exact from="/" to="/home/homepage" />
+              <Redirect exact from="/" to={bashRedirect} />
               <Route render={NotFound} />
             </Switch>
           </Content>

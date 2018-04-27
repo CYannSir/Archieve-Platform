@@ -73,6 +73,12 @@ export const getRouterData = (app) => {
     '/': {
       component: dynamicWrapper(app, ['user', 'login'], () => import('../layouts/BasicLayout')),
     },
+    '/home': {
+      component: dynamicWrapper(app, ['list'], () => import('../routes/Home/List')),
+    },
+    '/home/homepage': {
+      component: dynamicWrapper(app, ['list'], () => import('../routes/Home/Home')),
+    },
     '/dashboard/studentbasicinfor': {
       component: dynamicWrapper(app, ['form', 'stuinfor'], () => import('../routes/AdminBasicInfor/StudentBasicInfor')),
       // hideInBreadcrumb: true,
@@ -100,14 +106,8 @@ export const getRouterData = (app) => {
     '/alumniinfor/adminpracticeinfor': {
       component: dynamicWrapper(app, ['form', 'practice'], () => import('../routes/AdminAlumniInfor/PracticeInfor')),
     },
-    '/list/table-list': {
-      component: dynamicWrapper(app, ['rule'], () => import('../routes/List/TableList')),
-    },
-    '/home': {
-      component: dynamicWrapper(app, ['list'], () => import('../routes/Home/List')),
-    },
-    '/home/homepage': {
-      component: dynamicWrapper(app, ['list'], () => import('../routes/Home/Home')),
+    '/modifypwd': {
+      component: dynamicWrapper(app, [], () => import('../routes/User/UpdatePwd')),
     },
     '/archive/archive': {
       component: dynamicWrapper(app, ['profile'], () => import('../routes/Archive/Archive')),
@@ -159,9 +159,6 @@ export const getRouterData = (app) => {
     },
     '/user/register-result': {
       component: dynamicWrapper(app, [], () => import('../routes/User/RegisterResult')),
-    },
-    '/archive/modifypwd': {
-      component: dynamicWrapper(app, [], () => import('../routes/User/UpdatePwd')),
     },
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
