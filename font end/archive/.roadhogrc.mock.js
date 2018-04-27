@@ -132,43 +132,11 @@ const proxy = {
     },
     $body: postPractice,
   },
-  'GET /admin/listchatgroup': getChatGroup,
-  'POST /admin/addchatgroup': {
-    $params: {
-      pageSize: {
-        desc: '分页',
-        exp: 2,
-      },
-    },
-    $body: postChatGroup,
-  },
-  'POST /admin/deletechatgroup': {
-    $params: {
-      pageSize: {
-        desc: '分页',
-        exp: 2,
-      },
-    },
-    $body: postChatGroup,
-  },
-  'POST /admin/searchchatgroup': {
-    $params: {
-      pageSize: {
-        desc: '分页',
-        exp: 2,
-      },
-    },
-    $body: postChatGroup,
-  },
-  'POST /admin/modifychatgroup': {
-    $params: {
-      pageSize: {
-        desc: '分页',
-        exp: 2,
-      },
-    },
-    $body: postChatGroup,
-  },
+  'GET /admin/listchatgroup': 'http://localhost:8080',
+  'POST /admin/addchatgroup': 'http://localhost:8080',
+  'POST /admin/deletechatgroup': 'http://localhost:8080',
+  'POST /admin/searchchatgroup':'http://localhost:8080',
+  'POST /admin/modifychatgroup': 'http://localhost:8080',
 
   'POST /api/forms': (req, res) => {
     res.send({ message: 'Ok' });

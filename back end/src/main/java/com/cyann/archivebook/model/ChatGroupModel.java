@@ -22,7 +22,7 @@ public class ChatGroupModel extends BaseEntity {
     private String stuEndYear;
     @Column(nullable = false , length = 16)
     private String qqNo;
-    @Column(nullable = false , length = 16)
+    @Column(length = 32)
     private String wechatNo;
 
     public String getStuMajor() {

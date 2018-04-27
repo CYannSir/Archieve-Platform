@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
+import moment from 'moment';
 import { Row, Col, Card, Form, Input, Button, Modal, message } from 'antd';
 import StandardTable from 'components/StandardTable';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
@@ -12,29 +13,37 @@ const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
 const columns = [
   {
     title: '专业',
+    align: 'center',
     dataIndex: 'stuMajor',
   },
   {
     title: '毕业年份',
+    align: 'center',
     dataIndex: 'stuEndYear',
   },
   {
     title: 'QQ群',
+    align: 'center',
     dataIndex: 'qqNo',
   },
   {
     title: '微信群',
+    align: 'center',
     dataIndex: 'wechatNo',
   },
   {
     title: '创建时间',
+    align: 'center',
     dataIndex: 'createTime',
     sorter: true,
+    render: val => (<span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>),
   },
   {
     title: '更新时间',
+    align: 'center',
     dataIndex: 'updateTime',
     sorter: true,
+    render: val => (val === null ? (<span />) : (<span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>)),
   },
 ];
 
@@ -61,7 +70,7 @@ const CreateForm = Form.create()((props) => {
           label="专业"
         >
           {form.getFieldDecorator('stuMajor', {
-          rules: [{ message: '请输入专业' }],
+          rules: [{ required: false, message: '请输入专业' }],
         })(
           <Input placeholder="请输入专业" />
         )}
@@ -72,7 +81,7 @@ const CreateForm = Form.create()((props) => {
           label="毕业年份"
         >
           {form.getFieldDecorator('stuEndYear', {
-          rules: [{ message: '请输入毕业年份' }],
+          rules: [{ required: false, message: '请输入毕业年份' }],
         })(
           <Input placeholder="请输入毕业年份" />
         )}
@@ -83,7 +92,7 @@ const CreateForm = Form.create()((props) => {
           label="qq群"
         >
           {form.getFieldDecorator('qqNo', {
-          rules: [{ message: '请输入QQ群' }],
+          rules: [{ required: false, message: '请输入QQ群' }],
         })(
           <Input placeholder="请输入QQ群" />
         )}
@@ -94,7 +103,7 @@ const CreateForm = Form.create()((props) => {
           label="微信群"
         >
           {form.getFieldDecorator('wechatNo', {
-          rules: [{ message: '请输入微信群' }],
+          rules: [{ required: false, message: '请输入微信群' }],
         })(
           <Input placeholder="请输入微信群" />
         )}
@@ -122,7 +131,7 @@ const CreateForm = Form.create()((props) => {
           label="专业"
         >
           {form.getFieldDecorator('stuMajor', {
-          rules: [{ message: '请输入专业' }],
+          rules: [{ required: true, message: '请输入专业' }],
         })(
           <Input placeholder="请输入专业" />
         )}
@@ -133,7 +142,7 @@ const CreateForm = Form.create()((props) => {
           label="毕业年份"
         >
           {form.getFieldDecorator('stuEndYear', {
-          rules: [{ message: '请输入毕业年份' }],
+          rules: [{ required: true, message: '请输入毕业年份' }],
         })(
           <Input placeholder="请输入毕业年份" />
         )}
@@ -144,7 +153,7 @@ const CreateForm = Form.create()((props) => {
           label="qq群"
         >
           {form.getFieldDecorator('qqNo', {
-          rules: [{ message: '请输入QQ群' }],
+          rules: [{ required: true, message: '请输入QQ群' }],
         })(
           <Input placeholder="请输入QQ群" />
         )}
@@ -154,10 +163,8 @@ const CreateForm = Form.create()((props) => {
           wrapperCol={{ span: 18 }}
           label="微信群"
         >
-          {form.getFieldDecorator('wechatNo', {
-          rules: [{ message: '请输入微信群' }],
-        })(
-          <Input placeholder="请输入微信群" />
+          {form.getFieldDecorator('wechatNo')(
+            <Input placeholder="请输入微信群" />
         )}
         </FormItem>
       </Modal>
@@ -187,7 +194,7 @@ export default class ChatGroup extends PureComponent {
   }
 
   handleStandardTableChange = (pagination, filtersArg, sorter) => {
-    const { dispatch } = this.props;
+    const { chatgroup: { data }, dispatch } = this.props;
     const { formValues } = this.state;
 
     const filters = Object.keys(filtersArg).reduce((obj, key) => {
@@ -204,11 +211,21 @@ export default class ChatGroup extends PureComponent {
     };
     if (sorter.field) {
       params.sorter = `${sorter.field}_${sorter.order}`;
+      const s = params.sorter.split('_');
+      data.list = data.list.sort((prev, next) => {
+        if (s[1] === 'descend') {
+          return next[s[0]] - prev[s[0]];
+        }
+        return prev[s[0]] - next[s[0]];
+      });
     }
-
+    const result = {
+      list: data.list,
+      pagination,
+    };
     dispatch({
-      type: 'chatgroup/fetch',
-      payload: params,
+      type: 'chatgroup/save',
+      payload: result,
     });
   }
 
@@ -269,7 +286,8 @@ export default class ChatGroup extends PureComponent {
 
       const values = {
         ...fieldsValue,
-        stuMajor: fieldsValue.stuMajor && fieldsValue.stuMajor.valueOf(),
+        stuMajor: fieldsValue.stuMajor,
+        stuEndYear: fieldsValue.stuEndYear,
       };
 
       this.setState({
@@ -313,10 +331,30 @@ export default class ChatGroup extends PureComponent {
       modalVisible: false,
     });
   }
+  handleRefresh = () => {
+    const { form, dispatch } = this.props;
+    form.resetFields();
+    this.setState({
+      formValues: {},
+    });
+    dispatch({
+      type: 'chatgroup/fetch',
+    });
+
+    message.success('刷新成功');
+    this.setState({
+      modalVisible: false,
+    });
+  }
   handleModify = (fields) => {
-    this.props.dispatch({
+    const { dispatch } = this.props;
+    const { selectedRows } = this.state;
+    // console.log('log==>', selectedRows.map(objectId => objectId.objectId));
+    if (!selectedRows) return;
+    dispatch({
       type: 'chatgroup/modify',
       payload: {
+        objectId: selectedRows.map(objectId => objectId.objectId).join(','),
         stuMajor: fields.stuMajor,
         stuEndYear: fields.stuEndYear,
         qqNo: fields.qqNo,
@@ -339,6 +377,13 @@ export default class ChatGroup extends PureComponent {
           <Col md={8} sm={24}>
             <FormItem label="学生专业">
               {getFieldDecorator('stuMajor')(
+                <Input placeholder="请输入" />
+              )}
+            </FormItem>
+          </Col>
+          <Col md={8} sm={24}>
+            <FormItem label="毕业年份">
+              {getFieldDecorator('stuEndYear')(
                 <Input placeholder="请输入" />
               )}
             </FormItem>
@@ -392,6 +437,7 @@ export default class ChatGroup extends PureComponent {
                   </span>
                 )
               }
+              <Button icon="sync" type="ghost" onClick={this.handleRefresh} />
             </div>
             <StandardTable
               selectedRows={selectedRows}

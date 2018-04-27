@@ -5,9 +5,17 @@ import com.cyann.archivebook.exception.MyException;
 import com.cyann.archivebook.model.ChatGroupModel;
 import com.cyann.archivebook.respository.ChatGroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author CYann
@@ -22,6 +30,7 @@ public class ChatGroupService {
 
     //增
     public void add(ChatGroupModel chatGroupModel){
+        baseService.add(chatGroupRepository,chatGroupModel);
         chatGroupRepository.save(chatGroupModel);
     }
 
@@ -58,12 +67,35 @@ public class ChatGroupService {
         }
     }
 
-    //根据专业和毕业时间查询档案
+    //根据专业和毕业时间查询交流群
     public ChatGroupModel findByStuMajorAndAndStuEndYear(String stuMajor, String stuEndYear){
         return chatGroupRepository.findByStuMajorAndAndStuEndYear(stuMajor, stuEndYear);
     }
 
+    //根据 专业和毕业时间 多条件动态查询交流群
+    public List<ChatGroupModel> findAllByAdvancedForm(ChatGroupModel chatGroupModel) {
+        return chatGroupRepository.findAll(new Specification<ChatGroupModel>(){
+            @Override
+            public Predicate toPredicate(Root<ChatGroupModel> root, CriteriaQuery<?> query, CriteriaBuilder cb){
+                List<Predicate> list = new ArrayList<Predicate>();
+                list.add(cb.isNull(root.get("delTime")));
+                if(chatGroupModel != null && !StringUtils.isEmpty(chatGroupModel.getStuMajor()) ){
+                    list.add(cb.equal(root.get("stuMajor"), chatGroupModel.getStuMajor()));
+                }
+                if(chatGroupModel != null && !StringUtils.isEmpty(chatGroupModel.getStuEndYear()) ){
+                    list.add(cb.equal(root.get("stuEndYear"), chatGroupModel.getStuEndYear()));
+                }
+                Predicate[] p = new Predicate[list.size()];
+                return cb.and(list.toArray(p));
+            }
+        });
+    }
 
+    //查询所有档案
+    public List<ChatGroupModel>findAll(){
+        List<ChatGroupModel> list = chatGroupRepository.findALL();
+        return list;
+    }
 
 
 }

@@ -204,7 +204,7 @@ public class AdminController {
     /*
      * 户口信息操作 - Start
      */
-    //展示档案
+    //展示户口
     @GetMapping(value = "/listaccount")
     public Result listAccount(){
         List<AccountModel> list = accountService.findAll();
@@ -493,25 +493,43 @@ public class AdminController {
     /*
      * 交流群信息操作 - Start
      */
+    //展示交流群
+    @GetMapping(value = "/listchatgroup")
+    public Result listChatGroup(){
+        List<ChatGroupModel> list = chatGroupService.findAll();
+        return Result.success(list);
+    }
+
+
     //增加交流群
     @PostMapping(value = "/addchatgroup")
-    public Result addChatGroup(ChatGroupModel chatGroupModel){
+    public Result addChatGroup(@RequestBody ChatGroupModel chatGroupModel){
         chatGroupService.add(chatGroupModel);
-        return Result.success();
+        List<ChatGroupModel> list = chatGroupService.findAll();
+        return Result.success(list);
     }
 
     //删除交流群
     @PostMapping(value = "/deletechatgroup")
-    public Result deleteChatGroup(ChatGroupModel chatGroupModel){
+    public Result deleteChatGroup(@RequestBody ChatGroupModel chatGroupModel){
         chatGroupService.delete(chatGroupModel);
-        return Result.success();
+        List<ChatGroupModel> list = chatGroupService.findAll();
+        return Result.success(list);
+    }
+
+    //根据 专业和毕业时间 多条件动态查询交流群
+    @PostMapping(value = "/searchchatgroup")
+    public Result searchChatGroup(@RequestBody ChatGroupModel chatGroupModel){
+        List<ChatGroupModel> list = chatGroupService.findAllByAdvancedForm(chatGroupModel);
+        return Result.success(list);
     }
 
     //动态修改更新交流群
     @PostMapping(value = "/modifychatgroup")
-    public Result modifyChatGroup(ChatGroupModel chatGroupModel){
+    public Result modifyChatGroup(@RequestBody ChatGroupModel chatGroupModel){
         chatGroupService.update(chatGroupModel);
-        return Result.success();
+        List<ChatGroupModel> list = chatGroupService.findAll();
+        return Result.success(list);
     }
 
     /*
