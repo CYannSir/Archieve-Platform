@@ -19,7 +19,7 @@ const fileprops = {
   action: 'http://localhost:8080/admin/addarchviebyfile',
   onChange(info) {
     if (info.file.status !== 'uploading') {
-      console.log(info.file, info.fileList);
+      // console.log(info.file, info.fileList);
     }
     if (info.file.status === 'done') {
       message.success(`${info.file.name} file uploaded successfully`);
@@ -372,7 +372,6 @@ export default class Archive extends PureComponent {
   handleModify = (fields) => {
     const { dispatch } = this.props;
     const { selectedRows } = this.state;
-    // console.log('log==>', selectedRows.map(objectId => objectId.objectId));
     if (!selectedRows) return;
     dispatch({
       type: 'archive/modify',

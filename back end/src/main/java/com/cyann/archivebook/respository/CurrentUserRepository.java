@@ -15,7 +15,7 @@ import java.util.List;
 public interface CurrentUserRepository extends JpaRepository<CurrentUserModel,String>,JpaSpecificationExecutor<CurrentUserModel> {
 
     //查找所有用户
-    @Query(value = "select currentUserModel from CurrentUserModel currentUserModel ")
+    @Query(value = "select currentUserModel from CurrentUserModel currentUserModel where currentUserModel.userType= 'user'")
     List<CurrentUserModel> findAllUser();
 
     //通过数据库编号id查找用户

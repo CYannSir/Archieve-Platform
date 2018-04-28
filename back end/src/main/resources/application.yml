@@ -10,4 +10,10 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/dbarchivebook
     username: root
     password: wcy828
-
+  mail:
+    host: smtphm.qiye.163.com
+    from: xjx@zucc.edu.cn
+    port: 25
+    username: xjx@zucc.edu.cn
+    password: 88018729
+    default-encoding: UTF-8

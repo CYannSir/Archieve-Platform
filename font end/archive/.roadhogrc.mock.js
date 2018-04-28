@@ -157,7 +157,10 @@ const proxy = {
   'POST /admin/deletechatgroup': 'http://localhost:8080',
   'POST /admin/searchchatgroup':'http://localhost:8080',
   'POST /admin/modifychatgroup': 'http://localhost:8080',
-
+  
+  'POST /login': 'http://localhost:8080',
+  
+  
   'POST /api/forms': (req, res) => {
     res.send({ message: 'Ok' });
   },
@@ -168,9 +171,10 @@ const proxy = {
   'GET /api/fake_chart_data': getFakeChartData,
   'GET /api/profile/basic': getProfileBasicData,
   'GET /api/profile/advanced': getProfileAdvancedData,
-  'POST /api/login/account': (req, res) => {
-    const { password, loginEmail, type } = req.body;
-    if(password === '888888' && loginEmail === 'admin'){
+  
+  'POST api/login/account': (req, res) => {
+    const { loginPsw, loginEmail, type } = req.body;
+    if(loginPsw === '888888' && loginEmail === 'admin'){
       res.send({
         status: 'ok',
         type,
@@ -178,7 +182,7 @@ const proxy = {
       });
       return ;
     }
-    if(password === '123456' && loginEmail === 'user'){
+    if(loginPsw === '123456' && loginEmail === 'user'){
       res.send({
         status: 'ok',
         type,

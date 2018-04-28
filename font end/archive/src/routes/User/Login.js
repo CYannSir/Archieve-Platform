@@ -37,7 +37,7 @@ export default class LoginPage extends Component {
     );
   }
   render() {
-    const { login, submitting } = this.props;
+    const { login, login: { data }, submitting } = this.props;
     const { type } = this.state;
     return (
       <div className={styles.main}>
@@ -48,13 +48,13 @@ export default class LoginPage extends Component {
         >
           <div>
             {
-              login.status === 'error' &&
-              login.type === 'account' &&
+              data.status === 'error' &&
+              data.type === 'account' &&
               !login.submitting &&
               this.renderMessage('Please correct your account or passwords !')
             }
             <UserName name="loginEmail" placeholder="Please enter your E-mail" />
-            <Password name="password" placeholder="Please enter your passwords" />
+            <Password name="loginPsw" placeholder="Please enter your passwords" />
           </div>
 
           <div>

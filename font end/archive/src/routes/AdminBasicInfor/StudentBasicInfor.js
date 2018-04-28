@@ -23,7 +23,7 @@ const fileprops = {
   action: 'http://localhost:8080/admin/addstubyfile',
   onchange(info) {
     if (info.file.status !== 'uploading') {
-      console.log(info.file, info.fileList);
+      // console.log(info.file, info.fileList);
     }
     if (info.file.status === 'done') {
       message.success(`${info.file.name} file uploaded successfully`);

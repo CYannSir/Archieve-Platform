@@ -7,18 +7,23 @@ export default {
   namespace: 'login',
 
   state: {
-    status: undefined,
+    data: {
+      status: undefined,
+      type: undefined,
+    },
   },
 
   effects: {
     *login({ payload }, { call, put }) {
       const response = yield call(fakeAccountLogin, payload);
+      console.log('response==>', response);
+      console.log('response.data==>', response.data);
       yield put({
         type: 'changeLoginStatus',
-        payload: response,
+        payload: response.data,
       });
       // Login successfully
-      if (response.status === 'ok') {
+      if (response.data.status === 'ok') {
         reloadAuthorized();
         yield put(routerRedux.push('/'));
       }

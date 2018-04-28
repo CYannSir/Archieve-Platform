@@ -53,4 +53,11 @@ public class Result<T> {
         result.setMsg(msg);
         return result;
     }
+    public static Result loginerror(Object object){
+        Result result =new Result();
+        result.setCode(ResultEnum.ERROR_102.getCode());
+        result.setMsg(ResultEnum.ERROR_102.getMsg());
+        result.setData(object);
+        return result;
+    }
 }
