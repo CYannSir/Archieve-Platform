@@ -27,6 +27,8 @@ public class AdminController {
     @Autowired
     private UserService userService;
     @Autowired
+    private CurrentUserService currentUserService;
+    @Autowired
     private FileService fileService;
     @Autowired
     private ArchiveService archiveService;
@@ -41,30 +43,64 @@ public class AdminController {
     @Autowired
     private ChatGroupService chatGroupService;
 
+    /*
+     *用户操作 Start Here
+     */
+    //展示用户
+    @GetMapping(value = "/listuser")
+    public Result listUser(){
+        List<CurrentUserModel> list = currentUserService.findAllUser();
+        return Result.success(list);
+    }
 
+    //重置用户密码
+    @PostMapping(value = "/resetuserpwd")
+    public Result resetUserPwd(@RequestBody CurrentUserModel currentUserModel){
+        currentUserService.resetPwd(currentUserModel);
+        List<CurrentUserModel> list = currentUserService.findAllUser();
+        return Result.success(list);
+    }
 
+    //删除用户
+    @PostMapping(value = "/deleteuser")
+    public Result deleteUser(@RequestBody CurrentUserModel currentUserModel){
+        currentUserService.delete(currentUserModel);
+        List<CurrentUserModel> list = currentUserService.findAllUser();
+        return Result.success(list);
+    }
+
+    //根据  多条件动态查询用户
+    @PostMapping(value = "/searchuser")
+    public Result searchUser(@RequestBody CurrentUserModel currentUserModel){
+        List<CurrentUserModel> list = currentUserService.findAllByAdvancedForm(currentUserModel);
+        return Result.success(list);
+    }
+
+    /*
+     *用户操作 end Here
+     */
 
 
     /*
      *学生用户操作 Start Here
     */
 
-    //展示用户
+    //展示学生用户
     @GetMapping(value = "/liststu")
-    public Result listUser(){
+    public Result listStuUser(){
         List<UserModel> list = userService.findAllUser();
         return Result.success(list);
     }
 
-    //增加用户
+    //增加学生用户
     @PostMapping(value = "/addstu")
-    public Result addUser(@RequestBody UserModel userModel){
+    public Result addStuUser(@RequestBody UserModel userModel){
         userService.add(userModel);
         List<UserModel> list = userService.findAllUser();
         return Result.success(list);
     }
 
-    //批量增加用户 stuName / stuNumber / stuMajor / stuEndYear / redParty / stuClass / stuPower / stuStartYear
+    //批量增加学生用户 stuName / stuNumber / stuMajor / stuEndYear / redParty / stuClass / stuPower / stuStartYear
     @PostMapping(value = "/addstubyfile")
     public Result addStuByfile(@RequestBody @RequestParam("file")MultipartFile file){
         if (file != null){
@@ -92,9 +128,9 @@ public class AdminController {
         return Result.success(list);
     }
 
-    //删除用户
+    //删除学生用户
     @PostMapping(value = "/deletestu")
-    public Result deleteUser(@RequestBody UserModel userModel){
+    public Result deleteStuUser(@RequestBody UserModel userModel){
         userService.delete(userModel);
         List<UserModel> list = userService.findAllUser();
         return Result.success(list);
@@ -102,14 +138,14 @@ public class AdminController {
 
     //根据 名字 学号 专业 毕业年份 入学年份 多条件动态查询学生用户
     @PostMapping(value = "/searchstu")
-    public Result searchUser(@RequestBody UserModel userModel){
+    public Result searchStuUser(@RequestBody UserModel userModel){
         List<UserModel> list = userService.findAllByAdvancedForm(userModel);
         return Result.success(list);
     }
 
     //动态修改更新学生用户
     @PostMapping(value = "/modifystu")
-    public Result modifyUser(@RequestBody UserModel userModel){
+    public Result modifyStuUser(@RequestBody UserModel userModel){
         userService.update(userModel);
         List<UserModel> list = userService.findAllUser();
         return Result.success(list);
@@ -117,7 +153,7 @@ public class AdminController {
 
     //修改用户权限信息
     @PostMapping(value = "/editstu")
-    public Result editUser(UserModel userModel){
+    public Result editStuUser(UserModel userModel){
         userService.updatePower(userModel);
         return Result.success();
     }

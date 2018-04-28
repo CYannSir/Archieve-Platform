@@ -1,6 +1,7 @@
 import mockjs from 'mockjs';
 import { getRule, postRule } from './mock/rule';
 import { getStuInfor, postStuInfor } from './mock/stuinfor';
+import { postUserInfor, getUserInfor } from './mock/stuinfor';
 import { getArchive, postArchive } from './mock/archive';
 import { getAccount, postAccount } from './mock/account';
 import { getRedArchive, postRedArchive } from './mock/redarchive';
@@ -70,24 +71,43 @@ const proxy = {
   'POST /admin/deletestu': 'http://localhost:8080',
   'POST /admin/searchstu': 'http://localhost:8080',
   'POST /admin/modifystu': 'http://localhost:8080', 
+  
+  'GET /admin/listuser': 'http://localhost:8080',
+  'POST /admin/adduser': 'http://localhost:8080',
+  'POST /admin/resetuserpwd': 'http://localhost:8080',
+  'POST /admin/deleteuser': 'http://localhost:8080',
+  'POST /admin/searchuser': 'http://localhost:8080',
+  'POST /admin/modifyuser': 'http://localhost:8080', 
+  
+  /*
+  'GET /admin/listuser': 'http://localhost:8080',
+  'POST /admin/adduser': 'http://localhost:8080',
+  'POST /admin/adduserbyfile': 'http://localhost:8080',
+  'POST /admin/deleteuser': 'http://localhost:8080',
+  'POST /admin/searchuser': 'http://localhost:8080',
+  'POST /admin/modifyuser': 'http://localhost:8080', 
+  */
   'GET /admin/listarchive': 'http://localhost:8080',
   'POST /admin/addarchive': 'http://localhost:8080',
   'POST /admin/addarchivebyfile': 'http://localhost:8080',
   'POST /admin/deletearchive': 'http://localhost:8080',
   'POST /admin/searcharchive': 'http://localhost:8080',
   'POST /admin/modifyarchive': 'http://localhost:8080',
+  
   'GET /admin/listaccount': 'http://localhost:8080',
   'POST /admin/addaccount': 'http://localhost:8080',
   'POST /admin/addaccountbyfile': 'http://localhost:8080',
   'POST /admin/deleteaccount': 'http://localhost:8080',
   'POST /admin/searchaccount': 'http://localhost:8080',
   'POST /admin/modifyaccount': 'http://localhost:8080',
+  
   'GET /admin/listredarchive': 'http://localhost:8080',
   'POST /admin/addredarchive': 'http://localhost:8080',
   'POST /admin/addredarchivebyfile': 'http://localhost:8080',
   'POST /admin/deleteredarchive': 'http://localhost:8080',
   'POST /admin/searchredarchive': 'http://localhost:8080',
   'POST /admin/modifyredarchive': 'http://localhost:8080',
+  
   'GET /admin/listalumniinfor': 'http://localhost:8080',
   'POST /admin/addalumniinfor': {
     $params: {
@@ -118,7 +138,7 @@ const proxy = {
     },
     $body: postAlumniInfor,
   },
- 'GET /admin/listpractice': 'http://localhost:8080',
+  'GET /admin/listpractice': 'http://localhost:8080',
   'POST /admin/addpractice': 'http://localhost:8080',
   'POST /admin/deletepracticer': 'http://localhost:8080',
   'POST /admin/searchpractice': 'http://localhost:8080',

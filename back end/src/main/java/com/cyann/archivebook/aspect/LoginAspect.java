@@ -1,3 +1,4 @@
+/*
 package com.cyann.archivebook.aspect;
 
 
@@ -15,14 +16,16 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+*/
 /**
  * @author CYann
  * @date 2018-04-01 18:55
- */
+ *//*
+
 @Aspect
 @Component
 public class LoginAspect {
-    /*private final static Logger logger = LoggerFactory.getLogger(LoginAspect.class);
+    private final static Logger logger = LoggerFactory.getLogger(LoginAspect.class);
 
     @Pointcut("execution(public * com.cyann.archivebook.controller.*.*(..))")
     public void point(){}
@@ -63,5 +66,5 @@ public class LoginAspect {
     public void doAfterAdmin() {
         logger.info("after!!!!");
     }
-    */
 }
+*/

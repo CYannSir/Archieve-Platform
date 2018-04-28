@@ -15,7 +15,7 @@ import java.util.List;
 public interface CurrentUserRepository extends JpaRepository<CurrentUserModel,String>,JpaSpecificationExecutor<CurrentUserModel> {
 
     //查找所有用户
-    @Query(value = "select currentUserModel from CurrentUserModel currentUserModel where currentUserModel.delTime is null")
+    @Query(value = "select currentUserModel from CurrentUserModel currentUserModel ")
     List<CurrentUserModel> findAllUser();
 
     //通过数据库编号id查找用户
@@ -25,6 +25,10 @@ public interface CurrentUserRepository extends JpaRepository<CurrentUserModel,St
     //通过查找学号查找用户
     @Query("select currentUserModel from CurrentUserModel currentUserModel where currentUserModel.stuNumber = ?1 and currentUserModel.delTime is null")
     List<CurrentUserModel> findByStuNumber(@Param("stuNumber") String stuNumber);
+
+    //通过查找学号查找用户
+    @Query("select currentUserModel from CurrentUserModel currentUserModel where currentUserModel.loginEmail = ?1 and currentUserModel.delTime is null")
+    CurrentUserModel findByLoginEmail(@Param("loginEmail") String loginEmail);
 
     //登录
     CurrentUserModel findByLoginEmailAndLoginPswAndDelTimeIsNull(String loginEmail, String loginPsw);

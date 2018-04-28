@@ -1,10 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'dva';
 import { Form, Card, List, Icon, Button, Avatar, Tooltip } from 'antd';
-
-
 import styles from './Home.less';
-
 
 const pageSize = 5;
 

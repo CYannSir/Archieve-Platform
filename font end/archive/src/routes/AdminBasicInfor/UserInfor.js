@@ -14,37 +14,44 @@ const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
 const columns = [
   {
     title: '名字',
-    dataIndex: 'name',
+    align: 'center',
+    dataIndex: 'stuName',
   },
   {
     title: '学号',
-    dataIndex: 'schoolid',
+    align: 'center',
+    dataIndex: 'stuNumber',
   },
   {
     title: '手机',
-    dataIndex: 'mobilephone',
+    align: 'center',
+    dataIndex: 'mobilePhone',
   },
   {
     title: '邮箱',
-    dataIndex: 'email',
+    align: 'center',
+    dataIndex: 'loginEmail',
   },
   {
     title: '创建时间',
-    dataIndex: 'createtime',
+    align: 'center',
+    dataIndex: 'creatTime',
     sorter: true,
     render: val => <span>{moment(val).format('YYYY-MM-DD')}</span>,
   },
   {
     title: '删除时间',
-    dataIndex: 'deletetime',
+    dataIndex: 'delTime',
+    align: 'center',
     sorter: true,
-    render: val => <span>{moment(val).format('YYYY-MM-DD')}</span>,
+    render: val => (val === null ? (<span />) : (<span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>)),
   },
   {
     title: '更新时间',
-    dataIndex: 'updatedtime',
+    align: 'center',
+    dataIndex: 'updateTime',
     sorter: true,
-    render: val => <span>{moment(val).format('YYYY-MM-DD')}</span>,
+    render: val => (val === null ? (<span />) : (<span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>)),
   },
 ];
 
@@ -148,9 +155,9 @@ const CreateForm = Form.create()((props) => {
   );
 });
 
-@connect(({ rule, loading }) => ({
-  rule,
-  loading: loading.models.rule,
+@connect(({ userinfor, loading }) => ({
+  userinfor,
+  loading: loading.models.userinfor,
 }))
 @Form.create()
 export default class UserInfor extends PureComponent {
@@ -164,12 +171,12 @@ export default class UserInfor extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'rule/fetch',
+      type: 'userinfor/fetch',
     });
   }
 
   handleStandardTableChange = (pagination, filtersArg, sorter) => {
-    const { dispatch } = this.props;
+    const { userinfor: { data }, dispatch } = this.props;
     const { formValues } = this.state;
 
     const filters = Object.keys(filtersArg).reduce((obj, key) => {
@@ -186,11 +193,22 @@ export default class UserInfor extends PureComponent {
     };
     if (sorter.field) {
       params.sorter = `${sorter.field}_${sorter.order}`;
+      const s = params.sorter.split('_');
+      data.list = data.list.sort((prev, next) => {
+        if (s[1] === 'descend') {
+          return next[s[0]] - prev[s[0]];
+        }
+        return prev[s[0]] - next[s[0]];
+      });
     }
+    const result = {
+      list: data.list,
+      pagination,
+    };
 
     dispatch({
-      type: 'rule/fetch',
-      payload: params,
+      type: 'userinfor/save',
+      payload: result,
     });
   }
 
@@ -201,7 +219,7 @@ export default class UserInfor extends PureComponent {
       formValues: {},
     });
     dispatch({
-      type: 'rule/fetch',
+      type: 'userinfor/fetch',
       payload: {},
     });
   }
@@ -212,30 +230,28 @@ export default class UserInfor extends PureComponent {
     });
   }
 
-  handleMenuClick = (e) => {
+  handleMenuClick = () => {
     const { dispatch } = this.props;
     const { selectedRows } = this.state;
 
     if (!selectedRows) return;
-
-    switch (e.key) {
-      case 'remove':
-        dispatch({
-          type: 'rule/remove',
-          payload: {
-            no: selectedRows.map(row => row.no).join(','),
-          },
-          callback: () => {
-            this.setState({
-              selectedRows: [],
-            });
-          },
+    dispatch({
+      type: 'userinfor/delete',
+      payload: {
+        objectId: selectedRows.map(objectId => objectId.objectId).join(','),
+      },
+      callback: () => {
+        this.setState({
+          selectedRows: [],
         });
-        break;
-      default:
-        break;
-    }
+      },
+    });
+    message.success('删除成功');
+    this.setState({
+      modalVisible: false,
+    });
   }
+
 
   handleSelectRows = (rows) => {
     this.setState({
@@ -253,15 +269,17 @@ export default class UserInfor extends PureComponent {
 
       const values = {
         ...fieldsValue,
-        updatedAt: fieldsValue.updatedAt && fieldsValue.updatedAt.valueOf(),
+        stuNumber: fieldsValue.stuNumber,
+        stuName: fieldsValue.stuName,
+        mobilePhone: fieldsValue.mobilePhone,
+        loginEmail: fieldsValue.loginEmail,
       };
-
       this.setState({
         formValues: values,
       });
 
       dispatch({
-        type: 'rule/fetch',
+        type: 'userinfor/search',
         payload: values,
       });
     });
@@ -273,29 +291,37 @@ export default class UserInfor extends PureComponent {
     });
   }
 
-  handleAdd = (fields) => {
-    this.props.dispatch({
-      type: 'rule/add',
-      payload: {
-        studentname: fields.name,
-        studentno: fields.number,
-        studentmajor: fields.major,
-        studentclass: fields.class,
-        studentstartyear: fields.startyear,
-        studentendyear: fields.endyear,
-        studentifred: fields.ifred,
-      },
+  handleRefresh = () => {
+    const { form, dispatch } = this.props;
+    form.resetFields();
+    this.setState({
+      formValues: {},
+    });
+    dispatch({
+      type: 'userinfor/fetch',
     });
 
-    message.success('添加成功');
+    message.success('刷新成功');
     this.setState({
       modalVisible: false,
     });
   }
 
-  handleReset = () => {
-    this.props.dispatch({
-      type: 'rule/reset',
+  handleResetPwd = () => {
+    const { dispatch } = this.props;
+    const { selectedRows } = this.state;
+
+    if (!selectedRows) return;
+    dispatch({
+      type: 'userinfor/resetuserpwd',
+      payload: {
+        objectId: selectedRows.map(objectId => objectId.objectId).join(','),
+      },
+      callback: () => {
+        this.setState({
+          selectedRows: [],
+        });
+      },
     });
 
     message.success('重置密码成功');
@@ -304,16 +330,6 @@ export default class UserInfor extends PureComponent {
     });
   }
 
-  handleDelete = () => {
-    this.props.dispatch({
-      type: 'rule/delete',
-    });
-
-    message.success('删除成功');
-    this.setState({
-      modalVisible: false,
-    });
-  }
 
   renderSimpleForm() {
     const { getFieldDecorator } = this.props.form;
@@ -322,7 +338,7 @@ export default class UserInfor extends PureComponent {
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={8} sm={24}>
             <FormItem label="学生学号">
-              {getFieldDecorator('studentno')(
+              {getFieldDecorator('stuNumber')(
                 <Input placeholder="请输入" />
               )}
             </FormItem>
@@ -348,28 +364,28 @@ export default class UserInfor extends PureComponent {
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={8} sm={24}>
             <FormItem label="名字">
-              {getFieldDecorator('name')(
+              {getFieldDecorator('stuName')(
                 <Input placeholder="请输入学生名字" />
               )}
             </FormItem>
           </Col>
           <Col md={8} sm={24}>
             <FormItem label="学号">
-              {getFieldDecorator('schoolid')(
+              {getFieldDecorator('stuNumber')(
                 <Input placeholder="请输入学生学号" />
               )}
             </FormItem>
           </Col>
           <Col md={8} sm={24}>
             <FormItem label="手机号码">
-              {getFieldDecorator('mobilephone')(
+              {getFieldDecorator('mobilePhone')(
                 <Input placeholder="请输入手机号码" />
               )}
             </FormItem>
           </Col>
           <Col md={8} sm={24}>
             <FormItem label="邮箱">
-              {getFieldDecorator('emial')(
+              {getFieldDecorator('loginEmail')(
                 <Input placeholder="请输入邮件" />
               )}
             </FormItem>
@@ -393,7 +409,7 @@ export default class UserInfor extends PureComponent {
   }
 
   render() {
-    const { rule: { data }, loading } = this.props;
+    const { userinfor: { data }, loading } = this.props;
     const { selectedRows, modalVisible } = this.state;
 
 
@@ -413,16 +429,16 @@ export default class UserInfor extends PureComponent {
               {
                 selectedRows.length > 0 && (
                   <span>
-                    <Button icon="idcard" type="primary" onClick={() => this.handleReset}>
+                    <Button icon="idcard" type="primary" onClick={this.handleResetPwd}>
                         重置密码
                     </Button>
-                    <Button icon="user-delete" type="primary" onClick={this.handleDelete}>
+                    <Button icon="user-delete" type="primary" onClick={this.handleMenuClick}>
                         删除
                     </Button>
                   </span>
                 )
               }
-
+              <Button icon="sync" type="ghost" onClick={this.handleRefresh} />
             </div>
             <StandardTable
               selectedRows={selectedRows}

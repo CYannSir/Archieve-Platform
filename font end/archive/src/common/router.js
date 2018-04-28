@@ -86,7 +86,7 @@ export const getRouterData = (app) => {
       // authority: 'admin',
     },
     '/dashboard/userinfor': {
-      component: dynamicWrapper(app, ['form'], () => import('../routes/AdminBasicInfor/UserInfor')),
+      component: dynamicWrapper(app, ['form', 'userinfor'], () => import('../routes/AdminBasicInfor/UserInfor')),
     },
     '/dashboard/archive': {
       component: dynamicWrapper(app, ['form', 'archive'], () => import('../routes/AdminBasicInfor/Archive')),

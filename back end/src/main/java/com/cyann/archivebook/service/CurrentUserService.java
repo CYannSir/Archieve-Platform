@@ -5,8 +5,16 @@ import com.cyann.archivebook.exception.MyException;
 import com.cyann.archivebook.model.CurrentUserModel;
 import com.cyann.archivebook.respository.CurrentUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,6 +27,13 @@ public class CurrentUserService {
     private CurrentUserRepository currentUserRepository;
     @Autowired
     private BaseService baseService;
+
+    //增加学生用户
+    @Transactional
+    public void add(CurrentUserModel currentUserModel){
+        baseService.add(currentUserRepository,currentUserModel);
+        currentUserRepository.save(currentUserModel);
+    }
 
     //查询所有用户
     public List<CurrentUserModel> findAllUser(){
@@ -37,13 +52,46 @@ public class CurrentUserService {
             currentUserRepository.save(userItem);
         }
     }
-
+    //删除学生用户
+    @Transactional
+    public void delete(CurrentUserModel currentUserModel){
+        CurrentUserModel currentuserItem = currentUserRepository.findById(currentUserModel.getObjectId());
+        if(currentuserItem == null){
+            throw new MyException(ResultEnum.ERROR_101);
+        }else {
+            baseService.delete(currentUserRepository, currentuserItem);
+        }
+    }
 
     //用户登录
     public CurrentUserModel findByLoginEmailAndLoginPwd(String loginEmail , String loginPsw){
         return currentUserRepository.findByLoginEmailAndLoginPswAndDelTimeIsNull(loginEmail, loginPsw);
     }
 
+    //根据 学号 目前单位 多条件动态查询
+    public List<CurrentUserModel> findAllByAdvancedForm(CurrentUserModel currentUserModel) {
+        return currentUserRepository.findAll(new Specification<CurrentUserModel>(){
+            @Override
+            public Predicate toPredicate(Root<CurrentUserModel> root, CriteriaQuery<?> query, CriteriaBuilder cb){
+                List<Predicate> list = new ArrayList<Predicate>();
+                // list.add(cb.isNull(root.get("delTime")));
+                if(currentUserModel != null && !StringUtils.isEmpty(currentUserModel.getStuNumber()) ){
+                    list.add(cb.equal(root.get("stuNumber"), currentUserModel.getStuNumber()));
+                }
+                if(currentUserModel != null && !StringUtils.isEmpty(currentUserModel.getStuName()) ){
+                    list.add(cb.equal(root.get("stuName"), currentUserModel.getStuName()));
+                }
+                if(currentUserModel != null && !StringUtils.isEmpty(currentUserModel.getMobilePhone()) ){
+                    list.add(cb.equal(root.get("mobilePhone"), currentUserModel.getMobilePhone()));
+                }
+                if(currentUserModel != null && !StringUtils.isEmpty(currentUserModel.getLoginEmail()) ){
+                    list.add(cb.equal(root.get("loginEmail"), currentUserModel.getLoginEmail()));
+                }
+                Predicate[] p = new Predicate[list.size()];
+                return cb.and(list.toArray(p));
+            }
+        });
+    }
 
     //用户更改密码
     public void updateMyPwd(CurrentUserModel currentUserModel,String newPwd){
@@ -57,7 +105,6 @@ public class CurrentUserService {
             }else {
                 throw new MyException(ResultEnum.ERROR_105);
             }
-
         }
     }
 
@@ -65,6 +112,11 @@ public class CurrentUserService {
     public List<CurrentUserModel> findByStuNumber(String stuNumber){
         List<CurrentUserModel> list = currentUserRepository.findByStuNumber(stuNumber);
         return list;
+    }
+
+    //通过学号查询用户
+    public CurrentUserModel findByLoginEmail(String loginEmail){
+        return currentUserRepository.findByLoginEmail(loginEmail);
     }
 
 
