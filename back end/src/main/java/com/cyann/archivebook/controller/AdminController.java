@@ -1,5 +1,6 @@
 package com.cyann.archivebook.controller;
 
+import com.cyann.archivebook.enums.ResultEnum;
 import com.cyann.archivebook.model.*;
 import com.cyann.archivebook.service.*;
 import com.cyann.archivebook.util.Result;
@@ -14,6 +15,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.cyann.archivebook.enums.ResultEnum.ERROR_104;
 
 /**
  * @author CYann

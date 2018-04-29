@@ -26,9 +26,25 @@ public interface CurrentUserRepository extends JpaRepository<CurrentUserModel,St
     @Query("select currentUserModel from CurrentUserModel currentUserModel where currentUserModel.stuNumber = ?1 and currentUserModel.delTime is null")
     List<CurrentUserModel> findByStuNumber(@Param("stuNumber") String stuNumber);
 
+    //通过查找姓名查找用户
+    @Query("select currentUserModel from CurrentUserModel currentUserModel where currentUserModel.stuName = ?1 and currentUserModel.delTime is null")
+    List<CurrentUserModel> findByStuName(@Param("stuName") String stuName);
+
     //通过查找学号查找用户
+    @Query("select currentUserModel from CurrentUserModel currentUserModel where currentUserModel.stuNumber = ?1 and currentUserModel.delTime is null")
+    CurrentUserModel findByStuNum(@Param("stuNumber") String stuNumber);
+
+    //通过查找姓名查找用户
+    @Query("select currentUserModel from CurrentUserModel currentUserModel where currentUserModel.stuName = ?1 and currentUserModel.delTime is null")
+    CurrentUserModel findByStuN(@Param("stuName") String stuName);
+
+    //通过查找邮箱查找用户
     @Query("select currentUserModel from CurrentUserModel currentUserModel where currentUserModel.loginEmail = ?1 and currentUserModel.delTime is null")
     CurrentUserModel findByLoginEmail(@Param("loginEmail") String loginEmail);
+
+    //通过查找邮箱验证码查找用户
+    @Query("select currentUserModel from CurrentUserModel currentUserModel where currentUserModel.activeCode = ?1 and currentUserModel.delTime is null")
+    CurrentUserModel findByActiveCode(@Param("activeCode") String activeCode);
 
     //登录
     CurrentUserModel findByLoginEmailAndLoginPswAndDelTimeIsNull(String loginEmail, String loginPsw);

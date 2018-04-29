@@ -43,7 +43,6 @@ public class GuestController {
             session.setAttribute("ID", loginUser.getObjectId());
             session.setAttribute("TYPE", loginUser.getUserType());
             loginUser.setLoginPsw(null);
-            // AlumniInformationModel alumniInformationModel = alumniInformationService.findById(loginUser.get());
             Map result = new HashMap();
             result.put("currentAuthority", loginUser.getUserType());
             result.put("status", "ok");
@@ -60,11 +59,40 @@ public class GuestController {
         }
     }
 
+    //注册
     @PostMapping(value = "/register")
-    public Result register (@RequestBody String loginEmail){
+    public Result register(@RequestBody CurrentUserModel currentUserModel){
+        currentUserService.add(currentUserModel);
         return Result.success();
     }
 
+    //验证邮箱
+    @PostMapping(value = "/register/loginemail")
+    public Result registerLoginEmail (@RequestBody CurrentUserModel currentUserModel){
+        currentUserService.verifyLoginEmail(currentUserModel.getLoginEmail());
+        return Result.success();
+    }
+
+    //验证邮箱激活码
+    @PostMapping(value = "/register/activecode")
+    public Result registerActiveCode (@RequestBody CurrentUserModel currentUserModel){
+        currentUserService.verifyActiveCode(currentUserModel.getActiveCode());
+        return Result.success();
+    }
+
+    //验证学生姓名
+    @PostMapping(value = "/register/stuname")
+    public Result registerStuName (@RequestBody CurrentUserModel currentUserModel){
+        currentUserService.verifyStuName(currentUserModel.getStuName());
+        return Result.success();
+    }
+
+    //验证学生学号
+    @PostMapping(value = "/register/stunumber")
+    public Result registerStuNumber (@RequestBody CurrentUserModel currentUserModel){
+        currentUserService.verifyStuNumber(currentUserModel.getStuNumber());
+        return Result.success();
+    }
 
 
     // 邮件验证发送例子

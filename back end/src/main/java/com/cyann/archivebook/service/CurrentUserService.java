@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -27,13 +28,17 @@ public class CurrentUserService {
     private CurrentUserRepository currentUserRepository;
     @Autowired
     private BaseService baseService;
+    @Autowired
+    private UserService userService;
 
-    //增加学生用户
+    //增加用户
     @Transactional
-    public void add(CurrentUserModel currentUserModel){
+    public void add(@RequestBody CurrentUserModel currentUserModel){
+        userService.updateContract(currentUserModel.getStuNumber(),currentUserModel.getMobilePhone(),currentUserModel.getLoginEmail());
         baseService.add(currentUserRepository,currentUserModel);
         currentUserRepository.save(currentUserModel);
     }
+
 
     //查询所有用户
     public List<CurrentUserModel> findAllUser(){
@@ -105,6 +110,46 @@ public class CurrentUserService {
             }else {
                 throw new MyException(ResultEnum.ERROR_105);
             }
+        }
+    }
+
+    //验证邮箱是否被注册
+    public void verifyLoginEmail(String loginEmail){
+        CurrentUserModel currentuserItem = currentUserRepository.findByLoginEmail(loginEmail);
+        if(currentuserItem != null){
+            throw new MyException(ResultEnum.ERROR_106);
+        }else {
+            baseService.delete(currentUserRepository, currentuserItem);
+        }
+    }
+
+    //验证邮箱激活码是否正确
+    public void verifyActiveCode(String activeCode){
+        CurrentUserModel currentuserItem = currentUserRepository.findByActiveCode(activeCode);
+        if(currentuserItem != null){
+            throw new MyException(ResultEnum.ERROR_106);
+        }else {
+            baseService.delete(currentUserRepository, currentuserItem);
+        }
+    }
+
+    //验证名字是否正确
+    public void verifyStuName(String stuName){
+        CurrentUserModel currentuserItem = currentUserRepository.findByStuNum(stuName);
+        if(currentuserItem != null){
+            throw new MyException(ResultEnum.ERROR_106);
+        }else {
+            baseService.delete(currentUserRepository, currentuserItem);
+        }
+    }
+
+    //验证学号是否正确
+    public void verifyStuNumber(String stuNumber){
+        CurrentUserModel currentuserItem = currentUserRepository.findByStuN(stuNumber);
+        if(currentuserItem != null){
+            throw new MyException(ResultEnum.ERROR_106);
+        }else {
+            baseService.delete(currentUserRepository, currentuserItem);
         }
     }
 

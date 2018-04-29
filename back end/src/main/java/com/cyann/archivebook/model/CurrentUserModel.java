@@ -29,8 +29,10 @@ public class CurrentUserModel extends BaseEntity {
     private String stuName;
     @Column(nullable = false , length = 32)
     private String mobilePhone;
-    @Column(nullable = false , length = 32)
+    @Column(length = 32)
     private String activeCode;
+    @Column(nullable = false)
+    private int activeStatus;
     @Column(nullable = false , length = 32)
     private String userType;
 
@@ -68,6 +70,14 @@ public class CurrentUserModel extends BaseEntity {
 
     public String getStuNumber() {
         return stuNumber;
+    }
+
+    public int getActiveStatus() {
+        return activeStatus;
+    }
+
+    public void setActiveStatus(int activeStatus) {
+        this.activeStatus = activeStatus;
     }
 
     public void setStuNumber(String stuNumber) {

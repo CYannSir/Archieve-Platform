@@ -17,12 +17,25 @@ export default {
         payload: response,
       });
     },
+    *sendmail(_, { call, put }) {
+      const response = yield call(fakeRegister);
+      yield put({
+        type: 'sendmail',
+        payload: response,
+      });
+    },
   },
 
   reducers: {
     registerHandle(state, { payload }) {
       setAuthority('user');
       reloadAuthorized();
+      return {
+        ...state,
+        status: payload.status,
+      };
+    },
+    sendmail(state, { payload }) {
       return {
         ...state,
         status: payload.status,

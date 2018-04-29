@@ -105,6 +105,19 @@ public class UserService {
         }
     }
 
+    //增加用户联系方式
+    public void updateContract(String stuNumber, String mobilePhone, String loginEmail){
+        UserModel userItem = userRepository.findByStuNumber(stuNumber);
+        if(userItem == null){
+            throw new MyException(ResultEnum.ERROR_101);
+        }else {
+            userItem.setCurrentPhone(mobilePhone);
+            userItem.setCurrentEmail(loginEmail);
+            userRepository.save(userItem);
+        }
+    }
+
+
 
 
     //查询所有用户

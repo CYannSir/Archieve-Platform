@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import { routerRedux, Link } from 'dva/router';
-import { Form, Input, Button, Popover, Progress, Tooltip } from 'antd';
+import { Form, Input, Button, Popover, Progress, Tooltip, Row, Col } from 'antd';
 import styles from './Register.less';
 
 const FormItem = Form.Item;
@@ -26,13 +26,14 @@ const passwordProgressMap = {
 @Form.create()
 export default class Register extends Component {
   state = {
+    count: 0,
     confirmDirty: false,
     visible: false,
     help: '',
   };
 
   componentWillReceiveProps(nextProps) {
-    const account = this.props.form.getFieldValue('mail');
+    const account = this.props.form.getFieldValue('loginEmail');
     if (nextProps.register.status === 'ok') {
       this.props.dispatch(routerRedux.push({
         pathname: '/user/register-result',
@@ -47,12 +48,30 @@ export default class Register extends Component {
     clearInterval(this.interval);
   }
 
+  onGetCaptcha = () => {
+    const account = this.props.form.getFieldValue('loginEmail');
+    this.props.dispatch({
+      type: 'register/sendmail',
+      payload: {
+        account,
+      },
+    });
+    let count = 179;
+    this.setState({ count });
+    this.interval = setInterval(() => {
+      count -= 1;
+      this.setState({ count });
+      if (count === 0) {
+        clearInterval(this.interval);
+      }
+    }, 1000);
+  };
   /**
    * 判断密码强度
    */
   getPasswordStatus = () => {
     const { form } = this.props;
-    const value = form.getFieldValue('password');
+    const value = form.getFieldValue('loginPsw');
     if (value && value.length > 9) {
       return 'ok';
     }
@@ -76,6 +95,15 @@ export default class Register extends Component {
     });
   };
 
+  hide = () => {
+    this.setState({
+      visible: false,
+    });
+  }
+  handleVisibleChange = (visible) => {
+    this.setState({ visible });
+  }
+
   handleConfirmBlur = (e) => {
     const { value } = e.target;
     this.setState({ confirmDirty: this.state.confirmDirty || !!value });
@@ -83,7 +111,7 @@ export default class Register extends Component {
 
   checkConfirm = (rule, value, callback) => {
     const { form } = this.props;
-    if (value && value !== form.getFieldValue('password')) {
+    if (value && value !== form.getFieldValue('loginPsw')) {
       callback('The password entered twice does not match!');
     } else {
       callback();
@@ -121,7 +149,7 @@ export default class Register extends Component {
 
   renderPasswordProgress = () => {
     const { form } = this.props;
-    const value = form.getFieldValue('password');
+    const value = form.getFieldValue('loginPsw');
     const passwordStatus = this.getPasswordStatus();
     return value && value.length ? (
       <div className={styles[`progress-${passwordStatus}`]}>
@@ -140,23 +168,48 @@ export default class Register extends Component {
   render() {
     const { form, submitting } = this.props;
     const { getFieldDecorator } = form;
+    const { count } = this.state;
     return (
       <div className={styles.main}>
         <h3>Create your personal account</h3>
         <Form onSubmit={this.handleSubmit}>
           <FormItem>
-            {getFieldDecorator('mail', {
+            {getFieldDecorator('loginEmail', {
               rules: [
                 {
                   required: true,
                   message: 'Please enter your E-mail',
                 },
                 {
-                  type: 'mail',
-                  message: 'Please enter a real E-mail',
+                  type: 'email',
+                  message: 'Error email address',
                 },
               ],
             })(<Input size="large" placeholder="Please enter your E-mail" />)}
+          </FormItem>
+          <FormItem>
+            <Row gutter={8}>
+              <Col span={16}>
+                {getFieldDecorator('captcha', {
+                  rules: [
+                    {
+                      required: true,
+                      message: 'Please enter code',
+                    },
+                  ],
+                })(<Input size="large" placeholder="Verification code" />)}
+              </Col>
+              <Col span={8}>
+                <Button
+                  size="large"
+                  disabled={count}
+                  className={styles.getCaptcha}
+                  onClick={this.onGetCaptcha}
+                >
+                  {count ? `${count} s` : 'Send'}
+                </Button>
+              </Col>
+            </Row>
           </FormItem>
           <FormItem help={this.state.help}>
             <Popover
@@ -166,15 +219,17 @@ export default class Register extends Component {
                   {this.renderPasswordProgress()}
                   <div style={{ marginTop: 10 }}>
                     Please enter at least 6 characters, Do not use passwords that are easy to guess.
+                    Click to hide.
                   </div>
                 </div>
               }
-              overlayStyle={{ width: 320 }}
+              overlayStyle={{ width: 240 }}
               placement="right"
+              trigger="focus"
               visible={this.state.visible}
               onVisibleChange={this.handleVisibleChange}
             >
-              {getFieldDecorator('password', {
+              {getFieldDecorator('loginPsw', {
                 rules: [
                   {
                     validator: this.checkPassword,
@@ -206,35 +261,27 @@ export default class Register extends Component {
             <h3>Verification and Information</h3>
           </Tooltip>
           <FormItem>
-            {getFieldDecorator('name', {
+            {getFieldDecorator('stuName', {
               rules: [
                 {
                   required: true,
-                  message: 'Please enter your Real name',
-                },
-                {
-                  type: 'name',
                   message: 'Please enter your Real name',
                 },
               ],
             })(<Input size="large" placeholder="Please enter your Real name" />)}
           </FormItem>
           <FormItem>
-            {getFieldDecorator('no', {
+            {getFieldDecorator('stuNumber', {
               rules: [
                 {
                   required: true,
-                  message: 'Please enter your ID in collage',
-                },
-                {
-                  type: 'no',
                   message: 'Please enter your ID in collage',
                 },
               ],
             })(<Input size="large" placeholder="Please enter your ID in collage" />)}
           </FormItem>
           <FormItem>
-            {getFieldDecorator('phone', {
+            {getFieldDecorator('mobilePhone', {
               rules: [
                 {
                   required: true,

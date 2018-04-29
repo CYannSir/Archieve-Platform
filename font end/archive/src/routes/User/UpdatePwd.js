@@ -66,7 +66,7 @@ export default class UpdatePwd extends PureComponent {
 
   checkConfirm = (rule, value, callback) => {
     const { form } = this.props;
-    if (value && value !== form.getFieldValue('password')) {
+    if (value && value !== form.getFieldValue('confirm')) {
       callback('The password entered twice does not match!');
     } else {
       callback();
