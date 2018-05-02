@@ -3,7 +3,9 @@ package com.cyann.archivebook.service;
 import com.cyann.archivebook.enums.ResultEnum;
 import com.cyann.archivebook.exception.MyException;
 import com.cyann.archivebook.model.CurrentUserModel;
+import com.cyann.archivebook.model.UserModel;
 import com.cyann.archivebook.respository.CurrentUserRepository;
+import com.cyann.archivebook.respository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -36,6 +38,8 @@ public class CurrentUserService {
     public void add(@RequestBody CurrentUserModel currentUserModel){
         userService.updateContract(currentUserModel.getStuNumber(),currentUserModel.getMobilePhone(),currentUserModel.getLoginEmail());
         baseService.add(currentUserRepository,currentUserModel);
+        currentUserModel.setUserType("user");
+        currentUserModel.setActiveStatus(1);
         currentUserRepository.save(currentUserModel);
     }
 
@@ -113,45 +117,30 @@ public class CurrentUserService {
         }
     }
 
-    //验证邮箱是否被注册
-    public void verifyLoginEmail(String loginEmail){
+
+
+    //发送邮箱激活码
+    public void sendEamil(String loginEmail, String activeCode){
         CurrentUserModel currentuserItem = currentUserRepository.findByLoginEmail(loginEmail);
         if(currentuserItem != null){
-            throw new MyException(ResultEnum.ERROR_106);
-        }else {
-            baseService.delete(currentUserRepository, currentuserItem);
+            throw new MyException(ResultEnum.ERROR_107);
+        } else {
+            CurrentUserModel currentUserModel = new CurrentUserModel();
+            currentUserModel.setLoginEmail(loginEmail);
+            currentUserModel.setActiveCode(activeCode);
+            currentUserModel.setActiveStatus(0);
+            currentUserRepository.save(currentUserModel);
+            // currentUserRepository.updateActivecode(currentuserItem.getActiveCode(), currentuserItem.getActiveStatus());
         }
     }
 
     //验证邮箱激活码是否正确
-    public void verifyActiveCode(String activeCode){
-        CurrentUserModel currentuserItem = currentUserRepository.findByActiveCode(activeCode);
-        if(currentuserItem != null){
-            throw new MyException(ResultEnum.ERROR_106);
-        }else {
-            baseService.delete(currentUserRepository, currentuserItem);
-        }
+    public CurrentUserModel verifyActiveCode(String activeCode , String loginEmail){
+        CurrentUserModel currentuserItem = currentUserRepository.findByActiveCode(activeCode, loginEmail);
+        return currentuserItem;
     }
 
-    //验证名字是否正确
-    public void verifyStuName(String stuName){
-        CurrentUserModel currentuserItem = currentUserRepository.findByStuNum(stuName);
-        if(currentuserItem != null){
-            throw new MyException(ResultEnum.ERROR_106);
-        }else {
-            baseService.delete(currentUserRepository, currentuserItem);
-        }
-    }
 
-    //验证学号是否正确
-    public void verifyStuNumber(String stuNumber){
-        CurrentUserModel currentuserItem = currentUserRepository.findByStuN(stuNumber);
-        if(currentuserItem != null){
-            throw new MyException(ResultEnum.ERROR_106);
-        }else {
-            baseService.delete(currentUserRepository, currentuserItem);
-        }
-    }
 
     //通过学号查询用户
     public List<CurrentUserModel> findByStuNumber(String stuNumber){
@@ -162,6 +151,11 @@ public class CurrentUserService {
     //通过学号查询用户
     public CurrentUserModel findByLoginEmail(String loginEmail){
         return currentUserRepository.findByLoginEmail(loginEmail);
+    }
+
+    //通过objectId查询用户
+    public CurrentUserModel findByObjectId(String objectId){
+        return currentUserRepository.findById(objectId);
     }
 
 

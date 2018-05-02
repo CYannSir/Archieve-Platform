@@ -33,12 +33,13 @@ export default class Register extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    const account = this.props.form.getFieldValue('loginEmail');
+    const loginEmail = this.props.form.getFieldValue('loginEmail');
+    // console.log('status', nextProps.register.status);
     if (nextProps.register.status === 'ok') {
       this.props.dispatch(routerRedux.push({
         pathname: '/user/register-result',
         state: {
-          account,
+          loginEmail,
         },
       }));
     }
@@ -50,10 +51,11 @@ export default class Register extends Component {
 
   onGetCaptcha = () => {
     const account = this.props.form.getFieldValue('loginEmail');
+    // console.log('ss==>', account);
     this.props.dispatch({
       type: 'register/sendmail',
       payload: {
-        account,
+        loginEmail: account,
       },
     });
     let count = 179;
@@ -286,6 +288,10 @@ export default class Register extends Component {
                 {
                   required: true,
                   message: 'Please enter your mobile phone',
+                },
+                {
+                    pattern: /^1\d{10}$/,
+                    message: 'Please enter 11 number',
                 },
               ],
             })(<Input size="large" placeholder="Please enter your mobile phone" />)}

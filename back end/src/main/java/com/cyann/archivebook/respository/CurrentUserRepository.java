@@ -3,6 +3,7 @@ package com.cyann.archivebook.respository;
 import com.cyann.archivebook.model.CurrentUserModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -43,10 +44,17 @@ public interface CurrentUserRepository extends JpaRepository<CurrentUserModel,St
     CurrentUserModel findByLoginEmail(@Param("loginEmail") String loginEmail);
 
     //通过查找邮箱验证码查找用户
-    @Query("select currentUserModel from CurrentUserModel currentUserModel where currentUserModel.activeCode = ?1 and currentUserModel.delTime is null")
-    CurrentUserModel findByActiveCode(@Param("activeCode") String activeCode);
+    @Query("select currentUserModel from CurrentUserModel currentUserModel where currentUserModel.activeCode = ?1 and currentUserModel.loginEmail = ?1 and currentUserModel.delTime is null")
+    CurrentUserModel findByActiveCode(@Param("activeCode") String activeCode, @Param("loginEmail") String loginEmail);
 
     //登录
     CurrentUserModel findByLoginEmailAndLoginPswAndDelTimeIsNull(String loginEmail, String loginPsw);
+
+    //更新邮箱激活码
+    @Modifying
+    @Query(value = "update CurrentUserModel currentUserModel  set currentUserModel.activeCode=?1, currentUserModel.activeStatus=?2 ")
+    void updateActivecode(@Param("activeCode") String activeCode, @Param("activeStatus") int activeStatus);
+
+
 
 }

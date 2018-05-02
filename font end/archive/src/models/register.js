@@ -1,44 +1,48 @@
-import { fakeRegister } from '../services/api';
-import { setAuthority } from '../utils/authority';
-import { reloadAuthorized } from '../utils/Authorized';
+import { sendEmail, register } from '../services/api';
+// import { setAuthority } from '../utils/authority';
+// import { reloadAuthorized } from '../utils/Authorized';
 
 export default {
   namespace: 'register',
 
   state: {
-    status: undefined,
+    data: {
+      status: undefined,
+    },
   },
 
   effects: {
-    *submit(_, { call, put }) {
-      const response = yield call(fakeRegister);
+    *submit({ payload }, { call, put }) {
+      const response = yield call(register, payload);
       yield put({
         type: 'registerHandle',
-        payload: response,
+        payload: response.data,
       });
     },
-    *sendmail(_, { call, put }) {
-      const response = yield call(fakeRegister);
+    *sendmail({ payload }, { call, put }) {
+      const response = yield call(sendEmail, payload);
       yield put({
-        type: 'sendmail',
-        payload: response,
+        type: 'registersendmail',
+        payload: response.data,
       });
     },
   },
 
   reducers: {
     registerHandle(state, { payload }) {
-      setAuthority('user');
-      reloadAuthorized();
+      // console.log('type', payload.data);
+      // console.log('status', payload);
+      // setAuthority(payload.data.type);
+      // reloadAuthorized();
       return {
-        ...state,
+        ...state.data,
         status: payload.status,
       };
     },
-    sendmail(state, { payload }) {
+    registersendmail(state, { payload }) {
       return {
         ...state,
-        status: payload.status,
+        payload,
       };
     },
   },

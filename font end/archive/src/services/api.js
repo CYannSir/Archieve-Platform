@@ -75,6 +75,20 @@ export async function fakeRegister(params) {
   });
 }
 
+export async function register(params) {
+  return request('/register', {
+    method: 'POST',
+    body: params,
+  });
+}
+
+export async function sendEmail(params) {
+  return request('/register/sendemail', {
+    method: 'POST',
+    body: params,
+  });
+}
+
 export async function queryNotices() {
   return request('/api/notices');
 }

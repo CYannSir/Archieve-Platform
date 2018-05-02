@@ -19,21 +19,21 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "tb_currentuser")
 public class CurrentUserModel extends BaseEntity {
-    @Column(nullable = false , length = 64)
+    @Column(length = 64)
     private String loginEmail;
-    @Column(nullable = false , length = 32)
+    @Column(length = 32)
     private String loginPsw;
-    @Column(nullable = false , length = 32)
+    @Column(length = 32)
     private String stuNumber;
-    @Column(nullable = false , length = 32)
+    @Column(length = 32)
     private String stuName;
-    @Column(nullable = false , length = 32)
+    @Column(length = 32)
     private String mobilePhone;
     @Column(length = 32)
     private String activeCode;
-    @Column(nullable = false)
+    @Column
     private int activeStatus;
-    @Column(nullable = false , length = 32)
+    @Column(length = 32)
     private String userType;
 
     public String getStuName() {

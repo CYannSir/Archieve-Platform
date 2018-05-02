@@ -111,6 +111,7 @@ public class UserService {
         if(userItem == null){
             throw new MyException(ResultEnum.ERROR_101);
         }else {
+            baseService.modify(userRepository,userItem);
             userItem.setCurrentPhone(mobilePhone);
             userItem.setCurrentEmail(loginEmail);
             userRepository.save(userItem);

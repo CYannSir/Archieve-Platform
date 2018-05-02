@@ -36,6 +36,7 @@ const proxy = {
       notifyCount: 12,
     },
   },
+  'GET /currentUser': 'http://localhost:8080',
   // GET POST 可省略
   'GET /api/users': [{
     key: '1',
@@ -199,6 +200,8 @@ const proxy = {
   'POST /api/register': (req, res) => {
     res.send({ status: 'ok', currentAuthority: 'user' });
   },
+  'POST /register': 'http://localhost:8080',
+  'POST /register/sendemail': 'http://localhost:8080',
   'GET /api/notices': getNotices,
   'GET /api/500': (req, res) => {
     res.status(500).send({
