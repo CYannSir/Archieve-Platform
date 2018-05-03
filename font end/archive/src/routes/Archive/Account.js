@@ -3,7 +3,7 @@ import Debounce from 'lodash-decorators/debounce';
 import Bind from 'lodash-decorators/bind';
 import { connect } from 'dva';
 import moment from 'moment';
-import { Icon, Steps, Card, Button, Divider, Modal, Form, Input, DatePicker, message } from 'antd';
+import { Icon, Steps, Card, Button, Modal, Form, Input, DatePicker, message } from 'antd';
 import DescriptionList from 'components/DescriptionList';
 import classNames from 'classnames';
 import styles from './Account.less';
@@ -179,13 +179,20 @@ export default class Account extends PureComponent {
         logo={<img alt="Archive" src="https://gw.alipayobjects.com/zos/rmsportal/nxkuOJlFJuAUhzlMTCEe.png" />}
         content={description}
       >
+        <Card title="Current Account" style={{ marginBottom: 24 }} bordered={false}>
+          <DescriptionList style={{ marginBottom: 24 }}>
+            <Description term="Account">{accountdata[0] ? accountdata[0].accountAddress : ''}</Description>
+            <Description term="Update Date">{moment(accountdata[0] ? accountdata[0].accountDate : '').format('YYYY-MM-DD') }</Description>
+          </DescriptionList>
+        </Card>
         <Card title="Account" style={{ marginBottom: 24 }} bordered={false}>
           <Steps direction={stepDirection} progressDot current={1}>
             <Step title="Level 1" description={desc1} />
             <Step title="Level 2" description={desc2} />
           </Steps>
-          <Divider>Operation</Divider>
-          <Button type="primary" ghost size="small" onClick={() => this.handleModalVisible(true)} icon="plus">添加</Button>
+        </Card>
+        <Card>
+          <Button style={{ width: '100%' }} type="dashed" size="large" onClick={() => this.handleModalVisible(true)} icon="plus">添加</Button>
         </Card>
         <CreateForm
           {...parentMethods}
