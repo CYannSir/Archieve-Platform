@@ -2,6 +2,7 @@ import React, { PureComponent, Fragment } from 'react';
 import Debounce from 'lodash-decorators/debounce';
 import Bind from 'lodash-decorators/bind';
 import { connect } from 'dva';
+import moment from 'moment';
 import { Icon, Steps, Card, Button, Divider, Modal, Form, Input, DatePicker, message } from 'antd';
 import DescriptionList from 'components/DescriptionList';
 import classNames from 'classnames';
@@ -158,7 +159,7 @@ export default class Account extends PureComponent {
           {accountdata[1] ? accountdata[1].accountAddress : ''}
           <Icon href="https://map.baidu.com/" type="environment-o" style={{ marginLeft: 8 }} />
         </Fragment>
-        <div>{ accountdata[1] ? accountdata[1].accountDate : '' }</div>
+        <div>{ moment(accountdata[1] ? accountdata[1].accountDate : '').format('YYYY-MM-DD') }</div>
       </div>
     );
 
@@ -168,7 +169,7 @@ export default class Account extends PureComponent {
           {accountdata[0] ? accountdata[0].accountAddress : ''}
           <Icon href="https://map.baidu.com/" type="environment-o" style={{ color: '#00A0E9', marginLeft: 8 }} />
         </Fragment>
-        <div>{ accountdata[0] ? accountdata[0].accountDate : '' }</div>
+        <div>{ moment(accountdata[0] ? accountdata[0].accountDate : '').format('YYYY-MM-DD') }</div>
       </div>
     );
 
