@@ -1,9 +1,10 @@
-import { queryBasicProfile, queryAdvancedProfile } from '../services/api';
+import { queryBasicProfile, queryAdvancedProfile, queryUserInfor } from '../services/api';
 
 export default {
   namespace: 'profile',
 
   state: {
+    data: [],
     basicGoods: [],
     advancedOperation1: [],
     advancedOperation2: [],
@@ -25,6 +26,14 @@ export default {
         payload: response,
       });
     },
+    *fetchUserInfor(_, { call, put }) {
+      const response = yield call(queryUserInfor);
+      console.log('userinfor==>', response.data);
+      yield put({
+        type: 'listuserinfor',
+        payload: response.data,
+      });
+    },
   },
 
   reducers: {
@@ -32,6 +41,13 @@ export default {
       return {
         ...state,
         ...payload,
+      };
+    },
+    listuserinfor(state, { payload }) {
+      console.log('payload', payload);
+      return {
+        ...state,
+        data: payload,
       };
     },
   },

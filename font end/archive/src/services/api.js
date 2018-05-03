@@ -57,6 +57,10 @@ export async function queryAdvancedProfile() {
   return request('/api/profile/advanced');
 }
 
+export async function queryUserInfor() {
+  return request('/user/listuserinfor');
+}
+
 export async function queryFakeList(params) {
   return request(`/api/fake_list?${stringify(params)}`);
 }

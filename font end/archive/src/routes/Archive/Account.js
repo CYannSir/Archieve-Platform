@@ -12,6 +12,7 @@ const { Step } = Steps;
 const { Description } = DescriptionList;
 const getWindowWidth = () => (window.innerWidth || document.documentElement.clientWidth);
 
+/*
 const description = (
   <DescriptionList className={styles.headerList} size="small" col="2">
     <Description term="Name">吴成洋</Description>
@@ -22,6 +23,7 @@ const description = (
     <Description term="Graduated Year">2018</Description>
   </DescriptionList>
 );
+*/
 
 const desc1 = (
   <div className={classNames(styles.textSecondary, styles.stepDescription)}>
@@ -44,7 +46,7 @@ const desc2 = (
 );
 @connect(({ profile, loading }) => ({
   profile,
-  loading: loading.effects['profile/fetchAccount'],
+  loading: loading.models.profile,
 }))
 
 export default class Account extends Component {
@@ -54,6 +56,9 @@ export default class Account extends Component {
 
   componentDidMount() {
     const { dispatch } = this.props;
+    dispatch({
+      type: 'profile/fetchUserInfor',
+    });
     dispatch({
       type: 'profile/fetchAccount',
     });
@@ -84,6 +89,18 @@ export default class Account extends Component {
 
   render() {
     const { stepDirection } = this.state;
+    const { profile: { data } } = this.props;
+    console.log('stuName==>', data.stuName);
+    const description = (
+      <DescriptionList className={styles.headerList} size="small" col="2">
+        <Description term="Name">{ data.stuName }</Description>
+        <Description term="Numeber ID">{ data.stuNumber }</Description>
+        <Description term="Phone Number">{ data.currentPhone }</Description>
+        <Description term="E-mail">{ data.currentEmail }</Description>
+        <Description term="Class Belong">{ data.stuMajor }</Description>
+        <Description term="Graduated Year">{ data.stuEndYear}</Description>
+      </DescriptionList>
+    );
 
     return (
       <PageHeaderLayout
