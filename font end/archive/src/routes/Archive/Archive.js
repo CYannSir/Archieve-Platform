@@ -117,7 +117,7 @@ const CreateForm = Form.create()((props) => {
         {form.getFieldDecorator('date', {
           rules: [{ required: true, message: '请输入流向时间' }],
         })(
-          <DatePicker placeholder="请输入流向时间" />
+          <DatePicker placeholder="请输入流向时间" style={{ width: '100%' }} />
         )}
       </FormItem>
     </Modal>

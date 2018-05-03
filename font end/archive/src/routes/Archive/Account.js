@@ -1,56 +1,80 @@
-import React, { Component, Fragment } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import Debounce from 'lodash-decorators/debounce';
 import Bind from 'lodash-decorators/bind';
 import { connect } from 'dva';
-import { Icon, Steps, Card, Button } from 'antd';
+import { Icon, Steps, Card, Button, Divider, Modal, Form, Input, DatePicker, message } from 'antd';
 import DescriptionList from 'components/DescriptionList';
 import classNames from 'classnames';
 import styles from './Account.less';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 
+const FormItem = Form.Item;
 const { Step } = Steps;
 const { Description } = DescriptionList;
 const getWindowWidth = () => (window.innerWidth || document.documentElement.clientWidth);
 
-/*
-const description = (
-  <DescriptionList className={styles.headerList} size="small" col="2">
-    <Description term="Name">吴成洋</Description>
-    <Description term="Numeber ID">31401417</Description>
-    <Description term="Phone Number">13588299239</Description>
-    <Description term="E-mail">wcy623209668@vip.qq.com</Description>
-    <Description term="Class Belong">软件工程1404</Description>
-    <Description term="Graduated Year">2018</Description>
-  </DescriptionList>
-);
-*/
+const CreateForm = Form.create()((props) => {
+  const { modalVisible, form, handleAdd, handleModalVisible } = props;
+  const okHandle = () => {
+    form.validateFields((err, fieldsValue) => {
+      if (err) return;
+      form.resetFields();
+      handleAdd(fieldsValue);
+    });
+  };
+  return (
+    <Modal
+      title="新建个人户口"
+      visible={modalVisible}
+      onOk={okHandle}
+      onCancel={() => handleModalVisible()}
+    >
+      <FormItem
+        labelCol={{ span: 5 }}
+        wrapperCol={{ span: 15 }}
+        label="学生学号"
+      >
+        {form.getFieldDecorator('stuNumber', {
+          rules: [{ required: true, message: '请输入学生学号' }],
+        })(
+          <Input placeholder="请输入学生学号" />
+        )}
+      </FormItem>
+      <FormItem
+        labelCol={{ span: 5 }}
+        wrapperCol={{ span: 15 }}
+        label="户口目前地址"
+      >
+        {form.getFieldDecorator('accountAddress', {
+          rules: [{ required: true, message: '请输入户口' }],
+        })(
+          <Input placeholder="请输入户口" />
+        )}
+      </FormItem>
+      <FormItem
+        labelCol={{ span: 5 }}
+        wrapperCol={{ span: 15 }}
+        label="更改时间"
+      >
+        {form.getFieldDecorator('accountDate', {
+          rules: [{ required: true, message: '请输入更改时间' }],
+        })(
+          <DatePicker placeholder="请输入更改时间" style={{ width: '100%' }} />
+        )}
+      </FormItem>
+    </Modal>
+  );
+});
 
-const desc1 = (
-  <div className={classNames(styles.textSecondary, styles.stepDescription)}>
-    <Fragment>
-      温州市瑞安市
-      <Icon href="https://map.baidu.com/" type="environment-o" style={{ marginLeft: 8 }} />
-    </Fragment>
-    <div>2016-12-12</div>
-  </div>
-);
 
-const desc2 = (
-  <div className={styles.stepDescription}>
-    <Fragment>
-      杭州市拱墅区
-      <Icon href="https://map.baidu.com/" type="environment-o" style={{ color: '#00A0E9', marginLeft: 8 }} />
-    </Fragment>
-    <div>2016-12-12</div>
-  </div>
-);
 @connect(({ profile, loading }) => ({
   profile,
   loading: loading.models.profile,
 }))
 
-export default class Account extends Component {
+export default class Account extends PureComponent {
   state = {
+    modalVisible: false,
     stepDirection: 'horizontal',
   }
 
@@ -86,11 +110,37 @@ export default class Account extends Component {
       });
     }
   }
+  handleModalVisible = (flag) => {
+    this.setState({
+      modalVisible: !!flag,
+    });
+  }
+  handleAdd = (fields) => {
+    this.props.dispatch({
+      type: 'profile/addAccount',
+      payload: {
+        stuNumber: fields.stuNumber,
+        accountAddress: fields.accountAddress,
+        accountDate: fields.accountDate,
+      },
+    });
+
+    message.success('添加成功');
+    this.setState({
+      modalVisible: false,
+    });
+  }
 
   render() {
     const { stepDirection } = this.state;
-    const { profile: { data } } = this.props;
-    console.log('stuName==>', data.stuName);
+    const { profile: { data }, profile: { accountdata } } = this.props;
+    const { modalVisible } = this.state;
+    const parentMethods = {
+      handleAdd: this.handleAdd,
+      handleModalVisible: this.handleModalVisible,
+    };
+    // console.log('data==>', data);
+    // console.log('accountdata==>', accountdata[0].accountAddress);
     const description = (
       <DescriptionList className={styles.headerList} size="small" col="2">
         <Description term="Name">{ data.stuName }</Description>
@@ -100,6 +150,26 @@ export default class Account extends Component {
         <Description term="Class Belong">{ data.stuMajor }</Description>
         <Description term="Graduated Year">{ data.stuEndYear}</Description>
       </DescriptionList>
+    );
+
+    const desc1 = (
+      <div className={classNames(styles.textSecondary, styles.stepDescription)}>
+        <Fragment>
+          {accountdata[1] ? accountdata[1].accountAddress : ''}
+          <Icon href="https://map.baidu.com/" type="environment-o" style={{ marginLeft: 8 }} />
+        </Fragment>
+        <div>{ accountdata[1] ? accountdata[1].accountDate : '' }</div>
+      </div>
+    );
+
+    const desc2 = (
+      <div className={styles.stepDescription}>
+        <Fragment>
+          {accountdata[0] ? accountdata[0].accountAddress : ''}
+          <Icon href="https://map.baidu.com/" type="environment-o" style={{ color: '#00A0E9', marginLeft: 8 }} />
+        </Fragment>
+        <div>{ accountdata[0] ? accountdata[0].accountDate : '' }</div>
+      </div>
     );
 
     return (
@@ -113,8 +183,13 @@ export default class Account extends Component {
             <Step title="Level 1" description={desc1} />
             <Step title="Level 2" description={desc2} />
           </Steps>
-          <Button size="small" type="primary" ghost onClick={() => this.handleModalVisible(true)} icon="plus">添加</Button>
+          <Divider>Operation</Divider>
+          <Button type="primary" ghost size="small" onClick={() => this.handleModalVisible(true)} icon="plus">添加</Button>
         </Card>
+        <CreateForm
+          {...parentMethods}
+          modalVisible={modalVisible}
+        />
       </PageHeaderLayout>
     );
   }

@@ -17,7 +17,8 @@ public enum ResultEnum {
     ERROR_106(106, "验证失败"),
     ERROR_107(107, "邮箱用户已存在"),
     ERROR_108(108, "无该学生用户"),
-    ERROR_109(109, "该验证无效"),;
+    ERROR_109(109, "该验证无效"),
+    ERROR_110(110, "非该用户"),;
     private Integer code;
     private String msg;
 

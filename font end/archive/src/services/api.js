@@ -61,6 +61,17 @@ export async function queryUserInfor() {
   return request('/user/listuserinfor');
 }
 
+export async function addAccount(params) {
+  return request('/user/addaccount', {
+    method: 'POST',
+    body: params,
+  });
+}
+
+export async function queryAccount() {
+  return request('/user/listaccount');
+}
+
 export async function queryFakeList(params) {
   return request(`/api/fake_list?${stringify(params)}`);
 }
