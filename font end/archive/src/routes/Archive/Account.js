@@ -185,14 +185,14 @@ export default class Account extends PureComponent {
             <Description term="Update Date">{moment(accountdata[0] ? accountdata[0].accountDate : '').format('YYYY-MM-DD') }</Description>
           </DescriptionList>
         </Card>
+        <Card style={{ marginBottom: 24 }} bordered={false}>
+          <Button style={{ width: '100%' }} type="dashed" size="large" onClick={() => this.handleModalVisible(true)} icon="plus">添加</Button>
+        </Card>
         <Card title="Account" style={{ marginBottom: 24 }} bordered={false}>
           <Steps direction={stepDirection} progressDot current={1}>
             <Step title="Level 1" description={desc1} />
             <Step title="Level 2" description={desc2} />
           </Steps>
-        </Card>
-        <Card>
-          <Button style={{ width: '100%' }} type="dashed" size="large" onClick={() => this.handleModalVisible(true)} icon="plus">添加</Button>
         </Card>
         <CreateForm
           {...parentMethods}

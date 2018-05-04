@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import Debounce from 'lodash-decorators/debounce';
 import Bind from 'lodash-decorators/bind';
 import { connect } from 'dva';
+import moment from 'moment';
 import { Icon, Steps, Card, Button, Modal, Form, Input, message, DatePicker } from 'antd';
 import classNames from 'classnames';
 import DescriptionList from 'components/DescriptionList';
@@ -12,16 +13,7 @@ const FormItem = Form.Item;
 const { Step } = Steps;
 const { Description } = DescriptionList;
 const getWindowWidth = () => (window.innerWidth || document.documentElement.clientWidth);
-const description = (
-  <DescriptionList className={styles.headerList} size="small" col="2">
-    <Description term="Name">吴成洋</Description>
-    <Description term="Numeber ID">31401417</Description>
-    <Description term="Phone Number">13588299239</Description>
-    <Description term="E-mail">wcy623209668@vip.qq.com</Description>
-    <Description term="Class Belong">软件工程1404</Description>
-    <Description term="Graduated Year">2018</Description>
-  </DescriptionList>
-);
+
 
 const desc1 = (
   <div className={classNames(styles.textSecondary, styles.stepDescription)}>
@@ -81,7 +73,7 @@ const CreateForm = Form.create()((props) => {
         wrapperCol={{ span: 15 }}
         label="学生学号"
       >
-        {form.getFieldDecorator('number', {
+        {form.getFieldDecorator('stuNumber', {
           rules: [{ required: true, message: '请输入学生学号' }],
         })(
           <Input placeholder="请输入学生学号" />
@@ -103,7 +95,7 @@ const CreateForm = Form.create()((props) => {
         wrapperCol={{ span: 15 }}
         label="档案单位地址"
       >
-        {form.getFieldDecorator('unitaddress', {
+        {form.getFieldDecorator('unitAddress', {
           rules: [{ required: true, message: '请输入档案单位地址' }],
         })(
           <Input placeholder="请输入档案单位地址" />
@@ -114,7 +106,7 @@ const CreateForm = Form.create()((props) => {
         wrapperCol={{ span: 15 }}
         label="流向时间"
       >
-        {form.getFieldDecorator('date', {
+        {form.getFieldDecorator('flowDate', {
           rules: [{ required: true, message: '请输入流向时间' }],
         })(
           <DatePicker placeholder="请输入流向时间" style={{ width: '100%' }} />
@@ -129,13 +121,17 @@ const CreateForm = Form.create()((props) => {
 }))
 export default class Archive extends Component {
   state = {
+    modalVisible: false,
     stepDirection: 'horizontal',
   }
 
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'profile/fetchAdvanced',
+      type: 'profile/fetchUserInfor',
+    });
+    dispatch({
+      type: 'profile/fetchArchive',
     });
 
     this.setStepDirection();
@@ -169,9 +165,12 @@ export default class Archive extends Component {
 
   handleAdd = (fields) => {
     this.props.dispatch({
-      type: 'archive/add',
+      type: 'profile/addArchive',
       payload: {
-        description: fields.desc,
+        stuNumber: fields.stuNumber,
+        unit: fields.unit,
+        unitAddress: fields.unitAddress,
+        flowDate: fields.flowDate,
       },
     });
 
@@ -184,10 +183,23 @@ export default class Archive extends Component {
   render() {
     const { stepDirection } = this.state;
     const { modalVisible } = this.state;
+    const { profile: { data }, profile: { archivedata } } = this.props;
     const parentMethods = {
       handleAdd: this.handleAdd,
       handleModalVisible: this.handleModalVisible,
     };
+    // console.log('archivedata-->', archivedata);
+
+    const description = (
+      <DescriptionList className={styles.headerList} size="small" col="2">
+        <Description term="Name">{ data ? data.stuName : '' }</Description>
+        <Description term="Numeber ID">{ data ? data.stuNumber : '' }</Description>
+        <Description term="Phone Number">{ data ? data.currentPhone : '' }</Description>
+        <Description term="E-mail">{ data ? data.currentEmail : '' }</Description>
+        <Description term="Class Belong">{ data ? data.stuMajor : '' }</Description>
+        <Description term="Graduated Year">{ data ? data.stuEndYear : ''}</Description>
+      </DescriptionList>
+    );
 
     return (
       <PageHeaderLayout
@@ -197,11 +209,13 @@ export default class Archive extends Component {
       >
         <Card title="Archive Flow" style={{ marginBottom: 24 }} bordered={false}>
           <DescriptionList style={{ marginBottom: 24 }}>
-            <Description term="Preservation Unit">浙江大学城市学院</Description>
-            <Description term="Address">浙江省杭州市拱墅区湖州街51号理工科楼4号-浙江大学城市学院</Description>
-            <Description term="Flow Date">2017-05-02</Description>
+            <Description term="Preservation Unit">{archivedata[0] ? archivedata[0].unit : ''}</Description>
+            <Description term="Address">{archivedata[0] ? archivedata[0].unitAddress : ''}</Description>
+            <Description term="Flow Date">{moment(archivedata[0] ? archivedata[0].flowDate : '').format('YYYY-MM-DD')}</Description>
           </DescriptionList>
-          <Button size="small" type="primary" ghost onClick={() => this.handleModalVisible(true)} icon="plus">添加</Button>
+        </Card>
+        <Card style={{ marginBottom: 24 }} bordered={false}>
+          <Button style={{ width: '100%' }} type="dashed" size="large" onClick={() => this.handleModalVisible(true)} icon="plus">添加</Button>
         </Card>
         <Card title="Archive Flow Level" style={{ marginBottom: 24 }} bordered={false}>
           <Steps direction={stepDirection} progressDot current={2}>

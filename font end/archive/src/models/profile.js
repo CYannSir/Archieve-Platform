@@ -1,4 +1,4 @@
-import { queryBasicProfile, addAccount, queryAdvancedProfile, queryUserInfor, queryAccount } from '../services/api';
+import { queryBasicProfile, addAccount, queryArchive, addArchive, queryAdvancedProfile, queryUserInfor, queryAccount } from '../services/api';
 
 export default {
   namespace: 'profile',
@@ -6,6 +6,7 @@ export default {
   state: {
     data: [],
     accountdata: [],
+    archivedata: [],
     basicGoods: [],
     advancedOperation1: [],
     advancedOperation2: [],
@@ -35,6 +36,14 @@ export default {
         payload: response.data,
       });
     },
+    *fetchArchive(_, { call, put }) {
+      const response = yield call(queryArchive);
+      // console.log('userinfor==>', response.data);
+      yield put({
+        type: 'listarchive',
+        payload: response.data,
+      });
+    },
     *fetchUserInfor(_, { call, put }) {
       const response = yield call(queryUserInfor);
       // console.log('userinfor==>', response.data);
@@ -52,6 +61,15 @@ export default {
       });
       if (callback) callback();
     },
+    *addArchive({ payload, callback }, { call, put }) {
+      const response = yield call(addArchive, payload);
+      // console.log('userinfor==>', response.data);
+      yield put({
+        type: 'savearchive',
+        payload: response.data,
+      });
+      if (callback) callback();
+    },
   },
 
   reducers: {
@@ -59,6 +77,12 @@ export default {
       return {
         ...state,
         accountdata: payload,
+      };
+    },
+    savearchive(state, { payload }) {
+      return {
+        ...state,
+        archivedata: payload,
       };
     },
     show(state, { payload }) {
@@ -72,6 +96,13 @@ export default {
       return {
         ...state,
         accountdata: payload,
+      };
+    },
+    listarchive(state, { payload }) {
+      // console.log('payload', payload);
+      return {
+        ...state,
+        archivedata: payload,
       };
     },
     listuserinfor(state, { payload }) {

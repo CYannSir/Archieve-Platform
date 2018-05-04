@@ -12,6 +12,8 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author CYann
@@ -34,7 +36,14 @@ public class UserController {
         String objectId = (String) request.getSession().getAttribute("ID");
         CurrentUserModel item = currentUserService.findByObjectId(objectId);
         UserModel userinfor = userService.findByStuNumber(item.getStuNumber());
-        return Result.success(userinfor);
+        Map result = new HashMap();
+        result.put("stuName", userinfor.getStuName());
+        result.put("stuNumber",userinfor.getStuNumber());
+        result.put("currentPhone",userinfor.getCurrentPhone());
+        result.put("currentEamil",userinfor.getCurrentEmail());
+        result.put("stuMajor",userinfor.getStuMajor());
+        result.put("stuEndYear",userinfor.getStuEndYear());
+        return Result.success(result);
     }
 
 

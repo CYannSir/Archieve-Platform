@@ -72,6 +72,17 @@ export async function queryAccount() {
   return request('/user/listaccount');
 }
 
+export async function addArchive(params) {
+  return request('/user/addarchive', {
+    method: 'POST',
+    body: params,
+  });
+}
+
+export async function queryArchive() {
+  return request('/user/listarchive');
+}
+
 export async function queryFakeList(params) {
   return request(`/api/fake_list?${stringify(params)}`);
 }

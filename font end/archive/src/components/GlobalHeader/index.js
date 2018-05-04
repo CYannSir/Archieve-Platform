@@ -174,13 +174,13 @@ export default class GlobalHeader extends PureComponent {
         <Menu.Item key="logout"><Icon type="logout" />Log out</Menu.Item>
       </Menu>
     );
+    const noticeData = this.getNoticeData();
     const parentMethods = {
       handleAdd: this.handleAdd,
       handleAddFeedback: this.handleAddFeedback,
       handleModalVisible: this.handleModalVisible,
       handleFeedbackModalVisible: this.handleFeedbackModalVisible,
     };
-    const noticeData = this.getNoticeData();
     return (
       <div className={styles.header}>
         {isMobile && (
@@ -208,7 +208,7 @@ export default class GlobalHeader extends PureComponent {
           </Tooltip>
           <NoticeIcon
             className={styles.action}
-            count={currentUser.notifyCount}
+            count={currentUser ? currentUser.notifyCount : ''}
             onItemClick={(item, tabProps) => {
               this.handleModalVisible(true);
               console.log(item, tabProps); // eslint-disable-line
@@ -219,7 +219,7 @@ export default class GlobalHeader extends PureComponent {
             popupAlign={{ offset: [20, -16] }}
           >
             <NoticeIcon.Tab
-              list={noticeData['消息']}
+              list={noticeData ? noticeData['消息'] : ''}
               title="Notice"
               emptyText="Empty"
               emptyImage="https://gw.alipayobjects.com/zos/rmsportal/sAuJeJzSKbUmHfBQRzmZ.svg"
