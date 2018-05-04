@@ -23,7 +23,7 @@ public interface AccountRepository extends JpaRepository<AccountModel,String>,Jp
     AccountModel findById(@Param("objectId") String objectId);
 
     //学号查询户口信息
-    @Query("select accountModel from AccountModel accountModel where accountModel.stuNumber = ?1 and accountModel.delTime is null order by accountModel.accountDate desc")
+    @Query("select accountModel from AccountModel accountModel where accountModel.stuNumber = ?1 and accountModel.delTime is null order by accountModel.accountDate desc ")
     List<AccountModel> findByStuNumber(@Param("stuNumber") String stuNumber);
 
 

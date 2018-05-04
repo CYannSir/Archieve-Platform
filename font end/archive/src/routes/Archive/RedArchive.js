@@ -8,17 +8,6 @@ import styles from './RedArchive.less';
 
 const { Description } = DescriptionList;
 
-const description = (
-  <DescriptionList className={styles.headerList} size="small" col="2">
-    <Description term="Name">吴成洋</Description>
-    <Description term="Numeber ID">31401417</Description>
-    <Description term="Phone Number">13588299239</Description>
-    <Description term="E-mail">wcy623209668@vip.qq.com</Description>
-    <Description term="Class Belong">软件工程1404</Description>
-    <Description term="Graduated Year">2018</Description>
-  </DescriptionList>
-);
-
 
 @connect(({ profile, loading }) => ({
   profile,
@@ -28,10 +17,25 @@ export default class RedArchive extends Component {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
+      type: 'profile/fetchUserInfor',
+    });
+    dispatch({
       type: 'profile/fetchRedArchive',
     });
   }
   render() {
+    const { profile: { data }, profile: { redarchivedata } } = this.props;
+    // console.log('aaa', redarchivedata[0].joinDate);
+    const description = (
+      <DescriptionList className={styles.headerList} size="small" col="2">
+        <Description term="Name">{ data ? data.stuName : '' }</Description>
+        <Description term="Numeber ID">{ data ? data.stuNumber : '' }</Description>
+        <Description term="Phone Number">{ data ? data.currentPhone : '' }</Description>
+        <Description term="E-mail">{ data ? data.currentEmail : '' }</Description>
+        <Description term="Class Belong">{ data ? data.stuMajor : '' }</Description>
+        <Description term="Graduated Year">{ data ? data.stuEndYear : ''}</Description>
+      </DescriptionList>
+    );
     return (
       <PageHeaderLayout
         title="Personal Red Archive"
@@ -40,9 +44,9 @@ export default class RedArchive extends Component {
       >
         <Card title="Red Archive Infomation" style={{ marginBottom: 24 }} bordered={false}>
           <DescriptionList style={{ marginBottom: 24 }}>
-            <Description term="Join Date">2017-05-02</Description>
-            <Description term="Became Activists">2017-05-02</Description>
-            <Description term="Introducter">张如仟</Description>
+            <Description term="Join Date">{redarchivedata ? redarchivedata[0].joinDate : ''}</Description>
+            <Description term="Became Activists">{redarchivedata ? redarchivedata[0].activistDate : ''}</Description>
+            <Description term="Introducter">{redarchivedata ? redarchivedata[0].introducer : ''}</Description>
           </DescriptionList>
         </Card>
       </PageHeaderLayout>

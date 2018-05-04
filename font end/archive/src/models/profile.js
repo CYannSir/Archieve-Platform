@@ -1,4 +1,4 @@
-import { queryBasicProfile, addAccount, queryArchive, addArchive, queryAdvancedProfile, queryUserInfor, queryAccount } from '../services/api';
+import { queryBasicProfile, queryRedArchive, addAccount, queryArchive, addArchive, queryAdvancedProfile, queryUserInfor, queryAccount } from '../services/api';
 
 export default {
   namespace: 'profile',
@@ -7,6 +7,7 @@ export default {
     data: [],
     accountdata: [],
     archivedata: [],
+    redarchivedata: [],
     basicGoods: [],
     advancedOperation1: [],
     advancedOperation2: [],
@@ -36,13 +37,30 @@ export default {
         payload: response.data,
       });
     },
+    *fetchRedArchive(_, { call, put }) {
+      const response = yield call(queryRedArchive);
+      // console.log('userinfor==>', response.data);
+      yield put({
+        type: 'listredarchive',
+        payload: response.data,
+      });
+    },
     *fetchArchive(_, { call, put }) {
       const response = yield call(queryArchive);
       // console.log('userinfor==>', response.data);
-      yield put({
-        type: 'listarchive',
-        payload: response.data,
-      });
+      const res = response.data;
+      if (res.length > 5) {
+        const arr = res.splice(res.length - 5, 5);
+        yield put({
+          type: 'listarchive',
+          payload: arr,
+        });
+      } else {
+        yield put({
+          type: 'listarchive',
+          payload: response.data,
+        });
+      }
     },
     *fetchUserInfor(_, { call, put }) {
       const response = yield call(queryUserInfor);
@@ -103,6 +121,13 @@ export default {
       return {
         ...state,
         archivedata: payload,
+      };
+    },
+    listredarchive(state, { payload }) {
+      // console.log('payload', payload);
+      return {
+        ...state,
+        redarchivedata: payload,
       };
     },
     listuserinfor(state, { payload }) {

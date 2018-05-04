@@ -83,6 +83,17 @@ export async function queryArchive() {
   return request('/user/listarchive');
 }
 
+export async function addRedArchive(params) {
+  return request('/user/addredarchive', {
+    method: 'POST',
+    body: params,
+  });
+}
+
+export async function queryRedArchive() {
+  return request('/user/listredarchive');
+}
+
 export async function queryFakeList(params) {
   return request(`/api/fake_list?${stringify(params)}`);
 }

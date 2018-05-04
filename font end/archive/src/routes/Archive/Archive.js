@@ -3,7 +3,7 @@ import Debounce from 'lodash-decorators/debounce';
 import Bind from 'lodash-decorators/bind';
 import { connect } from 'dva';
 import moment from 'moment';
-import { Icon, Steps, Card, Button, Modal, Form, Input, message, DatePicker } from 'antd';
+import { Icon, Steps, Card, Button, Modal, Form, Input, message, DatePicker, List } from 'antd';
 import classNames from 'classnames';
 import DescriptionList from 'components/DescriptionList';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
@@ -13,27 +13,6 @@ const FormItem = Form.Item;
 const { Step } = Steps;
 const { Description } = DescriptionList;
 const getWindowWidth = () => (window.innerWidth || document.documentElement.clientWidth);
-
-
-const desc1 = (
-  <div className={classNames(styles.textSecondary, styles.stepDescription)}>
-    <Fragment>
-      浙江大学城市学院
-      <Icon href="https://map.baidu.com/" type="environment-o" style={{ marginLeft: 8 }} />
-    </Fragment>
-    <div>2016-12-12</div>
-  </div>
-);
-
-const desc2 = (
-  <div className={styles.stepDescription}>
-    <Fragment>
-      杭州市拱墅区人力资源管理局
-      <Icon href="https://map.baidu.com/" type="environment-o" style={{ color: '#00A0E9', marginLeft: 8 }} />
-    </Fragment>
-    <div>2016-12-12</div>
-  </div>
-);
 
 /*
 const popoverContent = (
@@ -117,7 +96,7 @@ const CreateForm = Form.create()((props) => {
 });
 @connect(({ profile, loading }) => ({
   profile,
-  loading: loading.effects['profile/fetchAdvanced'],
+  loading: loading.models.profile,
 }))
 export default class Archive extends Component {
   state = {
@@ -189,7 +168,15 @@ export default class Archive extends Component {
       handleModalVisible: this.handleModalVisible,
     };
     // console.log('archivedata-->', archivedata);
-
+    const CardInfor = ({ unit, unitAddress, flowDate }) => (
+      <Card title={`Current Archive Flow--${unit}`} hoverable bordered={false}>
+        <DescriptionList >
+          <Description term="Preservation Unit">{unit}</Description>
+          <Description term="Address">{unitAddress}</Description>
+          <Description term="Flow Date">{moment(flowDate).format('YYYY-MM-DD')}</Description>
+        </DescriptionList>
+      </Card>
+    );
     const description = (
       <DescriptionList className={styles.headerList} size="small" col="2">
         <Description term="Name">{ data ? data.stuName : '' }</Description>
@@ -201,29 +188,86 @@ export default class Archive extends Component {
       </DescriptionList>
     );
 
+    const desc1 = (
+      <div className={classNames(styles.textSecondary, styles.stepDescription)}>
+        <Fragment>
+          {archivedata[0] ? archivedata[0].unitAddress : ''}
+          <Icon href="https://map.baidu.com/" type="environment-o" style={{ marginLeft: 8 }} />
+        </Fragment>
+        <div>{archivedata[0] ? moment(archivedata[0].flowDate).format('YYYY-MM-DD') : ''}</div>
+      </div>
+    );
+
+    const desc2 = (
+      <div className={styles.stepDescription}>
+        <Fragment>
+          {archivedata[1] ? archivedata[1].unitAddress : ''}
+          <Icon href="https://map.baidu.com/" type="environment-o" style={{ marginLeft: 8 }} />
+        </Fragment>
+        <div>{archivedata[1] ? moment(archivedata[1].flowDate).format('YYYY-MM-DD') : ''}</div>
+      </div>
+    );
+
+    const desc3 = (
+      <div className={styles.stepDescription}>
+        <Fragment>
+          {archivedata[2] ? archivedata[2].unitAddress : ''}
+          <Icon href="https://map.baidu.com/" type="environment-o" style={{ marginLeft: 8 }} />
+        </Fragment>
+        <div>{archivedata[2] ? moment(archivedata[2].flowDate).format('YYYY-MM-DD') : ''}</div>
+      </div>
+    );
+
+    const desc4 = (
+      <div className={styles.stepDescription}>
+        <Fragment>
+          {archivedata[3] ? archivedata[3].unitAddress : ''}
+          <Icon href="https://map.baidu.com/" type="environment-o" style={{ marginLeft: 8 }} />
+        </Fragment>
+        <div>{archivedata[3] ? moment(archivedata[3].flowDate).format('YYYY-MM-DD') : ''}</div>
+      </div>
+    );
+
+    const desc5 = (
+      <div className={styles.stepDescription}>
+        <Fragment>
+          {archivedata[4] ? archivedata[4].unitAddress : ''}
+          <Icon href="https://map.baidu.com/" type="environment-o" style={{ marginLeft: 8 }} />
+        </Fragment>
+        <div>{archivedata[4] ? moment(archivedata[4].flowDate).format('YYYY-MM-DD') : ''}</div>
+      </div>
+    );
+
     return (
       <PageHeaderLayout
         title="Personal Archive"
         logo={<img alt="Archive" src="https://gw.alipayobjects.com/zos/rmsportal/nxkuOJlFJuAUhzlMTCEe.png" />}
         content={description}
       >
-        <Card title="Archive Flow" style={{ marginBottom: 24 }} bordered={false}>
-          <DescriptionList style={{ marginBottom: 24 }}>
-            <Description term="Preservation Unit">{archivedata[0] ? archivedata[0].unit : ''}</Description>
-            <Description term="Address">{archivedata[0] ? archivedata[0].unitAddress : ''}</Description>
-            <Description term="Flow Date">{moment(archivedata[0] ? archivedata[0].flowDate : '').format('YYYY-MM-DD')}</Description>
-          </DescriptionList>
-        </Card>
+        <List
+          loading={archivedata.length === 0 ? archivedata : false}
+          split={false}
+          dataSource={archivedata}
+          renderItem={item => (
+            <List.Item>
+              <CardInfor
+                unit={item ? item.unit : ''}
+                unitAddress={item ? item.unitAddress : ''}
+                flowDate={item ? item.flowDate : ''}
+              />
+            </List.Item>
+            )}
+        />
         <Card style={{ marginBottom: 24 }} bordered={false}>
           <Button style={{ width: '100%' }} type="dashed" size="large" onClick={() => this.handleModalVisible(true)} icon="plus">添加</Button>
         </Card>
-        <Card title="Archive Flow Level" style={{ marginBottom: 24 }} bordered={false}>
-          <Steps direction={stepDirection} progressDot current={2}>
+        <Card title="Archive Flow Level" style={{ marginBottom: 24 }} bordered={false} >
+          <Steps direction={stepDirection} progressDot current={archivedata ? archivedata.length - 1 : ''}>
             <Step title="Level 1" description={desc1} />
             <Step title="Level 2" description={desc2} />
-            <Step title="Level 3" description={desc2} />
-            <Step title="Level 4" />
-            <Step title="Level 5" />
+            <Step title="Level 3" description={desc3} />
+            <Step title="Level 4" description={desc4} />
+            <Step title="Level 5" description={desc5} />
           </Steps>
         </Card>
         <CreateForm

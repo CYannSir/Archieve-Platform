@@ -144,12 +144,12 @@ export default class Account extends PureComponent {
     // console.log('accountdata==>', accountdata[0].accountAddress);
     const description = (
       <DescriptionList className={styles.headerList} size="small" col="2">
-        <Description term="Name">{ data.stuName }</Description>
-        <Description term="Numeber ID">{ data.stuNumber }</Description>
-        <Description term="Phone Number">{ data.currentPhone }</Description>
-        <Description term="E-mail">{ data.currentEmail }</Description>
-        <Description term="Class Belong">{ data.stuMajor }</Description>
-        <Description term="Graduated Year">{ data.stuEndYear}</Description>
+        <Description term="Name">{ data ? data.stuName : '' }</Description>
+        <Description term="Numeber ID">{ data ? data.stuNumber : '' }</Description>
+        <Description term="Phone Number">{ data ? data.currentPhone : '' }</Description>
+        <Description term="E-mail">{ data ? data.currentEmail : '' }</Description>
+        <Description term="Class Belong">{ data ? data.stuMajor : '' }</Description>
+        <Description term="Graduated Year">{ data ? data.stuEndYear : ''}</Description>
       </DescriptionList>
     );
 
@@ -159,7 +159,7 @@ export default class Account extends PureComponent {
           {accountdata[1] ? accountdata[1].accountAddress : ''}
           <Icon href="https://map.baidu.com/" type="environment-o" style={{ marginLeft: 8 }} />
         </Fragment>
-        <div>{ moment(accountdata[1] ? accountdata[1].accountDate : '').format('YYYY-MM-DD') }</div>
+        <div>{ accountdata[1] ? moment(accountdata[1].accountDate).format('YYYY-MM-DD') : '' }</div>
       </div>
     );
 
@@ -169,7 +169,7 @@ export default class Account extends PureComponent {
           {accountdata[0] ? accountdata[0].accountAddress : ''}
           <Icon href="https://map.baidu.com/" type="environment-o" style={{ color: '#00A0E9', marginLeft: 8 }} />
         </Fragment>
-        <div>{ moment(accountdata[0] ? accountdata[0].accountDate : '').format('YYYY-MM-DD') }</div>
+        <div>{ accountdata[0] ? moment(accountdata[0].accountDate).format('YYYY-MM-DD') : '' }</div>
       </div>
     );
 

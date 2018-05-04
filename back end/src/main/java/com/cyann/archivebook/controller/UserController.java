@@ -40,7 +40,7 @@ public class UserController {
         result.put("stuName", userinfor.getStuName());
         result.put("stuNumber",userinfor.getStuNumber());
         result.put("currentPhone",userinfor.getCurrentPhone());
-        result.put("currentEamil",userinfor.getCurrentEmail());
+        result.put("currentEmail",userinfor.getCurrentEmail());
         result.put("stuMajor",userinfor.getStuMajor());
         result.put("stuEndYear",userinfor.getStuEndYear());
         return Result.success(result);

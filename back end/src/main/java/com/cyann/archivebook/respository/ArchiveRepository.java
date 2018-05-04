@@ -23,7 +23,7 @@ public interface ArchiveRepository extends JpaRepository<ArchiveModel,String>, J
     ArchiveModel findById(@Param("objectId") String objectId);
 
     //学号查询档案信息
-    @Query("select archiveModel from ArchiveModel archiveModel where archiveModel.stuNumber = ?1 and archiveModel.delTime is null order by archiveModel.flowDate desc")
+    @Query("select archiveModel from ArchiveModel archiveModel where archiveModel.stuNumber = ?1 and archiveModel.delTime is null order by archiveModel.flowDate asc")
     List<ArchiveModel> findByStuNumber(@Param("stuNumber") String stuNumber);
 
     //学号和目前单位查询档案信息

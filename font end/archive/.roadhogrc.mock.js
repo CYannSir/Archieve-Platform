@@ -42,6 +42,8 @@ const proxy = {
   'POST /user/addaccount': 'http://localhost:8080',
   'GET /user/listarchive': 'http://localhost:8080',
   'POST /user/addarchive': 'http://localhost:8080',
+  'GET /user/listredarchive': 'http://localhost:8080',
+  'POST /user/addredarchive': 'http://localhost:8080',
   // GET POST 可省略
   'GET /api/users': [{
     key: '1',
