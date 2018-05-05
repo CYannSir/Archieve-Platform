@@ -69,17 +69,20 @@ const menuData = [{
   path: 'alumniinformation',
   authority: 'user',
   children: [{
-    name: 'Your information',
+    name: 'Alumni information',
     path: 'alumniinfor',
   }, {
     name: 'Edit alumni information',
     path: 'editalumniinfor',
+    hideInMenu: true,
+    // hideInBreadcrumb: true,
   }, {
     name: 'Practice Unit',
     path: 'practice',
   }, {
     name: 'Edit practice Unit',
     path: 'editpractice',
+    hideInMenu: true,
   }],
 }, {
   name: '账户',

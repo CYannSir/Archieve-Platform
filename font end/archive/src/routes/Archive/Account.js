@@ -186,7 +186,7 @@ export default class Account extends PureComponent {
           </DescriptionList>
         </Card>
         <Card style={{ marginBottom: 24 }} bordered={false}>
-          <Button style={{ width: '100%' }} type="dashed" size="large" onClick={() => this.handleModalVisible(true)} icon="plus">添加</Button>
+          <Button style={{ width: '100%' }} type="dashed" size="large" onClick={() => this.handleModalVisible(true)} icon="plus">New</Button>
         </Card>
         <Card title="Account" style={{ marginBottom: 24 }} bordered={false}>
           <Steps direction={stepDirection} progressDot current={1}>

@@ -5,7 +5,14 @@ import com.cyann.archivebook.exception.MyException;
 import com.cyann.archivebook.model.AlumniInformationModel;
 import com.cyann.archivebook.respository.AlumniInformationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 
 import java.util.ArrayList;
@@ -68,6 +75,12 @@ public class AlumniInformationService extends BaseService {
     //学号查询所有校友信息
     public List<AlumniInformationModel> findByStuNum(String stuNumber){
         List<AlumniInformationModel> list = alumniInformationRepository.findByStuNum(stuNumber);
+        return list;
+    }
+
+    //视图 根据 名字 班级 毕业年份 多条件动态查询课程
+    public List<Object[]> search(String stuName,String stuClass){
+        List<Object[]> list = alumniInformationRepository.search(stuName,stuClass);
         return list;
     }
 

@@ -60,6 +60,12 @@ public class PracticeInforService extends BaseService {
         return list;
     }
 
+    //视图 根据 名字 班级 毕业年份 多条件动态查询课程
+    public List<Object[]> search(String stuName,String stuClass){
+        List<Object[]> list = practiceInforRepository.search(stuName,stuClass);
+        return list;
+    }
+
     //视图--学号查询实习生信息
     public List<Object[]> findByStuNumber(String stuNumber){
         List<Object[]> list = practiceInforRepository.findByStuNumber(stuNumber);

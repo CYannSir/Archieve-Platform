@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
+import { routerRedux } from 'dva/router';
 import {
   Form, Input, Button, Card, Icon, Tooltip,
 } from 'antd';
@@ -34,7 +35,7 @@ const description = (
 );
 
 @connect(({ loading }) => ({
-  submitting: loading.effects['form/submitRegularForm'],
+  submitting: loading.effects['form/addPractice'],
 }))
 @Form.create()
 export default class EditPractice extends PureComponent {
@@ -43,11 +44,16 @@ export default class EditPractice extends PureComponent {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         this.props.dispatch({
-          type: 'form/submitRegularForm',
+          type: 'form/addPractice',
           payload: values,
         });
       }
     });
+  }
+  handleBack = () => {
+    this.props.dispatch(routerRedux.push({
+      pathname: '/alumniinformation/practice',
+    }));
   }
   render() {
     const { submitting } = this.props;
@@ -85,7 +91,7 @@ export default class EditPractice extends PureComponent {
               {...formItemLayout}
               label="Your Company"
             >
-              {getFieldDecorator('yourcompany', {
+              {getFieldDecorator('company', {
                 rules: [{
                   required: true, message: 'Please enter your company',
                 }],
@@ -97,7 +103,7 @@ export default class EditPractice extends PureComponent {
               {...formItemLayout}
               label="Company Address"
             >
-              {getFieldDecorator('companyaddress', {
+              {getFieldDecorator('companyAddress', {
                 rules: [{
                   required: true, message: 'Please enter your company address',
                 }],
@@ -150,6 +156,9 @@ export default class EditPractice extends PureComponent {
             <FormItem {...submitFormLayout} style={{ marginTop: 32 }}>
               <Button type="primary" htmlType="submit" loading={submitting}>
                 Save
+              </Button>
+              <Button type="primary" style={{ marginLeft: 12 }} onClick={this.handleBack}>
+                Back
               </Button>
             </FormItem>
           </Form>

@@ -35,6 +35,16 @@ public class CurrentUserModel extends BaseEntity {
     private int activeStatus;
     @Column(length = 32)
     private String userType;
+    @Column(length = 32)
+    private String avatar;
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
 
     public String getStuName() {
         return stuName;

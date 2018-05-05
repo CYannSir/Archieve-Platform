@@ -61,6 +61,14 @@ export async function queryUserInfor() {
   return request('/user/listuserinfor');
 }
 
+export async function queryAlumniInformation() {
+  return request('/user/listalumni');
+}
+
+export async function queryPracticeInfor() {
+  return request('/user/listpractice');
+}
+
 export async function addAccount(params) {
   return request('/user/addaccount', {
     method: 'POST',
@@ -79,6 +87,27 @@ export async function addArchive(params) {
   });
 }
 
+export async function addAlumniInfor(params) {
+  return request('/user/addalumni', {
+    method: 'POST',
+    body: params,
+  });
+}
+
+export async function searchHome(params) {
+  return request('/home/search', {
+    method: 'POST',
+    body: params,
+  });
+}
+
+export async function addPractice(params) {
+  return request('/user/addpractice', {
+    method: 'POST',
+    body: params,
+  });
+}
+
 export async function queryArchive() {
   return request('/user/listarchive');
 }
@@ -92,6 +121,10 @@ export async function addRedArchive(params) {
 
 export async function queryRedArchive() {
   return request('/user/listredarchive');
+}
+
+export async function queryHome(params) {
+  return request(`/home?${stringify(params)}`);
 }
 
 export async function queryFakeList(params) {

@@ -1,18 +1,23 @@
 package com.cyann.archivebook.controller;
 
+import com.cyann.archivebook.model.CurrentUserModel;
 import com.cyann.archivebook.model.PracticeInforModel;
 import com.cyann.archivebook.model.UserModel;
+import com.cyann.archivebook.service.CurrentUserService;
 import com.cyann.archivebook.service.PracticeInforService;
 import com.cyann.archivebook.service.UserService;
 import com.cyann.archivebook.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.jnlp.PersistenceService;
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author CYann
@@ -20,28 +25,46 @@ import java.util.List;
  */
 @RestController
 @CrossOrigin
+@RequestMapping("/user")
 public class PracticeInforController {
     @Autowired
     private PracticeInforService practiceInforService;
     @Autowired
-    private UserService userService;
+    private CurrentUserService currentUserService;
 
 
     //新增实习生信息
     @PostMapping(value = "/addpractice")
-    public Result addPracticeInfor(PracticeInforModel practiceInforModel){
+    public Result addUserPracticeInfor(@RequestBody PracticeInforModel practiceInforModel){
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        HttpServletRequest request = attributes.getRequest();
+        String objectId = (String) request.getSession().getAttribute("ID");
+        CurrentUserModel item = currentUserService.findByObjectId(objectId);
+        practiceInforModel.setStuNumber(item.getStuNumber());
         practiceInforService.add(practiceInforModel);
         return Result.success();
     }
 
     //展示实习生信息
-    @PostMapping(value = "/listpractice")
-    public Result listPracticeInfor(@RequestParam("objectId") String objectId){
-        UserModel userModel = userService.findById(objectId);
-        List<PracticeInforModel> list = practiceInforService.findByStuNum(userModel.getStuNumber());
-        return Result.success(list);
+    @GetMapping(value = "/listpractice")
+    public Result listUserPracticeInfor(){
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        HttpServletRequest request = attributes.getRequest();
+        String objectId = (String) request.getSession().getAttribute("ID");
+        CurrentUserModel item = currentUserService.findByObjectId(objectId);
+        List<PracticeInforModel> list = practiceInforService.findByStuNum(item.getStuNumber());
+        List<Map> mapList = new ArrayList();
+        for(int i=0;i<list.size();i++){
+            Map tempMap = new HashMap();
+            PracticeInforModel practiceInforModel = list.get(i);
+            tempMap.put("company",practiceInforModel.getCompany());
+            tempMap.put("companyAddress",practiceInforModel.getCompanyAddress());
+            tempMap.put("industry",practiceInforModel.getIndustry());
+            tempMap.put("occupation",practiceInforModel.getOccupation());
+            tempMap.put("salary",practiceInforModel.getSalary());
+            mapList.add(tempMap);
+        }
+        return Result.success(mapList);
     }
-
-
 
 }

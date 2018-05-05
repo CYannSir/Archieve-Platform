@@ -28,7 +28,7 @@ public class AlumniInformationModel extends BaseEntity{
     private String industry;
     @Column(nullable = false , length = 32)
     private String occupation;
-    @Column(nullable = false , length = 32)
+    @Column(nullable = true , length = 32)
     private String salary;
 
     public String getStuNumber() {

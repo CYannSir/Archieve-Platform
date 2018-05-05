@@ -1,6 +1,6 @@
 import { routerRedux } from 'dva/router';
 import { message } from 'antd';
-import { fakeSubmitForm } from '../services/api';
+import { fakeSubmitForm, addAlumniInfor, addPractice } from '../services/api';
 
 export default {
   namespace: 'form',
@@ -30,6 +30,16 @@ export default {
     *submitAdvancedForm({ payload }, { call }) {
       yield call(fakeSubmitForm, payload);
       message.success('提交成功');
+    },
+    *addAlumniInfor({ payload }, { call, put }) {
+      yield call(addAlumniInfor, payload);
+      message.success('Save success');
+      yield put(routerRedux.push('/alumniinformation/alumniinfor'));
+    },
+    *addPractice({ payload }, { call, put }) {
+      yield call(addPractice, payload);
+      message.success('Save success');
+      yield put(routerRedux.push('/alumniinformation/practice'));
     },
   },
 

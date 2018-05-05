@@ -1,9 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'dva';
-import { Form, Card, List, Icon, Button, Avatar, Tooltip } from 'antd';
+import { Form, Card, List, Icon, Avatar, Tooltip } from 'antd';
 import styles from './Home.less';
-
-const pageSize = 5;
 
 @Form.create()
 @connect(({ list, loading }) => ({
@@ -12,54 +10,39 @@ const pageSize = 5;
 }))
 export default class Home extends Component {
   componentDidMount() {
-    this.fetchMore();
+    // this.fetchMore();
     this.props.dispatch({
-      type: 'list/fetch',
-      payload: {
-        count: 8,
-      },
+      type: 'list/fetchHome',
     });
   }
-
+  /*
   fetchMore = () => {
     this.props.dispatch({
-      type: 'list/appendFetch',
+      type: 'list/appendFetchHome',
       payload: {
-        count: pageSize,
+        pageNum: pageSize,
+        pageSize: 20,
       },
     });
   }
-  handleFormSubmit = () => {
-    const { form, dispatch } = this.props;
-    // setTimeout 用于保证获取表单值是在所有表单字段更新完毕的时候
-    setTimeout(() => {
-      form.validateFields((err) => {
-        if (!err) {
-          // eslint-disable-next-line
-            dispatch({
-            type: 'list/fetch',
-            payload: {
-              count: 8,
-            },
-          });
-        }
-      });
-    }, 0);
-  }
+ */
+
 
   render() {
     const { list: { list }, loading } = this.props;
 
-    const CardInfor = ({ industry, company, occupation }) => (
+    const CardInfor = ({ industry, company, occupation, salary }) => (
       <div className={styles.cardInfo}>
-        <div className={styles.extra}>行业：{industry}</div>
-        <div className={styles.extra}>工作公司：{company}</div>
-        <div className={styles.extra}>公司职位：{occupation}</div>
+        <div className={styles.extra}>-----</div>
+        <div className={styles.extra}>Industry:   {industry}</div>
+        <div className={styles.extra}>Company:    {company}</div>
+        <div className={styles.extra}>Occupation:     {occupation}</div>
+        <div className={styles.extra}>Salary:     {salary}</div>
         {/* 目前的联系方式邮箱 公司职位 和 公司                 */}
       </div>
     );
 
-
+    /*
     const loadMore = list.length > 0 ? (
       <div style={{ textAlign: 'center', marginTop: 16 }}>
         <Button onClick={this.fetchMore} style={{ paddingLeft: 48, paddingRight: 48 }}>
@@ -68,6 +51,7 @@ export default class Home extends Component {
       </div>
     ) : null;
 
+    */
     return (
       <Fragment >
         <List
@@ -75,7 +59,6 @@ export default class Home extends Component {
           rowKey="id"
           style={{ marginTop: 24 }}
           grid={{ gutter: 24, xl: 4, lg: 3, md: 3, sm: 2, xs: 1 }}
-          loadMore={loadMore}
           dataSource={list}
           renderItem={item => (
             <List.Item key={item.id}>
@@ -84,19 +67,20 @@ export default class Home extends Component {
                 bodyStyle={{ paddingBottom: 20 }}
                 cover={<img alt="cover" src={item.cover} size="small" />}
                 actions={[
-                  <Tooltip title={item.email}><Icon type="mail" /></Tooltip>,
-                  <Tooltip title={item.phonenumber}><Icon type="mobile" /></Tooltip>,
+                  <Tooltip title={item.currentEmail}><Icon type="mail" /></Tooltip>,
+                  <Tooltip title={item.currentPhone}><Icon type="mobile" /></Tooltip>,
                 ]}
               >
                 <Card.Meta
                   avatar={<Avatar style={{ magain: 48 }} src={item.avatar} size="small" />}
-                  title={item.title}
+                  title={item.stuName}
                 />
                 <div className={styles.cardItemContent}>
                   <CardInfor
                     company={item.company}
                     industry={item.industry}
                     occupation={item.occupation}
+                    salary={item.salary}
                   />
                 </div>
               </Card>

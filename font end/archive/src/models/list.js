@@ -1,4 +1,4 @@
-import { queryFakeList } from '../services/api';
+import { queryFakeList, queryHome, searchHome } from '../services/api';
 
 export default {
   namespace: 'list',
@@ -13,6 +13,29 @@ export default {
       yield put({
         type: 'queryList',
         payload: Array.isArray(response) ? response : [],
+      });
+    },
+    *fetchHome({ payload }, { call, put }) {
+      const response = yield call(queryHome, payload);
+      // console.log('res', response.data);
+      yield put({
+        type: 'queryList',
+        payload: Array.isArray(response.data) ? response.data : [],
+      });
+    },
+    *search({ payload }, { call, put }) {
+      const response = yield call(searchHome, payload);
+      console.log('res', response.data);
+      yield put({
+        type: 'queryList',
+        payload: Array.isArray(response.data) ? response.data : [],
+      });
+    },
+    *appendFetchHome({ payload }, { call, put }) {
+      const response = yield call(queryHome, payload);
+      yield put({
+        type: 'appendList',
+        payload: Array.isArray(response.data) ? response.data : [],
       });
     },
     *appendFetch({ payload }, { call, put }) {
@@ -34,7 +57,7 @@ export default {
     appendList(state, action) {
       return {
         ...state,
-        list: state.list.concat(action.payload),
+        list: action.payload,
       };
     },
   },

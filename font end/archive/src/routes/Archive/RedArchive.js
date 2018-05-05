@@ -25,7 +25,7 @@ export default class RedArchive extends Component {
   }
   render() {
     const { profile: { data }, profile: { redarchivedata } } = this.props;
-    // console.log('aaa', redarchivedata[0].joinDate);
+    // console.log('aaa', redarchivedata);
     const description = (
       <DescriptionList className={styles.headerList} size="small" col="2">
         <Description term="Name">{ data ? data.stuName : '' }</Description>
@@ -44,9 +44,9 @@ export default class RedArchive extends Component {
       >
         <Card title="Red Archive Infomation" style={{ marginBottom: 24 }} bordered={false}>
           <DescriptionList style={{ marginBottom: 24 }}>
-            <Description term="Join Date">{redarchivedata ? redarchivedata[0].joinDate : ''}</Description>
-            <Description term="Became Activists">{redarchivedata ? redarchivedata[0].activistDate : ''}</Description>
-            <Description term="Introducter">{redarchivedata ? redarchivedata[0].introducer : ''}</Description>
+            <Description term="Join Date">{redarchivedata[0] ? redarchivedata[0].joinDate : ''}</Description>
+            <Description term="Became Activists">{redarchivedata[0] ? redarchivedata[0].activistDate : ''}</Description>
+            <Description term="Introducter">{redarchivedata[0] ? redarchivedata[0].introducer : ''}</Description>
           </DescriptionList>
         </Card>
       </PageHeaderLayout>

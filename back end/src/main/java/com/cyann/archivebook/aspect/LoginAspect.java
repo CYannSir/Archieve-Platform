@@ -34,7 +34,7 @@ public class LoginAspect {
 
     @Before("point()")
     public void doBefore() {
-        logger.info("before!!!!");
+        logger.info("Userbefore!!!!");
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
         HttpSession session = request.getSession();
@@ -46,7 +46,7 @@ public class LoginAspect {
 
     @After("point()")
     public void doAfter() {
-        logger.info("after!!!!");
+        logger.info("Userafter!!!!");
     }
 
     @Before("pointAdmin()")
@@ -55,8 +55,9 @@ public class LoginAspect {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
         HttpSession session = request.getSession();
+        String id = (String) session.getAttribute("ID");
         String type = (String) session.getAttribute("TYPE");
-        if (type.equals("admin")) {
+        if (type.equals("admin") && id == null) {
             throw new MyException(ResultEnum.ERROR_100);
         }
     }

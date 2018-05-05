@@ -19,6 +19,7 @@ import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * @author CYann
@@ -36,8 +37,42 @@ public class CurrentUserService {
     //增加用户
     @Transactional
     public void add(@RequestBody CurrentUserModel currentUserModel){
+        Random random = new Random();
+        int randomint = random.nextInt(9)+1;
         userService.updateContract(currentUserModel.getStuNumber(),currentUserModel.getMobilePhone(),currentUserModel.getLoginEmail());
         baseService.add(currentUserRepository,currentUserModel);
+        switch (randomint){
+            case 0:
+                currentUserModel.setAvatar("https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png");
+                break;
+            case 1:
+                currentUserModel.setAvatar("https://gw.alipayobjects.com/zos/rmsportal/cnrhVkzwxjPwAaCfPbdc.png");
+                break;
+            case 2:
+                currentUserModel.setAvatar("https://gw.alipayobjects.com/zos/rmsportal/gaOngJwsRYRaVAuXXcmB.png");
+                break;
+            case 3:
+                currentUserModel.setAvatar("https://gw.alipayobjects.com/zos/rmsportal/ubnKSIfAJTxIgXOKlciN.png");
+                break;
+            case 4:
+                currentUserModel.setAvatar("https://gw.alipayobjects.com/zos/rmsportal/WhxKECPNujWoWEFNdnJE.png");
+                break;
+            case 5:
+                currentUserModel.setAvatar("https://gw.alipayobjects.com/zos/rmsportal/jZUIxmJycoymBprLOUbT.png");
+                break;
+            case 6:
+                currentUserModel.setAvatar("https://gw.alipayobjects.com/zos/rmsportal/psOgztMplJMGpVEqfcgF.png");
+                break;
+            case 7:
+                currentUserModel.setAvatar("https://gw.alipayobjects.com/zos/rmsportal/ZpBqSxLxVEXfcUNoPKrz.png");
+                break;
+            case 8:
+                currentUserModel.setAvatar("https://gw.alipayobjects.com/zos/rmsportal/laiEnJdGHVOhJrUShBaJ.png");
+                break;
+            case 9:
+                currentUserModel.setAvatar("https://gw.alipayobjects.com/zos/rmsportal/UrQsqscbKEpNuJcvBZBu.png");
+                break;
+        }
         currentUserModel.setUserType("user");
         currentUserModel.setActiveStatus(1);
         currentUserRepository.save(currentUserModel);

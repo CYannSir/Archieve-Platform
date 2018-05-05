@@ -32,5 +32,12 @@ public interface AlumniInformationRepository extends JpaRepository<AlumniInforma
     @Query(value = "select * from alumniview where alumniview.del_time is null",nativeQuery = true)
     List<Object[]> findAllAlumni();
 
+    //通过视图查询
+    @Query(value = "select * from alumniview " +
+            "where alumniview.del_time is null " +
+            "AND alumniview.stu_name LIKE %?1%  " +
+            "OR  alumniview.stu_class like %?2%  ",nativeQuery = true)
+    List<Object[]> search(@Param("stuName") String stuName,@Param("stuClass") String stuClass);
+
 
 }

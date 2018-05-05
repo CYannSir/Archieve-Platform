@@ -1,4 +1,4 @@
-import { queryBasicProfile, queryRedArchive, addAccount, queryArchive, addArchive, queryAdvancedProfile, queryUserInfor, queryAccount } from '../services/api';
+import { queryBasicProfile, queryPracticeInfor, queryAlumniInformation, queryRedArchive, addAccount, queryArchive, addArchive, queryAdvancedProfile, queryUserInfor, queryAccount } from '../services/api';
 
 export default {
   namespace: 'profile',
@@ -8,6 +8,8 @@ export default {
     accountdata: [],
     archivedata: [],
     redarchivedata: [],
+    alumnidata: [],
+    practicedata: [],
     basicGoods: [],
     advancedOperation1: [],
     advancedOperation2: [],
@@ -70,6 +72,22 @@ export default {
         payload: response.data,
       });
     },
+    *fetchAlumniInformation(_, { call, put }) {
+      const response = yield call(queryAlumniInformation);
+      // console.log('listalumni==>', response.data);
+      yield put({
+        type: 'listalumni',
+        payload: response.data,
+      });
+    },
+    *fetchPracticeInfor(_, { call, put }) {
+      const response = yield call(queryPracticeInfor);
+      // console.log('listalumni==>', response.data);
+      yield put({
+        type: 'listpractice',
+        payload: response.data,
+      });
+    },
     *addAccount({ payload, callback }, { call, put }) {
       const response = yield call(addAccount, payload);
       // console.log('userinfor==>', response.data);
@@ -123,11 +141,26 @@ export default {
         archivedata: payload,
       };
     },
+    listalumni(state, { payload }) {
+      // console.log('payload', payload);
+      return {
+        ...state,
+        alumnidata: payload,
+      };
+    },
     listredarchive(state, { payload }) {
       // console.log('payload', payload);
       return {
         ...state,
         redarchivedata: payload,
+      };
+    },
+    listpractice(state, { payload }) {
+      // console.log('payload', payload);
+      return {
+        ...state,
+        practicedata: payload,
+        flag: false,
       };
     },
     listuserinfor(state, { payload }) {

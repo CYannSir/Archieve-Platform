@@ -32,4 +32,11 @@ public interface PracticeInforRepository extends JpaRepository<PracticeInforMode
     @Query(value = "select * from practiceview where practiceview.del_time is null",nativeQuery = true)
     List<Object[]> findAllPractice();
 
+    //通过视图查看所有校友信息
+    @Query(value = "select * from practiceview " +
+            "where practiceview.del_time is null " +
+            "AND practiceview.stu_name LIKE %?1% " +
+            "OR  practiceview.stu_class LIKE %?2% ",nativeQuery = true)
+    List<Object[]> search(@Param("stuName") String stuName, @Param("stuClass") String stuClass);
+
 }

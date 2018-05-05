@@ -44,6 +44,14 @@ const proxy = {
   'POST /user/addarchive': 'http://localhost:8080',
   'GET /user/listredarchive': 'http://localhost:8080',
   'POST /user/addredarchive': 'http://localhost:8080',
+  'GET /user/listalumni': 'http://localhost:8080',
+  'POST /user/addalumni': 'http://localhost:8080',
+  'GET /user/listpractice': 'http://localhost:8080',
+  'POST /user/addpractice': 'http://localhost:8080',
+
+  //Home 主页信息
+  'GET /home': 'http://localhost:8080',
+  'POST /home/search': 'http://localhost:8080',
   // GET POST 可省略
   'GET /api/users': [{
     key: '1',
