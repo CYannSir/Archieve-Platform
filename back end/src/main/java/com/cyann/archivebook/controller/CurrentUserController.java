@@ -40,6 +40,7 @@ public class CurrentUserController {
         return Result.success();
     }
 
+    //当前用户
     @GetMapping(value = "/currentUser")
     public Result currentUser(){
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
@@ -141,6 +142,15 @@ public class CurrentUserController {
         return Result.success(returnList);
     }
 
-
+    //修改密码
+    @PostMapping(value = "/modifypwd")
+    public Result modifyUserPwd(@RequestBody CurrentUserModel currentUserModel){
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        HttpServletRequest request = attributes.getRequest();
+        String objectId = (String) request.getSession().getAttribute("ID");
+        // System.out.println(password);
+        currentUserService.updateMyPwd(currentUserModel,currentUserModel.getPassword(),objectId);
+        return Result.success();
+    }
 
 }

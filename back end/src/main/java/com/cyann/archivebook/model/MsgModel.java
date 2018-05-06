@@ -17,7 +17,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "tb_msg")
 public class MsgModel extends BaseEntity {
-    @Column(nullable = false,length = 64)
+    @Column(length = 64)
     private String recUser;
     @Column(length = 64)
     private String sendUser;

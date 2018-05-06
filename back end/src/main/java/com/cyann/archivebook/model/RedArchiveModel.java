@@ -23,9 +23,9 @@ import javax.persistence.Table;
 public class RedArchiveModel extends BaseEntity{
     @Column(nullable = false , length = 32)
     private String stuNumber;
-    @Column(nullable = false , length = 32)
+    @Column(length = 32)
     private String joinDate;
-    @Column(nullable = false , length = 32)
+    @Column(length = 32)
     private String activistDate;
     @Column(nullable = false , length = 32)
     private String introducer;

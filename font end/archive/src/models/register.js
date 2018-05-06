@@ -24,6 +24,7 @@ export default {
         message.error('Real-name authentication failed', 4);
         yield put(routerRedux.push('/user/register'));
       } else {
+        message.success('Success', 4);
         yield put({
           type: 'registerHandle',
           payload: response.data,
@@ -36,6 +37,7 @@ export default {
       if (response.code === 107) {
         message.error('The Email registered', 4);
       } else {
+        message.success('Success', 4);
         yield put({
           type: 'registersendmail',
           payload: response.data,

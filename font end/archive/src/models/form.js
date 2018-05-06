@@ -1,6 +1,6 @@
 import { routerRedux } from 'dva/router';
 import { message } from 'antd';
-import { fakeSubmitForm, addAlumniInfor, addPractice } from '../services/api';
+import { fakeSubmitForm, addAlumniInfor, addPractice, updatePsw } from '../services/api';
 
 export default {
   namespace: 'form',
@@ -15,6 +15,24 @@ export default {
   },
 
   effects: {
+    *updatePsw({ payload }, { call, put }) {
+      const response = yield call(updatePsw, payload);
+      // console.log('res', response.code);
+      if (response.code === 105) {
+        message.error('Invalid passwords', 4);
+        // yield put(routerRedux.push('/user/register'));
+      } else if (response.code === 101) {
+        message.error('Invalid user', 4);
+        yield put(routerRedux.push('/modifypwd'));
+      } else if (response.code === 200) {
+        message.success('Success', 4);
+        yield put({
+          type: 'updatepsw',
+          payload: response.data,
+        });
+        yield put(routerRedux.push('/home'));
+      }
+    },
     *submitRegularForm({ payload }, { call }) {
       yield call(fakeSubmitForm, payload);
       message.success('Save success');
@@ -44,6 +62,16 @@ export default {
   },
 
   reducers: {
+    updatepsw(state, { payload }) {
+      // console.log('type', payload.data);
+      // console.log('status', payload);
+      // setAuthority(payload.data.type);
+      // reloadAuthorized();
+      return {
+        ...state.data,
+        status: payload.status,
+      };
+    },
     saveStepFormData(state, { payload }) {
       return {
         ...state,

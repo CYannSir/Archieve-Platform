@@ -278,7 +278,7 @@ export default class Archive extends PureComponent {
     dispatch({
       type: 'archive/delete',
       payload: {
-        objectId: selectedRows.map(objectId => objectId.objectId),
+        objectId: selectedRows.map(objectId => objectId.objectId).join(','),
       },
       callback: () => {
         this.setState({

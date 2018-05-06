@@ -57,7 +57,7 @@ public class GuestController {
             return Result.success(result);
         } else {
             Map result = new HashMap();
-            result.put("currentAuthority", loginUser.getUserType());
+            result.put("currentAuthority", "guest");
             result.put("status", "error");
             result.put("type", "account");
             // result.put("SessionId", session.getId());

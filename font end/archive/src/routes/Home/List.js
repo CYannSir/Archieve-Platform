@@ -16,7 +16,7 @@ const getWindowWidth = () => (window.innerWidth || document.documentElement.clie
 }))
 export default class SearchList extends Component {
   state = {
-    width: { width: '100%' },
+    width: { width: 522 },
   }
   componentDidMount() {
     this.setStepDirection();
@@ -56,7 +56,7 @@ export default class SearchList extends Component {
 
   render() {
     const { width } = this.state;
-    console.log('width', width);
+    // console.log('width', width);
     const mainSearch = (
       <div style={{ textAlign: 'center' }}>
         <Input.Search

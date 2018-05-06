@@ -138,13 +138,14 @@ public class CurrentUserService {
     }
 
     //用户更改密码
-    public void updateMyPwd(CurrentUserModel currentUserModel,String newPwd){
-        CurrentUserModel userItem = currentUserRepository.findById(currentUserModel.getObjectId());
+    public void updateMyPwd(CurrentUserModel currentUserModel,String newPwd, String objectId){
+        CurrentUserModel userItem = currentUserRepository.findById(objectId);
         if(userItem == null){
             throw new MyException(ResultEnum.ERROR_101);
         }else {
             if (userItem.getLoginPsw().equals(currentUserModel.getLoginPsw()) == true){
                 userItem.setLoginPsw(newPwd);
+                userItem.setPassword("");
                 currentUserRepository.save(userItem);
             }else {
                 throw new MyException(ResultEnum.ERROR_105);

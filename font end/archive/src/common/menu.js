@@ -49,6 +49,15 @@ const menuData = [{
     // hideInMenu: true,
   }],
 }, {
+  name: '通知管理',
+  icon: 'code-o',
+  path: 'notice',
+  authority: 'admin',
+  children: [{
+    name: '通知管理',
+    path: 'notice',
+  }],
+}, {
   name: 'Archive',
   icon: 'book',
   path: 'archive',

@@ -1,60 +1,46 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import moment from 'moment';
-import { Row, Col, Card, Form, Input, Button, Modal, message, DatePicker, Upload } from 'antd';
+import { Card, Form, Input, Button, Modal, message } from 'antd';
 import StandardTable from 'components/StandardTable';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 
-import styles from './RedArchive.less';
+import styles from './Notice.less';
 
 const FormItem = Form.Item;
 const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
 
-const fileprops = {
-  name: 'file',
-  supportServerRender: true,
-  multiple: true,
-  accpt: 'xlsx',
-  method: 'POST',
-  action: 'http://localhost:8080/admin/addredarchivebyfile',
-  onChange(info) {
-    if (info.file.status !== 'uploading') {
-      // console.log(info.file, info.fileList);
-    }
-    if (info.file.status === 'done') {
-      message.success(`${info.file.name} file uploaded successfully`);
-    } else if (info.file.status === 'error') {
-      message.error(`${info.file.name} file upload failed.`);
-    }
-  },
-};
+
 const columns = [
   {
-    title: '学号',
+    title: '发送方',
     align: 'center',
-    dataIndex: 'stuNumber',
+    dataIndex: 'sendUser',
   },
   {
-    title: '成为积极分子日期',
+    title: '接收方',
     align: 'center',
-    dataIndex: 'activistDate',
-    render: val => <span>{moment(val).format('YYYY-MM-DD')}</span>,
+    dataIndex: 'recUser',
   },
   {
-    title: '加入党日期',
-    dataIndex: 'joinDate',
+    title: '消息类型',
     align: 'center',
-    render: val => <span>{moment(val).format('YYYY-MM-DD')}</span>,
+    dataIndex: 'msgType',
   },
   {
-    title: '介绍人',
+    title: '消息内容',
     align: 'center',
-    dataIndex: 'introducer',
+    dataIndex: 'msgContent',
+  },
+  {
+    title: '消息状态',
+    align: 'center',
+    dataIndex: 'msgStats',
   },
   {
     title: '创建时间',
-    dataIndex: 'creatTime',
     align: 'center',
+    dataIndex: 'creatTime',
     sorter: true,
     render: val => (<span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>),
   },
@@ -62,6 +48,13 @@ const columns = [
     title: '更新时间',
     align: 'center',
     dataIndex: 'updateTime',
+    sorter: true,
+    render: val => (val === null ? (<span />) : (<span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>)),
+  },
+  {
+    title: '删除时间',
+    align: 'center',
+    dataIndex: 'delTime',
     sorter: true,
     render: val => (val === null ? (<span />) : (<span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>)),
   },
@@ -79,7 +72,7 @@ const CreateForm = Form.create()((props) => {
     };
     return (
       <Modal
-        title="修改红色档案"
+        title="修改通知"
         visible={modalVisible}
         onOk={okHandle}
         onCancel={() => handleModalVisible()}
@@ -87,45 +80,12 @@ const CreateForm = Form.create()((props) => {
         <FormItem
           labelCol={{ span: 6 }}
           wrapperCol={{ span: 18 }}
-          label="学生学号"
+          label="通知内容"
         >
-          {form.getFieldDecorator('stuNumber', {
-          rules: [{ message: '请输入学生学号' }],
+          {form.getFieldDecorator('msgContent', {
+          rules: [{ message: '请输入通知内容' }],
         })(
-          <Input placeholder="请输入学生学号" />
-        )}
-        </FormItem>
-        <FormItem
-          labelCol={{ span: 6 }}
-          wrapperCol={{ span: 18 }}
-          label="成为积极日期"
-        >
-          {form.getFieldDecorator('activistDate', {
-          rules: [{ required: false, message: '请输入成为积极分子日期' }],
-        })(
-          <DatePicker placeholder="请输入成为积极分子日期" style={{ width: '100%' }} />
-        )}
-        </FormItem>
-        <FormItem
-          labelCol={{ span: 6 }}
-          wrapperCol={{ span: 18 }}
-          label="加入党日期"
-        >
-          {form.getFieldDecorator('joinDate', {
-          rules: [{ required: false, message: '请输入加入党日期' }],
-        })(
-          <DatePicker placeholder="请输入加入党日期" style={{ width: '100%' }} />
-        )}
-        </FormItem>
-        <FormItem
-          labelCol={{ span: 6 }}
-          wrapperCol={{ span: 18 }}
-          label="介绍人"
-        >
-          {form.getFieldDecorator('introducer', {
-          rules: [{ message: '请输入入党介绍人' }],
-        })(
-          <Input placeholder="请输入入党介绍人" />
+          <Input placeholder="请输入通知内容" />
         )}
         </FormItem>
       </Modal>
@@ -140,7 +100,7 @@ const CreateForm = Form.create()((props) => {
     };
     return (
       <Modal
-        title="新建红色档案"
+        title="新建通知"
         visible={modalVisible}
         onOk={okHandle}
         onCancel={() => handleModalVisible()}
@@ -148,46 +108,12 @@ const CreateForm = Form.create()((props) => {
         <FormItem
           labelCol={{ span: 6 }}
           wrapperCol={{ span: 18 }}
-          label="学生学号"
+          label="通知内容"
         >
-          {form.getFieldDecorator('stuNumber', {
-          rules: [{ required: true, message: '请输入学生学号' }],
+          {form.getFieldDecorator('msgContent', {
+          rules: [{ required: true, message: '请输入通知内容' }],
         })(
-          <Input placeholder="请输入学生学号" />
-        )}
-        </FormItem>
-        <FormItem
-          labelCol={{ span: 6 }}
-          wrapperCol={{ span: 18 }}
-          label="成为积极日期"
-          style={{ width: '100%' }}
-        >
-          {form.getFieldDecorator('activistDate', {
-          rules: [{ required: false, message: '请输入成为积极分子日期' }],
-        })(
-          <DatePicker placeholder="请输入成为积极分子日期" style={{ width: '100%' }} />
-        )}
-        </FormItem>
-        <FormItem
-          labelCol={{ span: 6 }}
-          wrapperCol={{ span: 18 }}
-          label="加入党日期"
-        >
-          {form.getFieldDecorator('joinDate', {
-          rules: [{ required: false, message: '请输入加入党日期' }],
-        })(
-          <DatePicker placeholder="请输入加入党日期" style={{ width: '100%' }} />
-        )}
-        </FormItem>
-        <FormItem
-          labelCol={{ span: 6 }}
-          wrapperCol={{ span: 18 }}
-          label="介绍人"
-        >
-          {form.getFieldDecorator('introducer', {
-          rules: [{ required: true, message: '请输入入党介绍人' }],
-        })(
-          <Input placeholder="请输入入党介绍人" />
+          <Input placeholder="请输入通知内容" />
         )}
         </FormItem>
       </Modal>
@@ -195,12 +121,12 @@ const CreateForm = Form.create()((props) => {
   }
 });
 
-@connect(({ redarchive, loading }) => ({
-  redarchive,
-  loading: loading.models.redarchive,
+@connect(({ notice, loading }) => ({
+  notice,
+  loading: loading.models.notice,
 }))
 @Form.create()
-export default class RedArchive extends PureComponent {
+export default class Notice extends PureComponent {
   state = {
     modalVisible: false,
     expandForm: false,
@@ -212,12 +138,12 @@ export default class RedArchive extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'redarchive/fetch',
+      type: 'notice/fetch',
     });
   }
 
   handleStandardTableChange = (pagination, filtersArg, sorter) => {
-    const { redarchive: { data }, dispatch } = this.props;
+    const { notice: { data }, dispatch } = this.props;
     const { formValues } = this.state;
 
     const filters = Object.keys(filtersArg).reduce((obj, key) => {
@@ -242,14 +168,13 @@ export default class RedArchive extends PureComponent {
         return prev[s[0]] - next[s[0]];
       });
     }
-
     const result = {
       list: data.list,
       pagination,
     };
 
     dispatch({
-      type: 'redarchive/save',
+      type: 'notice/save',
       payload: result,
     });
   }
@@ -261,7 +186,7 @@ export default class RedArchive extends PureComponent {
       formValues: {},
     });
     dispatch({
-      type: 'redarchive/fetch',
+      type: 'notice/fetch',
       payload: {},
     });
   }
@@ -276,9 +201,10 @@ export default class RedArchive extends PureComponent {
     const { dispatch } = this.props;
     const { selectedRows } = this.state;
 
+    console.log('objectId', selectedRows.map(objectId => objectId.objectId));
     if (!selectedRows) return;
     dispatch({
-      type: 'redarchive/delete',
+      type: 'notice/delete',
       payload: {
         objectId: selectedRows.map(objectId => objectId.objectId).join(','),
       },
@@ -288,6 +214,7 @@ export default class RedArchive extends PureComponent {
         });
       },
     });
+
     message.success('删除成功');
     this.setState({
       modalVisible: false,
@@ -311,6 +238,7 @@ export default class RedArchive extends PureComponent {
       const values = {
         ...fieldsValue,
         stuNumber: fieldsValue.stuNumber,
+        unit: fieldsValue.unit,
       };
 
       this.setState({
@@ -318,7 +246,7 @@ export default class RedArchive extends PureComponent {
       });
 
       dispatch({
-        type: 'redarchive/search',
+        type: 'notice/search',
         payload: values,
       });
     });
@@ -340,12 +268,9 @@ export default class RedArchive extends PureComponent {
 
   handleAdd = (fields) => {
     this.props.dispatch({
-      type: 'redarchive/add',
+      type: 'notice/add',
       payload: {
-        stuNumber: fields.stuNumber,
-        joinDate: fields.joinDate,
-        activistDate: fields.activistDate,
-        introducer: fields.introducer,
+        msgContent: fields.msgContent,
       },
     });
 
@@ -361,7 +286,7 @@ export default class RedArchive extends PureComponent {
       formValues: {},
     });
     dispatch({
-      type: 'redarchive/fetch',
+      type: 'notice/fetch',
     });
 
     message.success('刷新成功');
@@ -374,13 +299,10 @@ export default class RedArchive extends PureComponent {
     const { selectedRows } = this.state;
     if (!selectedRows) return;
     dispatch({
-      type: 'redarchive/modify',
+      type: 'notice/modify',
       payload: {
         objectId: selectedRows.map(objectId => objectId.objectId).join(','),
-        stuNumber: fields.stuNumber,
-        joinDate: fields.joinDate,
-        activistDate: fields.activistDate,
-        introducer: fields.introducer,
+        msgContent: fields.msgContent,
       },
       callback: () => {
         this.setState({
@@ -396,52 +318,22 @@ export default class RedArchive extends PureComponent {
     });
   }
 
-  renderSimpleForm() {
-    const { getFieldDecorator } = this.props.form;
-    return (
-      <Form onSubmit={this.handleSearch} layout="inline">
-        <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-          <Col md={8} sm={24}>
-            <FormItem label="学生学号">
-              {getFieldDecorator('stuNumber')(
-                <Input placeholder="请输入" />
-              )}
-            </FormItem>
-          </Col>
-          <Col md={8} sm={24}>
-            <span className={styles.submitButtons}>
-              <Button type="primary" htmlType="submit" onClick={this.handleSearch}>查询</Button>
-              <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>重置</Button>
-            </span>
-          </Col>
-        </Row>
-      </Form>
-    );
-  }
-
-  renderForm() {
-    return this.renderSimpleForm();
-  }
-
   render() {
-    const { redarchive: { data }, loading } = this.props;
+    const { notice: { data }, loading } = this.props;
     const { selectedRows, modalVisible, formprops } = this.state;
 
 
     const parentMethods = {
       handleAdd: this.handleAdd,
       handleModify: this.handleModify,
-      handleMenuClick: this.handleMenuClick,
+      handleDelete: this.handleDelete,
       handleModalVisible: this.handleModalVisible,
     };
 
     return (
-      <PageHeaderLayout title="红色档案管理">
+      <PageHeaderLayout title="通知管理">
         <Card bordered={false}>
           <div className={styles.tableList}>
-            <div className={styles.tableListForm}>
-              {this.renderForm()}
-            </div>
             <div className={styles.tableListOperator}>
               <Button icon="plus" type="primary" onClick={() => this.handleModalVisible(true)}>
                 新建
@@ -458,11 +350,6 @@ export default class RedArchive extends PureComponent {
                   </span>
                 )
               }
-              <Upload {...fileprops}>
-                <Button icon="upload">
-                   批量新增
-                </Button>
-              </Upload>
               <Button icon="sync" type="ghost" onClick={this.handleRefresh} />
             </div>
             <StandardTable

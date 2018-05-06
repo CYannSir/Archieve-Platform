@@ -45,6 +45,8 @@ public class AdminController {
     private PracticeInforService practiceInforService;
     @Autowired
     private ChatGroupService chatGroupService;
+    @Autowired
+    private MsgService msgService;
 
     /*
      *用户操作 Start Here
@@ -575,5 +577,42 @@ public class AdminController {
      * 交流群信息操作 - End
      */
 
+    /*
+     * 通知信息操作 - Start
+     */
 
+    //展示所有通知消息
+    @GetMapping(value = "/listnotice")
+    public Result listNotice(){
+        List<MsgModel> list = msgService.findAll();
+        return Result.success(list);
+    }
+
+    //新增通知消息
+    @PostMapping(value = "/addnotice")
+    public Result addNotice(@RequestBody MsgModel msgModel){
+        msgService.addBoard(msgModel);
+        List<MsgModel> list = msgService.findAll();
+        return Result.success(list);
+    }
+
+    //删除通知消息
+    @PostMapping(value = "/deletenotice")
+    public Result deleteNotice(@RequestBody MsgModel msgModel){
+        msgService.delete(msgModel);
+        List<MsgModel> list = msgService.findAll();
+        return Result.success(list);
+    }
+
+    //动态修改更新所有通知消息
+    @PostMapping(value = "/modifynotice")
+    public Result modifyNotice(@RequestBody MsgModel msgModel){
+        msgService.update(msgModel);
+        List<MsgModel> list = msgService.findAll();
+        return Result.success(list);
+    }
+
+    /*
+     * 通知信息操作 - End
+     */
 }

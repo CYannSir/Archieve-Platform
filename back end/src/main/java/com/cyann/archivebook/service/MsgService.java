@@ -35,9 +35,11 @@ public class MsgService {
 
     //增加通知
     public void addBoard(MsgModel msg){
-        baseService.add(msgRepository,msg);
         msg.setRecUser("SuperAdmin");
+        msg.setSendUser("SuperAdmin");
+        msg.setMsgStats("unread");
         msg.setMsgType("通知");
+        baseService.add(msgRepository,msg);
         msgRepository.save(msg);
     }
 
@@ -63,7 +65,9 @@ public class MsgService {
         if(msgItem == null){
             throw new MyException(ResultEnum.ERROR_101);
         } else{
-            msgRepository.save(msg);
+            msgItem.setMsgContent(msg.getMsgContent());
+            baseService.modify(msgRepository, msgItem);
+            msgRepository.save(msgItem);
         }
     }
     //查询所有

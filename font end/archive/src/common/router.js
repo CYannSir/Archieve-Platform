@@ -106,6 +106,9 @@ export const getRouterData = (app) => {
     '/alumniinfor/adminpracticeinfor': {
       component: dynamicWrapper(app, ['form', 'practice'], () => import('../routes/AdminAlumniInfor/PracticeInfor')),
     },
+    '/notice/notice': {
+      component: dynamicWrapper(app, ['form', 'notice'], () => import('../routes/AdminBasicInfor/Notice')),
+    },
     '/modifypwd': {
       component: dynamicWrapper(app, [], () => import('../routes/User/UpdatePwd')),
     },

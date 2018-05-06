@@ -126,19 +126,21 @@ export default class GlobalHeader extends PureComponent {
     event.initEvent('resize', true, false);
     window.dispatchEvent(event);
   }
-
+  /*
   handleModalVisible = (flag) => {
     this.setState({
       formprops: !flag,
       modalVisible: !!flag,
     });
   }
+  */
   handleFeedbackModalVisible = (flag) => {
     this.setState({
       formprops: !!flag,
       modalVisible: !!flag,
     });
   }
+  /*
   handleAdd = () => {
     this.props.dispatch({
       type: 'rule/add',
@@ -149,6 +151,7 @@ export default class GlobalHeader extends PureComponent {
       modalVisible: false,
     });
   }
+  */
   handleAddFeedback = () => {
     this.props.dispatch({
       type: 'rule/delete',
@@ -176,7 +179,7 @@ export default class GlobalHeader extends PureComponent {
     );
     const noticeData = this.getNoticeData();
     const parentMethods = {
-      handleAdd: this.handleAdd,
+      // handleAdd: this.handleAdd,
       handleAddFeedback: this.handleAddFeedback,
       handleModalVisible: this.handleModalVisible,
       handleFeedbackModalVisible: this.handleFeedbackModalVisible,
@@ -210,7 +213,7 @@ export default class GlobalHeader extends PureComponent {
             className={styles.action}
             count={currentUser ? currentUser.notifyCount : ''}
             onItemClick={(item, tabProps) => {
-              this.handleModalVisible(true);
+              // this.handleModalVisible(true);
               console.log(item, tabProps); // eslint-disable-line
             }}
             onClear={onNoticeClear}

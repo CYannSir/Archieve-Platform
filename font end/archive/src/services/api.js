@@ -152,6 +152,14 @@ export async function register(params) {
   });
 }
 
+export async function updatePsw(params) {
+  return request('/modifypwd', {
+    method: 'POST',
+    body: params,
+  });
+}
+
+
 export async function sendEmail(params) {
   return request('/register/sendemail', {
     method: 'POST',

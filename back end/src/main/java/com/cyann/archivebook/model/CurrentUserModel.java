@@ -37,6 +37,16 @@ public class CurrentUserModel extends BaseEntity {
     private String userType;
     @Column(length = 256)
     private String avatar;
+    @Column(length = 32)
+    private String password;
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public String getAvatar() {
         return avatar;

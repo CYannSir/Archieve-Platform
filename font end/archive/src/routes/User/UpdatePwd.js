@@ -18,7 +18,7 @@ const passwordProgressMap = {
 };
 
 @connect(({ loading }) => ({
-  submitting: loading.effects['form/submitRegularForm'],
+  submitting: loading.effects['form/updatePsw'],
 }))
 @Form.create()
 export default class UpdatePwd extends PureComponent {
@@ -50,10 +50,13 @@ export default class UpdatePwd extends PureComponent {
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
+      // console.log('value', values);
       if (!err) {
         this.props.dispatch({
-          type: 'form/submitRegularForm',
-          payload: values,
+          type: 'form/updatePsw',
+          payload: {
+            ...values,
+          },
         });
       }
     });
@@ -64,9 +67,13 @@ export default class UpdatePwd extends PureComponent {
     this.setState({ confirmDirty: this.state.confirmDirty || !!value });
   };
 
+  handleVisibleChange = (visible) => {
+    this.setState({ visible });
+  }
+
   checkConfirm = (rule, value, callback) => {
     const { form } = this.props;
-    if (value && value !== form.getFieldValue('confirm')) {
+    if (value && value !== form.getFieldValue('password')) {
       callback('The password entered twice does not match!');
     } else {
       callback();
@@ -155,7 +162,7 @@ export default class UpdatePwd extends PureComponent {
               {...formItemLayout}
               label="Your previous password"
             >
-              {getFieldDecorator('oldPwd', {
+              {getFieldDecorator('loginPsw', {
                 rules: [{
                   required: true, message: 'Please enter your previous password',
                 }],
@@ -178,8 +185,9 @@ export default class UpdatePwd extends PureComponent {
                     </div>
                   </div>
               }
-                overlayStyle={{ width: 320 }}
+                overlayStyle={{ width: 240 }}
                 placement="right"
+                trigger="focus"
                 visible={this.state.visible}
                 onVisibleChange={this.handleVisibleChange}
               >

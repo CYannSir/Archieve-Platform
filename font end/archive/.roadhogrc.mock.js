@@ -52,6 +52,7 @@ const proxy = {
   //Home 主页信息
   'GET /home': 'http://localhost:8080',
   'POST /home/search': 'http://localhost:8080',
+  'POST /modifypwd': 'http://localhost:8080',
   // GET POST 可省略
   'GET /api/users': [{
     key: '1',
@@ -124,6 +125,11 @@ const proxy = {
   'POST /admin/searchredarchive': 'http://localhost:8080',
   'POST /admin/modifyredarchive': 'http://localhost:8080',
   
+  'GET /admin/listnotice': 'http://localhost:8080',
+  'POST /admin/addnotice': 'http://localhost:8080',
+  'POST /admin/deletenotice': 'http://localhost:8080',
+  'POST /admin/modifynotice': 'http://localhost:8080',
+
   'GET /admin/listalumniinfor': 'http://localhost:8080',
   'POST /admin/addalumniinfor': {
     $params: {

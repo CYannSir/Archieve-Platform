@@ -1,4 +1,5 @@
 import { routerRedux } from 'dva/router';
+import { message } from 'antd';
 import { fakeAccountLogin } from '../services/api';
 import { setAuthority } from '../utils/authority';
 import { reloadAuthorized } from '../utils/Authorized';
@@ -17,15 +18,21 @@ export default {
     *login({ payload }, { call, put }) {
       const response = yield call(fakeAccountLogin, payload);
       // console.log('response==>', response);
-      // console.log('response.data==>', response.data);
-      yield put({
-        type: 'changeLoginStatus',
-        payload: response.data,
-      });
-      // Login successfully
-      if (response.data.status === 'ok') {
+      // console.log('response.data==>', response.code);
+      if (response.code === 200) {
+        yield put({
+          type: 'changeLoginStatus',
+          payload: response.data,
+        });
+        // Login successfully
+        if (response.data.status === 'ok') {
+          reloadAuthorized();
+          yield put(routerRedux.push('/'));
+        }
+      } else if (response.code === 102) {
+        message.error('Login Failed', 4);
         reloadAuthorized();
-        yield put(routerRedux.push('/'));
+        yield put(routerRedux.push('/user/login'));
       }
     },
     *logout(_, { put, select }) {

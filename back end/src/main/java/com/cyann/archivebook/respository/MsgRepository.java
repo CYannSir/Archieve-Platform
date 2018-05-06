@@ -13,7 +13,7 @@ import java.sql.Timestamp;
  * @date 2018-05-05 21:30
  */
 public interface MsgRepository extends JpaRepository<MsgModel,String>, JpaSpecificationExecutor<MsgModel> {
-    @Query("select msgModel from MsgModel msgModel where msgModel.delTime is null")
+    @Query("select msgModel from MsgModel msgModel")
     List<MsgModel> findAll();
 
     @Query("select msgModel from MsgModel msgModel where msgModel.objectId = :objectId and msgModel.delTime is null")
@@ -21,6 +21,6 @@ public interface MsgRepository extends JpaRepository<MsgModel,String>, JpaSpecif
 
     //根据用户id查找用户的消息
     @Query("select msgModel from MsgModel msgModel where msgModel.recUser = ?1 and msgModel.delTime is null")
-    List<MsgModel> findByRecUser(String userNum);
+    List<MsgModel> findByRecUser(@Param("objectId") String recUser);
 
 }
