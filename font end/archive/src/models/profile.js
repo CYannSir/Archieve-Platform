@@ -1,11 +1,12 @@
 import { message } from 'antd';
-import { queryBasicProfile, queryPracticeInfor, queryAlumniInformation, queryRedArchive, addAccount, queryArchive, addArchive, queryAdvancedProfile, queryUserInfor, queryAccount } from '../services/api';
+import { queryBasicProfile, addFeedback, updateStatus, queryPracticeInfor, queryAlumniInformation, queryRedArchive, addAccount, queryArchive, addArchive, queryAdvancedProfile, queryUserInfor, queryAccount } from '../services/api';
 
 export default {
   namespace: 'profile',
 
   state: {
     data: [],
+    updatestatus: [],
     accountdata: [],
     archivedata: [],
     redarchivedata: [],
@@ -126,9 +127,38 @@ export default {
 
       if (callback) callback();
     },
+    *addFeedback({ payload, callback }, { call }) {
+      const response = yield call(addFeedback, payload);
+      // console.log('test', response.code);
+      if (response.code === 200) {
+        message.success('Thx for your support!');
+      }
+      if (callback) callback();
+    },
+    *updateStatus({ payload, callback }, { call, put }) {
+      const response = yield call(updateStatus, payload);
+      // console.log('aas', response.data);
+      if (response.code === 200) {
+        message.success('Success');
+        yield put({
+          type: 'updatestatus',
+          payload: response.data,
+        });
+      } else if (response.code === 101) {
+        message.success('Update failed');
+      }
+
+      if (callback) callback();
+    },
   },
 
   reducers: {
+    updatestatus(state, { payload }) {
+      return {
+        ...state,
+        updatestatus: payload,
+      };
+    },
     saveaccount(state, { payload }) {
       return {
         ...state,

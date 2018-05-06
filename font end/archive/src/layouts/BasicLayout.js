@@ -161,6 +161,7 @@ class BasicLayout extends React.PureComponent {
       });
     }
   }
+
   handleNoticeVisibleChange = (visible) => {
     if (visible) {
       this.props.dispatch({
@@ -266,9 +267,10 @@ class BasicLayout extends React.PureComponent {
   }
 }
 
-export default connect(({ user, global, loading }) => ({
+export default connect(({ user, global, loading, rule }) => ({
   currentUser: user.currentUser,
   collapsed: global.collapsed,
   fetchingNotices: loading.effects['global/fetchNotices'],
   notices: global.notices,
+  rule,
 }))(BasicLayout);

@@ -1,4 +1,4 @@
-import { queryNotice, addNotice, deleteNotice, searchNotice, modifyNotice } from '../services/notice';
+import { queryNotice, addNotice, replyNotice, deleteNotice, searchNotice, modifyNotice } from '../services/notice';
 
 export default {
   namespace: 'notice',
@@ -30,6 +30,23 @@ export default {
     },
     *add({ payload, callback }, { call, put }) {
       const response = yield call(addNotice, payload);
+      const pageSize = 10;
+      yield put({
+        type: 'save',
+        payload: {
+          response,
+          list: response.data,
+          pagination: {
+            total: response.data.length,
+            pageSize,
+            current: parseInt(response.data.currentPage, 10) || 1,
+          },
+        },
+      });
+      if (callback) callback();
+    },
+    *reply({ payload, callback }, { call, put }) {
+      const response = yield call(replyNotice, payload);
       const pageSize = 10;
       yield put({
         type: 'save',

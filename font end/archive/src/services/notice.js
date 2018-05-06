@@ -2,11 +2,21 @@ import { stringify } from 'qs';
 import request from '../utils/request';
 
 export async function queryNotice(params) {
-  return request(`/admin/listnotice?${stringify(params)}`);
+  return request(`/admin/listnotices?${stringify(params)}`);
 }
 
 export async function addNotice(params) {
   return request('/admin/addnotice', {
+    method: 'POST',
+    body: {
+      ...params,
+      method: 'add',
+    },
+  });
+}
+
+export async function replyNotice(params) {
+  return request('/admin/replynotice', {
     method: 'POST',
     body: {
       ...params,

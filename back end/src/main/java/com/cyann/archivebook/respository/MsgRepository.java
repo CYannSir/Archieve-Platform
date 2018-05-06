@@ -20,7 +20,7 @@ public interface MsgRepository extends JpaRepository<MsgModel,String>, JpaSpecif
     MsgModel findById(@Param("objectId") String objectId);
 
     //根据用户id查找用户的消息
-    @Query("select msgModel from MsgModel msgModel where msgModel.recUser = ?1 and msgModel.delTime is null")
-    List<MsgModel> findByRecUser(@Param("objectId") String recUser);
+    @Query("select msgModel from MsgModel msgModel where msgModel.recUser = ?1 or msgModel.msgType = '通知' and msgModel.delTime is null ")
+    List<MsgModel> findByRecUser(@Param("recUser") String recUser);
 
 }

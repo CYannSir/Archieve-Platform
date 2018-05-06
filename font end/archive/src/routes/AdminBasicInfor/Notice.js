@@ -121,6 +121,38 @@ const CreateForm = Form.create()((props) => {
   }
 });
 
+const CreateReplyForm = Form.create()((props) => {
+  const { replyVisible, form, handleReplyAdd, handleReplyModalVisible } = props;
+
+  const okHandle = () => {
+    form.validateFields((err, fieldsValue) => {
+      if (err) return;
+      form.resetFields();
+      handleReplyAdd(fieldsValue);
+    });
+  };
+  return (
+    <Modal
+      title="新建回复"
+      visible={replyVisible}
+      onOk={okHandle}
+      onCancel={() => handleReplyModalVisible()}
+    >
+      <FormItem
+        labelCol={{ span: 6 }}
+        wrapperCol={{ span: 18 }}
+        label="回复内容"
+      >
+        {form.getFieldDecorator('msgContent', {
+          rules: [{ required: true, message: '请输入回复内容' }],
+        })(
+          <Input placeholder="请输入回复内容" />
+        )}
+      </FormItem>
+    </Modal>
+  );
+});
+
 @connect(({ notice, loading }) => ({
   notice,
   loading: loading.models.notice,
@@ -128,6 +160,7 @@ const CreateForm = Form.create()((props) => {
 @Form.create()
 export default class Notice extends PureComponent {
   state = {
+    replyVisible: false,
     modalVisible: false,
     expandForm: false,
     formprops: false,
@@ -201,7 +234,7 @@ export default class Notice extends PureComponent {
     const { dispatch } = this.props;
     const { selectedRows } = this.state;
 
-    console.log('objectId', selectedRows.map(objectId => objectId.objectId));
+    // console.log('objectId', selectedRows.map(objectId => objectId.objectId));
     if (!selectedRows) return;
     dispatch({
       type: 'notice/delete',
@@ -252,6 +285,35 @@ export default class Notice extends PureComponent {
     });
   }
 
+  handleReplyModalVisible = (flag) => {
+    this.setState({
+      replyVisible: !!flag,
+    });
+  }
+  handleReplyAdd = (fields) => {
+    const { dispatch } = this.props;
+    const { selectedRows } = this.state;
+
+    // console.log('objectId', selectedRows.map(objectId => objectId.objectId));
+    if (!selectedRows) return;
+    dispatch({
+      type: 'notice/reply',
+      payload: {
+        objectId: selectedRows.map(objectId => objectId.objectId).join(','),
+        msgContent: fields.msgContent,
+      },
+      callback: () => {
+        this.setState({
+          selectedRows: [],
+        });
+      },
+    });
+
+    message.success('新增回复成功');
+    this.setState({
+      modalVisible: false,
+    });
+  }
   handleModalVisible = (flag) => {
     this.setState({
       formprops: !flag,
@@ -320,13 +382,15 @@ export default class Notice extends PureComponent {
 
   render() {
     const { notice: { data }, loading } = this.props;
-    const { selectedRows, modalVisible, formprops } = this.state;
+    const { selectedRows, modalVisible, formprops, replyVisible } = this.state;
 
 
     const parentMethods = {
       handleAdd: this.handleAdd,
+      handleReplyAdd: this.handleReplyAdd,
       handleModify: this.handleModify,
       handleDelete: this.handleDelete,
+      handleReplyModalVisible: this.handleReplyModalVisible,
       handleModalVisible: this.handleModalVisible,
     };
 
@@ -343,6 +407,9 @@ export default class Notice extends PureComponent {
                   <span>
                     <Button icon="edit" type="primary" onClick={() => this.handleModifyModalVisible(true)}>
                         修改
+                    </Button>
+                    <Button icon="edit" type="primary" onClick={() => this.handleReplyModalVisible(true)}>
+                        回复
                     </Button>
                     <Button icon="delete" type="primary" onClick={this.handleMenuClick}>
                         删除
@@ -366,6 +433,10 @@ export default class Notice extends PureComponent {
           {...parentMethods}
           modalVisible={modalVisible}
           formprops={formprops}
+        />
+        <CreateReplyForm
+          {...parentMethods}
+          replyVisible={replyVisible}
         />
       </PageHeaderLayout>
     );

@@ -34,6 +34,30 @@ export async function addRule(params) {
   });
 }
 
+export async function addFeedback(params) {
+  return request('/addfeedback', {
+    method: 'POST',
+    body: {
+      ...params,
+      method: 'post',
+    },
+  });
+}
+
+export async function updateStatus(params) {
+  return request('/updatestatus', {
+    method: 'POST',
+    body: {
+      ...params,
+      method: 'post',
+    },
+  });
+}
+
+export async function listFeedback() {
+  return request('/listnotice');
+}
+
 export async function fakeSubmitForm(params) {
   return request('/api/forms', {
     method: 'POST',
@@ -168,5 +192,5 @@ export async function sendEmail(params) {
 }
 
 export async function queryNotices() {
-  return request('/api/notices');
+  return request('/listnotice');
 }

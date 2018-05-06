@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Menu, Icon, Spin, Dropdown, Avatar, Divider, message, Tooltip, Form, Modal, Input, Button } from 'antd';
+import { Menu, Icon, Spin, Dropdown, Avatar, Divider, Tooltip, Form, Modal, Input } from 'antd';
 import moment from 'moment';
 import groupBy from 'lodash/groupBy';
 import Debounce from 'lodash-decorators/debounce';
@@ -11,86 +11,43 @@ import styles from './index.less';
 const FormItem = Form.Item;
 const { TextArea } = Input;
 const CreateForm = Form.create()((props) => {
-  const { modalVisible, form, handleAdd, handleModalVisible, handleAddFeedback, formprops } = props;
-  if (formprops === true) {
-    const okHandle = () => {
-      form.validateFields((err, fieldsValue) => {
-        if (err) return;
-        form.resetFields();
-        handleAdd(fieldsValue);
-      });
-    };
-    return (
-      <Modal
-        title="Feedback"
-        visible={modalVisible}
-        onOk={okHandle}
-        onCancel={() => handleModalVisible()}
-        footer={[
-          <Button key="back" onClick={this.handleCancel}>Cancel</Button>,
-          <Button key="submit" type="primary" onClick={this.handleOk}>
-              Send
-          </Button>,
-          ]}
+  const { modalVisible, form, handleFeedbackModalVisible, handleAddFeedback } = props;
+  const okHandle = () => {
+    // console.log('sss', props);
+    form.validateFields((err, fieldsValue) => {
+      if (err) return;
+      form.resetFields();
+      handleAddFeedback(fieldsValue);
+    });
+  };
+  return (
+    <Modal
+      title="Feedback"
+      visible={modalVisible}
+      onOk={okHandle}
+      onCancel={() => handleFeedbackModalVisible()}
+    >
+      <FormItem
+        labelCol={{ span: 6 }}
+        wrapperCol={{ span: 18 }}
+        label="Feedback"
       >
-        <FormItem
-          labelCol={{ span: 6 }}
-          wrapperCol={{ span: 18 }}
-          label="Feedback"
-        >
-          {form.getFieldDecorator('number', {
+        {form.getFieldDecorator('msgContent', {
           rules: [{ required: true, message: 'Please enter feedback information up to 256 words' }],
         })(
           <TextArea placeholder="Please enter feedback information up to 256 words" autosize />
         )}
-        </FormItem>
-      </Modal>
-    );
-  } else {
-    const okHandle = () => {
-      form.validateFields((err, fieldsValue) => {
-        if (err) return;
-        form.resetFields();
-        handleAddFeedback(fieldsValue);
-      });
-    };
-    return (
-      <Modal
-        style={{ 'z-index': 99999 }}
-        title="Message"
-        visible={modalVisible}
-        onOk={okHandle}
-        onCancel={() => handleModalVisible()}
-        footer={[
-          <Button key="back" onClick={this.handleCancel}>Cancel</Button>,
-          <Button key="submit" type="primary" onClick={this.handleOk}>
-              Send
-          </Button>,
-          ]}
-      >
-        <FormItem
-          labelCol={{ span: 6 }}
-          wrapperCol={{ span: 18 }}
-          label="Reply"
-        >
-          {form.getFieldDecorator('replyWords', {
-          rules: [{ required: true, message: 'Please enter message up to 256 words' }],
-        })(
-          <TextArea placeholder="Please enter message up to 256 words" autosize />
-        )}
-        </FormItem>
-      </Modal>
-    );
-  }
+      </FormItem>
+    </Modal>
+  );
 });
-@connect(({ rule, loading }) => ({
-  rule,
-  loading: loading.models.rule,
+@connect(({ profile, loading }) => ({
+  profile,
+  loading: loading.models.profile,
 }))
 export default class GlobalHeader extends PureComponent {
   state = {
     modalVisible: false,
-    formprops: false,
   };
 
   componentWillUnmount() {
@@ -114,6 +71,34 @@ export default class GlobalHeader extends PureComponent {
     });
     return groupBy(newNotices, 'type');
   }
+  handleFeedbackModalVisible = (flag) => {
+    this.setState({
+      modalVisible: !!flag,
+    });
+  }
+  handleAddFeedback = (fields) => {
+    // console.log('fields', fields);
+    this.props.dispatch({
+      type: 'profile/addFeedback',
+      payload: {
+        msgContent: fields.msgContent,
+      },
+    });
+    // message.success('Feedback successful');
+    this.setState({
+      modalVisible: false,
+    });
+  }
+
+  handleUpdateStatus = (fields) => {
+    // console.log('fields', fields);
+    this.props.dispatch({
+      type: 'profile/updateStatus',
+      payload: {
+        objectId: fields,
+      },
+    });
+  }
   // 侧边栏动作控制
   toggle = () => {
     const { collapsed, onCollapse } = this.props;
@@ -126,50 +111,18 @@ export default class GlobalHeader extends PureComponent {
     event.initEvent('resize', true, false);
     window.dispatchEvent(event);
   }
-  /*
-  handleModalVisible = (flag) => {
-    this.setState({
-      formprops: !flag,
-      modalVisible: !!flag,
-    });
-  }
-  */
-  handleFeedbackModalVisible = (flag) => {
-    this.setState({
-      formprops: !!flag,
-      modalVisible: !!flag,
-    });
-  }
-  /*
-  handleAdd = () => {
-    this.props.dispatch({
-      type: 'rule/add',
-    });
 
-    message.success('Reply successful');
-    this.setState({
-      modalVisible: false,
-    });
-  }
-  */
-  handleAddFeedback = () => {
-    this.props.dispatch({
-      type: 'rule/delete',
-    });
-
-    message.success('Feedback successful');
-    this.setState({
-      modalVisible: false,
-      formprops: false,
-    });
-  }
   render() {
     const {
       currentUser, collapsed, fetchingNotices, isMobile, logo,
       onNoticeVisibleChange, onMenuClick, onNoticeClear,
     } = this.props;
-    const { modalVisible, formprops } = this.state;
-
+    const { modalVisible } = this.state;
+    const parentMethods = {
+      handleUpdateStatus: this.handleUpdateStatus,
+      handleAddFeedback: this.handleAddFeedback,
+      handleFeedbackModalVisible: this.handleFeedbackModalVisible,
+    };
     const menu = (
       <Menu className={styles.menu} selectedKeys={[]} onClick={onMenuClick}>
         <Menu.Item key="modify"><Icon type="setting" />Change password</Menu.Item>
@@ -178,12 +131,7 @@ export default class GlobalHeader extends PureComponent {
       </Menu>
     );
     const noticeData = this.getNoticeData();
-    const parentMethods = {
-      // handleAdd: this.handleAdd,
-      handleAddFeedback: this.handleAddFeedback,
-      handleModalVisible: this.handleModalVisible,
-      handleFeedbackModalVisible: this.handleFeedbackModalVisible,
-    };
+
     return (
       <div className={styles.header}>
         {isMobile && (
@@ -214,6 +162,8 @@ export default class GlobalHeader extends PureComponent {
             count={currentUser ? currentUser.notifyCount : ''}
             onItemClick={(item, tabProps) => {
               // this.handleModalVisible(true);
+              this.handleUpdateStatus(item.id);
+              // console.log('aaa', item);
               console.log(item, tabProps); // eslint-disable-line
             }}
             onClear={onNoticeClear}
@@ -246,7 +196,6 @@ export default class GlobalHeader extends PureComponent {
         <CreateForm
           {...parentMethods}
           modalVisible={modalVisible}
-          formprops={formprops}
         />
       </div>
     );

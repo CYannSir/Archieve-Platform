@@ -73,6 +73,9 @@ const proxy = {
   'GET /api/project/notice': getNotice,
   'GET /api/activities': getActivities,
   'GET /api/rule': getRule,
+  //通知相关内容
+  'POST /addfeedback': 'http://localhost:8080',
+  'POST /updatestatus': 'http://localhost:8080',
   'POST /api/rule': {
     $params: {
       pageSize: {
@@ -125,10 +128,11 @@ const proxy = {
   'POST /admin/searchredarchive': 'http://localhost:8080',
   'POST /admin/modifyredarchive': 'http://localhost:8080',
   
-  'GET /admin/listnotice': 'http://localhost:8080',
+  'GET /admin/listnotices': 'http://localhost:8080',
   'POST /admin/addnotice': 'http://localhost:8080',
   'POST /admin/deletenotice': 'http://localhost:8080',
   'POST /admin/modifynotice': 'http://localhost:8080',
+  'POST /admin/replynotice': 'http://localhost:8080',
 
   'GET /admin/listalumniinfor': 'http://localhost:8080',
   'POST /admin/addalumniinfor': {
@@ -223,7 +227,8 @@ const proxy = {
   },
   'POST /register': 'http://localhost:8080',
   'POST /register/sendemail': 'http://localhost:8080',
-  'GET /api/notices': getNotices,
+  // 获取全局通知
+  'GET /listnotice': 'http://localhost:8080',
   'GET /api/500': (req, res) => {
     res.status(500).send({
       "timestamp": 1513932555104,

@@ -1,9 +1,11 @@
 package com.cyann.archivebook.controller;
 
 import com.cyann.archivebook.model.CurrentUserModel;
+import com.cyann.archivebook.model.MsgModel;
 import com.cyann.archivebook.model.UserModel;
 import com.cyann.archivebook.service.AlumniInformationService;
 import com.cyann.archivebook.service.CurrentUserService;
+import com.cyann.archivebook.service.MsgService;
 import com.cyann.archivebook.service.PracticeInforService;
 import com.cyann.archivebook.util.Result;
 import com.github.pagehelper.PageHelper;
@@ -32,6 +34,8 @@ public class CurrentUserController {
     private AlumniInformationService alumniInformationService;
     @Autowired
     private PracticeInforService practiceInforService;
+    @Autowired
+    private MsgService msgService;
 
     //增加用户
     @PostMapping(value = "/addcurrentuser")
@@ -47,10 +51,11 @@ public class CurrentUserController {
         HttpServletRequest request = attributes.getRequest();
         String objectId = (String) request.getSession().getAttribute("ID");
         CurrentUserModel item = currentUserService.findByObjectId(objectId);
+        List<MsgModel> list = msgService.findByRecUser(item.getLoginEmail());
         Map result = new HashMap();
         result.put("name", item.getStuName());
         result.put("avatar", item.getAvatar());
-        result.put("notifyCount", 0); //消息功能推出时进行更正，目前写死
+        result.put("notifyCount", list.size()); //消息功能推出时进行更正，目前写死
         result.put("userid", item.getStuNumber());
         return Result.success(result);
     }

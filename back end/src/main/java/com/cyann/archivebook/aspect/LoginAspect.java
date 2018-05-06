@@ -39,8 +39,8 @@ public class LoginAspect {
         HttpServletRequest request = attributes.getRequest();
         HttpSession session = request.getSession();
         String id = (String) session.getAttribute("ID");
-        String type = (String) session.getAttribute("TYPE");
-        System.out.println(type);
+        // String type = (String) session.getAttribute("TYPE");
+        // System.out.println(type);
         if (id == null) {
             throw new MyException(ResultEnum.ERROR_100);
         }
@@ -57,7 +57,7 @@ public class LoginAspect {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
         HttpSession session = request.getSession();
-        String id = (String) session.getAttribute("ID");
+        // String id = (String) session.getAttribute("ID");
         String type = (String) session.getAttribute("TYPE");
         if (type.equals("user")) {
             throw new MyException(ResultEnum.ERROR_100);

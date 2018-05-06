@@ -582,7 +582,7 @@ public class AdminController {
      */
 
     //展示所有通知消息
-    @GetMapping(value = "/listnotice")
+    @GetMapping(value = "/listnotices")
     public Result listNotice(){
         List<MsgModel> list = msgService.findAll();
         return Result.success(list);
@@ -592,6 +592,13 @@ public class AdminController {
     @PostMapping(value = "/addnotice")
     public Result addNotice(@RequestBody MsgModel msgModel){
         msgService.addBoard(msgModel);
+        List<MsgModel> list = msgService.findAll();
+        return Result.success(list);
+    }
+    //新增回复消息
+    @PostMapping(value = "/replynotice")
+    public Result replyNotice(@RequestBody MsgModel msgModel){
+        msgService.addReply(msgModel);
         List<MsgModel> list = msgService.findAll();
         return Result.success(list);
     }

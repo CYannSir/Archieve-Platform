@@ -27,16 +27,17 @@ public class MsgService {
 
     //增
     public void addFeedback(MsgModel msg){
-        baseService.add(msgRepository,msg);
         msg.setRecUser("SuperAdmin");
+        msg.setMsgStats("unread");
         msg.setMsgType("消息");
+        baseService.add(msgRepository,msg);
         msgRepository.save(msg);
     }
 
     //增加通知
     public void addBoard(MsgModel msg){
         msg.setRecUser("SuperAdmin");
-        msg.setSendUser("SuperAdmin");
+        // msg.setSendUser("SuperAdmin");
         msg.setMsgStats("unread");
         msg.setMsgType("通知");
         baseService.add(msgRepository,msg);
@@ -45,9 +46,17 @@ public class MsgService {
 
     //增加回复
     public void addReply(MsgModel msg){
-        baseService.add(msgRepository,msg);
-        msg.setMsgType("消息");
-        msgRepository.save(msg);
+        MsgModel msgItem = msgRepository.findById(msg.getObjectId());
+        if(msgItem == null){
+            throw new MyException(ResultEnum.ERROR_101);
+        } else{
+            msg.setRecUser(msgItem.getSendUser());
+            msg.setSendUser("SuperAdmin");
+            msg.setMsgStats("unread");
+            msg.setMsgType("消息");
+            baseService.add(msgRepository,msg);
+            msgRepository.save(msg);
+        }
     }
 
     //删
@@ -67,6 +76,17 @@ public class MsgService {
             throw new MyException(ResultEnum.ERROR_101);
         } else{
             msgItem.setMsgContent(msg.getMsgContent());
+            baseService.modify(msgRepository, msgItem);
+            msgRepository.save(msgItem);
+        }
+    }
+    //改状态
+    public void updateStatus(MsgModel msg){
+        MsgModel msgItem = msgRepository.findById(msg.getObjectId());
+        if(msgItem == null){
+            throw new MyException(ResultEnum.ERROR_101);
+        } else{
+            msgItem.setMsgStats("read");
             baseService.modify(msgRepository, msgItem);
             msgRepository.save(msgItem);
         }

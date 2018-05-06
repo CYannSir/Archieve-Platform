@@ -1,9 +1,10 @@
-import { queryRule, removeRule, addRule } from '../services/api';
+import { queryRule, removeRule, listFeedback, addRule } from '../services/api';
 
 export default {
   namespace: 'rule',
 
   state: {
+    feedback: [],
     data: {
       list: [],
       pagination: {},
@@ -23,6 +24,14 @@ export default {
       yield put({
         type: 'save',
         payload: response,
+      });
+      if (callback) callback();
+    },
+    *listFeedback({ payload, callback }, { call, put }) {
+      const response = yield call(listFeedback, payload);
+      yield put({
+        type: 'save',
+        payload: response.data,
       });
       if (callback) callback();
     },
