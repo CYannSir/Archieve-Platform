@@ -15,6 +15,7 @@ const fileprops = {
   supportServerRender: true,
   multiple: true,
   accpt: 'xlsx',
+  withCredentials: true,
   method: 'POST',
   action: 'http://localhost:8080/admin/addredarchivebyfile',
   onChange(info) {

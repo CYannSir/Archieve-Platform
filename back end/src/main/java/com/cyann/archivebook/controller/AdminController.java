@@ -107,7 +107,7 @@ public class AdminController {
 
     //批量增加学生用户 stuName / stuNumber / stuMajor / stuEndYear / redParty / stuClass / stuPower / stuStartYear
     @PostMapping(value = "/addstubyfile")
-    public Result addStuByfile(@RequestBody @RequestParam("file")MultipartFile file){
+    public Result addStuByfile(@RequestParam("file")MultipartFile file){
         if (file != null){
             System.out.println("File Not NULL");
             String fileName = file.getOriginalFilename();
@@ -218,7 +218,7 @@ public class AdminController {
 
     //批量增加档案  stuNumber / unit / unitAddress / flowDate
     @PostMapping(value = "/addarchviebyfile")
-    public Result addArchiveByfile(@RequestBody @RequestParam("file")MultipartFile file){
+    public Result addArchiveByfile(@RequestParam("file")MultipartFile file){
         if (file != null){
             System.out.println("File Not NULL");
             String fileName = file.getOriginalFilename();
@@ -284,7 +284,7 @@ public class AdminController {
 
     //批量增加户口  stuNumber / accountAddress / accountDate
     @PostMapping(value = "/addaccountbyfile")
-    public Result addAccountByfile(@RequestBody @RequestParam("file")MultipartFile file){
+    public Result addAccountByfile(@RequestParam("file")MultipartFile file){
         if (file != null){
             System.out.println("File Not NULL");
             String fileName = file.getOriginalFilename();
@@ -351,7 +351,7 @@ public class AdminController {
 
     //批量增加红色档案  stuNumber / becomeActivistDate / introducer / joinDate
     @PostMapping(value = "/addredarchivebyfile")
-    public Result addRedArchiveByfile(@RequestBody @RequestParam("file")MultipartFile file){
+    public Result addRedArchiveByfile(@RequestParam("file")MultipartFile file){
         if (file != null){
             System.out.println("File Not NULL");
             String fileName = file.getOriginalFilename();

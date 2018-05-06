@@ -56,6 +56,7 @@ public class MsgService {
         if(msgItem == null){
             throw new MyException(ResultEnum.ERROR_101);
         } else{
+            msgItem.setMsgStats("read");
             baseService.delete(msgRepository, msgItem);
         }
     }

@@ -10,25 +10,6 @@ import styles from './Account.less';
 const FormItem = Form.Item;
 const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
 
-
-const fileprops = {
-  name: 'file',
-  supportServerRender: true,
-  multiple: true,
-  accpt: 'xlsx',
-  method: 'POST',
-  action: 'http://localhost:8080/admin/addaccountbyfile',
-  onChange(info) {
-    if (info.file.status !== 'uploading') {
-      // console.log(info.file, info.fileList);
-    }
-    if (info.file.status === 'done') {
-      message.success(`${info.file.name} file uploaded successfully`);
-    } else if (info.file.status === 'error') {
-      message.error(`${info.file.name} file upload failed.`);
-    }
-  },
-};
 const columns = [
   {
     title: '学号',
@@ -322,6 +303,17 @@ export default class Account extends PureComponent {
       modalVisible: false,
     });
   }
+
+  handleFile = () => {
+    this.props.dispatch({
+      type: 'account/addbyfile',
+    });
+
+    message.success('添加成功');
+    this.setState({
+      modalVisible: false,
+    });
+  }
   handleRefresh = () => {
     const { form, dispatch } = this.props;
     form.resetFields();
@@ -394,12 +386,34 @@ export default class Account extends PureComponent {
     const { account: { data }, loading } = this.props;
     const { selectedRows, modalVisible, formprops } = this.state;
 
-
     const parentMethods = {
       handleAdd: this.handleAdd,
+      handleFile: this.handleFile,
       handleModify: this.handleModify,
       handleMenuClick: this.handleMenuClick,
       handleModalVisible: this.handleModalVisible,
+    };
+    const fileprops = {
+      name: 'file',
+      // supportServerRender: true,
+      // multiple: true,
+      accpt: 'xlsx',
+      method: 'POST',
+      action: 'http://localhost:8080/admin/addaccountbyfile',
+      withCredentials: true,
+      headers: {
+        authorization: 'application/json',
+      },
+      onChange(info) {
+        if (info.file.status !== 'uploading') {
+          // console.log(info.file, info.fileList);
+        }
+        if (info.file.status === 'done') {
+          message.success(`${info.file.name} file uploaded successfully`);
+        } else if (info.file.status === 'error') {
+          message.error(`${info.file.name} file upload failed.`);
+        }
+      },
     };
 
     return (
@@ -426,7 +440,7 @@ export default class Account extends PureComponent {
                 )
               }
               <Upload {...fileprops}>
-                <Button icon="upload">
+                <Button icon="upload" on>
                    批量新增
                 </Button>
               </Upload>

@@ -37,8 +37,6 @@ public class GuestController {
     @Autowired
     private UserService userService;
     @Autowired
-    private AlumniInformationService alumniInformationService;
-    @Autowired
     private JavaMailSender javaMailSender;
 
 

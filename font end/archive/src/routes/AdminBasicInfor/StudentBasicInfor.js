@@ -20,6 +20,7 @@ const fileprops = {
   multiple: true,
   accpt: 'xlsx',
   method: 'POST',
+  withCredentials: true,
   action: 'http://localhost:8080/admin/addstubyfile',
   onchange(info) {
     if (info.file.status !== 'uploading') {
