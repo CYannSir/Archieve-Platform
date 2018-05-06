@@ -25,7 +25,7 @@ export default {
     },
     *search({ payload }, { call, put }) {
       const response = yield call(searchHome, payload);
-      console.log('res', response.data);
+      // console.log('res', response.data);
       yield put({
         type: 'queryList',
         payload: Array.isArray(response.data) ? response.data : [],

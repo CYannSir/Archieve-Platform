@@ -1,6 +1,17 @@
 package com.cyann.archivebook.service;
 
+import com.cyann.archivebook.enums.ResultEnum;
+import com.cyann.archivebook.exception.MyException;
+import com.cyann.archivebook.model.CurrentUserModel;
+import com.cyann.archivebook.model.MsgModel;
+import com.cyann.archivebook.respository.MsgRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * @author CYann
@@ -8,4 +19,64 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class MsgService {
+    @Autowired
+    private MsgRepository msgRepository;
+    @Autowired
+    private BaseService baseService;
+
+
+    //增
+    public void addFeedback(MsgModel msg){
+        baseService.add(msgRepository,msg);
+        msg.setRecUser("SuperAdmin");
+        msg.setMsgType("消息");
+        msgRepository.save(msg);
+    }
+
+    //增加通知
+    public void addBoard(MsgModel msg){
+        baseService.add(msgRepository,msg);
+        msg.setRecUser("SuperAdmin");
+        msg.setMsgType("通知");
+        msgRepository.save(msg);
+    }
+
+    //增加回复
+    public void addReply(MsgModel msg){
+        baseService.add(msgRepository,msg);
+        msg.setMsgType("消息");
+        msgRepository.save(msg);
+    }
+
+    //删
+    public void delete(MsgModel msg){
+        MsgModel msgItem = msgRepository.findById(msg.getObjectId());
+        if(msgItem == null){
+            throw new MyException(ResultEnum.ERROR_101);
+        } else{
+            baseService.delete(msgRepository, msgItem);
+        }
+    }
+    //改
+    public void update(MsgModel msg){
+        MsgModel msgItem = msgRepository.findById(msg.getObjectId());
+        if(msgItem == null){
+            throw new MyException(ResultEnum.ERROR_101);
+        } else{
+            msgRepository.save(msg);
+        }
+    }
+    //查询所有
+    public List<MsgModel> findAll(){
+        List<MsgModel> list = msgRepository.findAll();
+        return  list;
+    }
+    //主key查询
+    public  MsgModel findById(String id){
+        return msgRepository.findById(id);
+    }
+    //用户id查询
+    public List<MsgModel> findByRecUser(String userId){
+        return msgRepository.findByRecUser(userId);
+    }
 }

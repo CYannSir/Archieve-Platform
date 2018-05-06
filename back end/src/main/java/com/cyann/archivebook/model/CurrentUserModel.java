@@ -35,7 +35,7 @@ public class CurrentUserModel extends BaseEntity {
     private int activeStatus;
     @Column(length = 32)
     private String userType;
-    @Column(length = 32)
+    @Column(length = 256)
     private String avatar;
 
     public String getAvatar() {

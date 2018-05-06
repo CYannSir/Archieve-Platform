@@ -224,6 +224,12 @@ export default class GlobalHeader extends PureComponent {
               emptyText="Empty"
               emptyImage="https://gw.alipayobjects.com/zos/rmsportal/sAuJeJzSKbUmHfBQRzmZ.svg"
             />
+            <NoticeIcon.Tab
+              list={noticeData['通知']}
+              title="Board"
+              emptyText="Checked all"
+              emptyImage="https://gw.alipayobjects.com/zos/rmsportal/wAhyIChODzsoKIOBHcBk.svg"
+            />
           </NoticeIcon>
           {currentUser.name ? (
             <Dropdown overlay={menu}>

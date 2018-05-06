@@ -3,7 +3,7 @@ import Debounce from 'lodash-decorators/debounce';
 import Bind from 'lodash-decorators/bind';
 import { connect } from 'dva';
 import moment from 'moment';
-import { Icon, Steps, Card, Button, Modal, Form, Input, message, DatePicker, List } from 'antd';
+import { Icon, Steps, Card, Button, Modal, Form, Input, DatePicker, List } from 'antd';
 import classNames from 'classnames';
 import DescriptionList from 'components/DescriptionList';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
@@ -100,6 +100,7 @@ const CreateForm = Form.create()((props) => {
 }))
 export default class Archive extends Component {
   state = {
+    flag: false,
     modalVisible: false,
     stepDirection: 'horizontal',
   }
@@ -111,6 +112,7 @@ export default class Archive extends Component {
     });
     dispatch({
       type: 'profile/fetchArchive',
+      flag: true,
     });
 
     this.setStepDirection();
@@ -153,7 +155,7 @@ export default class Archive extends Component {
       },
     });
 
-    message.success('添加成功');
+    // message.success('添加成功');
     this.setState({
       modalVisible: false,
     });
@@ -161,7 +163,7 @@ export default class Archive extends Component {
 
   render() {
     const { stepDirection } = this.state;
-    const { modalVisible } = this.state;
+    const { modalVisible, flag } = this.state;
     const { profile: { data }, profile: { archivedata } } = this.props;
     const parentMethods = {
       handleAdd: this.handleAdd,
@@ -245,7 +247,7 @@ export default class Archive extends Component {
         content={description}
       >
         <List
-          loading={archivedata.length === 0 ? archivedata : false}
+          loading={flag}
           split={false}
           dataSource={archivedata}
           renderItem={item => (

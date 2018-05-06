@@ -20,7 +20,7 @@ import javax.persistence.Table;
 public class AccountModel extends BaseEntity{
     @Column(nullable = false , length = 32)
     private String stuNumber;
-    @Column(nullable = false , length = 64)
+    @Column(nullable = false , length = 256)
     private String accountAddress;
     @Column(nullable = false , length = 32)
     private String accountDate;

@@ -1,3 +1,4 @@
+import { message } from 'antd';
 import { queryBasicProfile, queryPracticeInfor, queryAlumniInformation, queryRedArchive, addAccount, queryArchive, addArchive, queryAdvancedProfile, queryUserInfor, queryAccount } from '../services/api';
 
 export default {
@@ -33,11 +34,19 @@ export default {
     },
     *fetchAccount(_, { call, put }) {
       const response = yield call(queryAccount);
-      // console.log('userinfor==>', response.data);
-      yield put({
-        type: 'listaccount',
-        payload: response.data,
-      });
+      const res = response.data;
+      if (res.length > 2) {
+        const arr = res.splice(res.length - 2, 2);
+        yield put({
+          type: 'listaccount',
+          payload: arr,
+        });
+      } else {
+        yield put({
+          type: 'listaccount',
+          payload: response.data,
+        });
+      }
     },
     *fetchRedArchive(_, { call, put }) {
       const response = yield call(queryRedArchive);
@@ -91,19 +100,30 @@ export default {
     *addAccount({ payload, callback }, { call, put }) {
       const response = yield call(addAccount, payload);
       // console.log('userinfor==>', response.data);
-      yield put({
-        type: 'saveaccount',
-        payload: response.data,
-      });
+      if (response.code === 200) {
+        message.success('Success', 4);
+        yield put({
+          type: 'saveaccount',
+          payload: response.data,
+        });
+      } else {
+        message.error('Add account failed', 4);
+      }
       if (callback) callback();
     },
     *addArchive({ payload, callback }, { call, put }) {
       const response = yield call(addArchive, payload);
       // console.log('userinfor==>', response.data);
-      yield put({
-        type: 'savearchive',
-        payload: response.data,
-      });
+      if (response.code === 200) {
+        message.success('Success', 4);
+        yield put({
+          type: 'savearchive',
+          payload: response.data,
+        });
+      } else {
+        message.error('Add archive failed', 4);
+      }
+
       if (callback) callback();
     },
   },

@@ -3,7 +3,7 @@ import Debounce from 'lodash-decorators/debounce';
 import Bind from 'lodash-decorators/bind';
 import { connect } from 'dva';
 import moment from 'moment';
-import { Icon, Steps, Card, Button, Modal, Form, Input, DatePicker, message } from 'antd';
+import { Icon, Steps, Card, Button, Modal, Form, Input, DatePicker, List } from 'antd';
 import DescriptionList from 'components/DescriptionList';
 import classNames from 'classnames';
 import styles from './Account.less';
@@ -75,6 +75,7 @@ const CreateForm = Form.create()((props) => {
 
 export default class Account extends PureComponent {
   state = {
+    flag: false,
     modalVisible: false,
     stepDirection: 'horizontal',
   }
@@ -86,6 +87,7 @@ export default class Account extends PureComponent {
     });
     dispatch({
       type: 'profile/fetchAccount',
+      flag: true,
     });
 
     this.setStepDirection();
@@ -126,7 +128,7 @@ export default class Account extends PureComponent {
       },
     });
 
-    message.success('添加成功');
+    // message.success('添加成功');
     this.setState({
       modalVisible: false,
     });
@@ -135,13 +137,21 @@ export default class Account extends PureComponent {
   render() {
     const { stepDirection } = this.state;
     const { profile: { data }, profile: { accountdata } } = this.props;
-    const { modalVisible } = this.state;
+    const { modalVisible, flag } = this.state;
     const parentMethods = {
       handleAdd: this.handleAdd,
       handleModalVisible: this.handleModalVisible,
     };
     // console.log('data==>', data);
     // console.log('accountdata==>', accountdata[0].accountAddress);
+    const CardInfor = ({ accountAddress, accountDate }) => (
+      <Card title="Current Account" bordered={false}>
+        <DescriptionList style={{ marginBottom: 24 }}>
+          <Description term="Account">{accountAddress}</Description>
+          <Description term="Update Date">{moment(accountDate).format('YYYY-MM-DD')}</Description>
+        </DescriptionList>
+      </Card>
+    );
     const description = (
       <DescriptionList className={styles.headerList} size="small" col="2">
         <Description term="Name">{ data ? data.stuName : '' }</Description>
@@ -156,20 +166,20 @@ export default class Account extends PureComponent {
     const desc1 = (
       <div className={classNames(styles.textSecondary, styles.stepDescription)}>
         <Fragment>
-          {accountdata[1] ? accountdata[1].accountAddress : ''}
+          {accountdata[0] ? accountdata[0].accountAddress : ''}
           <Icon href="https://map.baidu.com/" type="environment-o" style={{ marginLeft: 8 }} />
         </Fragment>
-        <div>{ accountdata[1] ? moment(accountdata[1].accountDate).format('YYYY-MM-DD') : '' }</div>
+        <div>{ accountdata[0] ? moment(accountdata[0].accountDate).format('YYYY-MM-DD') : '' }</div>
       </div>
     );
 
     const desc2 = (
       <div className={styles.stepDescription}>
         <Fragment>
-          {accountdata[0] ? accountdata[0].accountAddress : ''}
+          {accountdata[1] ? accountdata[1].accountAddress : ''}
           <Icon href="https://map.baidu.com/" type="environment-o" style={{ color: '#00A0E9', marginLeft: 8 }} />
         </Fragment>
-        <div>{ accountdata[0] ? moment(accountdata[0].accountDate).format('YYYY-MM-DD') : '' }</div>
+        <div>{ accountdata[1] ? moment(accountdata[1].accountDate).format('YYYY-MM-DD') : '' }</div>
       </div>
     );
 
@@ -179,17 +189,24 @@ export default class Account extends PureComponent {
         logo={<img alt="Archive" src="https://gw.alipayobjects.com/zos/rmsportal/nxkuOJlFJuAUhzlMTCEe.png" />}
         content={description}
       >
-        <Card title="Current Account" style={{ marginBottom: 24 }} bordered={false}>
-          <DescriptionList style={{ marginBottom: 24 }}>
-            <Description term="Account">{accountdata[0] ? accountdata[0].accountAddress : ''}</Description>
-            <Description term="Update Date">{moment(accountdata[0] ? accountdata[0].accountDate : '').format('YYYY-MM-DD') }</Description>
-          </DescriptionList>
-        </Card>
+        <List
+          loading={flag}
+          split={false}
+          dataSource={accountdata}
+          renderItem={item => (
+            <List.Item>
+              <CardInfor
+                accountAddress={item ? item.accountAddress : ''}
+                accountDate={item ? item.accountDate : ''}
+              />
+            </List.Item>
+            )}
+        />
         <Card style={{ marginBottom: 24 }} bordered={false}>
           <Button style={{ width: '100%' }} type="dashed" size="large" onClick={() => this.handleModalVisible(true)} icon="plus">New</Button>
         </Card>
         <Card title="Account" style={{ marginBottom: 24 }} bordered={false}>
-          <Steps direction={stepDirection} progressDot current={1}>
+          <Steps direction={stepDirection} progressDot current={accountdata ? accountdata.length - 1 : ''}>
             <Step title="Level 1" description={desc1} />
             <Step title="Level 2" description={desc2} />
           </Steps>

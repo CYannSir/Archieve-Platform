@@ -192,7 +192,7 @@ export default class Register extends Component {
           <FormItem>
             <Row gutter={8}>
               <Col span={16}>
-                {getFieldDecorator('captcha', {
+                {getFieldDecorator('activeCode', {
                   rules: [
                     {
                       required: true,

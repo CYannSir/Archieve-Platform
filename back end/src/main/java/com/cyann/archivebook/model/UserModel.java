@@ -39,7 +39,7 @@ public class UserModel extends BaseEntity {
     private String stuEndYear;
     @Column(nullable = false )
     private int redParty;
-    @Column(length = 32)
+    @Column(length = 64)
     private String currentEmail;
     @Column(length = 32)
     private String currentPhone;

@@ -20,9 +20,9 @@ import javax.persistence.Table;
 public class PracticeInforModel extends BaseEntity {
     @Column(nullable = false , length = 32)
     private String stuNumber;
-    @Column(nullable = false , length = 32)
+    @Column(nullable = false , length = 256)
     private String company;
-    @Column(nullable = false , length = 108)
+    @Column(nullable = false , length = 256)
     private String companyAddress;
     @Column(nullable = false , length = 32)
     private String industry;

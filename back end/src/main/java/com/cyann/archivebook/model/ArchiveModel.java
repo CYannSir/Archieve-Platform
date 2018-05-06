@@ -21,9 +21,9 @@ import javax.persistence.Table;
 public class ArchiveModel extends BaseEntity {
     @Column(nullable = false , length = 32)
     private String stuNumber;
-    @Column(nullable = false , length = 64)
+    @Column(nullable = false , length = 256)
     private String unit;
-    @Column(nullable = false , length = 108)
+    @Column(nullable = false , length = 256)
     private String unitAddress;
     @Column(nullable = false , length = 32)
     private String flowDate;

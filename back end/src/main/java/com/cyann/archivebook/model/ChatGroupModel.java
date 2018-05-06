@@ -18,11 +18,11 @@ import javax.persistence.Table;
 public class ChatGroupModel extends BaseEntity {
     @Column(nullable = false , length = 32)
     private String stuMajor;
-    @Column(nullable = false , length = 16)
+    @Column(nullable = false , length = 32)
     private String stuEndYear;
-    @Column(nullable = false , length = 16)
+    @Column(nullable = false , length = 32)
     private String qqNo;
-    @Column(length = 32)
+    @Column(length = 108)
     private String wechatNo;
 
     public String getStuMajor() {

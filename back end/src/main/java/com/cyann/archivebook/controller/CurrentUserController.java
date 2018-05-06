@@ -48,9 +48,9 @@ public class CurrentUserController {
         CurrentUserModel item = currentUserService.findByObjectId(objectId);
         Map result = new HashMap();
         result.put("name", item.getStuName());
-        result.put("avatar", "https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png");
-        result.put("notifyCount", 12); //消息功能推出时进行更正，目前写死
-        result.put("userid", item.getObjectId());
+        result.put("avatar", item.getAvatar());
+        result.put("notifyCount", 0); //消息功能推出时进行更正，目前写死
+        result.put("userid", item.getStuNumber());
         return Result.success(result);
     }
 

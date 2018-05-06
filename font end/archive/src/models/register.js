@@ -1,3 +1,5 @@
+import { message } from 'antd';
+import { routerRedux } from 'dva/router';
 import { sendEmail, register } from '../services/api';
 // import { setAuthority } from '../utils/authority';
 // import { reloadAuthorized } from '../utils/Authorized';
@@ -14,17 +16,31 @@ export default {
   effects: {
     *submit({ payload }, { call, put }) {
       const response = yield call(register, payload);
-      yield put({
-        type: 'registerHandle',
-        payload: response.data,
-      });
+      // console.log('res', response.code);
+      if (response.code === 109) {
+        message.error('Invalid verification code', 4);
+        yield put(routerRedux.push('/user/register'));
+      } else if (response.code === 108) {
+        message.error('Real-name authentication failed', 4);
+        yield put(routerRedux.push('/user/register'));
+      } else {
+        yield put({
+          type: 'registerHandle',
+          payload: response.data,
+        });
+      }
     },
     *sendmail({ payload }, { call, put }) {
       const response = yield call(sendEmail, payload);
-      yield put({
-        type: 'registersendmail',
-        payload: response.data,
-      });
+      // console.log('res', response.code === 107);
+      if (response.code === 107) {
+        message.error('The Email registered', 4);
+      } else {
+        yield put({
+          type: 'registersendmail',
+          payload: response.data,
+        });
+      }
     },
   },
 

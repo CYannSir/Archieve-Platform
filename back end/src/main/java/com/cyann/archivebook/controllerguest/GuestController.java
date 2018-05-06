@@ -72,7 +72,8 @@ public class GuestController {
         CurrentUserModel item_activecode = currentUserService.findByLoginEmail(currentUserModel.getLoginEmail());
         List<UserModel> item_stuname = userService.findByStuName(currentUserModel.getStuName());
         UserModel item_stunumber = userService.findByStuNumber(currentUserModel.getStuNumber());
-        if(item_activecode.getActiveCode() != item.getActiveCode()){
+
+        if(item_activecode.getActiveCode().equals(currentUserModel.getActiveCode()) == false ){
             return Result.error(109,"该验证码无效");
         }
         else if(item_stuname == null || item_stunumber == null){

@@ -17,13 +17,13 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "tb_msg")
 public class MsgModel extends BaseEntity {
-    @Column(nullable = false,length = 32)
+    @Column(nullable = false,length = 64)
     private String recUser;
-    @Column(length = 32)
+    @Column(length = 64)
     private String sendUser;
     @Column(nullable = false,length = 21)
     private String msgType;
-    @Column(nullable = false,length = 51)
+    @Column(nullable = false,length = 256)
     private String msgContent;
     @Column(nullable = false,length = 21)
     private String msgStats;

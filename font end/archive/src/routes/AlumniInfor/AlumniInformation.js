@@ -22,10 +22,10 @@ export default class AlumniInformation extends Component {
     const { dispatch } = this.props;
     dispatch({
       type: 'profile/fetchUserInfor',
-      flag: true,
     });
     dispatch({
       type: 'profile/fetchAlumniInformation',
+      flag: true,
     });
   }
   handleAdd = () => {

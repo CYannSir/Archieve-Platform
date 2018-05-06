@@ -27,14 +27,14 @@ export const getNotices = (req, res) => {
       avatar: 'https://gw.alipayobjects.com/zos/rmsportal/GvqBnKhFgObvnSGkDsje.png',
       title: '左侧图标用于区分不同的类型',
       datetime: '2017-08-07',
-      type: '通知',
+      type: '消息',
     },
     {
       id: '000000005',
       avatar: 'https://gw.alipayobjects.com/zos/rmsportal/ThXAXghbEsBCCSDihZxY.png',
       title: '内容不要超过两行字，超出时自动截断',
       datetime: '2017-08-07',
-      type: '通知',
+      type: '消息',
     },
     {
       id: '000000006',
