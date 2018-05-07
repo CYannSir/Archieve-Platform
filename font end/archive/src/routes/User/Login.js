@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
-import { Alert, Form, Modal, Input, message } from 'antd';
+import { Alert, Form, Modal, Input } from 'antd';
 import Login from 'components/Login';
 import styles from './Login.less';
 
@@ -28,7 +28,7 @@ const CreateForm = Form.create()((props) => {
         wrapperCol={{ span: 18 }}
         label="Your email"
       >
-        {form.getFieldDecorator('LoginEmail', {
+        {form.getFieldDecorator('loginEmail', {
           rules: [{ required: true, message: 'Enter Your Email' }],
         })(
           <Input placeholder="Enter Your Email" />
@@ -53,6 +53,7 @@ export default class LoginPage extends Component {
     });
   }
   handleAdd = (fields) => {
+    console.log('email', fields.loginEmail);
     this.props.dispatch({
       type: 'login/forgetPsw',
       payload: {
@@ -60,7 +61,7 @@ export default class LoginPage extends Component {
       },
     });
 
-    message.success('Success');
+    // message.success('Success');
     this.setState({
       modalVisible: false,
     });

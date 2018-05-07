@@ -4,9 +4,11 @@ import com.cyann.archivebook.enums.ResultEnum;
 import com.cyann.archivebook.exception.MyException;
 import com.cyann.archivebook.model.AlumniInformationModel;
 import com.cyann.archivebook.model.CurrentUserModel;
+import com.cyann.archivebook.model.MsgModel;
 import com.cyann.archivebook.model.UserModel;
 import com.cyann.archivebook.service.AlumniInformationService;
 import com.cyann.archivebook.service.CurrentUserService;
+import com.cyann.archivebook.service.MsgService;
 import com.cyann.archivebook.service.UserService;
 import com.cyann.archivebook.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,9 +39,11 @@ public class GuestController {
     @Autowired
     private UserService userService;
     @Autowired
+    private MsgService msgService;
+    @Autowired
     private JavaMailSender javaMailSender;
 
-
+    //登录
     @PostMapping(value = "/login")
     public Result login (@RequestBody CurrentUserModel currentUserModel, HttpSession session){
         CurrentUserModel loginUser = currentUserService.findByLoginEmailAndLoginPwd(currentUserModel.getLoginEmail(),currentUserModel.getLoginPsw());
@@ -71,10 +75,14 @@ public class GuestController {
         List<UserModel> item_stuname = userService.findByStuName(currentUserModel.getStuName());
         UserModel item_stunumber = userService.findByStuNumber(currentUserModel.getStuNumber());
 
+        System.out.println(!item_stuname.isEmpty());
         if(item_activecode.getActiveCode().equals(currentUserModel.getActiveCode()) == false ){
             return Result.error(109,"该验证码无效");
         }
-        else if(item_stuname == null || item_stunumber == null){
+        else if(item_stuname.isEmpty()){
+            return Result.error(108,"无该名字学生用户");
+        }
+        else if(item_stunumber == null){
             return Result.error(108,"无该名字学生用户");
         }
         else {
@@ -91,7 +99,21 @@ public class GuestController {
         }
     }
 
-
+    //忘记密码
+    @PostMapping(value = "/forgetpsw")
+    public Result forgetPsw(@RequestBody CurrentUserModel currentUserModel){
+        CurrentUserModel item = currentUserService.findByLoginEmail(currentUserModel.getLoginEmail());
+        if(item == null ){
+            return Result.error(111,"用户不存在");
+        }
+        else {
+            MsgModel msgModel = new MsgModel();
+            msgModel.setSendUser(item.getLoginEmail());
+            msgModel.setMsgContent("忘记密码");
+            msgService.addFeedback(msgModel);
+            return Result.success();
+        }
+    }
 
     //验证学生姓名
     @PostMapping(value = "/register/stuname")

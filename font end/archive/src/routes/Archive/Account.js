@@ -192,6 +192,7 @@ export default class Account extends PureComponent {
         <List
           loading={flag}
           split={false}
+          locale={{ emptyText: 'Empty!' }}
           dataSource={accountdata}
           renderItem={item => (
             <List.Item>

@@ -249,6 +249,7 @@ export default class Archive extends Component {
         <List
           loading={flag}
           split={false}
+          locale={{ emptyText: 'Empty!' }}
           dataSource={archivedata}
           renderItem={item => (
             <List.Item>

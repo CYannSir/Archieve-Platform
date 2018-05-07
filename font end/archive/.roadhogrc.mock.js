@@ -185,6 +185,7 @@ const proxy = {
   'POST /admin/modifychatgroup': 'http://localhost:8080',
   
   'POST /login': 'http://localhost:8080',
+  'POST /forgetpsw': 'http://localhost:8080',
   
   
   'POST /api/forms': (req, res) => {

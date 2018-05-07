@@ -1,8 +1,6 @@
 package com.cyann.archivebook.controller;
 
-import com.cyann.archivebook.model.CurrentUserModel;
-import com.cyann.archivebook.model.MsgModel;
-import com.cyann.archivebook.model.UserModel;
+import com.cyann.archivebook.model.*;
 import com.cyann.archivebook.service.AlumniInformationService;
 import com.cyann.archivebook.service.CurrentUserService;
 import com.cyann.archivebook.service.MsgService;
@@ -79,12 +77,12 @@ public class CurrentUserController {
             tempMap.put("stuEndYear",objects[15]);
             tempMap.put("currentEmail",objects[16]);
             tempMap.put("currentPhone",objects[17]);
-            tempMap.put("avatar","https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png");
-            tempMap.put("cover","https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png");
+            tempMap.put("avatar",objects[18]);
+            tempMap.put("cover",objects[18]);
             returnList.add(tempMap);
         }
         for(int i=0;i<list2.size();i++){
-            Object[] objects = list.get(i);
+            Object[] objects = list2.get(i);
             Map tempMap2 = new HashMap();
             tempMap2.put("company",objects[4]);
             tempMap2.put("industry",objects[6]);
@@ -97,54 +95,99 @@ public class CurrentUserController {
             tempMap2.put("stuEndYear",objects[15]);
             tempMap2.put("currentEmail",objects[16]);
             tempMap2.put("currentPhone",objects[17]);
-            tempMap2.put("avatar","https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png");
-            tempMap2.put("cover","https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png");
+            tempMap2.put("avatar",objects[18]);
+            tempMap2.put("cover",objects[18]);
             returnList.add(tempMap2);
         }
         return Result.success(returnList);
     }
     @PostMapping(value = "/home/search")
-    public Result searchHome(@RequestBody String value){
-        List<Object[]> list = alumniInformationService.search(value,value);
-        List<Object[]> list2 = practiceInforService.search(value,value);
-        List<Map> returnList = new ArrayList<>();
-        for(int i=0;i<list.size();i++){
-            Object[] objects = list.get(i);
-            Map tempMap = new HashMap();
-            tempMap.put("company",objects[4]);
-            tempMap.put("industry",objects[6]);
-            tempMap.put("occupation",objects[7]);
-            tempMap.put("salary",objects[8]);
-            tempMap.put("stuNumber",objects[9]);
-            tempMap.put("stuName",objects[11]);
-            tempMap.put("stuMajor",objects[12]);
-            tempMap.put("stuClass",objects[13]);
-            tempMap.put("stuEndYear",objects[15]);
-            tempMap.put("currentEmail",objects[16]);
-            tempMap.put("currentPhone",objects[17]);
-            tempMap.put("avatar","https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png");
-            tempMap.put("cover","https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png");
-            returnList.add(tempMap);
+    public Result searchHome(@RequestBody UserModel userModel){
+        if(userModel == null ){
+            List<Object[]> list = alumniInformationService.findAllAlumniInformation();
+            List<Object[]> list2 = practiceInforService.findAllPracticeInformation();
+            List<Map> returnList = new ArrayList<>();
+            for(int i=0;i<list.size();i++){
+                Object[] objects = list.get(i);
+                Map tempMap = new HashMap();
+                tempMap.put("company",objects[4]);
+                tempMap.put("industry",objects[6]);
+                tempMap.put("occupation",objects[7]);
+                tempMap.put("salary",objects[8]);
+                tempMap.put("stuNumber",objects[9]);
+                tempMap.put("stuName",objects[11]);
+                tempMap.put("stuMajor",objects[12]);
+                tempMap.put("stuClass",objects[13]);
+                tempMap.put("stuEndYear",objects[15]);
+                tempMap.put("currentEmail",objects[16]);
+                tempMap.put("currentPhone",objects[17]);
+                tempMap.put("avatar",objects[18]);
+                tempMap.put("cover",objects[18]);
+                returnList.add(tempMap);
+            }
+            for(int i=0;i<list2.size();i++){
+                Object[] objects = list2.get(i);
+                Map tempMap2 = new HashMap();
+                tempMap2.put("company",objects[4]);
+                tempMap2.put("industry",objects[6]);
+                tempMap2.put("occupation",objects[7]);
+                tempMap2.put("salary",objects[8]);
+                tempMap2.put("stuNumber",objects[9]);
+                tempMap2.put("stuName",objects[11]);
+                tempMap2.put("stuMajor",objects[12]);
+                tempMap2.put("stuClass",objects[13]);
+                tempMap2.put("stuEndYear",objects[15]);
+                tempMap2.put("currentEmail",objects[16]);
+                tempMap2.put("currentPhone",objects[17]);
+                tempMap2.put("avatar",objects[18]);
+                tempMap2.put("cover",objects[18]);
+                returnList.add(tempMap2);
+            }
+            return Result.success(returnList);
         }
-        for(int i=0;i<list2.size();i++){
-            Object[] objects = list.get(i);
-            Map tempMap2 = new HashMap();
-            tempMap2.put("company",objects[4]);
-            tempMap2.put("industry",objects[6]);
-            tempMap2.put("occupation",objects[7]);
-            tempMap2.put("salary",objects[8]);
-            tempMap2.put("stuNumber",objects[9]);
-            tempMap2.put("stuName",objects[11]);
-            tempMap2.put("stuMajor",objects[12]);
-            tempMap2.put("stuClass",objects[13]);
-            tempMap2.put("stuEndYear",objects[15]);
-            tempMap2.put("currentEmail",objects[16]);
-            tempMap2.put("currentPhone",objects[17]);
-            tempMap2.put("avatar","https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png");
-            tempMap2.put("cover","https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png");
-            returnList.add(tempMap2);
+        else {
+            List<Object[]> list = alumniInformationService.search(userModel.getStuName(),userModel.getStuClass());
+            List<Object[]> list2 = practiceInforService.search(userModel.getStuName(),userModel.getStuClass());
+            List<Map> returnList = new ArrayList<>();
+            for(int i=0;i<list.size();i++){
+                Object[] objects = list.get(i);
+                Map tempMap = new HashMap();
+                tempMap.put("company",objects[4]);
+                tempMap.put("industry",objects[6]);
+                tempMap.put("occupation",objects[7]);
+                tempMap.put("salary",objects[8]);
+                tempMap.put("stuNumber",objects[9]);
+                tempMap.put("stuName",objects[11]);
+                tempMap.put("stuMajor",objects[12]);
+                tempMap.put("stuClass",objects[13]);
+                tempMap.put("stuEndYear",objects[15]);
+                tempMap.put("currentEmail",objects[16]);
+                tempMap.put("currentPhone",objects[17]);
+                tempMap.put("avatar",objects[18]);
+                tempMap.put("cover",objects[18]);
+                returnList.add(tempMap);
+            }
+            for(int i=0;i<list2.size();i++){
+                Object[] objects = list2.get(i);
+                Map tempMap2 = new HashMap();
+                tempMap2.put("company",objects[4]);
+                tempMap2.put("industry",objects[6]);
+                tempMap2.put("occupation",objects[7]);
+                tempMap2.put("salary",objects[8]);
+                tempMap2.put("stuNumber",objects[9]);
+                tempMap2.put("stuName",objects[11]);
+                tempMap2.put("stuMajor",objects[12]);
+                tempMap2.put("stuClass",objects[13]);
+                tempMap2.put("stuEndYear",objects[15]);
+                tempMap2.put("currentEmail",objects[16]);
+                tempMap2.put("currentPhone",objects[17]);
+                tempMap2.put("avatar",objects[18]);
+                tempMap2.put("cover",objects[18]);
+                returnList.add(tempMap2);
+            }
+            return Result.success(returnList);
         }
-        return Result.success(returnList);
+
     }
 
     //修改密码

@@ -162,6 +162,13 @@ export async function fakeAccountLogin(params) {
   });
 }
 
+export async function forgetPsw(params) {
+  return request('/forgetpsw', {
+    method: 'POST',
+    body: params,
+  });
+}
+
 export async function fakeRegister(params) {
   return request('/api/register', {
     method: 'POST',

@@ -394,7 +394,7 @@ export default class UserInfor extends PureComponent {
         <div style={{ overflow: 'hidden' }}>
           <span style={{ float: 'right', marginBottom: 24 }}>
             <Button type="primary" htmlType="submit" onClick={this.handleSearch}>查询</Button>
-            <Button style={{ marginLeft: 8 }} onClick={this.handleReset}>重置</Button>
+            <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>重置</Button>
             <a style={{ marginLeft: 8 }} onClick={this.toggleForm}>
               收起 <Icon type="up" />
             </a>

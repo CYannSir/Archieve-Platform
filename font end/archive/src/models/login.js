@@ -1,6 +1,6 @@
 import { routerRedux } from 'dva/router';
 import { message } from 'antd';
-import { fakeAccountLogin } from '../services/api';
+import { fakeAccountLogin, forgetPsw } from '../services/api';
 import { setAuthority } from '../utils/authority';
 import { reloadAuthorized } from '../utils/Authorized';
 
@@ -33,6 +33,16 @@ export default {
         message.error('Login Failed', 4);
         reloadAuthorized();
         yield put(routerRedux.push('/user/login'));
+      }
+    },
+    *forgetPsw({ payload }, { call }) {
+      const response = yield call(forgetPsw, payload);
+      // console.log('response==>', response);
+      // console.log('response.data==>', response.code);
+      if (response.code === 200) {
+        message.success('Please wait a working day!', 4);
+      } else if (response.code === 111) {
+        message.error('Check your email!', 4);
       }
     },
     *logout(_, { put, select }) {

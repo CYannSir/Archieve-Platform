@@ -6,9 +6,12 @@ import com.cyann.archivebook.service.*;
 import com.cyann.archivebook.util.Result;
 import org.apache.poi.hssf.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -47,6 +50,8 @@ public class AdminController {
     private ChatGroupService chatGroupService;
     @Autowired
     private MsgService msgService;
+    @Autowired
+    private JavaMailSender javaMailSender;
 
     /*
      *用户操作 Start Here
@@ -60,8 +65,17 @@ public class AdminController {
 
     //重置用户密码
     @PostMapping(value = "/resetuserpwd")
-    public Result resetUserPwd(@RequestBody CurrentUserModel currentUserModel){
+    public Result resetUserPwd(@RequestBody CurrentUserModel currentUserModel) throws Exception {
         currentUserService.resetPwd(currentUserModel);
+        CurrentUserModel userItem = currentUserService.findByObjectId(currentUserModel.getObjectId());
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+        //将承载的字符转换成字符串
+        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+        helper.setFrom("Archive Book<xjx@zucc.edu.cn>");
+        helper.setTo(userItem.getLoginEmail());
+        helper.setSubject("Archive Book - Reset Operation");
+        helper.setText("Your reset password:"+ "       123456      " + "Please change your login password as soon as possible when you sign in! " );
+        javaMailSender.send(mimeMessage);
         List<CurrentUserModel> list = currentUserService.findAllUser();
         return Result.success(list);
     }
@@ -380,11 +394,24 @@ public class AdminController {
      *
      *校友信息视图展示
         CREATE VIEW alumniview AS
-        SELECT tb_alumniinformation.*,
-        tb_user.object_id as userobject_id, tb_user.stu_number as userstu_namealumniview, tb_user.stu_name, tb_user.stu_major, tb_user.stu_class,
-        tb_user.stu_start_year, tb_user.stu_end_year, tb_user.current_email, tb_user.current_phone
-        FROM tb_alumniinformation,tb_user
-        WHERE tb_alumniinformation.stu_number = tb_user.stu_number
+    SELECT
+        tb_alumniinformation.*,
+        tb_user.object_id AS userobject_id,
+        tb_user.stu_name,
+        tb_user.stu_major,
+        tb_user.stu_class,
+        tb_user.stu_start_year,
+        tb_user.stu_end_year,
+        tb_user.current_email,
+        tb_user.current_phone,
+        tb_currentuser.avatar
+    FROM
+        tb_alumniinformation,
+        tb_user,
+        tb_currentuser
+    WHERE
+        tb_alumniinformation.stu_number = tb_user.stu_number
+            AND tb_alumniinformation.stu_number = tb_currentuser.stu_number
     */
 
     //查看所有校友资料
@@ -457,12 +484,25 @@ public class AdminController {
      * 实习生信息操作 - Start
      *
      *实习生信息视图展示
-        CREATE VIEW practiceview AS
-        SELECT tb_practiceinfor.*,
-        tb_user.object_id as userobject_id, tb_user.stu_name, tb_user.stu_major, tb_user.stu_class,
-        tb_user.stu_start_year, tb_user.stu_end_year, tb_user.current_email, tb_user.current_phone
-        FROM tb_practiceinfor,tb_user
-        WHERE tb_practiceinfor.stu_number = tb_user.stu_number
+		CREATE VIEW practiceview AS
+    SELECT
+        tb_practiceinfor.*,
+        tb_user.object_id AS userobject_id,
+        tb_user.stu_name,
+        tb_user.stu_major,
+        tb_user.stu_class,
+        tb_user.stu_start_year,
+        tb_user.stu_end_year,
+        tb_user.current_email,
+        tb_user.current_phone,
+        tb_currentuser.avatar
+    FROM
+        tb_practiceinfor,
+        tb_user,
+        tb_currentuser
+    WHERE
+        tb_practiceinfor.stu_number = tb_user.stu_number
+            AND tb_practiceinfor.stu_number = tb_currentuser.stu_number
     */
     //查看所有实习生资料
     @GetMapping(value = "/listpractice")

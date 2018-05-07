@@ -311,7 +311,7 @@ export default class Notice extends PureComponent {
 
     message.success('新增回复成功');
     this.setState({
-      modalVisible: false,
+      replyVisible: false,
     });
   }
   handleModalVisible = (flag) => {
