@@ -124,7 +124,7 @@ export default class Account extends PureComponent {
       payload: {
         stuNumber: fields.stuNumber,
         accountAddress: fields.accountAddress,
-        accountDate: fields.accountDate,
+        accountDate: moment(fields.accountDate).format('YYYY-MM-DD'),
       },
     });
 

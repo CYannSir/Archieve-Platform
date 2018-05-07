@@ -151,7 +151,7 @@ export default class Archive extends Component {
         stuNumber: fields.stuNumber,
         unit: fields.unit,
         unitAddress: fields.unitAddress,
-        flowDate: fields.flowDate,
+        flowDate: moment(fields.flowDate).format('YYYY-MM-DD'),
       },
     });
 

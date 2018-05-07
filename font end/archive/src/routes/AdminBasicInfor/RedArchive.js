@@ -344,8 +344,8 @@ export default class RedArchive extends PureComponent {
       type: 'redarchive/add',
       payload: {
         stuNumber: fields.stuNumber,
-        joinDate: fields.joinDate,
-        activistDate: fields.activistDate,
+        joinDate: moment(fields.joinDate).format('YYYY-MM-DD'),
+        activistDate: moment(fields.activistDate).format('YYYY-MM-DD'),
         introducer: fields.introducer,
       },
     });
@@ -379,8 +379,8 @@ export default class RedArchive extends PureComponent {
       payload: {
         objectId: selectedRows.map(objectId => objectId.objectId).join(','),
         stuNumber: fields.stuNumber,
-        joinDate: fields.joinDate,
-        activistDate: fields.activistDate,
+        joinDate: moment(fields.joinDate).format('YYYY-MM-DD'),
+        activistDate: moment(fields.activistDate).format('YYYY-MM-DD'),
         introducer: fields.introducer,
       },
       callback: () => {

@@ -346,7 +346,7 @@ export default class Archive extends PureComponent {
         stuNumber: fields.stuNumber,
         unit: fields.unit,
         unitAddress: fields.unitAddress,
-        flowDate: fields.flowDate,
+        flowDate: moment(fields.flowDate).format('YYYY-MM-DD'),
       },
     });
 
@@ -381,7 +381,7 @@ export default class Archive extends PureComponent {
         stuNumber: fields.stuNumber,
         unit: fields.unit,
         unitAddress: fields.unitAddress,
-        flowDate: fields.flowDate,
+        flowDate: moment(fields.flowDate).format('YYYY-MM-DD'),
       },
       callback: () => {
         this.setState({

@@ -294,7 +294,7 @@ export default class Account extends PureComponent {
       payload: {
         stuNumber: fields.stuNumber,
         accountAddress: fields.accountAddress,
-        accountDate: fields.accountDate,
+        accountDate: moment(fields.accountDate).format('YYYY-MM-DD'),
       },
     });
 
@@ -339,7 +339,7 @@ export default class Account extends PureComponent {
         objectId: selectedRows.map(objectId => objectId.objectId).join(','),
         stuNumber: fields.stuNumber,
         accountAddress: fields.accountAddress,
-        accountDate: fields.accountDate,
+        accountDate: moment(fields.accountDate).format('YYYY-MM-DD'),
       },
       callback: () => {
         this.setState({

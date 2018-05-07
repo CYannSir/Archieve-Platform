@@ -70,9 +70,9 @@ public class MsgController {
             MsgModel msgModel = msgitem.get(i);
             tempMap.put("id",msgModel.getObjectId());
             if(msgModel.getMsgType().equals("消息")){
-                tempMap.put("avatar","https://gw.alipayobjects.com/zos/rmsportal/kISTdvpyTAhtGxpovNWd.png");
+                tempMap.put("avatar","https://gw.alipayobjects.com/zos/rmsportal/ThXAXghbEsBCCSDihZxY.png");
             } else {
-                tempMap.put("avatar","https://gw.alipayobjects.com/zos/rmsportal/kISTdvpyTAhtGxpovNWd.png");
+                tempMap.put("avatar","https://gw.alipayobjects.com/zos/rmsportal/GvqBnKhFgObvnSGkDsje.png");
             }
             tempMap.put("title",msgModel.getSendUser()+":"+msgModel.getMsgContent());
             tempMap.put("type",msgModel.getMsgType());
