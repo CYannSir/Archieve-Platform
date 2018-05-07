@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
+import moment from 'moment';
 import { Row, Col, Card, Form, Input, Button, message, Modal } from 'antd';
 import StandardTable from 'components/StandardTable';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
@@ -31,24 +32,18 @@ const columns = [
     dataIndex: 'stuClass',
   },
   {
-    title: '入学年份',
-    align: 'center',
-    dataIndex: 'stuStartYear',
-    sorter: true,
-  },
-  {
     title: '毕业年份',
     dataIndex: 'stuEndYear',
     sorter: true,
     align: 'center',
   },
   {
-    title: '现在邮箱',
+    title: '邮箱',
     align: 'center',
     dataIndex: 'currentEmail',
   },
   {
-    title: '现在联系方式',
+    title: '电话',
     align: 'center',
     dataIndex: 'currentPhone',
   },
@@ -56,11 +51,6 @@ const columns = [
     title: '公司',
     align: 'center',
     dataIndex: 'company',
-  },
-  {
-    title: '公司地址',
-    align: 'center',
-    dataIndex: 'companyAddress',
   },
   {
     title: '行业',
@@ -71,6 +61,20 @@ const columns = [
     title: '职位',
     align: 'center',
     dataIndex: 'occupation',
+  },
+  {
+    title: '开始工作',
+    align: 'center',
+    dataIndex: 'startDate',
+    sorter: true,
+    render: val => (<span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>),
+  },
+  {
+    title: '结束工作',
+    align: 'center',
+    dataIndex: 'endDate',
+    sorter: true,
+    render: val => (val === null ? (<span />) : (<span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>)),
   },
   {
     title: '薪资',

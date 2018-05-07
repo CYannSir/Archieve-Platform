@@ -19,7 +19,8 @@ public enum ResultEnum {
     ERROR_108(108, "无该学生用户"),
     ERROR_109(109, "该验证无效"),
     ERROR_110(110, "非该用户"),
-    ERROR_111(111, "用户不存在"),;
+    ERROR_111(111, "用户不存在"),
+    ERROR_112(112, "开始时间不能晚于结束时间"),;
     private Integer code;
     private String msg;
 

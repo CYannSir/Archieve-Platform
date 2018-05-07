@@ -28,8 +28,28 @@ public class AlumniInformationModel extends BaseEntity{
     private String industry;
     @Column(nullable = false , length = 32)
     private String occupation;
+    @Column(nullable = false , length = 32)
+    private String startDate;
+    @Column(nullable = true , length = 32)
+    private String endDate;
     @Column(nullable = true , length = 32)
     private String salary;
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
+    }
 
     public String getStuNumber() {
         return stuNumber;

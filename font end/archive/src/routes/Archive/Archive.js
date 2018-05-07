@@ -40,6 +40,17 @@ const CreateForm = Form.create()((props) => {
       handleAdd(fieldsValue);
     });
   };
+  const formItemLayout = {
+    labelCol: {
+      xs: { span: 24 },
+      sm: { span: 7 },
+    },
+    wrapperCol: {
+      xs: { span: 24 },
+      sm: { span: 12 },
+      md: { span: 10 },
+    },
+  };
   return (
     <Modal
       title="新建个人档案"
@@ -48,8 +59,7 @@ const CreateForm = Form.create()((props) => {
       onCancel={() => handleModalVisible()}
     >
       <FormItem
-        labelCol={{ span: 5 }}
-        wrapperCol={{ span: 15 }}
+        {...formItemLayout}
         label="学生学号"
       >
         {form.getFieldDecorator('stuNumber', {
@@ -59,8 +69,7 @@ const CreateForm = Form.create()((props) => {
         )}
       </FormItem>
       <FormItem
-        labelCol={{ span: 5 }}
-        wrapperCol={{ span: 15 }}
+        {...formItemLayout}
         label="档案目前单位"
       >
         {form.getFieldDecorator('unit', {
@@ -70,8 +79,7 @@ const CreateForm = Form.create()((props) => {
         )}
       </FormItem>
       <FormItem
-        labelCol={{ span: 5 }}
-        wrapperCol={{ span: 15 }}
+        {...formItemLayout}
         label="档案单位地址"
       >
         {form.getFieldDecorator('unitAddress', {
@@ -81,8 +89,7 @@ const CreateForm = Form.create()((props) => {
         )}
       </FormItem>
       <FormItem
-        labelCol={{ span: 5 }}
-        wrapperCol={{ span: 15 }}
+        {...formItemLayout}
         label="流向时间"
       >
         {form.getFieldDecorator('flowDate', {

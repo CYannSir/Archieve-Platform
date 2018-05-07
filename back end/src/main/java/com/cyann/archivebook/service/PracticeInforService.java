@@ -23,8 +23,14 @@ public class PracticeInforService extends BaseService {
 
     //增
     public void add(PracticeInforModel traineeInformationModel){
-        baseService.add(practiceInforRepository,traineeInformationModel);
-        practiceInforRepository.save(traineeInformationModel);
+        if(traineeInformationModel.getStartDate().compareTo(traineeInformationModel.getEndDate()) < 0){
+            baseService.add(practiceInforRepository,traineeInformationModel);
+            practiceInforRepository.save(traineeInformationModel);
+        }
+        else {
+            throw new MyException(ResultEnum.ERROR_112);
+        }
+
     }
 
     //删

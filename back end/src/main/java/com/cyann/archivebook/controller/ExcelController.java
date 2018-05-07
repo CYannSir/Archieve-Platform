@@ -176,7 +176,7 @@ public class ExcelController {
 
     //生成excel文件
     protected void buildExcelFile(String filename,HSSFWorkbook workbook) throws Exception{
-        FileOutputStream fos = new FileOutputStream(filename);
+        FileOutputStream fos = new FileOutputStream(filename,true);
         workbook.write(fos);
         fos.flush();
         fos.close();

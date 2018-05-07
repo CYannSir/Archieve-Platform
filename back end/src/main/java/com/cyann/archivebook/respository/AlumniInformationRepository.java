@@ -39,5 +39,17 @@ public interface AlumniInformationRepository extends JpaRepository<AlumniInforma
             "OR  alumniview.stu_class like %?2%  ",nativeQuery = true)
     List<Object[]> search(@Param("stuName") String stuName,@Param("stuClass") String stuClass);
 
+    /* 寻找最新纪录
+    SELECT
+    *,MAX(create_time)
+FROM
+    (SELECT
+        *
+    FROM
+        alumniview
+    ORDER BY create_time DESC) A
+GROUP BY stu_number;
+
+     */
 
 }

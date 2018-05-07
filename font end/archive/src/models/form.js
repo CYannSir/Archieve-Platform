@@ -50,14 +50,22 @@ export default {
       message.success('提交成功');
     },
     *addAlumniInfor({ payload }, { call, put }) {
-      yield call(addAlumniInfor, payload);
-      message.success('Save success');
-      yield put(routerRedux.push('/alumniinformation/alumniinfor'));
+      const res = yield call(addAlumniInfor, payload);
+      if (res.code === 200) {
+        message.success('Save success');
+        yield put(routerRedux.push('/alumniinformation/alumniinfor'));
+      } else if (res.code === 112) {
+        message.error('Start Date is later than End Date');
+      }
     },
     *addPractice({ payload }, { call, put }) {
-      yield call(addPractice, payload);
-      message.success('Save success');
-      yield put(routerRedux.push('/alumniinformation/practice'));
+      const res = yield call(addPractice, payload);
+      if (res.code === 200) {
+        message.success('Save success');
+        yield put(routerRedux.push('/alumniinformation/practice'));
+      } else if (res.code === 112) {
+        message.error('Start Date is later than End Date');
+      }
     },
   },
 

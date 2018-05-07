@@ -23,6 +23,17 @@ const CreateForm = Form.create()((props) => {
       handleAdd(fieldsValue);
     });
   };
+  const formItemLayout = {
+    labelCol: {
+      xs: { span: 24 },
+      sm: { span: 7 },
+    },
+    wrapperCol: {
+      xs: { span: 24 },
+      sm: { span: 12 },
+      md: { span: 10 },
+    },
+  };
   return (
     <Modal
       title="新建个人户口"
@@ -31,8 +42,7 @@ const CreateForm = Form.create()((props) => {
       onCancel={() => handleModalVisible()}
     >
       <FormItem
-        labelCol={{ span: 5 }}
-        wrapperCol={{ span: 15 }}
+        {...formItemLayout}
         label="学生学号"
       >
         {form.getFieldDecorator('stuNumber', {
@@ -42,8 +52,7 @@ const CreateForm = Form.create()((props) => {
         )}
       </FormItem>
       <FormItem
-        labelCol={{ span: 5 }}
-        wrapperCol={{ span: 15 }}
+        {...formItemLayout}
         label="户口目前地址"
       >
         {form.getFieldDecorator('accountAddress', {
@@ -53,8 +62,7 @@ const CreateForm = Form.create()((props) => {
         )}
       </FormItem>
       <FormItem
-        labelCol={{ span: 5 }}
-        wrapperCol={{ span: 15 }}
+        {...formItemLayout}
         label="更改时间"
       >
         {form.getFieldDecorator('accountDate', {

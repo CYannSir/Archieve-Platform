@@ -1,8 +1,9 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
+import moment from 'moment';
 import { routerRedux } from 'dva/router';
 import {
-  Form, Input, Button, Card, Icon, Tooltip,
+  Form, Input, Button, Card, Icon, Tooltip, DatePicker,
 } from 'antd';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import styles from './EditPractice.less';
@@ -45,7 +46,15 @@ export default class EditPractice extends PureComponent {
       if (!err) {
         this.props.dispatch({
           type: 'form/addPractice',
-          payload: values,
+          payload: {
+            company: values.company,
+            companyAddress: values.companyAddress,
+            industry: values.industry,
+            occupation: values.occupation,
+            startDate: moment(values.startDate).format('YYYY-MM-DD '),
+            endDate: moment(values.endDate).format('YYYY-MM-DD '),
+            salary: values.salary,
+          },
         });
       }
     });
@@ -133,6 +142,37 @@ export default class EditPractice extends PureComponent {
                 }],
               })(
                 <Input placeholder="Please enter your occupation" />
+              )}
+            </FormItem>
+            <FormItem
+              {...formItemLayout}
+              label="Start Date"
+            >
+              {getFieldDecorator('startDate', {
+                rules: [{
+                  required: true, message: 'Please enter your job start date',
+                }],
+              })(
+                <DatePicker placeholder="Your job start date" style={{ width: '100%' }} />
+              )}
+            </FormItem>
+            <FormItem
+              {...formItemLayout}
+              label={
+                <span>
+                  End Date
+                  <em className={styles.optional}>
+                    (Optional)
+                  </em>
+                </span>
+                }
+            >
+              {getFieldDecorator('endDate', {
+                rules: [{
+                  required: false, message: 'Please enter your job end date',
+                }],
+              })(
+                <DatePicker placeholder="Your job end date" style={{ width: '100%' }} />
               )}
             </FormItem>
             <FormItem

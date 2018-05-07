@@ -33,8 +33,14 @@ public class AlumniInformationService extends BaseService {
 
     //增
     public void add(AlumniInformationModel alumniInformationModel){
-        baseService.add(alumniInformationRepository,alumniInformationModel);
-        alumniInformationRepository.save(alumniInformationModel);
+        if(alumniInformationModel.getStartDate().compareTo(alumniInformationModel.getEndDate()) < 0){
+            baseService.add(alumniInformationRepository,alumniInformationModel);
+            alumniInformationRepository.save(alumniInformationModel);
+        }
+        else {
+            throw new MyException(ResultEnum.ERROR_112);
+        }
+
     }
 
     //删

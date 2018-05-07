@@ -47,12 +47,15 @@ export default class AlumniInformation extends Component {
         <Description term="Graduated Year">{ data ? data.stuEndYear : ''}</Description>
       </DescriptionList>
     );
-    const CardInfor = ({ company, companyAddress, industry, occupation, salary }) => (
+    const CardInfor =
+    ({ company, companyAddress, industry, occupation, salary, startDate, endDate }) => (
       <Card title="Alumni Information" bordered={false}>
         <DescriptionList style={{ marginBottom: 24 }}>
           <Description term="Your Company">{company}</Description>
           <Description term="Industry">{industry}</Description>
           <Description term="Occupation">{occupation}</Description>
+          <Description term="Start Date">{startDate}</Description>
+          <Description term="End Date">{endDate}</Description>
           <Description term="Salary">{salary}</Description>
           <Description term="Company Address">{companyAddress}</Description>
         </DescriptionList>
@@ -77,6 +80,9 @@ export default class AlumniInformation extends Component {
                 industry={item ? item.industry : ''}
                 occupation={item ? item.occupation : ''}
                 salary={item ? item.salary : ''}
+                startDate={item ? item.startDate : ''}
+                endDate={item ? item.endDate : ''}
+
               />
             </List.Item>
             )}
