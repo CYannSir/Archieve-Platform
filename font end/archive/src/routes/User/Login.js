@@ -53,7 +53,7 @@ export default class LoginPage extends Component {
     });
   }
   handleAdd = (fields) => {
-    console.log('email', fields.loginEmail);
+    // console.log('email', fields.loginEmail);
     this.props.dispatch({
       type: 'login/forgetPsw',
       payload: {

@@ -44,7 +44,7 @@ export default class SearchList extends Component {
   handleFormSubmit = (value) => {
     const { dispatch } = this.props;
     // setTimeout 用于保证获取表单值是在所有表单字段更新完毕的时候
-    console.log('value', value);
+    // console.log('value', value);
     setTimeout(() => {
       // console.log('fileds-->', fieldsValue);
       dispatch({

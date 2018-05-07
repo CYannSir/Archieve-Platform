@@ -37,7 +37,7 @@ public class MsgService {
     //增加通知
     public void addBoard(MsgModel msg){
         msg.setRecUser("SuperAdmin");
-        // msg.setSendUser("SuperAdmin");
+        msg.setSendUser("SuperAdmin");
         msg.setMsgStats("unread");
         msg.setMsgType("通知");
         baseService.add(msgRepository,msg);

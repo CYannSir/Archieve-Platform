@@ -71,6 +71,8 @@ export default {
     },
     *export({ callback }, { call }) {
       yield call(exportAlumniInfor);
+      // let myDate = new Date();
+      // console.log(response.data);
       window.location.href = 'http://localhost:8080/ExportInformation.xls';
       if (callback) callback();
     },

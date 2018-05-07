@@ -4,6 +4,7 @@ import com.cyann.archivebook.model.AlumniInformationModel;
 import com.cyann.archivebook.model.PracticeInforModel;
 import com.cyann.archivebook.service.AlumniInformationService;
 import com.cyann.archivebook.service.PracticeInforService;
+import com.cyann.archivebook.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,11 +16,14 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletResponse;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.net.URLEncoder;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.*;
+
 /**
  * @author CYann
  * @date 2018-04-15 17:49
@@ -86,7 +90,7 @@ public class ExcelController {
 
     //生成校友信息表excel
     @PostMapping(value = "/alumniexcel")
-    public String alumniExcel(HttpServletResponse response) throws Exception{
+    public Result alumniExcel(HttpServletResponse response) throws Exception{
         HSSFWorkbook workbook = new HSSFWorkbook();
         HSSFSheet sheet = workbook.createSheet("校友信息统计表");
         createTitle(workbook,sheet);
@@ -95,6 +99,8 @@ public class ExcelController {
         //设置日期格式
         HSSFCellStyle style = workbook.createCellStyle();
         style.setDataFormat(HSSFDataFormat.getBuiltinFormat("m/d/yy h:mm"));
+
+        System.out.println(style);
 
         //新增数据行，并且设置单元格数据
         int rowNum=1;
@@ -121,8 +127,9 @@ public class ExcelController {
         //浏览器下载excel
         buildExcelDocument(fileName,workbook,response);
 
-        return "download excel";
+        return Result.success();
     }
+
 
     //生成校友信息表excel
     @PostMapping(value = "/practiceexcel")
@@ -152,6 +159,9 @@ public class ExcelController {
             HSSFCell cell = row.createCell(6);
             rowNum++;
         }
+
+        // SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");//设置日期格式
+        // System.out.println(df.format(new Date()));// new Date()为获取当前系统时间
 
         String fileName = "src/main/resources/static/ExportPractice.xls";
 

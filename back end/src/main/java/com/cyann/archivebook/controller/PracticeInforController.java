@@ -62,6 +62,7 @@ public class PracticeInforController {
             tempMap.put("industry",practiceInforModel.getIndustry());
             tempMap.put("occupation",practiceInforModel.getOccupation());
             tempMap.put("salary",practiceInforModel.getSalary());
+            // tempMap.put("createTime",practiceInforModel.getCreatTime());
             mapList.add(tempMap);
         }
         return Result.success(mapList);

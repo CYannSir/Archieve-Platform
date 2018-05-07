@@ -51,10 +51,10 @@ export default class AlumniInformation extends Component {
       <Card title="Alumni Information" bordered={false}>
         <DescriptionList style={{ marginBottom: 24 }}>
           <Description term="Your Company">{company}</Description>
-          <Description term="Company Address">{companyAddress}</Description>
           <Description term="Industry">{industry}</Description>
           <Description term="Occupation">{occupation}</Description>
           <Description term="Salary">{salary}</Description>
+          <Description term="Company Address">{companyAddress}</Description>
         </DescriptionList>
       </Card>
     );

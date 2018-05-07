@@ -139,7 +139,7 @@ export default {
       const response = yield call(updateStatus, payload);
       // console.log('aas', response.data);
       if (response.code === 200) {
-        message.success('Success');
+        message.success('This notice will be read');
         yield put({
           type: 'updatestatus',
           payload: response.data,

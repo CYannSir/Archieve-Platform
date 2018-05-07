@@ -23,6 +23,7 @@ public class PracticeInforService extends BaseService {
 
     //增
     public void add(PracticeInforModel traineeInformationModel){
+        baseService.add(practiceInforRepository,traineeInformationModel);
         practiceInforRepository.save(traineeInformationModel);
     }
 

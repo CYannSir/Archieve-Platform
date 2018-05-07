@@ -79,8 +79,8 @@ const columns = [
     title: '是否毕业',
     dataIndex: 'stuPower',
     align: 'center',
-    render(val) {
-      return <Badge status={statusMap[val]} text={stupower[val]} />;
+    render(val2) {
+      return <Badge status={statusMap[val2]} text={stupower[val2]} />;
     },
   },
   {
@@ -213,7 +213,7 @@ const CreateForm = Form.create()((props) => {
           wrapperCol={{ span: 15 }}
           label="是否毕业"
         >
-          {form.getFieldDecorator('redParty', {
+          {form.getFieldDecorator('stuPower', {
             rules: [{ message: '请选择学生是否毕业' }],
         })(
           <Select placeholder="请选择" style={{ width: '100%' }}>
@@ -324,7 +324,7 @@ const CreateForm = Form.create()((props) => {
           wrapperCol={{ span: 15 }}
           label="是否毕业"
         >
-          {form.getFieldDecorator('redParty', {
+          {form.getFieldDecorator('stuPower', {
             rules: [{ required: true, message: '请选择学生是否毕业' }],
         })(
           <Select placeholder="请选择" style={{ width: '100%' }}>
@@ -436,7 +436,7 @@ export default class StudentBasicInfor extends PureComponent {
         });
       },
     });
-    message.success('删除成功');
+    // message.success('删除成功');
     this.setState({
       modalVisible: false,
     });
@@ -508,7 +508,7 @@ export default class StudentBasicInfor extends PureComponent {
       },
     });
 
-    message.success('添加成功');
+    // message.success('添加成功');
     this.setState({
       modalVisible: false,
     });
@@ -553,7 +553,7 @@ export default class StudentBasicInfor extends PureComponent {
       },
     });
 
-    message.success('修改成功');
+    // message.success('修改成功');
     this.setState({
       modalVisible: false,
       formprops: false,

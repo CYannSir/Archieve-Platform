@@ -240,7 +240,7 @@ export default class Account extends PureComponent {
         });
       },
     });
-    message.success('删除成功');
+    // message.success('删除成功');
     this.setState({
       modalVisible: false,
       formprops: false,
@@ -298,7 +298,7 @@ export default class Account extends PureComponent {
       },
     });
 
-    message.success('添加成功');
+    // message.success('添加成功');
     this.setState({
       modalVisible: false,
     });
@@ -348,7 +348,7 @@ export default class Account extends PureComponent {
       },
     });
 
-    message.success('修改成功');
+    // message.success('修改成功');
     this.setState({
       modalVisible: false,
       formprops: false,

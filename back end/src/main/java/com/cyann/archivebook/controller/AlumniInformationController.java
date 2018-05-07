@@ -60,6 +60,7 @@ public class AlumniInformationController {
             tempMap.put("industry",alumniInformationModel.getIndustry());
             tempMap.put("occupation",alumniInformationModel.getOccupation());
             tempMap.put("salary",alumniInformationModel.getSalary());
+            // tempMap.put("createTime",alumniInformationModel.getCreatTime());
             mapList.add(tempMap);
         }
         return Result.success(mapList);
