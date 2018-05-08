@@ -1,11 +1,13 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'dva';
 import { Form, Card, List, Icon, Avatar, Tooltip } from 'antd';
+import { routerRedux } from 'dva/router';
 import styles from './Home.less';
 
 @Form.create()
-@connect(({ list, loading }) => ({
+@connect(({ list, profile, loading }) => ({
   list,
+  profile,
   loading: loading.models.list,
 }))
 export default class Home extends Component {
@@ -14,6 +16,15 @@ export default class Home extends Component {
     this.props.dispatch({
       type: 'list/fetchHome',
     });
+  }
+  onItemClick = (item) => {
+    console.log(item);
+    this.props.dispatch(routerRedux.push({
+      pathname: '/showuser',
+      state: {
+        stuNumber: item.stuNumber,
+      },
+    }));
   }
   /*
   fetchMore = () => {
@@ -58,12 +69,15 @@ export default class Home extends Component {
       <Fragment >
         <List
           loading={list.length === 0 ? loading : false}
-          rowKey="id"
+          rowKey="objectId"
           style={{ marginTop: 24 }}
           grid={{ gutter: 24, xl: 4, lg: 3, md: 3, sm: 2, xs: 1 }}
           dataSource={list}
           renderItem={item => (
-            <List.Item key={item.id}>
+            <List.Item
+              key={item.currentEmail}
+              onClick={() => this.onItemClick(item)}
+            >
               <Card
                 hoverable
                 bodyStyle={{ paddingBottom: 20 }}

@@ -85,8 +85,14 @@ public class AlumniInformationService extends BaseService {
     }
 
     //视图 根据 名字 班级 毕业年份 多条件动态查询课程
-    public List<Object[]> search(String stuName,String stuClass){
-        List<Object[]> list = alumniInformationRepository.search(stuName,stuClass);
+    public List<Object[]> search(String stuName,String stuClass,String stuMajor,String stuNumber){
+        List<Object[]> list = alumniInformationRepository.search(stuName,stuClass,stuMajor,stuNumber);
+        return list;
+    }
+
+    //视图 根据 名字 班级 毕业年份 多条件动态查询课程
+    public List<Object[]> searchAdmin(String stuName,String stuClass){
+        List<Object[]> list = alumniInformationRepository.searchAdmin(stuName,stuClass);
         return list;
     }
 
@@ -109,8 +115,8 @@ public class AlumniInformationService extends BaseService {
     }
 
     //视图 根据 名字 班级 毕业年份 多条件动态查询课程
-    public List<Object[]> searchMaxAlumni(String stuName,String stuClass){
-        List<Object[]> list = alumniInformationRepository.searchMaxAlumni(stuName,stuClass);
+    public List<Object[]> searchMaxAlumni(String stuName,String stuClass,String stuMajor,String stuNumber){
+        List<Object[]> list = alumniInformationRepository.searchMaxAlumni(stuName,stuClass,stuMajor,stuNumber);
         return list;
     }
 

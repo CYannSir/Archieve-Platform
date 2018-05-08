@@ -70,4 +70,25 @@ public class PracticeInforController {
         return Result.success(mapList);
     }
 
+    //展示实习生信息
+    @PostMapping(value = "/showuserpractice")
+    public Result showUserPracticeInfor(@RequestBody UserModel userModel){
+        List<PracticeInforModel> list = practiceInforService.findByStuNum(userModel.getStuNumber());
+        List<Map> mapList = new ArrayList();
+        for(int i=0;i<list.size();i++){
+            Map tempMap = new HashMap();
+            PracticeInforModel practiceInforModel = list.get(i);
+            tempMap.put("company",practiceInforModel.getCompany());
+            tempMap.put("companyAddress",practiceInforModel.getCompanyAddress());
+            tempMap.put("industry",practiceInforModel.getIndustry());
+            tempMap.put("occupation",practiceInforModel.getOccupation());
+            tempMap.put("salary",practiceInforModel.getSalary());
+            tempMap.put("startDate",practiceInforModel.getStartDate());
+            tempMap.put("endDate",practiceInforModel.getEndDate());
+            // tempMap.put("createTime",practiceInforModel.getCreatTime());
+            mapList.add(tempMap);
+        }
+        return Result.success(mapList);
+    }
+
 }

@@ -401,6 +401,13 @@ export default class RedArchive extends PureComponent {
       <Form onSubmit={this.handleSearch} layout="inline">
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={8} sm={24}>
+            <FormItem label="学生姓名">
+              {getFieldDecorator('stuName')(
+                <Input placeholder="请输入" />
+              )}
+            </FormItem>
+          </Col>
+          <Col md={8} sm={24}>
             <FormItem label="学生学号">
               {getFieldDecorator('stuNumber')(
                 <Input placeholder="请输入" />

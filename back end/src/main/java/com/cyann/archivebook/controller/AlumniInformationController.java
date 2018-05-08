@@ -68,6 +68,27 @@ public class AlumniInformationController {
         return Result.success(mapList);
     }
 
+    //展示其他用户校友信息
+    @PostMapping(value = "/showuseralumni")
+    public Result listShowUserAlumniInfor(@RequestBody UserModel userModel){
+        List<AlumniInformationModel> list = alumniInformationService.findByStuNum(userModel.getStuNumber());
+        List<Map> mapList = new ArrayList();
+        for(int i=0;i<list.size();i++){
+            Map tempMap = new HashMap();
+            AlumniInformationModel alumniInformationModel = list.get(i);
+            tempMap.put("company",alumniInformationModel.getCompany());
+            tempMap.put("companyAddress",alumniInformationModel.getCompanyAddress());
+            tempMap.put("industry",alumniInformationModel.getIndustry());
+            tempMap.put("occupation",alumniInformationModel.getOccupation());
+            tempMap.put("salary",alumniInformationModel.getSalary());
+            tempMap.put("startDate",alumniInformationModel.getStartDate());
+            tempMap.put("endDate",alumniInformationModel.getEndDate());
+            // tempMap.put("createTime",alumniInformationModel.getCreatTime());
+            mapList.add(tempMap);
+        }
+        return Result.success(mapList);
+    }
+
 
 
 }

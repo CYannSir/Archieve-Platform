@@ -14,6 +14,17 @@ import java.util.List;
  */
 public interface AccountRepository extends JpaRepository<AccountModel,String>,JpaSpecificationExecutor<AccountModel> {
 
+    //通过视图查看所有户口信息
+    @Query(value = "select * from accountview where accountview.del_time is null",nativeQuery = true)
+    List<Object[]> listAll();
+
+    //通过视图查看所有户口信息
+    @Query(value = "select * from accountview " +
+            "where accountview.del_time is null " +
+            "AND accountview.stu_name LIKE %?1% " +
+            "And  accountview.stu_number LIKE %?2% ",nativeQuery = true)
+    List<Object[]> searchAdmin(@Param("stuName") String stuName, @Param("stuNumber") String stuNumber);
+
     //查询所有户口信息
     @Query("select accountModel from AccountModel accountModel where accountModel.delTime is null")
     List<AccountModel> findALLAccount();

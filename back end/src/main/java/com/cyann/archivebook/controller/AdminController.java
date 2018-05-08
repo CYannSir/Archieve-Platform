@@ -1,6 +1,7 @@
 package com.cyann.archivebook.controller;
 
 import com.cyann.archivebook.enums.ResultEnum;
+import com.cyann.archivebook.exception.MyException;
 import com.cyann.archivebook.model.*;
 import com.cyann.archivebook.service.*;
 import com.cyann.archivebook.util.Result;
@@ -176,14 +177,7 @@ public class AdminController {
         userService.updatePower(userModel);
         return Result.success();
     }
-    /*
-    //帮助用户重置密码
-    @PostMapping(value = "/editstupwd")
-    public Result editUserPwd(UserModel userModel){
-        userService.updatePwd(userModel);
-        return Result.success();
-    }
-    */
+
     /*
      *学生用户操作 - End 待添加
      */
@@ -191,50 +185,135 @@ public class AdminController {
 
     /*
     * 档案信息操作 - Start
+    *
+        CREATE VIEW archiveview AS
+    SELECT
+        tb_archive.*,
+        tb_user.stu_name
+    FROM
+        tb_archive,
+        tb_user
+    WHERE
+        tb_archive.stu_number = tb_user.stu_number
     */
     //展示档案
     @GetMapping(value = "/listarchive")
     public Result listArchive(){
-        List<ArchiveModel> list = archiveService.findAll();
-        return Result.success(list);
+        List<Object[]> list = archiveService.listAll();
+        List<Map> returnList = new ArrayList<>();
+        for(int i=0;i<list.size();i++){
+            Object[] objects = list.get(i);
+            Map tempMap = new HashMap();
+            tempMap.put("objectId",objects[0]);
+            tempMap.put("createTime",objects[1]);
+            tempMap.put("delTime",objects[2]);
+            tempMap.put("updateTime",objects[3]);
+            tempMap.put("flowDate",objects[4]);
+            tempMap.put("stuNumber",objects[5]);
+            tempMap.put("unit",objects[6]);
+            tempMap.put("unitAddress",objects[7]);
+            tempMap.put("stuName",objects[8]);
+            returnList.add(tempMap);
+        }
+        return Result.success(returnList);
     }
 
     //新增档案
     @PostMapping(value = "/addarchive")
     public Result addArchiver(@RequestBody ArchiveModel archiveModel){
         archiveService.add(archiveModel);
-        List<ArchiveModel> list = archiveService.findAll();
-        return Result.success(list);
+        List<Object[]> list = archiveService.listAll();
+        List<Map> returnList = new ArrayList<>();
+        for(int i=0;i<list.size();i++){
+            Object[] objects = list.get(i);
+            Map tempMap = new HashMap();
+            tempMap.put("objectId",objects[0]);
+            tempMap.put("createTime",objects[1]);
+            tempMap.put("delTime",objects[2]);
+            tempMap.put("updateTime",objects[3]);
+            tempMap.put("flowDate",objects[4]);
+            tempMap.put("stuNumber",objects[5]);
+            tempMap.put("unit",objects[6]);
+            tempMap.put("unitAddress",objects[7]);
+            tempMap.put("stuName",objects[8]);
+            returnList.add(tempMap);
+        }
+        return Result.success(returnList);
     }
 
     //删除档案
     @PostMapping(value = "/deletearchive")
     public Result deleteArchive(@RequestBody ArchiveModel archiveModel){
         archiveService.delete(archiveModel);
-        List<ArchiveModel> list = archiveService.findAll();
-        return Result.success(list);
+        List<Object[]> list = archiveService.listAll();
+        List<Map> returnList = new ArrayList<>();
+        for(int i=0;i<list.size();i++){
+            Object[] objects = list.get(i);
+            Map tempMap = new HashMap();
+            tempMap.put("objectId",objects[0]);
+            tempMap.put("createTime",objects[1]);
+            tempMap.put("delTime",objects[2]);
+            tempMap.put("updateTime",objects[3]);
+            tempMap.put("flowDate",objects[4]);
+            tempMap.put("stuNumber",objects[5]);
+            tempMap.put("unit",objects[6]);
+            tempMap.put("unitAddress",objects[7]);
+            tempMap.put("stuName",objects[8]);
+            returnList.add(tempMap);
+        }
+        return Result.success(returnList);
     }
 
     //动态修改更新档案
     @PostMapping(value = "/modifyarchive")
     public Result modifyArchive(@RequestBody ArchiveModel archiveModel){
         archiveService.update(archiveModel);
-        List<ArchiveModel> list = archiveService.findAll();
-        return Result.success(list);
+        List<Object[]> list = archiveService.listAll();
+        List<Map> returnList = new ArrayList<>();
+        for(int i=0;i<list.size();i++){
+            Object[] objects = list.get(i);
+            Map tempMap = new HashMap();
+            tempMap.put("objectId",objects[0]);
+            tempMap.put("createTime",objects[1]);
+            tempMap.put("delTime",objects[2]);
+            tempMap.put("updateTime",objects[3]);
+            tempMap.put("flowDate",objects[4]);
+            tempMap.put("stuNumber",objects[5]);
+            tempMap.put("unit",objects[6]);
+            tempMap.put("unitAddress",objects[7]);
+            tempMap.put("stuName",objects[8]);
+            returnList.add(tempMap);
+        }
+        return Result.success(returnList);
     }
 
     //根据 学号 目前单位 多条件动态查询档案
     @PostMapping(value = "/searcharchive")
-    public Result searchArchive(@RequestBody ArchiveModel archiveModel){
-        List<ArchiveModel> list = archiveService.findAllByAdvancedForm(archiveModel);
-        return Result.success(list);
+    public Result searchArchive(@RequestBody UserModel userModel){
+        List<Object[]> list = archiveService.searchAdmin(userModel.getStuName(),userModel.getStuNumber());
+        List<Map> returnList = new ArrayList<>();
+        for(int i=0;i<list.size();i++){
+            Object[] objects = list.get(i);
+            Map tempMap = new HashMap();
+            tempMap.put("objectId",objects[0]);
+            tempMap.put("createTime",objects[1]);
+            tempMap.put("delTime",objects[2]);
+            tempMap.put("updateTime",objects[3]);
+            tempMap.put("flowDate",objects[4]);
+            tempMap.put("stuNumber",objects[5]);
+            tempMap.put("unit",objects[6]);
+            tempMap.put("unitAddress",objects[7]);
+            tempMap.put("stuName",objects[8]);
+            returnList.add(tempMap);
+        }
+        return Result.success(returnList);
     }
 
     //批量增加档案  stuNumber / unit / unitAddress / flowDate
     @PostMapping(value = "/addarchviebyfile")
     public Result addArchiveByfile(@RequestParam("file")MultipartFile file){
         if (file != null){
-            System.out.println("File Not NULL");
+            // System.out.println("File Not NULL");
             String fileName = file.getOriginalFilename();
             List<Map<String,String>> list = fileService.viewExcelFile("xlsx",file);
             for (int i=0;i<list.size();i++){
@@ -247,10 +326,26 @@ public class AdminController {
                 archiveService.add(archiveModel);
             }
         } else {
-            System.out.println("File is NULL");
+            throw new MyException(ResultEnum.ERROR_103);
+            // System.out.println("File is NULL");
         }
-        List<ArchiveModel> list = archiveService.findAll();
-        return Result.success(list);
+        List<Object[]> list = archiveService.listAll();
+        List<Map> returnList = new ArrayList<>();
+        for(int i=0;i<list.size();i++){
+            Object[] objects = list.get(i);
+            Map tempMap = new HashMap();
+            tempMap.put("objectId",objects[0]);
+            tempMap.put("createTime",objects[1]);
+            tempMap.put("delTime",objects[2]);
+            tempMap.put("updateTime",objects[3]);
+            tempMap.put("flowDate",objects[4]);
+            tempMap.put("stuNumber",objects[5]);
+            tempMap.put("unit",objects[6]);
+            tempMap.put("unitAddress",objects[7]);
+            tempMap.put("stuName",objects[8]);
+            returnList.add(tempMap);
+        }
+        return Result.success(returnList);
     }
     /*
      * 档案信息操作 - End
@@ -258,49 +353,128 @@ public class AdminController {
 
     /*
      * 户口信息操作 - Start
+     *         CREATE VIEW accountview AS
+    SELECT
+        tb_account.*,
+        tb_user.stu_name
+    FROM
+        tb_account,
+        tb_user
+    WHERE
+        tb_account.stu_number = tb_user.stu_number
      */
     //展示户口
     @GetMapping(value = "/listaccount")
     public Result listAccount(){
-        List<AccountModel> list = accountService.findAll();
-        return Result.success(list);
+        List<Object[]> list = accountService.listAll();
+        List<Map> returnList = new ArrayList<>();
+        for(int i=0;i<list.size();i++){
+            Object[] objects = list.get(i);
+            Map tempMap = new HashMap();
+            tempMap.put("objectId",objects[0]);
+            tempMap.put("createTime",objects[1]);
+            tempMap.put("delTime",objects[2]);
+            tempMap.put("updateTime",objects[3]);
+            tempMap.put("accountAddress",objects[4]);
+            tempMap.put("accountDate",objects[5]);
+            tempMap.put("stuNumber",objects[6]);
+            tempMap.put("stuName",objects[7]);
+            returnList.add(tempMap);
+        }
+        return Result.success(returnList);
     }
 
     //新增户口
     @PostMapping(value = "/addaccount")
     public Result addAccount(@RequestBody AccountModel accountModel){
         accountService.add(accountModel);
-        List<AccountModel> list = accountService.findAll();
-        return Result.success(list);
+        List<Object[]> list = accountService.listAll();
+        List<Map> returnList = new ArrayList<>();
+        for(int i=0;i<list.size();i++){
+            Object[] objects = list.get(i);
+            Map tempMap = new HashMap();
+            tempMap.put("objectId",objects[0]);
+            tempMap.put("createTime",objects[1]);
+            tempMap.put("delTime",objects[2]);
+            tempMap.put("updateTime",objects[3]);
+            tempMap.put("accountAddress",objects[4]);
+            tempMap.put("accountDate",objects[5]);
+            tempMap.put("stuNumber",objects[6]);
+            tempMap.put("stuName",objects[7]);
+            returnList.add(tempMap);
+        }
+        return Result.success(returnList);
     }
 
     //删除户口
     @PostMapping(value = "/deleteaccount")
     public Result deleteAccount(@RequestBody AccountModel accountModel){
         accountService.delete(accountModel);
-        List<AccountModel> list = accountService.findAll();
-        return Result.success(list);
+        List<Object[]> list = accountService.listAll();
+        List<Map> returnList = new ArrayList<>();
+        for(int i=0;i<list.size();i++){
+            Object[] objects = list.get(i);
+            Map tempMap = new HashMap();
+            tempMap.put("objectId",objects[0]);
+            tempMap.put("createTime",objects[1]);
+            tempMap.put("delTime",objects[2]);
+            tempMap.put("updateTime",objects[3]);
+            tempMap.put("accountAddress",objects[4]);
+            tempMap.put("accountDate",objects[5]);
+            tempMap.put("stuNumber",objects[6]);
+            tempMap.put("stuName",objects[7]);
+            returnList.add(tempMap);
+        }
+        return Result.success(returnList);
     }
 
     //根据 学号 查询户口
     @PostMapping(value = "/searchaccount")
-    public Result searchAccount(@RequestBody AccountModel accountModel){
-        List<AccountModel> list = accountService.findByStuNumber(accountModel.getStuNumber());
-        return Result.success(list);
+    public Result searchAccount(@RequestBody UserModel userModel){
+        List<Object[]> list = accountService.searchAdmin(userModel.getStuName(),userModel.getStuNumber());
+        List<Map> returnList = new ArrayList<>();
+        for(int i=0;i<list.size();i++){
+            Object[] objects = list.get(i);
+            Map tempMap = new HashMap();
+            tempMap.put("objectId",objects[0]);
+            tempMap.put("createTime",objects[1]);
+            tempMap.put("delTime",objects[2]);
+            tempMap.put("updateTime",objects[3]);
+            tempMap.put("accountAddress",objects[4]);
+            tempMap.put("accountDate",objects[5]);
+            tempMap.put("stuNumber",objects[6]);
+            tempMap.put("stuName",objects[7]);
+            returnList.add(tempMap);
+        }
+        return Result.success(returnList);
     }
     //动态修改更新户口
     @PostMapping(value = "/modifyaccount")
     public Result modifyAccount(@RequestBody AccountModel accountModel){
         accountService.update(accountModel);
-        List<AccountModel> list = accountService.findAll();
-        return Result.success(list);
+        List<Object[]> list = accountService.listAll();
+        List<Map> returnList = new ArrayList<>();
+        for(int i=0;i<list.size();i++){
+            Object[] objects = list.get(i);
+            Map tempMap = new HashMap();
+            tempMap.put("objectId",objects[0]);
+            tempMap.put("createTime",objects[1]);
+            tempMap.put("delTime",objects[2]);
+            tempMap.put("updateTime",objects[3]);
+            tempMap.put("accountAddress",objects[4]);
+            tempMap.put("accountDate",objects[5]);
+            tempMap.put("stuNumber",objects[6]);
+            tempMap.put("stuName",objects[7]);
+            returnList.add(tempMap);
+        }
+        return Result.success(returnList);
     }
 
     //批量增加户口  stuNumber / accountAddress / accountDate
     @PostMapping(value = "/addaccountbyfile")
     public Result addAccountByfile(@RequestParam("file")MultipartFile file){
         if (file != null){
-            System.out.println("File Not NULL");
+            // System.out.println("File Not NULL");
             String fileName = file.getOriginalFilename();
             List<Map<String,String>> list = fileService.viewExcelFile("xlsx",file);
             for (int i=0;i<list.size();i++){
@@ -312,10 +486,25 @@ public class AdminController {
                 accountService.add(accountModel);
             }
         } else {
-            System.out.println("File is NULL");
+            throw new MyException(ResultEnum.ERROR_103);
+            //System.out.println("File is NULL");
         }
-        List<AccountModel> list = accountService.findAll();
-        return Result.success(list);
+        List<Object[]> list = accountService.listAll();
+        List<Map> returnList = new ArrayList<>();
+        for(int i=0;i<list.size();i++){
+            Object[] objects = list.get(i);
+            Map tempMap = new HashMap();
+            tempMap.put("objectId",objects[0]);
+            tempMap.put("createTime",objects[1]);
+            tempMap.put("delTime",objects[2]);
+            tempMap.put("updateTime",objects[3]);
+            tempMap.put("accountAddress",objects[4]);
+            tempMap.put("accountDate",objects[5]);
+            tempMap.put("stuNumber",objects[6]);
+            tempMap.put("stuName",objects[7]);
+            returnList.add(tempMap);
+        }
+        return Result.success(returnList);
     }
     /*
      * 户口信息操作 - End
@@ -323,51 +512,140 @@ public class AdminController {
 
     /*
      * 红色档案信息操作 - Start
+     *         CREATE VIEW redarchiveview AS
+    SELECT
+        tb_redarchive.*,
+        tb_user.stu_name
+    FROM
+        tb_redarchive,
+        tb_user
+    WHERE
+        tb_redarchive.stu_number = tb_user.stu_number
      */
 
     //展示红色档案
     @GetMapping(value = "/listredarchive")
     public Result listRedArchive(){
-        List<RedArchiveModel> list = redArchiveService.findALL();
-        return Result.success(list);
+        List<Object[]> list = redArchiveService.listAll();
+        List<Map> returnList = new ArrayList<>();
+        for(int i=0;i<list.size();i++){
+            Object[] objects = list.get(i);
+            Map tempMap = new HashMap();
+            tempMap.put("objectId",objects[0]);
+            tempMap.put("createTime",objects[1]);
+            tempMap.put("delTime",objects[2]);
+            tempMap.put("updateTime",objects[3]);
+            tempMap.put("activistDate",objects[4]);
+            tempMap.put("introducer",objects[5]);
+            tempMap.put("joinDate",objects[6]);
+            tempMap.put("stuNumber",objects[7]);
+            tempMap.put("introducerB",objects[7]);
+            tempMap.put("stuName",objects[7]);
+            returnList.add(tempMap);
+        }
+        return Result.success(returnList);
     }
 
     //新增红色档案
     @PostMapping(value = "/addredarchive")
     public Result addRedArchive(@RequestBody RedArchiveModel redArchiveModel){
         redArchiveService.add(redArchiveModel);
-        List<RedArchiveModel> list = redArchiveService.findALL();
-        return Result.success(list);
+        List<Object[]> list = redArchiveService.listAll();
+        List<Map> returnList = new ArrayList<>();
+        for(int i=0;i<list.size();i++){
+            Object[] objects = list.get(i);
+            Map tempMap = new HashMap();
+            tempMap.put("objectId",objects[0]);
+            tempMap.put("createTime",objects[1]);
+            tempMap.put("delTime",objects[2]);
+            tempMap.put("updateTime",objects[3]);
+            tempMap.put("activistDate",objects[4]);
+            tempMap.put("introducer",objects[5]);
+            tempMap.put("joinDate",objects[6]);
+            tempMap.put("stuNumber",objects[7]);
+            tempMap.put("introducerB",objects[7]);
+            tempMap.put("stuName",objects[7]);
+            returnList.add(tempMap);
+        }
+        return Result.success(returnList);
     }
 
     //删除红色档案
     @PostMapping(value = "/deleteredarchive")
     public Result deleteRedArchive(@RequestBody RedArchiveModel redArchiveModel){
         redArchiveService.delete(redArchiveModel);
-        List<RedArchiveModel> list = redArchiveService.findALL();
-        return Result.success(list);
+        List<Object[]> list = redArchiveService.listAll();
+        List<Map> returnList = new ArrayList<>();
+        for(int i=0;i<list.size();i++){
+            Object[] objects = list.get(i);
+            Map tempMap = new HashMap();
+            tempMap.put("objectId",objects[0]);
+            tempMap.put("createTime",objects[1]);
+            tempMap.put("delTime",objects[2]);
+            tempMap.put("updateTime",objects[3]);
+            tempMap.put("activistDate",objects[4]);
+            tempMap.put("introducer",objects[5]);
+            tempMap.put("joinDate",objects[6]);
+            tempMap.put("stuNumber",objects[7]);
+            tempMap.put("introducerB",objects[7]);
+            tempMap.put("stuName",objects[7]);
+            returnList.add(tempMap);
+        }
+        return Result.success(returnList);
     }
 
-    //根据 学号 查询红色档案
+    //查询红色档案
     @PostMapping(value = "/searchredarchive")
-    public Result searchRedArchive(@RequestBody RedArchiveModel redArchiveModel){
-        List<RedArchiveModel> list = redArchiveService.findByStuNumber(redArchiveModel.getStuNumber());
-        return Result.success(list);
+    public Result searchRedArchive(@RequestBody UserModel userModel){
+        List<Object[]> list = redArchiveService.searchAdmin(userModel.getStuName(),userModel.getStuNumber());
+        List<Map> returnList = new ArrayList<>();
+        for(int i=0;i<list.size();i++){
+            Object[] objects = list.get(i);
+            Map tempMap = new HashMap();
+            tempMap.put("objectId",objects[0]);
+            tempMap.put("createTime",objects[1]);
+            tempMap.put("delTime",objects[2]);
+            tempMap.put("updateTime",objects[3]);
+            tempMap.put("activistDate",objects[4]);
+            tempMap.put("introducer",objects[5]);
+            tempMap.put("joinDate",objects[6]);
+            tempMap.put("stuNumber",objects[7]);
+            tempMap.put("introducerB",objects[7]);
+            tempMap.put("stuName",objects[7]);
+            returnList.add(tempMap);
+        }
+        return Result.success(returnList);
     }
 
     //动态修改更新红色档案
     @PostMapping(value = "/modifyredarchive")
     public Result modifyRedArchive(@RequestBody RedArchiveModel redArchiveModel){
         redArchiveService.update(redArchiveModel);
-        List<RedArchiveModel> list = redArchiveService.findALL();
-        return Result.success(list);
+        List<Object[]> list = redArchiveService.listAll();
+        List<Map> returnList = new ArrayList<>();
+        for(int i=0;i<list.size();i++){
+            Object[] objects = list.get(i);
+            Map tempMap = new HashMap();
+            tempMap.put("objectId",objects[0]);
+            tempMap.put("createTime",objects[1]);
+            tempMap.put("delTime",objects[2]);
+            tempMap.put("updateTime",objects[3]);
+            tempMap.put("activistDate",objects[4]);
+            tempMap.put("introducer",objects[5]);
+            tempMap.put("joinDate",objects[6]);
+            tempMap.put("stuNumber",objects[7]);
+            tempMap.put("introducerB",objects[7]);
+            tempMap.put("stuName",objects[7]);
+            returnList.add(tempMap);
+        }
+        return Result.success(returnList);
     }
 
     //批量增加红色档案  stuNumber / becomeActivistDate / introducer / joinDate
     @PostMapping(value = "/addredarchivebyfile")
     public Result addRedArchiveByfile(@RequestParam("file")MultipartFile file){
         if (file != null){
-            System.out.println("File Not NULL");
+            // System.out.println("File Not NULL");
             String fileName = file.getOriginalFilename();
             List<Map<String,String>> list = fileService.viewExcelFile("xlsx",file);
             for (int i=0;i<list.size();i++){
@@ -381,10 +659,27 @@ public class AdminController {
                 redArchiveService.add(redArchiveModel);
             }
         } else {
-            System.out.println("File is NULL");
+            throw new MyException(ResultEnum.ERROR_103);
+            // System.out.println("File is NULL");
         }
-        List<RedArchiveModel> list = redArchiveService.findALL();
-        return Result.success(list);
+        List<Object[]> list = redArchiveService.listAll();
+        List<Map> returnList = new ArrayList<>();
+        for(int i=0;i<list.size();i++){
+            Object[] objects = list.get(i);
+            Map tempMap = new HashMap();
+            tempMap.put("objectId",objects[0]);
+            tempMap.put("createTime",objects[1]);
+            tempMap.put("delTime",objects[2]);
+            tempMap.put("updateTime",objects[3]);
+            tempMap.put("activistDate",objects[4]);
+            tempMap.put("introducer",objects[5]);
+            tempMap.put("joinDate",objects[6]);
+            tempMap.put("stuNumber",objects[7]);
+            tempMap.put("introducerB",objects[7]);
+            tempMap.put("stuName",objects[7]);
+            returnList.add(tempMap);
+        }
+        return Result.success(returnList);
     }
     /*
      * 红色档案信息操作 - End
@@ -450,8 +745,8 @@ public class AdminController {
 
     //根据校友学号查找校友资料
     @PostMapping(value = "/searchalumniinfor")
-    public Result searchAlumni(@RequestBody AlumniInformationModel alumniInformationModel){
-        List<Object[]> list = alumniInformationService.findByStuNumber(alumniInformationModel.getStuNumber());
+    public Result searchAlumni(@RequestBody UserModel userModel){
+        List<Object[]> list = alumniInformationService.searchAdmin(userModel.getStuNumber(),userModel.getStuName());
         List<Map> returnList = new ArrayList<>();
         for(int i=0;i<list.size();i++){
             Object[] objects = list.get(i);
@@ -544,8 +839,8 @@ public class AdminController {
 
     //根据实习生学号查找实习生资料
     @PostMapping(value = "/searchpractice")
-    public Result searchPractice(@RequestBody PracticeInforModel practiceInforModel){
-        List<Object[]> list = practiceInforService.findByStuNumber(practiceInforModel.getStuNumber());
+    public Result searchPractice(@RequestBody UserModel userModel){
+        List<Object[]> list = practiceInforService.searchAdmin(userModel.getStuNumber(),userModel.getStuName());
         List<Map> returnList = new ArrayList<>();
         for(int i=0;i<list.size();i++){
             Object[] objects = list.get(i);

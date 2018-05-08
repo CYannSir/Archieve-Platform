@@ -13,6 +13,17 @@ import java.util.List;
  */
 public interface RedArchiveRepository extends JpaRepository<RedArchiveModel,String> {
 
+    //通过视图查看所有档案信息
+    @Query(value = "select * from redarchiveview where redarchiveview.del_time is null",nativeQuery = true)
+    List<Object[]> listAll();
+
+    //通过视图查看所有档案信息
+    @Query(value = "select * from redarchiveview " +
+            "where redarchiveview.del_time is null " +
+            "AND redarchiveview.stu_name LIKE %?1% " +
+            "And  redarchiveview.stu_number LIKE %?2% ",nativeQuery = true)
+    List<Object[]> searchAdmin(@Param("stuName") String stuName, @Param("stuNumber") String stuNumber);
+
     //查询所有红色档案信息
     @Query("select redArchiveModel from RedArchiveModel redArchiveModel where redArchiveModel.delTime is null")
     List<RedArchiveModel> findALLRedArchive();

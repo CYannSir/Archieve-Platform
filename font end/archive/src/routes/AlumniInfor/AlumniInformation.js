@@ -102,7 +102,7 @@ export default class AlumniInformation extends Component {
               <span>
                 QQ Group
                 <em className={styles.optional}>
-                  <Icon type="qq" style={{ marginLeft: 4 }} />
+                  <Icon type="qq" style={{ marginLeft: 4, color: '#595959' }} />
                 </em>
               </span>
             }
@@ -112,7 +112,7 @@ export default class AlumniInformation extends Component {
               <span>
                 Wechat Group
                 <em className={styles.optional}>
-                  <Icon type="wechat" style={{ marginLeft: 4 }} />
+                  <Icon type="wechat" style={{ marginLeft: 4, color: '#595959' }} />
                 </em>
               </span>
             }

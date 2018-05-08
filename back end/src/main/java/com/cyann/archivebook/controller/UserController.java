@@ -46,6 +46,20 @@ public class UserController {
         return Result.success(result);
     }
 
+    //查看用户信息展示
+    @PostMapping(value = "/showuserinfor")
+    public Result showUserInfor(@RequestBody UserModel userModel){
+        UserModel userinfor = userService.findByStuNumber(userModel.getStuNumber());
+        Map result = new HashMap();
+        result.put("stuName", userinfor.getStuName());
+        result.put("stuNumber",userinfor.getStuNumber());
+        result.put("currentPhone",userinfor.getCurrentPhone());
+        result.put("currentEmail",userinfor.getCurrentEmail());
+        result.put("stuMajor",userinfor.getStuMajor());
+        result.put("stuEndYear",userinfor.getStuEndYear());
+        return Result.success(result);
+    }
+
 
 
     //用户更改基础信息-联系方式

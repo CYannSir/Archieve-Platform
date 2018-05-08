@@ -107,4 +107,16 @@ public class ArchiveService extends BaseService {
         });
     }
 
+    //视图--查询所有档案信息
+    public List<Object[]> listAll(){
+        List<Object[]> list = archiveRepository.listAll();
+        return list;
+    }
+
+    //视图--查询所有档案信息
+    public List<Object[]> searchAdmin(String stuName, String stuNumber){
+        List<Object[]> list = archiveRepository.searchAdmin(stuName,stuNumber);
+        return list;
+    }
+
 }

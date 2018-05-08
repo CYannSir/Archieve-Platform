@@ -77,7 +77,10 @@ export const getRouterData = (app) => {
       component: dynamicWrapper(app, ['list'], () => import('../routes/Home/List')),
     },
     '/home/homepage': {
-      component: dynamicWrapper(app, ['list'], () => import('../routes/Home/Home')),
+      component: dynamicWrapper(app, ['list', 'profile'], () => import('../routes/Home/Home')),
+    },
+    '/showuser': {
+      component: dynamicWrapper(app, ['profile'], () => import('../routes/Home/ShowUser')),
     },
     '/dashboard/studentbasicinfor': {
       component: dynamicWrapper(app, ['form', 'stuinfor'], () => import('../routes/AdminBasicInfor/StudentBasicInfor')),

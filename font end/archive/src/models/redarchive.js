@@ -54,19 +54,24 @@ export default {
     *addbyfile({ payload, callback }, { call, put }) {
       const response = yield call(addRedArchiveByfile, payload);
       const pageSize = 10;
-      yield put({
-        type: 'save',
-        payload: {
-          response,
-          list: response.data,
-          pagination: {
-            total: response.data.length,
-            pageSize,
-            current: parseInt(response.data.currentPage, 10) || 1,
-          },
+      if (response.code === 200) {
+        message.success('批量增加成功');
+        yield put({
+          type: 'save',
+          payload: {
+            response,
+            list: response.data,
+            pagination: {
+              total: response.data.length,
+              pageSize,
+              current: parseInt(response.data.currentPage, 10) || 1,
+            },
 
-        },
-      });
+          },
+        });
+      } else if (response.code === 103) {
+        message.success('文件为空');
+      }
       if (callback) callback();
     },
     *delete({ payload, callback }, { call, put }) {

@@ -79,6 +79,12 @@ public class PracticeInforService extends BaseService {
         return list;
     }
 
+    //视图 根据 名字 班级 毕业年份 多条件动态查询课程
+    public List<Object[]> searchAdmin(String stuName,String stuClass){
+        List<Object[]> list = practiceInforRepository.searchAdmin(stuName,stuClass);
+        return list;
+    }
+
     //视图--查询所有实习生信息
     public List<Object[]> findAllPracticeInformation(){
         List<Object[]> list = practiceInforRepository.findAllPractice();
@@ -92,8 +98,8 @@ public class PracticeInforService extends BaseService {
     }
 
     //视图 根据 名字 班级 毕业年份 多条件动态查询课程
-    public List<Object[]> searchMaxPractice(String stuName,String stuClass){
-        List<Object[]> list = practiceInforRepository.searchMaxPractice(stuName,stuClass);
+    public List<Object[]> searchMaxPractice(String stuName,String stuClass,String stuMajor,String stuNumber){
+        List<Object[]> list = practiceInforRepository.searchMaxPractice(stuName,stuClass,stuMajor,stuNumber);
         return list;
     }
 

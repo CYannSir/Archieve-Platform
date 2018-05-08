@@ -63,7 +63,7 @@ export default class SearchList extends Component {
     const mainSearch = (
       <div style={{ textAlign: 'center' }}>
         <Input.Search
-          placeholder="Please enter the name or class"
+          placeholder="Name Class Major SchoolId"
           enterButton={<Icon type="search" />}
           size="large"
           onSearch={value => this.handleFormSubmit(value)}

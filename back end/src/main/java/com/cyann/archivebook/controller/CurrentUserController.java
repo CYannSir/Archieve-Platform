@@ -166,8 +166,8 @@ public class CurrentUserController {
             return Result.success(returnList);
         }
         else {
-            List<Object[]> list = alumniInformationService.searchMaxAlumni(userModel.getStuName(),userModel.getStuClass());
-            List<Object[]> list2 = practiceInforService.searchMaxPractice(userModel.getStuName(),userModel.getStuClass());
+            List<Object[]> list = alumniInformationService.searchMaxAlumni(userModel.getStuName(),userModel.getStuClass(),userModel.getStuMajor(),userModel.getStuNumber());
+            List<Object[]> list2 = practiceInforService.searchMaxPractice(userModel.getStuName(),userModel.getStuClass(),userModel.getStuMajor(),userModel.getStuNumber());
             List<Map> returnList = new ArrayList<>();
             for(int i=0;i<list.size();i++){
                 Object[] objects = list.get(i);

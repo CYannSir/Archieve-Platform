@@ -49,6 +49,10 @@ const proxy = {
   'GET /user/listpractice': 'http://localhost:8080',
   'GET /user/listchatgroup': 'http://localhost:8080',
   'POST /user/addpractice': 'http://localhost:8080',
+  'POST /user/showuserinfor': 'http://localhost:8080',
+  'POST /user/showuseralumni': 'http://localhost:8080',
+  'POST /user/showuserpractice': 'http://localhost:8080',
+
 
   //Home 主页信息
   'GET /home': 'http://localhost:8080',

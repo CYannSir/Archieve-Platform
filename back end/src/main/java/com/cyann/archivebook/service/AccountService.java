@@ -96,6 +96,18 @@ public class AccountService {
         });
     }
 
+    //视图--查询所有户口信息
+    public List<Object[]> listAll(){
+        List<Object[]> list = accountRepository.listAll();
+        return list;
+    }
+
+    //视图--查询所有户口信息
+    public List<Object[]> searchAdmin(String stuName, String stuNumber){
+        List<Object[]> list = accountRepository.searchAdmin(stuName,stuNumber);
+        return list;
+    }
+
 
 
 }

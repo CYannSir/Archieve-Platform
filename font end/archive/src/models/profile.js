@@ -1,5 +1,5 @@
 import { message } from 'antd';
-import { queryBasicProfile, queryChatGroup, addFeedback, updateStatus, queryPracticeInfor, queryAlumniInformation, queryRedArchive, addAccount, queryArchive, addArchive, queryAdvancedProfile, queryUserInfor, queryAccount } from '../services/api';
+import { queryBasicProfile, queryChatGroup, queryShowUserPracticeInfor, queryShowUserAlumniInformation, queryShowUserInfor, addFeedback, updateStatus, queryPracticeInfor, queryAlumniInformation, queryRedArchive, addAccount, queryArchive, addArchive, queryAdvancedProfile, queryUserInfor, queryAccount } from '../services/api';
 
 export default {
   namespace: 'profile',
@@ -83,6 +83,35 @@ export default {
         payload: response.data,
       });
     },
+    *fetchShowUserInfor(_, { call, put }) {
+      const response = yield call(queryShowUserInfor);
+      // console.log('userinfor==>', response.data);
+      yield put({
+        type: 'listuserinfor',
+        payload: response.data,
+      });
+    },
+    *showUser(payload, { call, put }) {
+      const response1 = yield call(queryShowUserInfor, payload);
+      // const response2 = yield call(queryShowUserAlumniInformation, payload);
+      // const response3 = yield call(queryShowUserPracticeInfor, payload);
+      yield put({
+        type: 'listuserinfor',
+        payload: response1.data,
+      });
+      /*
+      console.log('listalumni==>', response2.data);
+      yield put({
+        type: 'listalumni',
+        payload: response2.data,
+      });
+
+      console.log('practice==>', response3.data);
+      yield put({
+        type: 'listpractice',
+        payload: response3.data,
+      }); */
+    },
     *fetchAlumniInformation(_, { call, put }) {
       const response = yield call(queryAlumniInformation);
       // console.log('listalumni==>', response.data);
@@ -91,8 +120,24 @@ export default {
         payload: response.data,
       });
     },
+    *fetchShowUserAlumniInformation(_, { call, put }) {
+      const response = yield call(queryShowUserAlumniInformation);
+      // console.log('listalumni==>', response.data);
+      yield put({
+        type: 'listalumni',
+        payload: response.data,
+      });
+    },
     *fetchPracticeInfor(_, { call, put }) {
       const response = yield call(queryPracticeInfor);
+      // console.log('listalumni==>', response.data);
+      yield put({
+        type: 'listpractice',
+        payload: response.data,
+      });
+    },
+    *fetchShowUserPracticeInfor(_, { call, put }) {
+      const response = yield call(queryShowUserPracticeInfor);
       // console.log('listalumni==>', response.data);
       yield put({
         type: 'listpractice',

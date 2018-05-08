@@ -32,12 +32,24 @@ public interface AlumniInformationRepository extends JpaRepository<AlumniInforma
     @Query(value = "select * from alumniview where alumniview.del_time is null",nativeQuery = true)
     List<Object[]> findAllAlumni();
 
-    //通过视图查询
+    //通过 学生姓名 学生学号 视图查询
     @Query(value = "select * from alumniview " +
             "where alumniview.del_time is null " +
             "AND alumniview.stu_name LIKE %?1%  " +
-            "OR  alumniview.stu_class like %?2%  ",nativeQuery = true)
-    List<Object[]> search(@Param("stuName") String stuName,@Param("stuClass") String stuClass);
+            "OR  alumniview.stu_number like %?2%  ",nativeQuery = true)
+    List<Object[]> searchAdmin(@Param("stuName") String stuName,@Param("stuNumber") String stuNumber);
+
+    //通过 学生姓名 学生班级 等视图查询
+    @Query(value = "select * from alumniview " +
+            "where alumniview.del_time is null " +
+            "AND alumniview.stu_name LIKE %?1%  " +
+            "OR  alumniview.stu_class like %?2%  " +
+            "OR  alumniview.stu_major like %?3%  " +
+            "OR  alumniview.stu_number like %?4% ",nativeQuery = true)
+    List<Object[]> search(@Param("stuName") String stuName,
+                          @Param("stuClass") String stuClass,
+                          @Param("stuMajor") String stuMajor,
+                          @Param("stuNumber") String stuNumber);
 
 
     //通过视图每个校友最新信息
@@ -46,8 +58,17 @@ public interface AlumniInformationRepository extends JpaRepository<AlumniInforma
 
     //通过视图查看所有校友信息
     @Query(value = "SELECT *,max(start_date) FROM " +
-            "(SELECT * FROM alumniview where alumniview.del_time is null AND alumniview.stu_name LIKE %?1% OR  alumniview.stu_class LIKE %?2% ORDER BY start_date DESC) A " +
+            "(SELECT * FROM alumniview " +
+            "where alumniview.del_time is null " +
+            "AND alumniview.stu_name LIKE %?1% " +
+            "OR  alumniview.stu_class LIKE %?2% " +
+            "OR  alumniview.stu_major like %?3% " +
+            "OR  alumniview.stu_number like %?4% " +
+            "ORDER BY start_date DESC) A " +
             "GROUP BY stu_number ",nativeQuery = true)
-    List<Object[]> searchMaxAlumni(@Param("stuName") String stuName, @Param("stuClass") String stuClass);
+    List<Object[]> searchMaxAlumni(@Param("stuName") String stuName,
+                                   @Param("stuClass") String stuClass,
+                                   @Param("stuMajor") String stuMajor,
+                                   @Param("stuNumber") String stuNumber);
 
 }

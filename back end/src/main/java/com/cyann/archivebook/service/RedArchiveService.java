@@ -77,4 +77,16 @@ public class RedArchiveService extends BaseService {
         return list;
     }
 
+    //视图--查询所有户口信息
+    public List<Object[]> listAll(){
+        List<Object[]> list = redArchiveRepository.listAll();
+        return list;
+    }
+
+    //视图--查询所有户口信息
+    public List<Object[]> searchAdmin(String stuName, String stuNumber){
+        List<Object[]> list = redArchiveRepository.searchAdmin(stuName,stuNumber);
+        return list;
+    }
+
 }
