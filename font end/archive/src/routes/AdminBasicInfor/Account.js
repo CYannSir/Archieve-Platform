@@ -12,6 +12,11 @@ const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
 
 const columns = [
   {
+    title: '姓名',
+    align: 'center',
+    dataIndex: 'stuName',
+  },
+  {
     title: '学号',
     align: 'center',
     dataIndex: 'stuNumber',
@@ -26,13 +31,6 @@ const columns = [
     align: 'center',
     dataIndex: 'accountDate',
     render: val => <span>{moment(val).format('YYYY-MM-DD')}</span>,
-  },
-  {
-    title: '创建时间',
-    align: 'center',
-    dataIndex: 'creatTime',
-    sorter: true,
-    render: val => (<span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>),
   },
   {
     title: '更新时间',

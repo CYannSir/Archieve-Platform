@@ -93,6 +93,10 @@ export async function queryPracticeInfor() {
   return request('/user/listpractice');
 }
 
+export async function queryChatGroup() {
+  return request('/user/listchatgroup');
+}
+
 export async function addAccount(params) {
   return request('/user/addaccount', {
     method: 'POST',

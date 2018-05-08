@@ -1,5 +1,5 @@
 import { message } from 'antd';
-import { queryBasicProfile, addFeedback, updateStatus, queryPracticeInfor, queryAlumniInformation, queryRedArchive, addAccount, queryArchive, addArchive, queryAdvancedProfile, queryUserInfor, queryAccount } from '../services/api';
+import { queryBasicProfile, queryChatGroup, addFeedback, updateStatus, queryPracticeInfor, queryAlumniInformation, queryRedArchive, addAccount, queryArchive, addArchive, queryAdvancedProfile, queryUserInfor, queryAccount } from '../services/api';
 
 export default {
   namespace: 'profile',
@@ -9,6 +9,7 @@ export default {
     updatestatus: [],
     accountdata: [],
     archivedata: [],
+    chatgroup: [],
     redarchivedata: [],
     alumnidata: [],
     practicedata: [],
@@ -98,6 +99,14 @@ export default {
         payload: response.data,
       });
     },
+    *fetchChatGroup(_, { call, put }) {
+      const response = yield call(queryChatGroup);
+      // console.log('listalumni==>', response.data);
+      yield put({
+        type: 'listchatgroup',
+        payload: response.data,
+      });
+    },
     *addAccount({ payload, callback }, { call, put }) {
       const response = yield call(addAccount, payload);
       // console.log('userinfor==>', response.data);
@@ -182,6 +191,13 @@ export default {
       return {
         ...state,
         accountdata: payload,
+      };
+    },
+    listchatgroup(state, { payload }) {
+      // console.log('payload', payload);
+      return {
+        ...state,
+        chatgroup: payload,
       };
     },
     listarchive(state, { payload }) {

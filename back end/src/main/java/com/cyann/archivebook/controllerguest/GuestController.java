@@ -71,8 +71,11 @@ public class GuestController {
     @PostMapping(value = "/register")
     public Result register(@RequestBody CurrentUserModel currentUserModel){
         CurrentUserModel item = currentUserService.findByLoginEmail(currentUserModel.getLoginEmail());
+
         CurrentUserModel item_activecode = currentUserService.findByLoginEmail(currentUserModel.getLoginEmail());
+
         List<UserModel> item_stuname = userService.findByStuName(currentUserModel.getStuName());
+
         UserModel item_stunumber = userService.findByStuNumber(currentUserModel.getStuNumber());
 
         // System.out.println(!item_stuname.isEmpty());
@@ -82,7 +85,7 @@ public class GuestController {
         else if(item_stuname.isEmpty()){
             return Result.error(108,"无该名字学生用户");
         }
-        else if(item_stunumber == null){
+        else if(item_stunumber == null && item_stunumber.getStuName().equals(currentUserModel.getStuName())){
             return Result.error(108,"无该名字学生用户");
         }
         else {

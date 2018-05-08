@@ -11,8 +11,8 @@ const FormItem = Form.Item;
 const { Option } = Select;
 const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
 const statusMap = ['default', 'processing', 'success', 'error'];
-const status = ['普通', '党员'];
-const stupower = ['实习生', '毕业生'];
+const status = ['', '普通', '党员'];
+const stupower = ['', '实习生', '毕业生'];
 
 const fileprops = {
   name: 'file',
@@ -92,13 +92,6 @@ const columns = [
     title: '现在联系方式',
     dataIndex: 'currentPhone',
     align: 'center',
-  },
-  {
-    title: '创建时间',
-    dataIndex: 'creatTime',
-    align: 'center',
-    sorter: true,
-    render: val => (<span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>),
   },
   {
     title: '更新时间',
@@ -203,8 +196,8 @@ const CreateForm = Form.create()((props) => {
             rules: [{ message: '请选择学生是否为党员' }],
         })(
           <Select placeholder="请选择" style={{ width: '100%' }}>
-            <Option value="0">普通</Option>
-            <Option value="1">党员</Option>
+            <Option value="1">普通</Option>
+            <Option value="2">党员</Option>
           </Select>
               )}
         </FormItem>
@@ -217,8 +210,8 @@ const CreateForm = Form.create()((props) => {
             rules: [{ message: '请选择学生是否毕业' }],
         })(
           <Select placeholder="请选择" style={{ width: '100%' }}>
-            <Option value="0">实习生</Option>
-            <Option value="1">毕业生</Option>
+            <Option value="1">实习生</Option>
+            <Option value="2">毕业生</Option>
           </Select>
               )}
         </FormItem>
@@ -314,8 +307,8 @@ const CreateForm = Form.create()((props) => {
             rules: [{ required: true, message: '请选择学生是否为党员' }],
         })(
           <Select placeholder="请选择" style={{ width: '100%' }}>
-            <Option value="0">普通</Option>
-            <Option value="1">党员</Option>
+            <Option value="1">普通</Option>
+            <Option value="2">党员</Option>
           </Select>
               )}
         </FormItem>
@@ -328,8 +321,8 @@ const CreateForm = Form.create()((props) => {
             rules: [{ required: true, message: '请选择学生是否毕业' }],
         })(
           <Select placeholder="请选择" style={{ width: '100%' }}>
-            <Option value="0">实习生</Option>
-            <Option value="1">毕业生</Option>
+            <Option value="1">实习生</Option>
+            <Option value="2">毕业生</Option>
           </Select>
               )}
         </FormItem>
@@ -576,8 +569,8 @@ export default class StudentBasicInfor extends PureComponent {
             <FormItem label="是否为党员">
               {getFieldDecorator('redParty')(
                 <Select placeholder="请选择" style={{ width: '100%' }}>
-                  <Option value="0">普通</Option>
-                  <Option value="1">党员</Option>
+                  <Option value="1">普通</Option>
+                  <Option value="2">党员</Option>
                 </Select>
               )}
             </FormItem>
@@ -633,8 +626,8 @@ export default class StudentBasicInfor extends PureComponent {
             <FormItem label="是否为党员">
               {getFieldDecorator('redParty')(
                 <Select placeholder="请选择" style={{ width: '100%' }}>
-                  <Option value="0">普通</Option>
-                  <Option value="1">党员</Option>
+                  <Option value="1">普通</Option>
+                  <Option value="2">党员</Option>
                 </Select>
               )}
             </FormItem>
@@ -643,8 +636,8 @@ export default class StudentBasicInfor extends PureComponent {
             <FormItem label="是否毕业">
               {getFieldDecorator('stuPower')(
                 <Select placeholder="请选择" style={{ width: '100%' }}>
-                  <Option value="0">实习生</Option>
-                  <Option value="1">毕业生</Option>
+                  <Option value="1">实习生</Option>
+                  <Option value="2">毕业生</Option>
                 </Select>
               )}
             </FormItem>

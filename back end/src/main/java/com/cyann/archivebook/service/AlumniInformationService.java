@@ -102,6 +102,18 @@ public class AlumniInformationService extends BaseService {
         return list;
     }
 
+    //视图--查询所有校友信息
+    public List<Object[]> findMaxAlumni(){
+        List<Object[]> list = alumniInformationRepository.findMaxAlumni();
+        return list;
+    }
+
+    //视图 根据 名字 班级 毕业年份 多条件动态查询课程
+    public List<Object[]> searchMaxAlumni(String stuName,String stuClass){
+        List<Object[]> list = alumniInformationRepository.searchMaxAlumni(stuName,stuClass);
+        return list;
+    }
+
 
 
 }

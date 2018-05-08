@@ -39,4 +39,13 @@ public interface PracticeInforRepository extends JpaRepository<PracticeInforMode
             "OR  practiceview.stu_class LIKE %?2% ",nativeQuery = true)
     List<Object[]> search(@Param("stuName") String stuName, @Param("stuClass") String stuClass);
 
+    //通过视图每个校友最新信息
+    @Query(value = "SELECT *,max(start_date) FROM (SELECT * FROM practiceview where practiceview.del_time is null ORDER BY start_date DESC) A GROUP BY stu_number",nativeQuery = true)
+    List<Object[]> findMaxPractice();
+
+    //通过视图查看所有校友信息
+    @Query(value = "SELECT *,max(start_date) FROM " +
+            "(SELECT * FROM practiceview where practiceview.del_time is null AND practiceview.stu_name LIKE %?1% OR  practiceview.stu_class LIKE %?2% ORDER BY start_date DESC) A " +
+            "GROUP BY stu_number ",nativeQuery = true)
+    List<Object[]> searchMaxPractice(@Param("stuName") String stuName, @Param("stuClass") String stuClass);
 }

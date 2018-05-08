@@ -34,7 +34,7 @@ public class LoginAspect {
 
     @Before("point()")
     public void doBefore() {
-        logger.info("before!!!!");
+        // logger.info("before!!!!");
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
         HttpSession session = request.getSession();
@@ -48,12 +48,12 @@ public class LoginAspect {
 
     @After("point()")
     public void doAfter() {
-        logger.info("after!!!!");
+        //logger.info("after!!!!");
     }
 
     @Before("pointAdmin()")
     public void doBeforeAdmin() {
-        logger.info("before!!!!");
+        // logger.info("before!!!!");
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
         HttpSession session = request.getSession();
@@ -66,6 +66,6 @@ public class LoginAspect {
 
     @After("pointAdmin()")
     public void doAfterAdmin() {
-        logger.info("after!!!!");
+        //logger.info("after!!!!");
     }
 }

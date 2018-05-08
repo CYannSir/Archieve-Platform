@@ -31,6 +31,11 @@ const fileprops = {
 };
 const columns = [
   {
+    title: '姓名',
+    align: 'center',
+    dataIndex: 'stuName',
+  },
+  {
     title: '学号',
     align: 'center',
     dataIndex: 'stuNumber',
@@ -51,13 +56,6 @@ const columns = [
     title: '介绍人',
     align: 'center',
     dataIndex: 'introducer',
-  },
-  {
-    title: '创建时间',
-    dataIndex: 'creatTime',
-    align: 'center',
-    sorter: true,
-    render: val => (<span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>),
   },
   {
     title: '更新时间',

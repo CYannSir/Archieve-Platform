@@ -31,12 +31,14 @@ export default class Home extends Component {
   render() {
     const { list: { list }, loading } = this.props;
 
-    const CardInfor = ({ industry, company, occupation, salary }) => (
+    const CardInfor = ({ industry, company, occupation, salary, startDate, endDate }) => (
       <div className={styles.cardInfo}>
         <div className={styles.extra}>-----</div>
         <div className={styles.extra}>Industry:   {industry}</div>
         <div className={styles.extra}>Company:    {company}</div>
         <div className={styles.extra}>Occupation:     {occupation}</div>
+        <div className={styles.extra}>Start Date:     {startDate}</div>
+        <div className={styles.extra}>End Date:     {endDate}</div>
         <div className={styles.extra}>Salary:     {salary}</div>
         {/* 目前的联系方式邮箱 公司职位 和 公司                 */}
       </div>
@@ -73,7 +75,7 @@ export default class Home extends Component {
               >
                 <Card.Meta
                   avatar={<Avatar style={{ magain: 48 }} src={item.avatar} size="small" />}
-                  title={item.stuName}
+                  title={`${item.stuName}   ${item.tag}`}
                 />
                 <div className={styles.cardItemContent}>
                   <CardInfor
@@ -81,6 +83,8 @@ export default class Home extends Component {
                     industry={item.industry}
                     occupation={item.occupation}
                     salary={item.salary}
+                    startDate={item.startDate}
+                    endDate={item.endDate}
                   />
                 </div>
               </Card>

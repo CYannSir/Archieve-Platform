@@ -31,6 +31,11 @@ const fileprops = {
 };
 const columns = [
   {
+    title: '姓名',
+    align: 'center',
+    dataIndex: 'stuName',
+  },
+  {
     title: '学号',
     align: 'center',
     dataIndex: 'stuNumber',
@@ -51,13 +56,6 @@ const columns = [
     dataIndex: 'flowDate',
     sorter: true,
     render: val => <span>{moment(val).format('YYYY-MM-DD')}</span>,
-  },
-  {
-    title: '创建时间',
-    align: 'center',
-    dataIndex: 'creatTime',
-    sorter: true,
-    render: val => (<span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>),
   },
   {
     title: '更新时间',
@@ -403,6 +401,13 @@ export default class Archive extends PureComponent {
       <Form onSubmit={this.handleSearch} layout="inline">
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={8} sm={24}>
+            <FormItem label="学生姓名">
+              {getFieldDecorator('stuName')(
+                <Input placeholder="请输入" />
+              )}
+            </FormItem>
+          </Col>
+          <Col md={8} sm={24}>
             <FormItem label="学生学号">
               {getFieldDecorator('stuNumber')(
                 <Input placeholder="请输入" />
@@ -428,6 +433,13 @@ export default class Archive extends PureComponent {
     return (
       <Form onSubmit={this.handleSearch} layout="inline">
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
+          <Col md={8} sm={24}>
+            <FormItem label="学生姓名">
+              {getFieldDecorator('stuName')(
+                <Input placeholder="请输入学生姓名" />
+              )}
+            </FormItem>
+          </Col>
           <Col md={8} sm={24}>
             <FormItem label="学号">
               {getFieldDecorator('stuNumber')(

@@ -376,6 +376,7 @@ public class AdminController {
                 redArchiveModel.setStuNumber(tempMap.get("stuNumber"));
                 redArchiveModel.setActivistDate(tempMap.get("activistDate"));
                 redArchiveModel.setIntroducer(tempMap.get("introducer"));
+                redArchiveModel.setIntroducerB(tempMap.get("introducerB"));
                 redArchiveModel.setJoinDate(tempMap.get("joinDate"));
                 redArchiveService.add(redArchiveModel);
             }

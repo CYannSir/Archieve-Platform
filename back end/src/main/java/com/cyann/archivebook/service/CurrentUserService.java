@@ -120,16 +120,16 @@ public class CurrentUserService {
                 List<Predicate> list = new ArrayList<Predicate>();
                 // list.add(cb.isNull(root.get("delTime")));
                 if(currentUserModel != null && !StringUtils.isEmpty(currentUserModel.getStuNumber()) ){
-                    list.add(cb.equal(root.get("stuNumber"), currentUserModel.getStuNumber()));
+                    list.add(cb.like(root.get("stuNumber"), "%"+ currentUserModel.getStuNumber()+"%"));
                 }
                 if(currentUserModel != null && !StringUtils.isEmpty(currentUserModel.getStuName()) ){
-                    list.add(cb.equal(root.get("stuName"), currentUserModel.getStuName()));
+                    list.add(cb.like(root.get("stuName"), "%"+currentUserModel.getStuName()+"%"));
                 }
                 if(currentUserModel != null && !StringUtils.isEmpty(currentUserModel.getMobilePhone()) ){
-                    list.add(cb.equal(root.get("mobilePhone"), currentUserModel.getMobilePhone()));
+                    list.add(cb.like(root.get("mobilePhone"), "%"+ currentUserModel.getMobilePhone()+"%"));
                 }
                 if(currentUserModel != null && !StringUtils.isEmpty(currentUserModel.getLoginEmail()) ){
-                    list.add(cb.equal(root.get("loginEmail"), currentUserModel.getLoginEmail()));
+                    list.add(cb.like(root.get("loginEmail"), "%" + currentUserModel.getLoginEmail() + "%"));
                 }
                 Predicate[] p = new Predicate[list.size()];
                 return cb.and(list.toArray(p));

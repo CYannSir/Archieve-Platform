@@ -47,6 +47,7 @@ const proxy = {
   'GET /user/listalumni': 'http://localhost:8080',
   'POST /user/addalumni': 'http://localhost:8080',
   'GET /user/listpractice': 'http://localhost:8080',
+  'GET /user/listchatgroup': 'http://localhost:8080',
   'POST /user/addpractice': 'http://localhost:8080',
 
   //Home 主页信息

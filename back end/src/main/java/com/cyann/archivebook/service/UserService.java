@@ -177,24 +177,24 @@ public class UserService {
                 List<Predicate> list = new ArrayList<Predicate>();
                 list.add(cb.isNull(root.get("delTime")));
                 if(userModel != null && !StringUtils.isEmpty(userModel.getStuName()) ){
-                    list.add(cb.equal(root.get("stuName"), userModel.getStuName()));
+                    list.add(cb.like(root.get("stuName"), "%"+ userModel.getStuName() + "%"));
                 }
                 if(userModel != null && !StringUtils.isEmpty(userModel.getStuNumber()) ){
-                    list.add(cb.equal(root.get("stuNumber"), userModel.getStuNumber()));
+                    list.add(cb.like(root.get("stuNumber"), "%" + userModel.getStuNumber() +"%" ));
                 }
                 if(userModel != null && !StringUtils.isEmpty(userModel.getStuMajor()) ){
-                    list.add(cb.equal(root.get("stuMajor"), userModel.getStuMajor()));
+                    list.add(cb.like(root.get("stuMajor"), "%"+ userModel.getStuMajor()+ "%"));
                 }
                 if(userModel != null && !StringUtils.isEmpty(userModel.getStuEndYear()) ){
-                    list.add(cb.equal(root.get("stuEndYear"), userModel.getStuEndYear()));
+                    list.add(cb.like(root.get("stuEndYear"),"%"+ userModel.getStuEndYear()+ "%"));
                 }
                 if(userModel != null && !StringUtils.isEmpty(userModel.getStuStartYear()) ){
-                    list.add(cb.equal(root.get("stuStartYear"), userModel.getStuStartYear()));
+                    list.add(cb.like(root.get("stuStartYear"), "%"+ userModel.getStuStartYear()+ "%"));
                 }
-                if(userModel != null && !StringUtils.isEmpty(userModel.getRedParty()) ){
+                if(userModel != null && userModel.getRedParty() != 0 ){
                     list.add(cb.equal(root.get("redParty"), Integer.valueOf(userModel.getRedParty())));
                 }
-                if(userModel != null && !StringUtils.isEmpty(userModel.getStuPower()) ){
+                if(userModel != null && userModel.getStuPower() != 0 ){
                     list.add(cb.equal(root.get("stuPower"), Integer.valueOf(userModel.getStuPower())));
                 }
                 Predicate[] p = new Predicate[list.size()];

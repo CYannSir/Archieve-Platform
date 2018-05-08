@@ -29,6 +29,16 @@ public class RedArchiveModel extends BaseEntity{
     private String activistDate;
     @Column(nullable = false , length = 32)
     private String introducer;
+    @Column(nullable = false , length = 32)
+    private String introducerB;
+
+    public String getIntroducerB() {
+        return introducerB;
+    }
+
+    public void setIntroducerB(String introducerB) {
+        this.introducerB = introducerB;
+    }
 
     public String getStuNumber() {
         return stuNumber;

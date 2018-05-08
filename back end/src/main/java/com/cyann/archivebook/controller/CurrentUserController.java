@@ -60,8 +60,8 @@ public class CurrentUserController {
 
     @GetMapping(value = "/home")
     public Result viewHome(){
-        List<Object[]> list = alumniInformationService.findAllAlumniInformation();
-        List<Object[]> list2 = practiceInforService.findAllPracticeInformation();
+        List<Object[]> list = alumniInformationService.findMaxAlumni();
+        List<Object[]> list2 = practiceInforService.findMaxPractice();
         List<Map> returnList = new ArrayList<>();
         for(int i=0;i<list.size();i++){
             Object[] objects = list.get(i);
@@ -71,14 +71,19 @@ public class CurrentUserController {
             tempMap.put("occupation",objects[7]);
             tempMap.put("salary",objects[8]);
             tempMap.put("stuNumber",objects[9]);
-            tempMap.put("stuName",objects[11]);
-            tempMap.put("stuMajor",objects[12]);
-            tempMap.put("stuClass",objects[13]);
-            tempMap.put("stuEndYear",objects[15]);
-            tempMap.put("currentEmail",objects[16]);
-            tempMap.put("currentPhone",objects[17]);
-            tempMap.put("avatar",objects[18]);
-            tempMap.put("cover",objects[18]);
+            tempMap.put("endDate",objects[10]);
+            tempMap.put("startDate",objects[11]);
+
+            tempMap.put("stuName",objects[13]);
+            tempMap.put("stuMajor",objects[14]);
+            tempMap.put("stuClass",objects[15]);
+
+            tempMap.put("stuEndYear",objects[17]);
+            tempMap.put("currentEmail",objects[18]);
+            tempMap.put("currentPhone",objects[19]);
+            tempMap.put("avatar",objects[20]);
+            tempMap.put("cover",objects[20]);
+            tempMap.put("tag","");
             returnList.add(tempMap);
         }
         for(int i=0;i<list2.size();i++){
@@ -89,14 +94,19 @@ public class CurrentUserController {
             tempMap2.put("occupation",objects[7]);
             tempMap2.put("salary",objects[8]);
             tempMap2.put("stuNumber",objects[9]);
-            tempMap2.put("stuName",objects[11]);
-            tempMap2.put("stuMajor",objects[12]);
-            tempMap2.put("stuClass",objects[13]);
-            tempMap2.put("stuEndYear",objects[15]);
-            tempMap2.put("currentEmail",objects[16]);
-            tempMap2.put("currentPhone",objects[17]);
-            tempMap2.put("avatar",objects[18]);
-            tempMap2.put("cover",objects[18]);
+            tempMap2.put("endDate",objects[10]);
+            tempMap2.put("startDate",objects[11]);
+
+            tempMap2.put("stuName",objects[13]);
+            tempMap2.put("stuMajor",objects[14]);
+            tempMap2.put("stuClass",objects[15]);
+
+            tempMap2.put("stuEndYear",objects[17]);
+            tempMap2.put("currentEmail",objects[18]);
+            tempMap2.put("currentPhone",objects[19]);
+            tempMap2.put("avatar",objects[20]);
+            tempMap2.put("cover",objects[20]);
+            tempMap2.put("tag","Intern");
             returnList.add(tempMap2);
         }
         return Result.success(returnList);
@@ -104,8 +114,8 @@ public class CurrentUserController {
     @PostMapping(value = "/home/search")
     public Result searchHome(@RequestBody UserModel userModel){
         if(userModel == null ){
-            List<Object[]> list = alumniInformationService.findAllAlumniInformation();
-            List<Object[]> list2 = practiceInforService.findAllPracticeInformation();
+            List<Object[]> list = alumniInformationService.findMaxAlumni();
+            List<Object[]> list2 = practiceInforService.findMaxPractice();
             List<Map> returnList = new ArrayList<>();
             for(int i=0;i<list.size();i++){
                 Object[] objects = list.get(i);
@@ -115,14 +125,19 @@ public class CurrentUserController {
                 tempMap.put("occupation",objects[7]);
                 tempMap.put("salary",objects[8]);
                 tempMap.put("stuNumber",objects[9]);
-                tempMap.put("stuName",objects[11]);
-                tempMap.put("stuMajor",objects[12]);
-                tempMap.put("stuClass",objects[13]);
-                tempMap.put("stuEndYear",objects[15]);
-                tempMap.put("currentEmail",objects[16]);
-                tempMap.put("currentPhone",objects[17]);
-                tempMap.put("avatar",objects[18]);
-                tempMap.put("cover",objects[18]);
+                tempMap.put("endDate",objects[10]);
+                tempMap.put("startDate",objects[11]);
+
+                tempMap.put("stuName",objects[13]);
+                tempMap.put("stuMajor",objects[14]);
+                tempMap.put("stuClass",objects[15]);
+
+                tempMap.put("stuEndYear",objects[17]);
+                tempMap.put("currentEmail",objects[18]);
+                tempMap.put("currentPhone",objects[19]);
+                tempMap.put("avatar",objects[20]);
+                tempMap.put("cover",objects[20]);
+                tempMap.put("tag","");
                 returnList.add(tempMap);
             }
             for(int i=0;i<list2.size();i++){
@@ -133,21 +148,26 @@ public class CurrentUserController {
                 tempMap2.put("occupation",objects[7]);
                 tempMap2.put("salary",objects[8]);
                 tempMap2.put("stuNumber",objects[9]);
-                tempMap2.put("stuName",objects[11]);
-                tempMap2.put("stuMajor",objects[12]);
-                tempMap2.put("stuClass",objects[13]);
-                tempMap2.put("stuEndYear",objects[15]);
-                tempMap2.put("currentEmail",objects[16]);
-                tempMap2.put("currentPhone",objects[17]);
-                tempMap2.put("avatar",objects[18]);
-                tempMap2.put("cover",objects[18]);
+                tempMap2.put("endDate",objects[10]);
+                tempMap2.put("startDate",objects[11]);
+
+                tempMap2.put("stuName",objects[13]);
+                tempMap2.put("stuMajor",objects[14]);
+                tempMap2.put("stuClass",objects[15]);
+
+                tempMap2.put("stuEndYear",objects[17]);
+                tempMap2.put("currentEmail",objects[18]);
+                tempMap2.put("currentPhone",objects[19]);
+                tempMap2.put("avatar",objects[20]);
+                tempMap2.put("cover",objects[20]);
+                tempMap2.put("tag","Practice");
                 returnList.add(tempMap2);
             }
             return Result.success(returnList);
         }
         else {
-            List<Object[]> list = alumniInformationService.search(userModel.getStuName(),userModel.getStuClass());
-            List<Object[]> list2 = practiceInforService.search(userModel.getStuName(),userModel.getStuClass());
+            List<Object[]> list = alumniInformationService.searchMaxAlumni(userModel.getStuName(),userModel.getStuClass());
+            List<Object[]> list2 = practiceInforService.searchMaxPractice(userModel.getStuName(),userModel.getStuClass());
             List<Map> returnList = new ArrayList<>();
             for(int i=0;i<list.size();i++){
                 Object[] objects = list.get(i);
@@ -157,14 +177,19 @@ public class CurrentUserController {
                 tempMap.put("occupation",objects[7]);
                 tempMap.put("salary",objects[8]);
                 tempMap.put("stuNumber",objects[9]);
-                tempMap.put("stuName",objects[11]);
-                tempMap.put("stuMajor",objects[12]);
-                tempMap.put("stuClass",objects[13]);
-                tempMap.put("stuEndYear",objects[15]);
-                tempMap.put("currentEmail",objects[16]);
-                tempMap.put("currentPhone",objects[17]);
-                tempMap.put("avatar",objects[18]);
-                tempMap.put("cover",objects[18]);
+                tempMap.put("endDate",objects[10]);
+                tempMap.put("startDate",objects[11]);
+
+                tempMap.put("stuName",objects[13]);
+                tempMap.put("stuMajor",objects[14]);
+                tempMap.put("stuClass",objects[15]);
+
+                tempMap.put("stuEndYear",objects[17]);
+                tempMap.put("currentEmail",objects[18]);
+                tempMap.put("currentPhone",objects[19]);
+                tempMap.put("avatar",objects[20]);
+                tempMap.put("cover",objects[20]);
+                tempMap.put("tag","");
                 returnList.add(tempMap);
             }
             for(int i=0;i<list2.size();i++){
@@ -175,14 +200,19 @@ public class CurrentUserController {
                 tempMap2.put("occupation",objects[7]);
                 tempMap2.put("salary",objects[8]);
                 tempMap2.put("stuNumber",objects[9]);
-                tempMap2.put("stuName",objects[11]);
-                tempMap2.put("stuMajor",objects[12]);
-                tempMap2.put("stuClass",objects[13]);
-                tempMap2.put("stuEndYear",objects[15]);
-                tempMap2.put("currentEmail",objects[16]);
-                tempMap2.put("currentPhone",objects[17]);
-                tempMap2.put("avatar",objects[18]);
-                tempMap2.put("cover",objects[18]);
+                tempMap2.put("endDate",objects[10]);
+                tempMap2.put("startDate",objects[11]);
+
+                tempMap2.put("stuName",objects[13]);
+                tempMap2.put("stuMajor",objects[14]);
+                tempMap2.put("stuClass",objects[15]);
+
+                tempMap2.put("stuEndYear",objects[17]);
+                tempMap2.put("currentEmail",objects[18]);
+                tempMap2.put("currentPhone",objects[19]);
+                tempMap2.put("avatar",objects[20]);
+                tempMap2.put("cover",objects[20]);
+                tempMap2.put("tag","Practice");
                 returnList.add(tempMap2);
             }
             return Result.success(returnList);

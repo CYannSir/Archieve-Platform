@@ -57,6 +57,9 @@ public class RedArchiveService extends BaseService {
             if(redArchiveModel.getIntroducer() !=null && redArchiveItem.getIntroducer().equals(redArchiveModel.getIntroducer()) == false ){
                 redArchiveItem.setIntroducer(redArchiveModel.getIntroducer());
             }
+            if(redArchiveModel.getIntroducerB() !=null && redArchiveItem.getIntroducerB().equals(redArchiveModel.getIntroducerB()) == false ){
+                redArchiveItem.setIntroducerB(redArchiveModel.getIntroducerB());
+            }
             baseService.modify(redArchiveRepository, redArchiveItem);
             redArchiveRepository.save(redArchiveItem);
         }

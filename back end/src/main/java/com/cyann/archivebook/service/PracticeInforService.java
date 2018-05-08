@@ -85,5 +85,17 @@ public class PracticeInforService extends BaseService {
         return list;
     }
 
+    //视图--查询所有实习生信息
+    public List<Object[]> findMaxPractice(){
+        List<Object[]> list = practiceInforRepository.findMaxPractice();
+        return list;
+    }
+
+    //视图 根据 名字 班级 毕业年份 多条件动态查询课程
+    public List<Object[]> searchMaxPractice(String stuName,String stuClass){
+        List<Object[]> list = practiceInforRepository.searchMaxPractice(stuName,stuClass);
+        return list;
+    }
+
 
 }

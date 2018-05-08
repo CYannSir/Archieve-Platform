@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
-import { Card, List, Button } from 'antd';
+import { Card, List, Button, Icon } from 'antd';
 import DescriptionList from 'components/DescriptionList';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import styles from './AlumniInformation.less';
@@ -27,6 +27,10 @@ export default class AlumniInformation extends Component {
       type: 'profile/fetchAlumniInformation',
       flag: true,
     });
+    dispatch({
+      type: 'profile/fetchChatGroup',
+      // flag: true,
+    });
   }
   handleAdd = () => {
     this.props.dispatch(routerRedux.push({
@@ -34,7 +38,7 @@ export default class AlumniInformation extends Component {
     }));
   }
   render() {
-    const { profile: { data }, profile: { alumnidata } } = this.props;
+    const { profile: { data }, profile: { alumnidata }, profile: { chatgroup } } = this.props;
     const { flag } = this.state;
     // console.log('ss', alumnidata);
     const description = (
@@ -89,6 +93,32 @@ export default class AlumniInformation extends Component {
         />
         <Card style={{ marginBottom: 24 }} bordered={false}>
           <Button style={{ width: '100%' }} type="dashed" size="large" onClick={this.handleAdd} icon="plus">New</Button>
+        </Card>
+        <Card title="Chat Group" bordered={false}>
+          <DescriptionList style={{ marginBottom: 24 }}>
+            <Description term="Major">{chatgroup ? chatgroup.stuMajor : ''}</Description>
+            <Description term="Graduate Year">{chatgroup ? chatgroup.stuEndYear : ''}</Description>
+            <Description term={
+              <span>
+                QQ Group
+                <em className={styles.optional}>
+                  <Icon type="qq" style={{ marginLeft: 4 }} />
+                </em>
+              </span>
+            }
+            >{chatgroup ? chatgroup.qqNo : ''}
+            </Description>
+            <Description term={
+              <span>
+                Wechat Group
+                <em className={styles.optional}>
+                  <Icon type="wechat" style={{ marginLeft: 4 }} />
+                </em>
+              </span>
+            }
+            >{chatgroup ? chatgroup.wechatNo : ''}
+            </Description>
+          </DescriptionList>
         </Card>
       </PageHeaderLayout>
     );
