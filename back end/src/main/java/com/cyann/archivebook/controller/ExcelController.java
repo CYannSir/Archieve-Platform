@@ -100,7 +100,7 @@ public class ExcelController {
         HSSFCellStyle style = workbook.createCellStyle();
         style.setDataFormat(HSSFDataFormat.getBuiltinFormat("m/d/yy h:mm"));
 
-        System.out.println(style);
+        // System.out.println(style);
 
         //新增数据行，并且设置单元格数据
         int rowNum=1;
@@ -131,7 +131,7 @@ public class ExcelController {
     }
 
 
-    //生成校友信息表excel
+    //生成实习生信息表excel
     @PostMapping(value = "/practiceexcel")
     public String practiceExcel(HttpServletResponse response) throws Exception{
         HSSFWorkbook workbook = new HSSFWorkbook();

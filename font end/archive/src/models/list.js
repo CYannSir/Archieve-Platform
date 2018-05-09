@@ -1,4 +1,4 @@
-import { queryFakeList, queryHome, searchHome, queryShowUserInfor } from '../services/api';
+import { queryFakeList, queryHome, searchHome } from '../services/api';
 
 export default {
   namespace: 'list',
@@ -13,13 +13,6 @@ export default {
       yield put({
         type: 'queryList',
         payload: Array.isArray(response) ? response : [],
-      });
-    },
-    *showUser(payload, { call, put }) {
-      const response1 = yield call(queryShowUserInfor, payload);
-      yield put({
-        type: 'listuserinfor',
-        payload: response1.data,
       });
     },
     *fetchHome({ payload }, { call, put }) {

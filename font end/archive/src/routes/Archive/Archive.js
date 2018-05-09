@@ -107,7 +107,6 @@ const CreateForm = Form.create()((props) => {
 }))
 export default class Archive extends Component {
   state = {
-    flag: false,
     modalVisible: false,
     stepDirection: 'horizontal',
   }
@@ -170,8 +169,8 @@ export default class Archive extends Component {
 
   render() {
     const { stepDirection } = this.state;
-    const { modalVisible, flag } = this.state;
-    const { profile: { data }, profile: { archivedata } } = this.props;
+    const { modalVisible } = this.state;
+    const { profile: { data }, profile: { archivedata }, loading } = this.props;
     const parentMethods = {
       handleAdd: this.handleAdd,
       handleModalVisible: this.handleModalVisible,
@@ -254,7 +253,7 @@ export default class Archive extends Component {
         content={description}
       >
         <List
-          loading={flag}
+          loading={loading}
           split={false}
           locale={{ emptyText: 'Empty!' }}
           dataSource={archivedata}
@@ -268,10 +267,10 @@ export default class Archive extends Component {
             </List.Item>
             )}
         />
-        <Card style={{ marginBottom: 24 }} bordered={false}>
+        <Card loading={loading} style={{ marginBottom: 24 }} bordered={false}>
           <Button style={{ width: '100%' }} type="dashed" size="large" onClick={() => this.handleModalVisible(true)} icon="plus">New</Button>
         </Card>
-        <Card title="Archive Flow Level" style={{ marginBottom: 24 }} bordered={false} >
+        <Card loading={loading} title="Archive Flow Level" style={{ marginBottom: 24 }} bordered={false} >
           <Steps direction={stepDirection} progressDot current={archivedata ? archivedata.length - 1 : ''}>
             <Step title="Level 1" description={desc1} />
             <Step title="Level 2" description={desc2} />

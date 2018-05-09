@@ -84,11 +84,20 @@ export async function queryAdvancedProfile() {
 export async function queryUserInfor() {
   return request('/user/listuserinfor');
 }
+/*
+export async function queryShowUserInfor(params) {
+  return request(`/user/showuserinfor?${stringify(params)}`);
+}
+*/
 
 export async function queryShowUserInfor(params) {
+  // console.log('params', ...params);
+  // console.log('params2', { ...params });
   return request('/user/showuserinfor', {
     method: 'POST',
-    body: params,
+    body: {
+      ...params,
+    },
   });
 }
 
@@ -99,14 +108,18 @@ export async function queryAlumniInformation() {
 export async function queryShowUserAlumniInformation(params) {
   return request('/user/showuseralumni', {
     method: 'POST',
-    body: params,
+    body: {
+      ...params,
+    },
   });
 }
 
 export async function queryShowUserPracticeInfor(params) {
   return request('/user/showuserpractice', {
     method: 'POST',
-    body: params,
+    body: {
+      ...params,
+    },
   });
 }
 
@@ -137,6 +150,7 @@ export async function addArchive(params) {
 }
 
 export async function addAlumniInfor(params) {
+  // console.log('params', params);
   return request('/user/addalumni', {
     method: 'POST',
     body: params,

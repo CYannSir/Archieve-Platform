@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { routerRedux } from 'dva/router';
 import { Card, List } from 'antd';
 import DescriptionList from 'components/DescriptionList';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
@@ -14,28 +13,22 @@ const { Description } = DescriptionList;
   loading: loading.models.profile,
 }))
 export default class ShowUser extends Component {
-  state = {
-    flag: false,
-  }
   componentDidMount() {
     const { dispatch } = this.props;
-    console.log(this.props.location.state);
     const values = this.props.location.state;
     console.log('value', values);
-    console.log('stuNumber', values.stuNumber);
-    // console.log(this.props.location.paylaod.stuName);
     dispatch({
-      type: 'profile/fetchShowUserInfor',
+      type: 'profile/showUser',
       payload: {
-        ...values,
+        stuNumber: values.stuNumber,
       },
     });
     dispatch({
       type: 'profile/fetchShowUserAlumniInformation',
-      flag: true,
       payload: {
         stuNumber: values.stuNumber,
       },
+      flag: true,
     });
     dispatch({
       type: 'profile/fetchShowUserPracticeInfor',
@@ -45,15 +38,9 @@ export default class ShowUser extends Component {
       },
     });
   }
-  handleAdd = () => {
-    this.props.dispatch(routerRedux.push({
-      pathname: '/alumniinformation/editalumniinfor',
-    }));
-  }
   render() {
-    const { profile: { data }, profile: { alumnidata }, profile: { practicedata } } = this.props;
-    const { flag } = this.state;
-    // console.log('ss', alumnidata);
+    const { profile: { data }, profile: { alumnidata },
+      profile: { practicedata }, loading } = this.props;
     const nameTitle = (
       <div style={{ textAlign: 'center' }}>
         <img alt="avart" height="150" width="150" src="https://gw.alipayobjects.com/zos/rmsportal/jZUIxmJycoymBprLOUbT.png" />
@@ -104,15 +91,15 @@ export default class ShowUser extends Component {
     return (
       <PageHeaderLayout
         title={nameTitle}
+        loading={loading}
       >
         <List
-          loading={flag}
+          loading={loading}
           split={false}
           locale={{ emptyText: 'Empty!' }}
           dataSource={alumnidata}
           renderItem={item => (
             <List.Item>
-              <h1> w w w  w w</h1>
               <ACardInfor
                 company={item ? item.company : ''}
                 companyAddress={item ? item.companyAddress : ''}
@@ -127,7 +114,7 @@ export default class ShowUser extends Component {
             )}
         />
         <List
-          loading={flag}
+          loading={loading}
           split={false}
           locale={{ emptyText: 'Empty!' }}
           dataSource={practicedata}

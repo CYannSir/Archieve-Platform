@@ -24,7 +24,7 @@ export default class RedArchive extends Component {
     });
   }
   render() {
-    const { profile: { data }, profile: { redarchivedata } } = this.props;
+    const { profile: { data }, profile: { redarchivedata }, loading } = this.props;
     // console.log('aaa', redarchivedata);
     const description = (
       <DescriptionList className={styles.headerList} size="small" col="2">
@@ -42,7 +42,7 @@ export default class RedArchive extends Component {
         logo={<img alt="Archive" src="https://gw.alipayobjects.com/zos/rmsportal/nxkuOJlFJuAUhzlMTCEe.png" />}
         content={description}
       >
-        <Card title="Red Archive Infomation" style={{ marginBottom: 24 }} bordered={false}>
+        <Card loading={loading} title="Red Archive Infomation" style={{ marginBottom: 24 }} bordered={false}>
           <DescriptionList style={{ marginBottom: 24 }}>
             <Description term="Join Date">{redarchivedata[0] ? redarchivedata[0].joinDate : ''}</Description>
             <Description term="Became Activists">{redarchivedata[0] ? redarchivedata[0].activistDate : ''}</Description>

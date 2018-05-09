@@ -50,6 +50,7 @@ public class UserController {
     @PostMapping(value = "/showuserinfor")
     public Result showUserInfor(@RequestBody UserModel userModel){
         UserModel userinfor = userService.findByStuNumber(userModel.getStuNumber());
+        // UserModel userinfor = userService.findByStuNumber(stuNumber);
         Map result = new HashMap();
         result.put("stuName", userinfor.getStuName());
         result.put("stuNumber",userinfor.getStuNumber());

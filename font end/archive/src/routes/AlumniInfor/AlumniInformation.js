@@ -15,9 +15,6 @@ const { Description } = DescriptionList;
   loading: loading.effects['profile/fetchAlumniInformation'],
 }))
 export default class AlumniInformation extends Component {
-  state = {
-    flag: false,
-  }
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
@@ -38,9 +35,8 @@ export default class AlumniInformation extends Component {
     }));
   }
   render() {
-    const { profile: { data }, profile: { alumnidata }, profile: { chatgroup } } = this.props;
-    const { flag } = this.state;
-    // console.log('ss', alumnidata);
+    const { profile: { data }, profile: { alumnidata },
+      profile: { chatgroup }, loading } = this.props;
     const description = (
       <DescriptionList className={styles.headerList} size="small" col="2">
         <Description term="Name">{ data ? data.stuName : '' }</Description>
@@ -72,7 +68,7 @@ export default class AlumniInformation extends Component {
         content={description}
       >
         <List
-          loading={flag}
+          loading={loading}
           split={false}
           locale={{ emptyText: 'Empty!' }}
           dataSource={alumnidata}
@@ -91,10 +87,10 @@ export default class AlumniInformation extends Component {
             </List.Item>
             )}
         />
-        <Card style={{ marginBottom: 24 }} bordered={false}>
+        <Card loading={loading} style={{ marginBottom: 24 }} bordered={false}>
           <Button style={{ width: '100%' }} type="dashed" size="large" onClick={this.handleAdd} icon="plus">New</Button>
         </Card>
-        <Card title="Chat Group" bordered={false}>
+        <Card loading={loading} title="Chat Group" bordered={false}>
           <DescriptionList style={{ marginBottom: 24 }}>
             <Description term="Major">{chatgroup ? chatgroup.stuMajor : ''}</Description>
             <Description term="Graduate Year">{chatgroup ? chatgroup.stuEndYear : ''}</Description>

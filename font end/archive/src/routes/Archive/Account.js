@@ -83,7 +83,6 @@ const CreateForm = Form.create()((props) => {
 
 export default class Account extends PureComponent {
   state = {
-    flag: false,
     modalVisible: false,
     stepDirection: 'horizontal',
   }
@@ -144,8 +143,8 @@ export default class Account extends PureComponent {
 
   render() {
     const { stepDirection } = this.state;
-    const { profile: { data }, profile: { accountdata } } = this.props;
-    const { modalVisible, flag } = this.state;
+    const { profile: { data }, profile: { accountdata }, loading } = this.props;
+    const { modalVisible } = this.state;
     const parentMethods = {
       handleAdd: this.handleAdd,
       handleModalVisible: this.handleModalVisible,
@@ -198,7 +197,7 @@ export default class Account extends PureComponent {
         content={description}
       >
         <List
-          loading={flag}
+          loading={loading}
           split={false}
           locale={{ emptyText: 'Empty!' }}
           dataSource={accountdata}
@@ -211,10 +210,10 @@ export default class Account extends PureComponent {
             </List.Item>
             )}
         />
-        <Card style={{ marginBottom: 24 }} bordered={false}>
+        <Card loading={loading} style={{ marginBottom: 24 }} bordered={false}>
           <Button style={{ width: '100%' }} type="dashed" size="large" onClick={() => this.handleModalVisible(true)} icon="plus">New</Button>
         </Card>
-        <Card title="Account" style={{ marginBottom: 24 }} bordered={false}>
+        <Card loading={loading} title="Account" style={{ marginBottom: 24 }} bordered={false}>
           <Steps direction={stepDirection} progressDot current={accountdata ? accountdata.length - 1 : ''}>
             <Step title="Level 1" description={desc1} />
             <Step title="Level 2" description={desc2} />

@@ -5,9 +5,8 @@ import { routerRedux } from 'dva/router';
 import styles from './Home.less';
 
 @Form.create()
-@connect(({ list, profile, loading }) => ({
+@connect(({ list, loading }) => ({
   list,
-  profile,
   loading: loading.models.list,
 }))
 export default class Home extends Component {
@@ -18,12 +17,10 @@ export default class Home extends Component {
     });
   }
   onItemClick = (item) => {
-    console.log(item);
+    // console.log('item', item);
     this.props.dispatch(routerRedux.push({
       pathname: '/showuser',
-      state: {
-        stuNumber: item.stuNumber,
-      },
+      state: { stuNumber: item.stuNumber },
     }));
   }
   /*
@@ -68,7 +65,7 @@ export default class Home extends Component {
     return (
       <Fragment >
         <List
-          loading={list.length === 0 ? loading : false}
+          loading={loading}
           rowKey="objectId"
           style={{ marginTop: 24 }}
           grid={{ gutter: 24, xl: 4, lg: 3, md: 3, sm: 2, xs: 1 }}

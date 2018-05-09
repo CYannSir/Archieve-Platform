@@ -91,10 +91,11 @@ export default {
         payload: response.data,
       });
     },
-    *showUser(payload, { call, put }) {
+    *showUser({ payload }, { call, put }) {
       const response1 = yield call(queryShowUserInfor, payload);
       // const response2 = yield call(queryShowUserAlumniInformation, payload);
       // const response3 = yield call(queryShowUserPracticeInfor, payload);
+      console.log('payload', payload);
       yield put({
         type: 'listuserinfor',
         payload: response1.data,
@@ -120,8 +121,8 @@ export default {
         payload: response.data,
       });
     },
-    *fetchShowUserAlumniInformation(_, { call, put }) {
-      const response = yield call(queryShowUserAlumniInformation);
+    *fetchShowUserAlumniInformation({ payload }, { call, put }) {
+      const response = yield call(queryShowUserAlumniInformation, payload);
       // console.log('listalumni==>', response.data);
       yield put({
         type: 'listalumni',
@@ -136,8 +137,8 @@ export default {
         payload: response.data,
       });
     },
-    *fetchShowUserPracticeInfor(_, { call, put }) {
-      const response = yield call(queryShowUserPracticeInfor);
+    *fetchShowUserPracticeInfor({ payload }, { call, put }) {
+      const response = yield call(queryShowUserPracticeInfor, payload);
       // console.log('listalumni==>', response.data);
       yield put({
         type: 'listpractice',

@@ -14,9 +14,6 @@ const { Description } = DescriptionList;
   loading: loading.models.profile,
 }))
 export default class PracticeInfor extends Component {
-  state = {
-    flag: false,
-  }
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
@@ -33,9 +30,7 @@ export default class PracticeInfor extends Component {
     }));
   }
   render() {
-    const { profile: { data }, profile: { practicedata } } = this.props;
-    const { flag } = this.state;
-    // console.log('ss', practicedata);
+    const { profile: { data }, profile: { practicedata }, loading } = this.props;
     const description = (
       <DescriptionList className={styles.headerList} size="small" col="2">
         <Description term="Name">{ data ? data.stuName : '' }</Description>
@@ -67,7 +62,7 @@ export default class PracticeInfor extends Component {
         content={description}
       >
         <List
-          loading={flag}
+          loading={loading}
           split={false}
           locale={{ emptyText: 'Empty!' }}
           dataSource={practicedata}
@@ -85,7 +80,7 @@ export default class PracticeInfor extends Component {
             </List.Item>
             )}
         />
-        <Card style={{ marginBottom: 24 }} bordered={false}>
+        <Card loading={loading} style={{ marginBottom: 24 }} bordered={false}>
           <Button style={{ width: '100%' }} type="dashed" size="large" onClick={this.handleAdd} icon="plus">New</Button>
         </Card>
       </PageHeaderLayout>
