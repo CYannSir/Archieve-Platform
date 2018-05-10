@@ -118,8 +118,20 @@ public class ExcelController {
             HSSFCell cell = row.createCell(6);
             rowNum++;
         }
+        Calendar c = Calendar.getInstance();//可以对每个时间域单独修改
 
-        String fileName = "src/main/resources/static/ExportInformation.xls";
+        int year = c.get(Calendar.YEAR);
+
+        int month = c.get(Calendar.MONTH) + 1;
+
+        int date = c.get(Calendar.DATE);
+
+        int hour = c.get(Calendar.HOUR_OF_DAY);
+
+        int minute = c.get(Calendar.MINUTE);
+
+
+        String fileName = "src/main/resources/static/ExportInformation"+year+month+date+hour+minute+".xls";
 
         //生成excel文件
         buildExcelFile(fileName, workbook);
@@ -160,10 +172,20 @@ public class ExcelController {
             rowNum++;
         }
 
-        // SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");//设置日期格式
-        // System.out.println(df.format(new Date()));// new Date()为获取当前系统时间
+        Calendar c = Calendar.getInstance();//可以对每个时间域单独修改
 
-        String fileName = "src/main/resources/static/ExportPractice.xls";
+        int year = c.get(Calendar.YEAR);
+
+        int month = c.get(Calendar.MONTH);
+
+        int date = c.get(Calendar.DATE);
+
+        int hour = c.get(Calendar.HOUR_OF_DAY);
+
+        int minute = c.get(Calendar.MINUTE);
+
+
+        String fileName = "src/main/resources/static/ExportPractice"+year+month+date+hour+minute+".xls";
 
         //生成excel文件
         buildExcelFile(fileName, workbook);
@@ -176,6 +198,7 @@ public class ExcelController {
 
     //生成excel文件
     protected void buildExcelFile(String filename,HSSFWorkbook workbook) throws Exception{
+        // File savefile = new File("D:/excel/");
         FileOutputStream fos = new FileOutputStream(filename,true);
         workbook.write(fos);
         fos.flush();

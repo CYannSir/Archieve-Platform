@@ -80,7 +80,13 @@ export default {
     },
     *export({ callback }, { call }) {
       yield call(exportPractice);
-      window.location.href = 'http://localhost:8080/ExportPractice.xls';
+      const date = new Date();
+      const year = date.getFullYear(); // 获取当前年份
+      const mon = date.getMonth() + 1; // 获取当前月份
+      const day = date.getDate(); // 获取当前日
+      const h = date.getHours(); // 获取小时
+      const m = date.getMinutes(); // 获取分钟
+      window.location.href = `http://localhost:8080/ExportPractice${year}${mon}${day}${h}${m}.xls`;
       if (callback) callback();
     },
     *modify({ payload, callback }, { call, put }) {
