@@ -16,7 +16,7 @@ export default class ShowUser extends Component {
   componentDidMount() {
     const { dispatch } = this.props;
     const values = this.props.location.state;
-    console.log('value', values);
+    // console.log('value', values);
     dispatch({
       type: 'profile/showUser',
       payload: {

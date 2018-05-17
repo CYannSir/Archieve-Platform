@@ -86,7 +86,7 @@ export default {
       const day = date.getDate(); // 获取当前日
       const h = date.getHours(); // 获取小时
       const m = date.getMinutes(); // 获取分钟
-      window.location.href = `http://localhost:8080/ExportPractice${year}${mon}${day}${h}${m}.xls`;
+      window.location.href = `http://localhost:8081/ExportPractice${year}${mon}${day}${h}${m}.xls`;
       if (callback) callback();
     },
     *modify({ payload, callback }, { call, put }) {

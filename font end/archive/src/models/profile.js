@@ -95,7 +95,7 @@ export default {
       const response1 = yield call(queryShowUserInfor, payload);
       // const response2 = yield call(queryShowUserAlumniInformation, payload);
       // const response3 = yield call(queryShowUserPracticeInfor, payload);
-      console.log('payload', payload);
+      // console.log('payload', payload);
       yield put({
         type: 'listuserinfor',
         payload: response1.data,

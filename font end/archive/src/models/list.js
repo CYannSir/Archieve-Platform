@@ -1,3 +1,4 @@
+import { routerRedux } from 'dva/router';
 import { queryFakeList, queryHome, searchHome } from '../services/api';
 
 export default {
@@ -18,10 +19,14 @@ export default {
     *fetchHome({ payload }, { call, put }) {
       const response = yield call(queryHome, payload);
       // console.log('res', response.data);
-      yield put({
-        type: 'queryList',
-        payload: Array.isArray(response.data) ? response.data : [],
-      });
+      if (response.code === 200) {
+        yield put({
+          type: 'queryList',
+          payload: Array.isArray(response.data) ? response.data : [],
+        });
+      } else if (response.code === 100) {
+        yield put(routerRedux.push('/user/login'));
+      }
     },
     *search({ payload }, { call, put }) {
       const response = yield call(searchHome, payload);
