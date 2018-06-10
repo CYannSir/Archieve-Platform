@@ -17,7 +17,7 @@ const fileprops = {
   accpt: 'xlsx',
   withCredentials: true,
   method: 'POST',
-  action: 'http://localhost:8080/admin/addarchviebyfile',
+  action: 'http://localhost:8081/admin/addarchviebyfile',
   onChange(info) {
     if (info.file.status !== 'uploading') {
       // console.log(info.file, info.fileList);

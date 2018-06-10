@@ -47,6 +47,7 @@ export default class RedArchive extends Component {
             <Description term="Join Date">{redarchivedata[0] ? redarchivedata[0].joinDate : ''}</Description>
             <Description term="Became Activists">{redarchivedata[0] ? redarchivedata[0].activistDate : ''}</Description>
             <Description term="Introducter">{redarchivedata[0] ? redarchivedata[0].introducer : ''}</Description>
+            <Description term="IntroducterB">{redarchivedata[0] ? redarchivedata[0].introducerB : ''}</Description>
           </DescriptionList>
         </Card>
       </PageHeaderLayout>

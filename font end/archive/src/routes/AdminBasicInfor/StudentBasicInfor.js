@@ -21,7 +21,7 @@ const fileprops = {
   accpt: 'xlsx',
   method: 'POST',
   withCredentials: true,
-  action: 'http://localhost:8080/admin/addstubyfile',
+  action: 'http://localhost:8081/admin/addstubyfile',
   onchange(info) {
     if (info.file.status !== 'uploading') {
       // console.log(info.file, info.fileList);

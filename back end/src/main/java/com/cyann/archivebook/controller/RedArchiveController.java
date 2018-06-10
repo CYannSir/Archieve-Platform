@@ -47,6 +47,7 @@ public class RedArchiveController {
             tempMap.put("joinDate",redArchiveModel.getJoinDate());
             tempMap.put("activistDate",redArchiveModel.getActivistDate());
             tempMap.put("introducer",redArchiveModel.getIntroducer());
+            tempMap.put("introducerB",redArchiveModel.getIntroducerB());
             mapList.add(tempMap);
         }
         return Result.success(mapList);

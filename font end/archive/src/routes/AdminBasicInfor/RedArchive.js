@@ -17,7 +17,7 @@ const fileprops = {
   accpt: 'xlsx',
   withCredentials: true,
   method: 'POST',
-  action: 'http://localhost:8080/admin/addredarchivebyfile',
+  action: 'http://localhost:8081/admin/addredarchivebyfile',
   onChange(info) {
     if (info.file.status !== 'uploading') {
       // console.log(info.file, info.fileList);
@@ -53,9 +53,14 @@ const columns = [
     render: val => <span>{moment(val).format('YYYY-MM-DD')}</span>,
   },
   {
-    title: '介绍人',
+    title: '介绍人A',
     align: 'center',
     dataIndex: 'introducer',
+  },
+  {
+    title: '介绍人B',
+    align: 'center',
+    dataIndex: 'introducerB',
   },
   {
     title: '更新时间',
@@ -119,12 +124,23 @@ const CreateForm = Form.create()((props) => {
         <FormItem
           labelCol={{ span: 6 }}
           wrapperCol={{ span: 18 }}
-          label="介绍人"
+          label="介绍人A"
         >
           {form.getFieldDecorator('introducer', {
-          rules: [{ message: '请输入入党介绍人' }],
+          rules: [{ message: '请输入入党介绍人A' }],
         })(
-          <Input placeholder="请输入入党介绍人" />
+          <Input placeholder="请输入入党介绍人A" />
+        )}
+        </FormItem>
+        <FormItem
+          labelCol={{ span: 6 }}
+          wrapperCol={{ span: 18 }}
+          label="介绍人B"
+        >
+          {form.getFieldDecorator('introducerB', {
+          rules: [{ message: '请输入入党介绍人B' }],
+        })(
+          <Input placeholder="请输入入党介绍人B" />
         )}
         </FormItem>
       </Modal>
@@ -181,12 +197,23 @@ const CreateForm = Form.create()((props) => {
         <FormItem
           labelCol={{ span: 6 }}
           wrapperCol={{ span: 18 }}
-          label="介绍人"
+          label="介绍人A"
         >
           {form.getFieldDecorator('introducer', {
-          rules: [{ required: true, message: '请输入入党介绍人' }],
+          rules: [{ required: true, message: '请输入入党介绍人A' }],
         })(
-          <Input placeholder="请输入入党介绍人" />
+          <Input placeholder="请输入入党介绍人A" />
+        )}
+        </FormItem>
+        <FormItem
+          labelCol={{ span: 6 }}
+          wrapperCol={{ span: 18 }}
+          label="介绍人B"
+        >
+          {form.getFieldDecorator('introducerB', {
+          rules: [{ required: true, message: '请输入入党介绍人B' }],
+        })(
+          <Input placeholder="请输入入党介绍人B" />
         )}
         </FormItem>
       </Modal>
@@ -380,6 +407,7 @@ export default class RedArchive extends PureComponent {
         joinDate: moment(fields.joinDate).format('YYYY-MM-DD'),
         activistDate: moment(fields.activistDate).format('YYYY-MM-DD'),
         introducer: fields.introducer,
+        introducerB: fields.introducerB,
       },
       callback: () => {
         this.setState({
