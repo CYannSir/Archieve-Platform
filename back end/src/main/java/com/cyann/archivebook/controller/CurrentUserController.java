@@ -160,7 +160,7 @@ public class CurrentUserController {
                 tempMap2.put("currentPhone",objects[19]);
                 tempMap2.put("avatar",objects[20]);
                 tempMap2.put("cover",objects[20]);
-                tempMap2.put("tag","Practice");
+                tempMap2.put("tag","Intern");
                 returnList.add(tempMap2);
             }
             return Result.success(returnList);
@@ -212,7 +212,7 @@ public class CurrentUserController {
                 tempMap2.put("currentPhone",objects[19]);
                 tempMap2.put("avatar",objects[20]);
                 tempMap2.put("cover",objects[20]);
-                tempMap2.put("tag","Practice");
+                tempMap2.put("tag","Intern");
                 returnList.add(tempMap2);
             }
             return Result.success(returnList);
