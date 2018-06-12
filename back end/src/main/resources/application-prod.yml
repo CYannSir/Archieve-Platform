@@ -1,2 +1,6 @@
 server:
-  port: 8081
+  port: 443
+  ssl:
+    key-store: classpath:214768066690769.pfx
+    key-store-password: 214768066690769
+    keyStoreType: PKCS12
