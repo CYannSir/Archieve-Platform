@@ -1,0 +1,58 @@
+<view class="page">
+    <view class="page__bd">
+        <view class="weui-tab">
+            <view class="weui-navbar">
+                <block wx:for="{{tabs}}" wx:key="*this">
+                    <view id="{{index}}" class="weui-navbar__item {{activeIndex == index ? 'weui-bar__item_on' : ''}}" bindtap="tabClick">
+                        <view class="weui-navbar__title">{{item}}</view>
+                    </view>
+                </block>
+                 <view class="weui-navbar__slider" style="left: {{sliderLeft}}px; transform: translateX({{sliderOffset}}px); -webkit-transform: translateX({{sliderOffset}}px);"></view> 
+            </view>
+
+            <view class="weui-tab__panel">
+                <view class="weui-tab__content" hidden="{{activeIndex != 0}}">
+                  <!-- 通知 -->
+                  <view wx:for="{{notice}}" wx:key="id">
+                    <view url="" class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
+                      <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
+                          <image class="weui-media-box__thumb" src="{{item.avatar}}" />
+                      </view>
+                      <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
+                          <view class="weui-media-box__title">{{item.title}}</view>
+                          <view class="weui-media-box__desc">{{item.datetime}}</view>
+                      </view>
+                    </view>
+                    <view class="line"></view>
+                  </view>
+
+
+                </view>
+                <view class="weui-tab__content" hidden="{{activeIndex != 1}}">
+
+                  <!-- 消息 -->
+                  <view wx:for="{{board}}" wx:key="id">
+                    <view url="" class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
+                      <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
+                          <image class="weui-media-box__thumb" src="{{item.avatar}}" />
+                      </view>
+                      <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
+                          <view class="weui-media-box__title">{{item.title}}</view>
+                          <view class="weui-media-box__desc">{{item.datetime}}</view>
+                      </view>
+                    </view>
+                    <view class="line"></view>
+                  </view>
+
+                </view>
+            </view>
+
+        </view>
+    </view>
+
+    <!-- 页脚 -->
+    <view class="weui-footer weui-footer_fixed-bottom">
+      <view class="weui-footer__text">{{copyright}}</view>
+    </view>
+    
+</view>

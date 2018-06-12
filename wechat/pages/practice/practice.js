@@ -1,0 +1,441 @@
+Page({
+
+  /**
+   * 页面的初始数据
+   */
+  data: {
+    copyright: getApp().globalData.copyright,//版权
+    
+    hiddenmodalput: true,//可以通过hidden是否掩藏弹出框的属性，来指定那个弹出框
+
+    avatar: '',// 用户头像
+    stuName: '',//学生姓名
+    stuNumber: '',//学生学号
+    currentEmail: '',//当前邮箱
+
+    company: '',// 公司名称
+    companyAddress: '',//公司地址
+    industry: '',//行业
+    occupation: '',//职位
+    salary: '',//薪资
+    endDate: '',//工作结束时间
+    startDate: '',//工作开始时间
+
+    work: [],//工作信息 数组
+
+    companyInput: '',// 公司名称
+    companyAddressInput: '',//公司地址
+    industryInput: '',//行业
+    occupationInput: '',//职位
+    salaryInput: '',//薪资
+    endDateInput: '',//工作结束时间
+    startDateInput: '',//工作开始时间
+
+  },
+
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function (options) {
+    this.getCurrentUserData()
+    this.getUserInfoData()
+    this.getUserPracticeData()
+
+  },
+
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面隐藏
+   */
+  onHide: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面卸载
+   */
+  onUnload: function () {
+
+  },
+
+  /**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh: function () {
+
+  },
+
+  /**
+   * 页面上拉触底事件的处理函数
+   */
+  onReachBottom: function () {
+
+  },
+
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage: function () {
+
+  },
+  //获取当前用户信息
+  getCurrentUserData: function () {
+    var header = getApp().globalData.header; //获取app.js中的请求头
+    var SessionId = header.Cookie//获取保存的SessionId
+    console.log(SessionId)
+
+    var url = getApp().globalData.url; //获取app.js中的url
+
+    wx.request({
+      // url: 'http://139.196.122.103:8081/currentUser',
+      url: url+'/currentUser',
+      // url: 'https://www.archivebook.top:443/currentUser',
+      // url: 'http://localhost:8081/currentUser',
+      method: 'GET',
+      header: {
+        'content-type': 'application/json',
+        'Cookie': SessionId
+      },
+      success: res => {
+        console.log(res)
+        console.log('submit success');
+        if (res.data.msg == "没有权限") {
+          wx.showModal({
+            title: '提示',
+            showCancel: false,
+            content: '登录过期，请重新登录嗷！',
+            success: function (res) {
+              if (res.confirm) {
+                wx.redirectTo({
+                  url: '../login/login',
+                })
+              }
+            }
+          });
+        } else {
+          let result = res.data.data
+          this.setData({
+            avatar: result.avatar,// 用户头像
+          })
+        }
+
+
+      },
+      fail: function (err) {
+        console.log(err)
+        console.log('submit fail');
+      },
+      complete: function (res) {
+        console.log('submit complete');
+      }
+
+    })
+  },
+  //获取当前用户个人信息
+  getUserInfoData: function () {
+    var header = getApp().globalData.header; //获取app.js中的请求头
+    var SessionId = header.Cookie//获取保存的SessionId
+    console.log(SessionId)
+
+    var url = getApp().globalData.url; //获取app.js中的url
+
+    wx.request({
+      // url: 'http://139.196.122.103:8081/user/listuserinfor',
+      url: url+'/user/listuserinfor',
+      // url: 'https://www.archivebook.top:443/user/listuserinfor',
+      // url: 'http://localhost:8081/user/listuserinfor',
+      method: 'GET',
+      header: {
+        'content-type': 'application/json',
+        'Cookie': SessionId
+      },
+      success: res => {
+        console.log(res)
+        console.log('submit success');
+        if (res.data.msg == "没有权限") {
+          wx.showModal({
+            title: '提示',
+            showCancel: false,
+            content: '登录过期，请重新登录嗷！',
+            success: function (res) {
+              if (res.confirm) {
+                wx.redirectTo({
+                  url: '../login/login',
+                })
+              }
+            }
+          });
+        } else {
+          let result = res.data.data
+          this.setData({
+            stuName: result.stuName,
+            stuNumber: result.stuNumber,
+            currentEmail: result.currentEmail,
+          })
+        }
+
+
+      },
+      fail: function (err) {
+        console.log(err)
+        console.log('submit fail');
+      },
+      complete: function (res) {
+        console.log('submit complete');
+      }
+
+    })
+  },
+  //获取当前用户实习信息
+  getUserPracticeData: function () {
+    var header = getApp().globalData.header; //获取app.js中的请求头
+    var SessionId = header.Cookie//获取保存的SessionId
+    console.log(SessionId)
+
+    var url = getApp().globalData.url; //获取app.js中的url
+
+    wx.request({
+      // url: 'http://139.196.122.103:8081/user/listpractice',
+      url: url+'/user/listpractice',
+      // url: 'https://www.archivebook.top:443/user/listpractice',
+      // url: 'http://localhost:8081/user/listpractice',
+      method: 'GET',
+      header: {
+        'content-type': 'application/json',
+        'Cookie': SessionId
+      },
+      success: res => {
+        console.log(res)
+        console.log('submit success');
+        if (res.data.msg == "没有权限") {
+          wx.showModal({
+            title: '提示',
+            showCancel: false,
+            content: '登录过期，请重新登录嗷！',
+            success: function (res) {
+              if (res.confirm) {
+                wx.redirectTo({
+                  url: '../login/login',
+                })
+              }
+            }
+          });
+        } else {
+          let result = res.data.data
+          if (result.length == 0) {
+            wx.showModal({
+              title: '提示',
+              showCancel: false,
+              content: '没有实习记录，可以更新一下哦~'
+            });
+          } else {
+            let work = []
+            for (let i = 0; i < result.length; i++) {
+              work.push({
+                id: "实习记录" + (i+1),
+                company: result[i].company,// 公司名称
+                companyAddress: result[i].companyAddress,//公司地址
+                industry: result[i].industry,//行业
+                occupation: result[i].occupation,//职位
+                salary: result[i].salary,//薪资
+                endDate: result[i].endDate,//工作结束时间
+                startDate: result[i].startDate,//工作开始时间
+              })
+            }
+            this.setData({
+              work: work,
+            })
+
+            let index = work.length - 1
+            this.setData({
+              companyAddress: work[index].companyAddress,//公司地址
+              company: work[index].company,// 公司名称
+              industry: work[index].industry,//行业
+              occupation: work[index].occupation,//职位
+              salary: work[index].salary,//薪资
+              endDate: work[index].endDate,//工作结束时间
+              startDate: work[index].startDate,//工作开始时间
+            })
+          }
+        }
+
+      },
+      fail: function (err) {
+        console.log(err)
+        console.log('submit fail');
+      },
+      complete: function (res) {
+        console.log('submit complete');
+      }
+
+    })
+  },
+
+  //hiddenmodalput弹出框
+  modalInput: function () {
+    this.setData({
+      hiddenmodalput: !this.data.hiddenmodalput
+    })
+  },
+  //获取输入公司名
+  companyInput: function (e) {
+    this.setData({
+      companyInput: e.detail.value
+    })
+  },
+  //获取输入公司地址
+  companyAddressInput: function (e) {
+    this.setData({
+      companyAddressInput: e.detail.value
+    })
+  },
+  //获取输入行业
+  industryInput: function (e) {
+    this.setData({
+      industryInput: e.detail.value
+    })
+  },
+  //获取输入薪资
+  salaryInput: function (e) {
+    this.setData({
+      salaryInput: e.detail.value
+    })
+  },
+  //获取输入职位
+  occupationInput: function (e) {
+    this.setData({
+      occupationInput: e.detail.value
+    })
+  },
+  //获取输入开始时间
+  startDateChange: function (e) {
+    this.setData({
+      startDateInput: e.detail.value
+    })
+  },
+  //获取输入结束时间
+  endDateChange: function (e) {
+    this.setData({
+      endDateInput: e.detail.value
+    })
+  },
+
+  //取消按钮  
+  cancel: function () {
+    this.setData({
+      hiddenmodalput: true
+    });
+  },
+  //确认  
+  confirm: function () {
+    if (this.data.companyInput.length == 0 || this.data.companyAddressInput.length == 0 || this.data.industryInput.length == 0 || this.data.occupationInput.length == 0 || this.data.salaryInput.length == 0 || this.data.startDateInput.length == 0 || this.data.endDateInput.length == 0) {
+      wx.showModal({
+        title: '提示',
+        showCancel: false,
+        content: '所有输入不能为空'
+      });
+    } else {
+      //更新当前用户实习信息
+      this.postUserPracticeData()
+    }
+
+  },
+  //更新当前用户实习信息
+  postUserPracticeData: function () {
+    var header = getApp().globalData.header; //获取app.js中的请求头
+    var SessionId = header.Cookie//获取保存的SessionId
+    console.log(SessionId)
+
+    var url = getApp().globalData.url; //获取app.js中的url
+
+    wx.request({
+      // url: 'http://139.196.122.103:8081/user/addpractice',
+      url: url+'/user/addpractice',
+      // url: 'https://www.archivebook.top:443/user/addpractice',
+      // url: 'http://localhost:8081/user/addpractice',
+      method: 'POST',
+      data: {
+        company: this.data.companyInput,// 公司名称
+        companyAddress: this.data.companyAddressInput,//公司地址
+        industry: this.data.industryInput,//行业
+        occupation: this.data.occupationInput,//职位
+        salary: this.data.salaryInput,//薪资
+        endDate: this.data.endDateInput,//工作结束时间
+        startDate: this.data.startDateInput,//工作开始时间
+      },
+      header: {
+        'content-type': 'application/json',
+        'Cookie': SessionId
+      },
+      success: res => {
+        console.log(res)
+        console.log('submit success');
+        if (res.data.msg == "没有权限") {
+          wx.showModal({
+            title: '提示',
+            showCancel: false,
+            content: '登录过期，请重新登录嗷！',
+            success: function (res) {
+              if (res.confirm) {
+                wx.redirectTo({
+                  url: '../login/login',
+                })
+              }
+            }
+          });
+        } else {
+          if (res.data.code != 200) {
+            wx.showModal({
+              title: '提示',
+              showCancel: false,
+              content: '上传失败'
+            });
+          } else {
+            // 更新成功提示  
+            wx.showToast({
+              title: '更新成功',
+              icon: 'success',
+              duration: 2000,
+            })
+
+            this.getUserPracticeData()
+
+            this.setData({
+              hiddenmodalput: true
+            });
+
+          }
+        }
+
+      },
+      fail: function (err) {
+        console.log(err)
+        console.log('submit fail')
+        // 失败提示  
+        wx.showModal({
+          title: '提示',
+          showCancel: false,
+          content: '请求失败'
+        });
+      },
+      complete: function (res) {
+        console.log('submit complete');
+      }
+
+    })
+  },
+
+})

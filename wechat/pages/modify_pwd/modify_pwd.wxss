@@ -1,0 +1,5 @@
+/* pages/modify_pwd/modify_pwd.wxss */
+
+.btnSubmit{  
+  margin-top: 30px; 
+}

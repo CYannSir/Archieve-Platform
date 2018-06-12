@@ -1,0 +1,50 @@
+.container{
+  background-color: #fff;
+}
+.logo {
+  display: flex;
+  justify-content:center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.logo image {
+  width: 50px;
+  height: 50px;
+}
+
+.txt-tips{
+  color: black;
+}
+
+.smsCode {
+  flex: block;  
+  float: right;  
+  text-align: right;  
+  margin-right: 2px;  
+  margin-top: 10px;  
+  color: #545454;  
+  font-size: 14px;
+
+  display: flex;
+  justify-content: space-between;
+}
+
+.smsCode input {
+  margin-right: 10px; 
+  width: 100px;
+}
+
+.smsCode .getSmsCodeBtn {
+  flex: block; 
+  float: right;
+  font-size: 14px;
+  color: #fff;
+  width: 60px;
+  box-sizing: border-box;
+  height: 30px;
+  line-height: 30px;
+  margin-top: 0px;
+  margin-right: 15px;
+}
+

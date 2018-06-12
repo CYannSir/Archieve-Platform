@@ -1,0 +1,46 @@
+<view class="page" xmlns:wx="http://www.w3.org/1999/xhtml">
+    <!-- 主体内容 -->
+    <view class="page__bd">
+        <!-- 搜索栏 -->
+        <view class="weui-search-bar">
+          <view class="weui-search-bar__form">
+            <view class="weui-search-bar__box" style='text-align:center'>
+              <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
+              <input type="text" class="weui-search-bar__input"  disabled='true' placeholder="寻迹" bindtap="wxSearchTab"/>
+            </view>
+          </view>
+        </view>
+
+        <!-- 搜索结果 -->
+        <view class="weui-panel__bd">
+              <view wx:for="{{searchResult}}" wx:key="{{item.stuId}}">
+                <navigator url="../show_user/show_user?stuNumber={{item.stuId}}" class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
+                    <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
+                        <image class="weui-media-box__thumb" src="{{item.avatar}}" />
+                    </view>
+                    <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
+                        <view class="weui-media-box__title">{{item.stuName}}</view>
+                        <view class="weui-media-box__desc">{{item.stuNumber}}</view>
+                        <view class="weui-media-box__desc">{{item.stuClass}}</view>
+                        <view class="weui-media-box__desc">{{item.tag}}</view>
+                    </view>
+               </navigator>
+                <view class="line"></view>
+              </view>
+
+        </view>
+        
+    </view>
+
+    <!-- 页脚 -->
+    <view class="weui-footer">
+      <view class="weui-footer__links">
+        <navigator url="/pages/home/home" open-type="redirect" class="weui-footer__link">主页</navigator>
+        <navigator url="/pages/login/login" open-type="redirect" class="weui-footer__link">退出登录</navigator>
+      </view>
+      <view class="weui-footer__text">{{copyright}}</view>
+    </view>
+    
+</view>
+
+

@@ -1,0 +1,101 @@
+<!--pages/home/home.wxml-->
+<view class="page">
+
+  <!-- 用户名与标语 -->
+  <view class="page__hd">
+    <view class="page__title">{{name}}</view>
+    <view class="page__desc">毕业后，虽然各奔东西，但校友档案管理系统让我们有迹可循</view>
+  </view>
+
+  <!-- 主体内容 -->
+  <view class="page__bd">
+        <!-- 搜索栏 -->
+        <view class="weui-search-bar">
+          <view class="weui-search-bar__form">
+            <view class="weui-search-bar__box" style='text-align:center'>
+              <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
+              <input type="text" class="weui-search-bar__input"  disabled='true' placeholder="寻迹" bindtap="wxSearchTab"/>
+            </view>
+          </view>
+        </view>
+
+        <!-- 九宫格 -->
+        <view class="weui-grids">
+            <!-- 个人信息 -->
+            <block>
+                <navigator url="../user_info/user_info" open-type="redirect" class="weui-grid" hover-class="weui-grid_active">
+                    <image class="weui-grid__icon" src="/images/name.png" />
+                    <view class="weui-grid__label">个人信息</view>
+                </navigator>
+            </block>
+            <!-- 党员信息 -->
+            <block>
+                <navigator url="../archive_red/archive_red" open-type="redirect" class="weui-grid" hover-class="weui-grid_active">
+                    <image class="weui-grid__icon" src="/images/archiveRed.png" />
+                    <view class="weui-grid__label">党员信息</view>
+                </navigator>
+            </block>
+            <!-- 户口信息 -->
+            <block>
+                <navigator url="../archive_account/archive_account" open-type="redirect" class="weui-grid" hover-class="weui-grid_active">
+                    <image class="weui-grid__icon" src="/images/archiveAccount.png" />
+                    <view class="weui-grid__label">户口信息</view>
+                </navigator>
+            </block>
+            <!-- 档案流向 -->
+            <block>
+                <navigator url="../archive_flow/archive_flow" open-type="redirect" class="weui-grid" hover-class="weui-grid_active">
+                    <image class="weui-grid__icon" src="/images/archiveFlow.png" />
+                    <view class="weui-grid__label">档案流向</view>
+                </navigator>
+            </block>
+            <!-- 工作信息 -->
+            <block>
+                <navigator url="../alumni/alumni" open-type="redirect" class="weui-grid" hover-class="weui-grid_active">
+                    <image class="weui-grid__icon" src="/images/alumni.png" />
+                    <view class="weui-grid__label">工作信息</view>
+                </navigator>
+            </block>
+            <!-- 实习信息 -->
+            <block>
+                <navigator url="../practice/practice" open-type="redirect" class="weui-grid" hover-class="weui-grid_active">
+                    <image class="weui-grid__icon" src="/images/practice.png" />
+                    <view class="weui-grid__label">实习信息</view>
+                </navigator>
+            </block>
+            <!-- 敬请期待 -->
+            <block>
+                <navigator url="" class="weui-grid" hover-class="weui-grid_active">
+                    <image class="weui-grid__icon" src="/images/name.png" />
+                    <view class="weui-grid__label">敬请期待</view>
+                </navigator>
+            </block>
+
+            <block>
+                <navigator url="" class="weui-grid" hover-class="weui-grid_active">
+                    <image class="weui-grid__icon" src="/images/name.png" />
+                    <view class="weui-grid__label">敬请期待</view>
+                </navigator>
+            </block>
+
+            <block>
+                <navigator url="" class="weui-grid" hover-class="weui-grid_active">
+                    <image class="weui-grid__icon" src="/images/name.png" />
+                    <view class="weui-grid__label">敬请期待</view>
+                </navigator>
+            </block>
+
+        </view>
+
+  </view>
+  
+  <!-- 页脚 -->
+    <view class="weui-footer weui-footer_fixed-bottom">
+      <view class="weui-footer__links">
+        <navigator url="/pages/home/home" open-type="redirect" class="weui-footer__link">主页</navigator>
+        <navigator url="/pages/login/login" open-type="redirect" class="weui-footer__link">退出登录</navigator>
+      </view>
+      <view class="weui-footer__text">{{copyright}}</view>
+    </view>
+    
+</view>

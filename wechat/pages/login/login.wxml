@@ -1,0 +1,64 @@
+<view class="container">
+  <!-- 登录图像   -->
+  <view class="login-icon">  
+    <image class="login-img" src="../../images/loginLog.jpg"></image>  
+  </view>
+  <!-- 登录表单   -->
+  <view class="form">  
+    <view class="line"></view>
+
+    <!--账号-->  
+    <view class="inputView">  
+      <image class="inputImage" src="../../images/name.png"></image>  
+      <label class="inputLab">账号</label>   
+      <input class="inputText" type="text" placeholder="请输入邮箱" bindinput="accountInput" /> 
+    </view> 
+
+    <view class="line"></view>
+
+    <!--密码-->  
+    <view class="inputView">  
+      <image class="inputImage" src="../../images/key.png"></image>  
+      <label class="inputLab">密码</label>  
+      <input class="inputText" type="password" placeholder="请输入密码" bindinput="passwordInput" />   
+    </view>
+
+    <view class="line"></view> 
+
+    <!--按钮-->  
+    <view class="btnView">
+      <button class="btnSubmit" size="{{primarySize}}" bindtap="login"> 登录</button>  
+    </view>
+
+    <!-- 跳转文本 -->
+    <view class="txt-area">
+      <!-- 忘记密码文本 -->
+      <text class="txt-forgetpwd" bindtap="modalInput">忘记密码？</text>
+      <!-- 忘记密码模态框 -->
+      <modal hidden="{{hiddenmodalput}}" title="密码找回" confirm-text="提交" cancel-text="取消" bindcancel="cancel" bindconfirm="confirm">
+          <!-- 输入邮箱   -->
+          <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell weui-cell_input">
+                <view class="weui-cell__hd">
+                    <view class="weui-label" style="width:50px">账号</view>
+                </view>
+                <view class="weui-cell__bd">
+                    <input class="weui-input" type="txt" placeholder="请输入邮箱" bindinput='emailInput'/>
+                </view>
+            </view>
+          </view>
+          <!-- 提示 -->
+          <view class="weui-cell__hd" style="margin-top: 10px; text-align: center;">小贴士：发送成功后，管理员会将重置后的密码发给您的注册邮箱~</view>
+      </modal>
+      <!-- 注册账号文本   -->
+      <navigator redirect url="../regist/regist"><text class="txt-register">注册账号</text></navigator> 
+    </view> 
+
+    <!-- 页脚 -->
+    <view class="weui-footer">
+      <view class="weui-footer__text">{{copyright}}</view>
+    </view>
+
+  </view>
+
+</view>  

@@ -1,0 +1,94 @@
+<view class="container">
+  <view class = "logo">
+        <image mode="aspectFit" src="/images/logo.png"></image>
+  </view>
+
+  <view class="form">  
+
+    <view class="line"></view>
+
+    <view class="txt-area">
+      <text class="txt-tips">账号登录信息</text>
+    </view>
+
+
+    <!--账号-->  
+    <view class="inputView">  
+      <image class="inputImage" src="../../images/name.png"></image>  
+      <label class="inputLab">账号</label>   
+      <input class="inputText" type="text" placeholder="请输入你的邮箱" bindinput="accountInput" /> 
+    </view> 
+
+
+    <!--验证码-->  
+    <view class="inputView">  
+      <image class="inputImage" src="../../images/activeCode.png"></image>  
+      <label class="inputLab">验证码</label>
+      <view class="smsCode">
+        <input type="text" placeholder="请输入验证码" bindinput="activeCodeInput" /> 
+        <button bindtap = "getSmsCode" disabled="{{smsCodeDisabled}}" style="background-color:{{getSmsCodeBtnColor}}"  class="getSmsCodeBtn">{{getSmsCodeBtnTxt}}</button>
+      </view>
+    </view>   
+      
+
+    <!--密码-->  
+    <view class="inputView">  
+      <image class="inputImage" src="../../images/key.png"></image>  
+      <label class="inputLab">密码</label>  
+      <input class="inputText" type="password" placeholder="请输入至少六位密码" bindinput="password1Input" />   
+    </view>
+    
+    <!--确认密码-->  
+    <view class="inputView">  
+      <image class="inputImage" src="../../images/key.png"></image>  
+      <label class="inputLab">确认密码</label>  
+      <input class="inputText" type="password" placeholder="请确认密码" bindinput="password2Input" />   
+    </view>
+
+    <view class="line"></view>
+    
+    <view class="txt-area">
+      <text class="txt-tips">账号身份验证</text>
+    </view>
+
+    <!--真实姓名-->  
+    <view class="inputView">  
+      <image class="inputImage" src="../../images/name.png"></image>  
+      <label class="inputLab">姓名</label>   
+      <input class="inputText" type="text" placeholder="请输入你的真实名字" bindinput="stuNameInput" /> 
+    </view> 
+
+    <!--学号-->  
+    <view class="inputView">  
+      <image class="inputImage" src="../../images/name.png"></image>  
+      <label class="inputLab">学号</label>   
+      <input class="inputText" type="text" placeholder="请输入你的学号" bindinput="stuNumberInput" /> 
+    </view> 
+
+    <!--手机号-->  
+    <view class="inputView">  
+      <image class="inputImage" src="../../images/name.png"></image>  
+      <label class="inputLab">手机号</label>   
+      <input class="inputText" type="text" placeholder="请输入你的手机号" bindinput="mobilePhoneInput" /> 
+    </view> 
+    
+    <view class="line"></view>
+
+    <!--按钮-->  
+    <view class="btnView">
+      <button class="btnSubmit" bindtap="regist"> 注册</button>  
+    </view>
+
+    <!-- 跳转文本 -->
+    <view class="txt-area">
+      <navigator redirect url="../login/login"><text class="txt-register">登录账号</text></navigator> 
+    </view> 
+
+  </view>
+
+  <!-- 页脚 -->
+    <view class="weui-footer weui-footer_fixed-bottom">
+      <view class="weui-footer__text">{{copyright}}</view>
+    </view>
+
+</view>  

@@ -1,0 +1,128 @@
+<view class="page">
+    <view class="page__bd">
+        <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell">
+                <view class="weui-cell__hd" style="position: relative;margin-right: 10px;">
+                    <image src="/images/avatar.png" style="width: 50px; height: 50px; display: block"/>
+                </view>
+                <view class="weui-cell__bd">
+                    <view>{{stuName}}</view>
+                </view>
+            </view>
+        </view>
+        
+            <view class="weui-cells__title">基础信息</view>
+            <view class="weui-cells weui-cells_after-title">
+
+              <view class="weui-cell">
+                <view class="weui-cell__bd">学号</view>
+                <view class="weui-cell__ft">{{stuNumber}}</view>
+              </view>
+
+              <view class="weui-cell">
+                <view class="weui-cell__bd">专业</view>
+                <view class="weui-cell__ft">{{stuMajor}}</view>
+              </view>
+
+              <view class="weui-cell">
+                <view class="weui-cell__bd">毕业时间</view>
+                <view class="weui-cell__ft">{{stuEndYear}}</view>
+              </view>
+
+              <view class="weui-cell">
+                <view class="weui-cell__bd">邮箱</view>
+                <view class="weui-cell__ft">{{currentEmail}}</view>
+              </view>
+
+              <view class="weui-cell">
+                <view class="weui-cell__bd">手机</view>
+                <view class="weui-cell__ft">{{currentPhone}}</view>
+              </view>
+
+            </view>
+
+            <view class="weui-cells__title">最新工作信息</view>
+            <view class="weui-cells weui-cells_after-title">
+
+              <view class="weui-cell">
+                <view class="weui-cell__bd">行业</view>
+                <view class="weui-cell__ft">{{industry}}</view>
+              </view>
+
+              <view class="weui-cell">
+                <view class="weui-cell__bd">工作单位</view>
+                <view class="weui-cell__ft">{{company}}</view>
+              </view>
+
+              <view class="weui-cell">
+                <view class="weui-cell__bd">职位</view>
+                <view class="weui-cell__ft">{{occupation}}</view>
+              </view>
+
+              <view class="weui-cell">
+                <view class="weui-cell__bd">薪资</view>
+                <view class="weui-cell__ft">{{salary}}</view>
+              </view>
+
+              <view class="weui-cell">
+                <view class="weui-cell__bd">工作开始时间</view>
+                <view class="weui-cell__ft">{{startDate}}</view>
+              </view>
+
+              <view class="weui-cell">
+                <view class="weui-cell__bd">工作结束时间</view>
+                <view class="weui-cell__ft">{{endDate}}</view>
+              </view>
+
+            </view>
+
+            
+            <view class="weui-cells__title">最新实习信息</view>
+            <view class="weui-cells weui-cells_after-title">
+
+              <view class="weui-cell">
+                <view class="weui-cell__bd">行业</view>
+                <view class="weui-cell__ft">{{industryPractice}}</view>
+              </view>
+
+              <view class="weui-cell">
+                <view class="weui-cell__bd">实习单位</view>
+                <view class="weui-cell__ft">{{companyPractice}}</view>
+              </view>
+
+              <view class="weui-cell">
+                <view class="weui-cell__bd">职位</view>
+                <view class="weui-cell__ft">{{occupationPractice}}</view>
+              </view>
+
+              <view class="weui-cell">
+                <view class="weui-cell__bd">薪资</view>
+                <view class="weui-cell__ft">{{salaryPractice}}</view>
+              </view>
+
+              <view class="weui-cell">
+                <view class="weui-cell__bd">实习开始时间</view>
+                <view class="weui-cell__ft">{{startDatePractice}}</view>
+              </view>
+
+              <view class="weui-cell">
+                <view class="weui-cell__bd">实习结束时间</view>
+                <view class="weui-cell__ft">{{endDatePractice}}</view>
+              </view>
+
+            </view>
+
+
+    </view>
+
+
+  <!-- 页脚 -->
+    <view class="weui-footer">
+      <view class="weui-footer__links">
+        <navigator url="/pages/home/home" open-type="redirect" class="weui-footer__link">主页</navigator>
+        <navigator url="/pages/login/login" open-type="redirect" class="weui-footer__link">退出登录</navigator>
+      </view>
+      <view class="weui-footer__text">{{copyright}}</view>
+    </view>
+    
+</view>

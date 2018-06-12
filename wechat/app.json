@@ -1,0 +1,27 @@
+{
+  "pages":[
+    "pages/login/login",
+
+    "pages/home/home",
+    "pages/regist/regist",
+    
+    "pages/user_info/user_info",
+    "pages/show_user/show_user",
+    "pages/modify_pwd/modify_pwd",
+    "pages/search/search",
+    "pages/search_result/search_result",
+    "pages/archive_account/archive_account",
+    "pages/archive_red/archive_red",
+    "pages/archive_flow/archive_flow",
+    "pages/alumni/alumni",
+    "pages/notice/notice",
+    "pages/practice/practice" 
+    
+  ],
+  "window":{
+    "backgroundTextStyle":"light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "校友档案管理系统",
+    "navigationBarTextStyle":"black"
+  }
+}

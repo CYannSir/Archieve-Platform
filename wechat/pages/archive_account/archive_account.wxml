@@ -1,0 +1,110 @@
+<view class="page">
+    <view class="page__bd">
+        <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell">
+                <view class="weui-cell__hd" style="position: relative;margin-right: 10px;">
+                    <image src="{{avatar}}" style="width: 50px; height: 50px; display: block"/>
+                </view>
+                <view class="weui-cell__bd">
+                    <view>{{stuName}}</view>
+                    <view style="font-size: 13px;color: #888888;">{{currentEmail}}</view>
+                </view>
+            </view>
+
+        <!-- 最新户口信息 -->
+        <view class="weui-cell weui-cell_access">
+            <view class="weui-cell__bd">
+                <view style="display: inline-block; vertical-align: middle">学号</view>
+            </view>
+            <view class="weui-cell__ft">{{stuNumber}}</view>
+        </view>
+
+        <view class="weui-cell weui-cell_access">
+            <view class="weui-cell__bd">
+                <view style="display: inline-block; vertical-align: middle">最新户口流向地址</view>
+            </view>
+            <view class="weui-cell__ft">{{accountAddress}}</view>
+        </view>
+
+
+        <view class="weui-cell weui-cell_access">
+            <view class="weui-cell__bd">
+                <view style="display: inline-block; vertical-align: middle">户口流向时间</view>
+            </view>
+            <view class="weui-cell__ft">{{accountDate}}</view>
+        </view>
+
+      </view>
+
+      <!-- 流向记录 -->
+      <view wx:for="{{account}}" wx:key="id"> 
+        <view class="weui-cells__title">{{item.id}}</view>
+          <view class="weui-cells weui-cells_after-title">
+
+            <view class="weui-cell">
+              <view class="weui-cell__bd">户口流向地址</view>
+              <view class="weui-cell__ft">{{item.accountAddress}}</view>
+            </view>
+
+            <view class="weui-cell">
+              <view class="weui-cell__bd">户口流向时间</view>
+              <view class="weui-cell__ft">{{item.accountDate}}</view>
+            </view>
+
+          </view>
+
+        </view>
+      </view>
+      
+
+    <!--按钮-->  
+    <view class="btnView">
+      <button class="btnSubmit" bindtap='modalInput'>更新户口</button>  
+    </view>
+
+      <!-- 模态框 -->
+      <modal hidden="{{hiddenmodalput}}" title="更新户口" confirm-text="提交" cancel-text="取消" bindcancel="cancel" bindconfirm="confirm">
+          <view class="weui-cells weui-cells_after-title">
+            <!-- 输入学号-->
+            <!-- <view class="weui-cell weui-cell_input">
+                <view class="weui-cell__hd">
+                    <view class="weui-label" style="width:80px">学号</view>
+                </view>
+                <view class="weui-cell__bd">
+                    <input class="weui-input" type="txt" placeholder="请输入学生学号" bindinput='stuNumberInput'/>
+                </view>
+            </view> -->
+            <!-- 输入户口流向地址-->
+            <view class="weui-cell weui-cell_input">
+                <view class="weui-cell__hd">
+                    <view class="weui-label" style="width:80px">流向地址</view>
+                </view>
+                <view class="weui-cell__bd">
+                    <input class="weui-input" type="txt" placeholder="请输入流向地址" bindinput='accountAddressInput'/>
+                </view>
+            </view>
+            <!-- 输入户口流向时间-->
+            <view class="weui-cell weui-cell_input">
+                <view class="weui-cell__hd">
+                    <view class="weui-label" style="width:80px">流向时间</view>
+                </view>
+                <view class="weui-cell__bd">
+                    <picker mode="date" value="{{accountDateInput}}" start="2014-09-01" end="2040-09-01" bindchange="accountDateChange">
+                        <view class="weui-input">{{accountDateInput}}</view>
+                    </picker>
+                </view>
+            </view>
+
+          </view>
+      </modal>
+
+  <!-- 页脚 -->
+    <view class="weui-footer">
+      <view class="weui-footer__links">
+        <navigator url="/pages/home/home" open-type="redirect" class="weui-footer__link">主页</navigator>
+        <navigator url="/pages/login/login" open-type="redirect" class="weui-footer__link">退出登录</navigator>
+      </view>
+      <view class="weui-footer__text">{{copyright}}</view>
+    </view>
+    
+</view>

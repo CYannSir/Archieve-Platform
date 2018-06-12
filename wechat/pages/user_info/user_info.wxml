@@ -1,0 +1,82 @@
+<view class="page">
+    <view class="page__bd">
+        <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell">
+                <view class="weui-cell__hd" style="position: relative;margin-right: 10px;">
+                    <image src="{{avatar}}" style="width: 50px; height: 50px; display: block"/>
+                </view>
+                <view class="weui-cell__bd">
+                    <view>{{stuName}}</view>
+                    <view style="font-size: 13px;color: #888888;">{{currentEmail}}</view>
+                </view>
+            </view>
+
+        <view class="weui-cell weui-cell_access">
+            <view class="weui-cell__bd">
+                <view style="display: inline-block; vertical-align: middle">学号</view>
+            </view>
+            <view class="weui-cell__ft">{{stuNumber}}</view>
+        </view>
+
+        <view class="weui-cell weui-cell_access">
+            <view class="weui-cell__bd">
+                <view style="display: inline-block; vertical-align: middle">专业</view>
+            </view>
+            <view class="weui-cell__ft">{{stuMajor}}</view>
+        </view>
+
+        <view class="weui-cell weui-cell_access">
+            <view class="weui-cell__bd">
+                <view style="display: inline-block; vertical-align: middle">毕业时间</view>
+            </view>
+            <view class="weui-cell__ft">{{stuEndYear}}</view>
+        </view>
+
+            <view class="weui-cell weui-cell_access">
+                <view class="weui-cell__bd">
+                    <view style="display: inline-block; vertical-align: middle">手机</view>
+                </view>
+                <view class="weui-cell__ft">{{currentPhone}}</view>
+            </view>
+
+            <view class="weui-cell weui-cell_access">
+                <view class="weui-cell__bd">
+                    <view style="display: inline-block; vertical-align: middle">邮箱</view>
+                </view>
+                <view class="weui-cell__ft">{{currentEmail}}</view>
+            </view>
+
+            <view class="weui-cell weui-cell_access"  bindtap='gotoModify'>
+                <view class="weui-cell__bd">
+                    <view style="display: inline-block; vertical-align: middle">修改密码</view>
+                </view>
+                <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+            </view>
+
+            <view class="weui-cell weui-cell_access"  bindtap='gotoNotice'>
+                <view class="weui-cell__bd">
+                    <view style="display: inline-block; vertical-align: middle">收到信息</view>
+                    <view class="weui-badge" style="margin-left: 5px;">new</view>
+                </view>
+                <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+            </view>
+
+        </view>
+
+    </view>
+
+    <!--按钮-->  
+    <view class="btnView">
+      <button class="btnSubmit" bindtap='logout'> 退出登录</button>  
+    </view>
+
+  <!-- 页脚 -->
+    <view class="weui-footer weui-footer_fixed-bottom">
+      <view class="weui-footer__links">
+        <navigator url="/pages/home/home" open-type="redirect" class="weui-footer__link">主页</navigator>
+        <navigator url="/pages/login/login" open-type="redirect" class="weui-footer__link">退出登录</navigator>
+      </view>
+      <view class="weui-footer__text">{{copyright}}</view>
+    </view>
+    
+</view>

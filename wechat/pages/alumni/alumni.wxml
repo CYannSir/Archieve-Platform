@@ -1,0 +1,207 @@
+<view class="page">
+    <view class="page__bd">
+        <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell">
+                <view class="weui-cell__hd" style="position: relative;margin-right: 10px;">
+                    <image src="{{avatar}}" style="width: 50px; height: 50px; display: block"/>
+                </view>
+                <view class="weui-cell__bd">
+                    <view>{{stuName}}</view>
+                    <view style="font-size: 13px;color: #888888;">{{currentEmail}}</view>
+                </view>
+            </view>
+
+        <view class="weui-cell weui-cell_access">
+            <view class="weui-cell__bd">
+                <view style="display: inline-block; vertical-align: middle">学号</view>
+            </view>
+            <view class="weui-cell__ft">{{stuNumber}}</view>
+        </view>
+
+        <view class="weui-cell weui-cell_access">
+            <view class="weui-cell__bd">
+                <view style="display: inline-block; vertical-align: middle">行业</view>
+            </view>
+            <view class="weui-cell__ft">{{industry}}</view>
+        </view>
+
+        <view class="weui-cell weui-cell_access">
+            <view class="weui-cell__bd">
+                <view style="display: inline-block; vertical-align: middle">最新工作单位</view>
+            </view>
+            <view class="weui-cell__ft">{{company}}</view>
+        </view>
+
+        <view class="weui-cell weui-cell_access">
+            <view class="weui-cell__bd">
+                <view style="display: inline-block; vertical-align: middle">工作地址</view>
+            </view>
+            <view class="weui-cell__ft">{{companyAddress}}</view>
+        </view>
+
+        <view class="weui-cell weui-cell_access">
+            <view class="weui-cell__bd">
+                <view style="display: inline-block; vertical-align: middle">职位</view>
+            </view>
+            <view class="weui-cell__ft">{{occupation}}</view>
+        </view>
+
+        <view class="weui-cell weui-cell_access">
+            <view class="weui-cell__bd">
+                <view style="display: inline-block; vertical-align: middle">薪资</view>
+            </view>
+            <view class="weui-cell__ft">{{salary}}</view>
+        </view>
+
+        <view class="weui-cell weui-cell_access">
+            <view class="weui-cell__bd">
+                <view style="display: inline-block; vertical-align: middle">工作开始时间</view>
+            </view>
+            <view class="weui-cell__ft">{{startDate}}</view>
+        </view>
+
+        <view class="weui-cell weui-cell_access">
+            <view class="weui-cell__bd">
+                <view style="display: inline-block; vertical-align: middle">工作结束时间</view>
+            </view>
+            <view class="weui-cell__ft">{{endDate}}</view>
+        </view>
+
+      </view>
+
+      <view wx:for="{{work}}" wx:key="id"> 
+          <view class="weui-cells__title">{{item.id}}</view>
+          <view class="weui-cells weui-cells_after-title">
+
+            <view class="weui-cell">
+              <view class="weui-cell__bd">行业</view>
+              <view class="weui-cell__ft">{{item.industry}}</view>
+            </view>
+
+            <view class="weui-cell">
+              <view class="weui-cell__bd">工作单位</view>
+              <view class="weui-cell__ft">{{item.company}}</view>
+            </view>
+
+            <view class="weui-cell">
+              <view class="weui-cell__bd">工作地址</view>
+              <view class="weui-cell__ft">{{item.companyAddress}}</view>
+            </view>
+
+            <view class="weui-cell">
+              <view class="weui-cell__bd">职位</view>
+              <view class="weui-cell__ft">{{item.occupation}}</view>
+            </view>
+
+            <view class="weui-cell">
+              <view class="weui-cell__bd">薪资</view>
+              <view class="weui-cell__ft">{{item.salary}}</view>
+            </view>
+
+            <view class="weui-cell">
+              <view class="weui-cell__bd">工作开始时间</view>
+              <view class="weui-cell__ft">{{item.startDate}}</view>
+            </view>
+            
+            <view class="weui-cell">
+              <view class="weui-cell__bd">工作结束时间</view>
+              <view class="weui-cell__ft">{{item.endDate}}</view>
+            </view>
+
+          </view>
+
+        </view>
+      </view>
+      
+
+    <!--按钮-->  
+    <view class="btnView">
+      <button class="btnSubmit" bindtap='modalInput'>更新工作</button>  
+    </view>
+
+      <!-- 模态框 -->
+      <modal hidden="{{hiddenmodalput}}" title="更新工作" confirm-text="提交" cancel-text="取消" bindcancel="cancel" bindconfirm="confirm">
+          <view class="weui-cells weui-cells_after-title">
+
+            <!-- 输入工作单位-->
+            <view class="weui-cell weui-cell_input">
+                <view class="weui-cell__hd">
+                    <view class="weui-label" style="width:80px">工作单位</view>
+                </view>
+                <view class="weui-cell__bd">
+                    <input class="weui-input" type="txt" placeholder="请输入公司名称" bindinput='companyInput'/>
+                </view>
+            </view>
+
+            <!-- 输入公司地址-->
+            <view class="weui-cell weui-cell_input">
+                <view class="weui-cell__hd">
+                    <view class="weui-label" style="width:80px">工作地址</view>
+                </view>
+                <view class="weui-cell__bd">
+                    <input class="weui-input" type="txt" placeholder="请输入公司地址" bindinput='companyAddressInput'/>
+                </view>
+            </view>
+            <!-- 输入行业-->
+            <view class="weui-cell weui-cell_input">
+                <view class="weui-cell__hd">
+                    <view class="weui-label" style="width:80px">行业</view>
+                </view>
+                <view class="weui-cell__bd">
+                    <input class="weui-input" type="txt" placeholder="请输入行业" bindinput='industryInput'/>
+                </view>
+            </view>
+            <!-- 输入职位-->
+            <view class="weui-cell weui-cell_input">
+                <view class="weui-cell__hd">
+                    <view class="weui-label" style="width:80px">职位</view>
+                </view>
+                <view class="weui-cell__bd">
+                    <input class="weui-input" type="txt" placeholder="请输入职位" bindinput='occupationInput'/>
+                </view>
+            </view>
+            <!-- 输入薪资-->
+            <view class="weui-cell weui-cell_input">
+                <view class="weui-cell__hd">
+                    <view class="weui-label" style="width:80px">薪资</view>
+                </view>
+                <view class="weui-cell__bd">
+                    <input class="weui-input" type="txt" placeholder="请输入薪资" bindinput='salaryInput'/>
+                </view>
+            </view>
+            <!-- 输入开始工作时间-->
+            <view class="weui-cell weui-cell_input">
+                <view class="weui-cell__hd">
+                    <view class="weui-label" style="width:120px">开始工作时间</view>
+                </view>
+                <view class="weui-cell__bd">
+                    <picker mode="date" value="{{startDateInput}}" start="2014-09-01" end="2040-09-01" bindchange="startDateChange">
+                        <view class="weui-input">{{startDateInput}}</view>
+                    </picker>
+                </view>
+            </view>
+            <!-- 输入结束工作时间-->
+            <view class="weui-cell weui-cell_input">
+                <view class="weui-cell__hd">
+                    <view class="weui-label" style="width:120px">结束工作时间</view>
+                </view>
+                <view class="weui-cell__bd">
+                    <picker mode="date" value="{{endDateInput}}" start="2014-09-01" end="2040-09-01" bindchange="endDateChange">
+                        <view class="weui-input">{{endDateInput}}</view>
+                    </picker>
+                </view>
+            </view>
+
+          </view>
+      </modal>
+
+  <!-- 页脚 -->
+    <view class="weui-footer">
+      <view class="weui-footer__links">
+        <navigator url="/pages/home/home" open-type="redirect" class="weui-footer__link">主页</navigator>
+        <navigator url="/pages/login/login" open-type="redirect" class="weui-footer__link">退出登录</navigator>
+      </view>
+      <view class="weui-footer__text">{{copyright}}</view>
+    </view>
+    
+</view>
