@@ -155,10 +155,12 @@ public class GuestController {
             //将产生的数字通过length次承载到sb中
             sb.append(str.charAt(number));
         }
+
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         //将承载的字符转换成字符串
         String activecode = sb.toString();
         currentUserService.sendEamil(currentUserModel.getLoginEmail(),activecode);
+
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
         helper.setFrom("Archive Book<xjx@zucc.edu.cn>");
         helper.setTo(currentUserModel.getLoginEmail());
