@@ -1,6 +1,31 @@
 <view class="page">
+<view class="page-bottom">
+        <view class="page-content">
+            <view  class="wc">
+                <text>第一个item1</text>
+            </view>
+            <view  class="wc">
+                <text>第二个item2</text>
+            </view>
+            <view  class="wc">
+                <text>第三个item3</text>
+            </view>
+            <view  class="wc">
+                <text>第四个item4</text>
+            </view>
+        </view>
+    </view>
+    <view bindtouchmove="tap_drag" bindtouchend="tap_end" bindtouchstart="tap_start" class="page-top {{open ? 'c-state1' : ''}}">
+    
     <view class="page__bd">
+        <view class="weui-cell">
+              <image style="position: relative;margin-right: 590rpx;width: 25px; height: 20px;" src="../../images/slide3.png" bindtap="tap_ch" ></image>
+              <image style="position: relative;width: 25px; height: 25px;" src="../../images/feedback.png"></image>
+        </view>
+
         <view class="weui-cells weui-cells_after-title">
+            
+
             <view class="weui-cell">
                 <view class="weui-cell__hd" style="position: relative;margin-right: 10px;">
                     <image src="{{avatar}}" style="width: 50px; height: 50px; display: block"/>
@@ -66,8 +91,8 @@
     </view>
 
     <!--按钮-->  
-    <view class="btnView">
-      <button class="btnSubmit" bindtap='logout'> 退出登录</button>  
+    <view class="weui-btn-area">
+      <button class="weui-btn" bindtap='logout'> 退出登录</button>  
     </view>
 
   <!-- 页脚 -->
@@ -78,5 +103,6 @@
       </view>
       <view class="weui-footer__text">{{copyright}}</view>
     </view>
-    
+
+  </view>
 </view>

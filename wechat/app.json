@@ -1,11 +1,11 @@
 {
   "pages":[
-    "pages/login/login",
+    "pages/user_info/user_info",
 
     "pages/home/home",
     "pages/regist/regist",
+    "pages/login/login",
     
-    "pages/user_info/user_info",
     "pages/show_user/show_user",
     "pages/modify_pwd/modify_pwd",
     "pages/search/search",

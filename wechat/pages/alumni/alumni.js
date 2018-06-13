@@ -398,11 +398,20 @@ Page({
           });
         } else {
           if (res.data.code != 200) {
-            wx.showModal({
-              title: '提示',
-              showCancel: false,
-              content: '上传失败'
-            });
+            // 错误提示
+            if (res.data.code ==112){
+              wx.showModal({
+                title: '提示',
+                showCancel: false,
+                content: '开始时间不能晚于结束时间'
+              });
+            }else{
+              wx.showModal({
+                title: '提示',
+                showCancel: false,
+                content: '上传失败'
+              });
+            }
           } else {
             // 更新成功提示  
             wx.showToast({

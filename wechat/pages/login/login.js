@@ -113,38 +113,41 @@ Page({
       },
       method: 'POST',
       header: {
-        'content-type': 'application/json'
+        'content-type': 'application/json;charset=utf-8'
       },
       success: res=> {
         console.log(res)
         console.log('submit success');
-        let result = res.data.data
-        let currentAuthority = result.currentAuthority
-        if (currentAuthority === "guest") {//当前用户类型 利用这个判断是否登录成功 user guest
-          wx.showModal({
-            title: '提示',
-            showCancel: false,
-            content: '账号或密码错误'
-          });
-        }else{
-          // 保存SessionId到app.js
-          getApp().globalData.header.Cookie = 'JSESSIONID=' + result.SessionId;
+        if (parseInt(res.statusCode) === 200){//网络  请求成功
+          let result = res.data.data
+          let currentAuthority = result.currentAuthority
+          if (currentAuthority === "guest") {//当前用户类型 利用这个判断是否登录成功 user guest
+            wx.showModal({
+              title: '提示',
+              showCancel: false,
+              content: '账号或密码错误'
+            });
+          } else {
+            // 保存SessionId到app.js
+            getApp().globalData.header.Cookie = 'JSESSIONID=' + result.SessionId;
 
-          //登录成功提示
-          wx.showToast({
-            title: '登录成功',
-            icon: 'success',
-            duration: 2000,
-            success: function () {
-              console.log('haha');
-              setTimeout(function () {
-                //要延时执行的代码
-                wx.redirectTo({//当前页面切换成主界面
-                  url: '../home/home',
-                })
-              }, 1000) //延迟时间
-            }
-          })
+            //登录成功提示
+            wx.showToast({
+              title: '登录成功',
+              icon: 'success',
+              duration: 2000,
+              success: function () {
+                console.log('haha');
+                setTimeout(function () {
+                  //要延时执行的代码
+                  wx.redirectTo({//当前页面切换成主界面
+                    url: '../home/home',
+                  })
+                }, 1000) //延迟时间
+              }
+            })
+        }
+        
           
         }
 
@@ -181,7 +184,7 @@ Page({
       },
       method: 'POST',
       header: {
-        'content-type': 'application/json'
+        'content-type': 'application/json;charset=utf-8'
       },
       success: res => {
         console.log(res)

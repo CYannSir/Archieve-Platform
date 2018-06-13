@@ -26,8 +26,8 @@
     <view class="line"></view> 
 
     <!--按钮-->  
-    <view class="btnView">
-      <button class="btnSubmit" size="{{primarySize}}" bindtap="login"> 登录</button>  
+    <view class="weui-btn-area">
+      <button class="weui-btn" size="{{primarySize}}" bindtap="login"> 登录</button>  
     </view>
 
     <!-- 跳转文本 -->

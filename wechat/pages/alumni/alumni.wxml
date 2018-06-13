@@ -115,8 +115,8 @@
       
 
     <!--按钮-->  
-    <view class="btnView">
-      <button class="btnSubmit" bindtap='modalInput'>更新工作</button>  
+    <view class="weui-btn-area">
+      <button class="weui-btn" bindtap='modalInput'>更新工作</button>  
     </view>
 
       <!-- 模态框 -->

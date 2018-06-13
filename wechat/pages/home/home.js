@@ -101,7 +101,7 @@ Page({
       // url: 'http://localhost:8081/currentUser',
       method: 'GET',
       header: {
-        'content-type': 'application/json',
+        'content-type': 'application/json;charset=utf-8',
         'Cookie':SessionId
       },
       success: res=> {
