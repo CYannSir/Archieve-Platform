@@ -207,6 +207,8 @@ Page({
 
     })
   },
+
+  // 侧边栏
   tap_ch: function (e) {
     if (this.data.open) {
       this.setData({
@@ -218,8 +220,6 @@ Page({
       });
     }
   },
-  
-  // 侧边栏
   tap_start: function (e) {
     // touchstart事件
     this.data.mark = this.data.newmark = e.touches[0].pageX;

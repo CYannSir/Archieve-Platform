@@ -162,14 +162,14 @@ page{
   padding: 30rpx 0 30rpx 40rpx;
 }
 .page-content{
-  padding-top: 300rpx;
+  padding-top: 10rpx;
 }
 .page-top{
-  height: 100%;
-  position: fixed;
+  height: auto;
+  position: absolute; 
   width: 750rpx;
-  background-color: #f2f2f2;
-  z-index: 0;
+  background-color: #f8f8f8;
+  z-index: 1;
   transition: All 0.4s ease; 
   -webkit-transition: All 0.4s ease;
 }

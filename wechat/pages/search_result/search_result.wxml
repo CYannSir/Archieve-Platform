@@ -11,7 +11,9 @@
           </view>
         </view>
 
-        <!-- 搜索结果 -->
+      
+      <!-- 搜索结果 -->
+      <scroll-view scroll-y>
         <view class="weui-panel__bd">
               <view wx:for="{{searchResult}}" wx:key="{{item.stuId}}">
                 <navigator url="../show_user/show_user?stuNumber={{item.stuId}}" class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
@@ -27,10 +29,10 @@
                </navigator>
                 <view class="line"></view>
               </view>
-
         </view>
-        
+      </scroll-view>        
     </view>
+
 
     <!-- 页脚 -->
     <view class="weui-footer">
@@ -42,5 +44,3 @@
     </view>
     
 </view>
-
-

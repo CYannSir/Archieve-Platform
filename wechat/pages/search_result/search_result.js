@@ -54,15 +54,17 @@ Page({
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function () {
-  
+  onPullDownRefresh:function() {//下拉刷新
+    this.postSearchData(() => {
+      wx.stopPullDownRefresh()
+    })
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-  
+
   },
 
   /**
@@ -79,7 +81,7 @@ Page({
   },
   
   //获取搜索结果
-  postSearchData: function () {
+  postSearchData: function (callback) {
     var header = getApp().globalData.header; //获取app.js中的请求头
     var SessionId = header.Cookie//获取保存的SessionId
     console.log(SessionId)
@@ -173,6 +175,7 @@ Page({
       },
       complete: function (res) {
         console.log('submit complete');
+        callback && callback();
       }
 
     })

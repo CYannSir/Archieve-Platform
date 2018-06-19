@@ -10,7 +10,7 @@ App({
     console.log('App Hide')
   },
   globalData: {
-    header: { 'Cookie': 'JSESSIONID=6202019FF9FF4B485E0BCFAA1BE8B34D' },//请求头 保存sessionId
+    header: { 'Cookie': 'JSESSIONID=9EBF43D024812737410BF756EAD1B714' },//请求头 保存sessionId
 
     url: "https://www.archivebook.top:443",//请求访问的url
     localhost: "http://localhost:8081",//本地

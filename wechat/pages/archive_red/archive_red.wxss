@@ -1,1 +1,6 @@
 /* pages/archive_red/archive_red.wxss */
+
+/* 主体内容 */
+.page-top{
+  height: 100%;
+}

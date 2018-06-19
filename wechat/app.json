@@ -1,11 +1,10 @@
 {
   "pages":[
-    "pages/user_info/user_info",
-
+    "pages/alumni/alumni",
     "pages/home/home",
     "pages/regist/regist",
     "pages/login/login",
-    
+    "pages/user_info/user_info",
     "pages/show_user/show_user",
     "pages/modify_pwd/modify_pwd",
     "pages/search/search",
@@ -13,9 +12,9 @@
     "pages/archive_account/archive_account",
     "pages/archive_red/archive_red",
     "pages/archive_flow/archive_flow",
-    "pages/alumni/alumni",
+    
     "pages/notice/notice",
-    "pages/practice/practice" 
+    "pages/practice/practice"
     
   ],
   "window":{

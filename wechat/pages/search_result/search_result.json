@@ -3,5 +3,6 @@
   "navigationBarTextStyle": "black",
   "navigationBarTitleText": "缘，妙不可言",
   "backgroundColor": "#fff",
-  "backgroundTextStyle": "light"
+  "backgroundTextStyle": "dark",
+  "enablePullDownRefresh": true
 }

@@ -1,8 +1,68 @@
 <view class="page">
-    <view class="page__bd">
+<!-- 侧边栏 -->
+  <view class="page-bottom">
+      <view class="weui-cell">
+          <view class="weui-cell__hd" style="position: relative;margin-right: 10px;">
+            <image src="{{avatar}}" style="width: 50px; height: 50px; display: block"/>
+          </view>
+          <view class="weui-cell__bd">
+            <view>{{stuName}}</view>
+            <view style="font-size: 13px;color: #fff;">{{currentEmail}}</view> 
+          </view>
+        </view>
+        <view class="page-content">
+        
+            <view  class="wc">
+              <navigator url="../home/home" open-type="redirect">
+                <text>主页</text>
+              </navigator>
+            </view>
+            <view  class="wc">
+              <navigator url="../search/search" open-type="redirect">
+                <text>搜索校友</text>
+              </navigator>
+            </view>
+            <view  class="wc">
+              <navigator url="../user_info/user_info" open-type="redirect">
+                <text>个人信息</text>
+              </navigator>
+            </view>
+            <view  class="wc">
+              <navigator url="../archive_red/archive_red" open-type="redirect">
+                <text>党员信息</text>
+              </navigator>
+            </view>
+            <view  class="wc">
+              <navigator url="../archive_account/archive_account" open-type="redirect">
+                <text>户口信息</text>
+              </navigator>
+            </view>
+            <view  class="wc">
+              <navigator url="../archive_flow/archive_flow" open-type="redirect">
+                <text>档案流向</text>
+              </navigator>
+            </view>
+            <view  class="wc">
+              <navigator url="../alumni/alumni" open-type="redirect">
+                <text>工作信息</text>
+              </navigator>
+            </view>
+            <view  class="wc">
+              <navigator url="../practice/practice" open-type="redirect">
+                <text>实习信息</text>
+              </navigator>
+            </view>
+        </view>
+    </view>
+  </view>
+
+  <!-- 主体内容 -->
+  <view bindtouchend="tap_end" bindtouchstart="tap_start" class="page-top {{open ? 'c-state1' : ''}}">
+
+    <view class="page__bd" style='background-color: #f8f8f8;'>
         <view class="weui-cells weui-cells_after-title">
             <view class="weui-cell">
-                <view class="weui-cell__hd" style="position: relative;margin-right: 10px;">
+                <view class="weui-cell__hd" style="position: relative;margin-right: 10px;" bindtap="tap_ch">
                     <image src="{{avatar}}" style="width: 50px; height: 50px; display: block"/>
                 </view>
                 <view class="weui-cell__bd">
@@ -168,7 +228,7 @@
                     <view class="weui-label" style="width:80px">薪资</view>
                 </view>
                 <view class="weui-cell__bd">
-                    <input class="weui-input" type="txt" placeholder="请输入薪资" bindinput='salaryInput'/>
+                    <input class="weui-input" type="txt" placeholder="请输入数目(单位:元)" bindinput='salaryInput'/>
                 </view>
             </view>
             <!-- 输入开始时间-->
